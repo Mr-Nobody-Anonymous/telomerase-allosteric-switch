@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-339%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-342%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -202,7 +202,7 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (339 passing tests)
+# 1. Run full project test suite (342 passing tests)
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -226,7 +226,7 @@ python run_pipeline.py
 ## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `339 passed` across 20 test modules.
+- **Test Suite**: `342 passed` across 20 test modules.
 - **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
 - **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 
