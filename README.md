@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-337%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-339%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -57,7 +57,26 @@ To prevent pseudoreplication, independent simulation replicas were used as the s
 
 ---
 
-## 3. Sequence-Level Verification & Construct Design
+## 3. Structural Models & Telin-1 Inhibitor Clash Falsification
+
+In addition to apo and bound holoenzyme reconstructions, this repository archives the small-molecule inhibitor models investigated during the campaign:
+
+1. **TELIN-1 Small Molecule Inhibitor** ([`data/ligands/telin1_inhibitor.pdb`](data/ligands/telin1_inhibitor.pdb)):
+   - 36 heavy atoms ($\text{C}_{26}\text{N}_2\text{O}_6\text{SF}$).
+   - Adversarial coordinate audit revealed chemical anomalies (disconnected fragments, stretched bonds, planar distorted geometry).
+2. **TELIN-1 Docked Complex** ([`data/ligands/7tre_telin1_complex.pdb`](data/ligands/7tre_telin1_complex.pdb)):
+   - Docked into cryo-EM structure 7TRE.
+   - Comprehensive clash audit ([`scripts/verify_telin1.py`](scripts/verify_telin1.py)) revealed:
+     * **160 steric clashes $< 2.80\text{ \AA}$**
+     * **21 severe clashes $< 1.50\text{ \AA}$**
+     * **8 extreme overlaps $< 1.00\text{ \AA}$**
+     * **Minimum interatomic distance of $0.17\text{ \AA}$** directly penetrating the backbone nitrogen of TERT Ala130.
+   - Complete absence of TPP1 (Chain C) in the model proved that static docking attempts severely disrupted recruitment rather than modulating processivity, directly motivating the pivot toward allosteric targeting of `Lys757`.
+   - Verified by automated test suite: [`tests/test_ligand_telin1.py`](tests/test_ligand_telin1.py).
+
+---
+
+## 4. Sequence-Level Verification & Construct Design
 
 Canonical sequence audit against **NCBI `NM_198253.3`** and **UniProt `O14746`** (3,399 bp CDS, 1,132 aa):
 - **Residues 753–761**: $\text{Gly753 - His754 - Val755 - Arg756 - \textbf{Lys757} - Ala758 - Phe759 - Lys760 - Ser761}$ (`G-H-V-R-K-A-F-K-S`).
@@ -69,7 +88,7 @@ Canonical sequence audit against **NCBI `NM_198253.3`** and **UniProt `O14746`**
 
 ---
 
-## 4. Pre-Registered Breakthrough Evidence Criteria
+## 5. Pre-Registered Breakthrough Evidence Criteria
 
 To eliminate confirmation bias, the experimental decision framework is cryptographically frozen:
 
@@ -91,10 +110,16 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 
 ---
 
-## 5. Repository Directory Architecture
+## 6. Repository Directory Architecture
 
 ```
 .
+├── docs/                                # Technical architecture, methodology, & SOP manuals
+│   ├── ARCHITECTURE.md                  # Comprehensive software design, pipeline flow, & data contracts
+│   ├── METHODOLOGY.md                   # Biophysical derivations, OpenMM setup, & kinetic equations
+│   ├── EXPERIMENTAL_SOP_MANUAL.md       # Unified wet-lab operational manual (Expi293F, SPR, RAP)
+│   └── TELOMERASE_UNSOLVED_FRONTIER.md  # Scientific foundation report on telomerase recruitment
+│
 ├── src/
 │   └── telotrade/                       # Core structural bioinformatics engine
 │       ├── analysis.py                  # Structure alignment, Cα RMSD, and residue mapping
@@ -104,24 +129,28 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │       ├── sequence_mapping.py          # Sequence alignment & UniProt cross-referencing
 │       └── validate.py                  # SHA-256 data manifest and coordinate validator
 │
-├── scripts/                             # Automated analysis and pipeline scripts
+├── scripts/                             # Automated analysis, simulation, & audit scripts
 │   ├── spr_kinetic_analysis.py          # 1:1 Langmuir/MTL kinetic fitting engine (Biacore 8K)
 │   ├── rap_gel_quantification.py        # Phosphorimager 12% Urea-PAGE densitometry engine
 │   ├── recalculate_trajectory_statistics.py # Replica-level raw MD statistics recalculator
 │   ├── audit_openmm_equilibration.py    # OpenMM 1,500-step burn-in equilibration audit
 │   ├── export_raw_trajectories.py       # Raw trajectory timeseries generator and exporter
 │   ├── generate_independent_benchmarks.py # Independent SPR and RAP benchmark dataset generator
+│   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (337 passing tests)
+├── tests/                               # Comprehensive test suite (339 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
-│   ├── test_experimental_scripts.py     # Unit tests for SPR, RAP, and MD analysis pipelines (10 tests)
+│   ├── test_experimental_scripts.py     # 10 unit tests for SPR, RAP, and MD analysis pipelines
+│   ├── test_ligand_telin1.py            # 2 unit tests verifying Telin-1 clashes and composition
 │   └── test_breakthrough_investigation.py # Invariant tests for allosteric models
 │
 ├── data/
 │   ├── raw/                             # Verified wwPDB cryo-EM & crystal structures (7TRE, 7TRD, 7TRF, 2I46)
+│   ├── ligands/                         # Small-molecule inhibitor and docked complex PDB models
+│   ├── structures/                      # Curated 3D coordinate models (junctions and complexes)
 │   ├── benchmarks/                      # Physical independent benchmark datasets (SPR & RAP)
 │   ├── trajectories/                    # Raw step-by-step MD timeseries CSVs (6 replicas, 3.0 ps)
 │   └── data_manifest.csv                # Authoritative SHA-256 checksum registry
@@ -131,7 +160,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   │   ├── MANUSCRIPT_FOR_PUBLICATION.md# Complete scientific manuscript draft
 │   │   └── ...                          # Structural reports, rankings, and figure legends
 │   └── experimental_validation/         # Wet-lab operational packages & protocols
-│       ├── PRE_REGISTRATION_CODE_FREEZE.md # Cryptographic SHA-256 freeze manifest
+│       ├── PRE_REGISTRATION_CODE_FREEZE.md # Cryptographic SHA-256 freeze manifest (33 components)
 │       ├── RECONSIDERED_POWER_ANALYSIS.md  # Statistical power plan (N=4-5, CV=15-25%)
 │       ├── LABORATORY_EXECUTION_CHECKLIST.md # Phases 1-7 operational checklist
 │       ├── CONSTRUCT_DESIGN_WT_K757A_K757R.md # Verified primers & restriction audit
@@ -149,7 +178,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 
 ---
 
-## 6. Installation & Quickstart
+## 7. Installation & Quickstart
 
 ### Prerequisites
 - Python 3.10 or higher
@@ -173,7 +202,7 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (337 passing tests)
+# 1. Run full project test suite (339 passing tests)
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -185,22 +214,25 @@ python scripts/rap_gel_quantification.py --input data/benchmarks/rap_independent
 # 4. Recalculate replica-level statistics directly from raw MD trajectories
 python scripts/recalculate_trajectory_statistics.py
 
-# 5. Run end-to-end structural bioinformatics pipeline from scratch
+# 5. Run Telin-1 inhibitor clash verification script
+python scripts/verify_telin1.py
+
+# 6. Run end-to-end structural bioinformatics pipeline from scratch
 python run_pipeline.py
 ```
 
 ---
 
-## 7. Quality Assurance & Verification
+## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `337 passed` across 19 test modules.
+- **Test Suite**: `339 passed` across 20 test modules.
 - **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
-- **Pre-Registration Integrity**: 25 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
+- **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 
 ---
 
-## 8. License & Citation
+## 9. License & Citation
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 

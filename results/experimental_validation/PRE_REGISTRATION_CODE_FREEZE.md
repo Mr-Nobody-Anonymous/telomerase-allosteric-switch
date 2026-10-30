@@ -1,7 +1,7 @@
 # PRE-REGISTRATION CODE & PIPELINE FREEZE MANIFEST
 
 **Document ID:** `PRE-REG-FREEZE-001-REV-FINAL`  
-**Date of Freeze:** 2026-10-30 15:28:52 UTC  
+**Date of Freeze:** 2026-10-30 15:49:23 UTC  
 **Target Repository:** `results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md`  
 **Classification:** Cryptographic Pipeline Freeze & Pre-Registered Analytical Protocol  
 
@@ -23,10 +23,18 @@ Every data processing parameter, threshold, and statistical test is locked befor
 | **Analysis Script** | [`scripts/rap_gel_quantification.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/rap_gel_quantification.py) | `4f529e6d6d8761cd...bb790f85` | 12% Urea-PAGE phosphorimager densitometry fitting engine |
 | **Analysis Script** | [`scripts/recalculate_trajectory_statistics.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/recalculate_trajectory_statistics.py) | `1134759319469d13...8b65789f` | MD raw trajectory replica-level statistical recalculator |
 | **Analysis Script** | [`scripts/audit_openmm_equilibration.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/audit_openmm_equilibration.py) | `57246a79f78d8a67...a1f572f0` | OpenMM 1,500-step burn-in equilibration audit |
+| **Analysis Script** | [`scripts/verify_telin1.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/verify_telin1.py) | `46bb51e9d9eee5cd...4155d5aa` | Empirical coordinate verification and steric clash analysis of docked Telin-1 |
 | **Data Generator** | [`scripts/export_raw_trajectories.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/export_raw_trajectories.py) | `5a84c3ec75b8b31f...955c29f2` | Raw timeseries trajectory generator and exporter |
 | **Data Generator** | [`scripts/generate_independent_benchmarks.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/generate_independent_benchmarks.py) | `cbdef5f1f323b9ed...db59fa16` | Independent SPR and RAP benchmark dataset generator |
 | **Test Suite** | [`tests/test_experimental_scripts.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/tests/test_experimental_scripts.py) | `b58dfbb59e2f57f9...5c51fa25` | Automated unit tests for SPR, RAP, and MD analysis pipelines |
+| **Test Suite** | [`tests/test_ligand_telin1.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/tests/test_ligand_telin1.py) | `7bd23a377a216706...ec5c98fb` | Adversarial tests for Telin-1 inhibitor coordinates and docking clashes |
 | **Test Suite** | [`tests/test_breakthrough_investigation.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/tests/test_breakthrough_investigation.py) | `1035db8a4603c967...cb93b60b` | Regression and invariant tests for structural models |
+| **Structural Model** | [`data/ligands/telin1_inhibitor.pdb`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/data/ligands/telin1_inhibitor.pdb) | `7de15aa421ee4465...19797723` | TELIN-1 small molecule inhibitor 3D coordinate model |
+| **Structural Model** | [`data/ligands/7tre_telin1_complex.pdb`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/data/ligands/7tre_telin1_complex.pdb) | `90fac44106d4fe7d...ad2f4e21` | TELIN-1 docked into human telomerase 7TRE coordinate model |
+| **Documentation** | [`docs/ARCHITECTURE.md`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/docs/ARCHITECTURE.md) | `48a25d9a64afe3e2...e2186f28` | Complete system architecture, directory topology, and data contracts |
+| **Documentation** | [`docs/METHODOLOGY.md`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/docs/METHODOLOGY.md) | `22ad62e781de812c...2b89734b` | Biophysical methodology, OpenMM parameters, and kinetic derivations |
+| **Documentation** | [`docs/EXPERIMENTAL_SOP_MANUAL.md`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/docs/EXPERIMENTAL_SOP_MANUAL.md) | `dca2fa4a8fad38dc...603c8e01` | Unified wet-lab operational standard operating procedure manual |
+| **Documentation** | [`docs/TELOMERASE_UNSOLVED_FRONTIER.md`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/docs/TELOMERASE_UNSOLVED_FRONTIER.md) | `0945a8738bee1272...fe5de154` | Scientific foundation report on telomerase recruitment and allostery |
 | **Benchmark Data** | [`data/benchmarks/spr_independent_benchmark.csv`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/data/benchmarks/spr_independent_benchmark.csv) | `5e26af0ceb72ac35...eb4a1317` | Physical SPR sensorgrams across WT, K757A, K757R, E169A |
 | **Benchmark Data** | [`data/benchmarks/rap_independent_benchmark.csv`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/data/benchmarks/rap_independent_benchmark.csv) | `bbaa89c5c10320af...b5ed9991` | Physical RAP gel densitometries across WT, K757A, K757R, D712A |
 | **Raw MD Trajectory** | [`data/trajectories/bound_wt_seed101_trajectory.csv`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/data/trajectories/bound_wt_seed101_trajectory.csv) | `220ea6aa7fbee4a7...1a5f34db` | TPP1-bound WT replica 1 (seed 101, 75 frames, 3.0 ps) |

@@ -30,13 +30,25 @@ def generate_manifest():
         ("scripts/rap_gel_quantification.py", "Analysis Script", "12% Urea-PAGE phosphorimager densitometry fitting engine"),
         ("scripts/recalculate_trajectory_statistics.py", "Analysis Script", "MD raw trajectory replica-level statistical recalculator"),
         ("scripts/audit_openmm_equilibration.py", "Analysis Script", "OpenMM 1,500-step burn-in equilibration audit"),
+        ("scripts/verify_telin1.py", "Analysis Script", "Empirical coordinate verification and steric clash analysis of docked Telin-1"),
         ("scripts/export_raw_trajectories.py", "Data Generator", "Raw timeseries trajectory generator and exporter"),
         ("scripts/generate_independent_benchmarks.py", "Data Generator", "Independent SPR and RAP benchmark dataset generator"),
-        
+
         # Tests
         ("tests/test_experimental_scripts.py", "Test Suite", "Automated unit tests for SPR, RAP, and MD analysis pipelines"),
+        ("tests/test_ligand_telin1.py", "Test Suite", "Adversarial tests for Telin-1 inhibitor coordinates and docking clashes"),
         ("tests/test_breakthrough_investigation.py", "Test Suite", "Regression and invariant tests for structural models"),
-        
+
+        # Ligand & Inhibitor Models
+        ("data/ligands/telin1_inhibitor.pdb", "Structural Model", "TELIN-1 small molecule inhibitor 3D coordinate model"),
+        ("data/ligands/7tre_telin1_complex.pdb", "Structural Model", "TELIN-1 docked into human telomerase 7TRE coordinate model"),
+
+        # Documentation & Manuals
+        ("docs/ARCHITECTURE.md", "Documentation", "Complete system architecture, directory topology, and data contracts"),
+        ("docs/METHODOLOGY.md", "Documentation", "Biophysical methodology, OpenMM parameters, and kinetic derivations"),
+        ("docs/EXPERIMENTAL_SOP_MANUAL.md", "Documentation", "Unified wet-lab operational standard operating procedure manual"),
+        ("docs/TELOMERASE_UNSOLVED_FRONTIER.md", "Documentation", "Scientific foundation report on telomerase recruitment and allostery"),
+
         # Benchmark Data
         ("data/benchmarks/spr_independent_benchmark.csv", "Benchmark Data", "Physical SPR sensorgrams across WT, K757A, K757R, E169A"),
         ("data/benchmarks/rap_independent_benchmark.csv", "Benchmark Data", "Physical RAP gel densitometries across WT, K757A, K757R, D712A"),
