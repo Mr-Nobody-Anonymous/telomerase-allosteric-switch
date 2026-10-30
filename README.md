@@ -1,13 +1,34 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-342%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-352%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Pre--Registered%20%2F%20Wet--Lab%20Ready-brightgreen.svg)](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md)
 
 **A rigorous computational structural biology, molecular dynamics, and experimental pre-registration platform investigating the human telomerase (TERT–TPP1) allosteric recruitment and repeat addition processivity (RAP) switch.**
+
+> ## ⚠️ Verification status (2026-10-30)
+> Every headline number in this repository has been re-derived from the raw mmCIF files with an
+> independent implementation (`scripts/verify_all_claims.py`, 56 claims). **38 verify, 14 are
+> contradicted, 2 are untestable as shipped, 2 are partially verified.**
+>
+> - **Retained:** interface BSA 857 Å², contact networks 9/46/123 (5/21/32 residue pairs),
+>   Arg774:NH1–Glu168:OE1 = 2.320 Å, Lys78:NZ–Glu215:OE2 = 3.584 Å, core RMSD 0.3377 Å,
+>   TPP1 conformational shifts (Leu183 0.512 Å, Lys170 4.293 Å).
+> - **Retracted:** the "Lys757A separation-of-function breakthrough" (already tested and
+>   contradicted — Sekne et al. 2022; Tesmer et al. 2023), all MD-based mechanistic claims
+>   (2.4 ps on a 97-residue fragment with no RNA/DNA; the "K757A" system file is byte-identical
+>   to WT), the TELIN-1 ligand, and the synthetic SPR/RAP "validation" datasets.
+> - **Corrected claim:** [`results/verification/corrected_breakthrough_claim.md`](results/verification/corrected_breakthrough_claim.md)
+> - **Full audit:** [`results/verification/CLAIM_VERIFICATION_REPORT.md`](results/verification/CLAIM_VERIFICATION_REPORT.md)
+> - **What changed where:** [`results/verification/ERRATA.md`](results/verification/ERRATA.md)
+> - The suite now reports **352 passed** on a clean Linux clone. The previously advertised
+>   "342 passed" was only reachable after fixing three defects found in this pass: a missing
+>   `data/manifest/data_manifest.csv`, a case-sensitive `data/raw/7tre.cif` path in one test, and
+>   the label-chain fallback in `compute_bsa`. Ten further tests
+>   (`tests/test_claim_verification.py`) pin the facts this audit rests on.
 
 ---
 
@@ -30,7 +51,15 @@ This repository hosts the computational discovery, all-atom molecular dynamics v
     [ DNA Primer Exit Channel Retention Rheostat ]
 ```
 
-### The Primary Candidate: TERT `Lys757A`
+### The Primary Candidate: TERT `Lys757A` — *superseded 2026-10-30, see §0 banner*
+> **Prior-art caution.** TERT Lys757 is part of the **DNA anchor site**, and the K757A/F759A double
+> mutant has already been reconstituted and assayed: it *reduces* both activity and RAP (Sekne et
+> al., *Science* 2022, Fig. 4E–G). The K757E/F759E mutants are likewise defective in activity and
+> processivity while still localising to telomeres (Tesmer et al., *Life Sci. Alliance* 2023).
+> The prediction below ("preserves basal catalysis") is therefore expected to be false, and this
+> section is retained only as a record. The corrected, falsifiable claim is in
+> [`results/verification/corrected_breakthrough_claim.md`](results/verification/corrected_breakthrough_claim.md).
+
 We propose that **TERT Lys757** operates as the critical mechanical hinge of an allosteric lever:
 - **Separation-of-Function Hypothesis**: Mutation `Lys757A` selectively uncouples TPP1-stimulated processivity while preserving high-affinity TPP1 recruitment and basal catalytic polymerization.
 - **Stereochemical Rescue Control**: Mutation `Lys757R` preserves positive charge and sidechain reach, predicting full rescue of processivity stimulation ($\chi_{\text{RAP}} \ge 2.0$).
@@ -139,7 +168,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (339 passing tests)
+├── tests/                               # Comprehensive test suite (352 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
@@ -202,7 +231,7 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (342 passing tests)
+# 1. Run full project test suite (352 passing tests)
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -226,7 +255,7 @@ python run_pipeline.py
 ## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `342 passed` across 20 test modules.
+- **Test Suite**: `352 passed` across 21 test modules.
 - **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
 - **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 

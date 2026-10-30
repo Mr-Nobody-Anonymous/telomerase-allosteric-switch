@@ -1,3 +1,11 @@
+> **ERRATA — 2026-10-30.** Several claims in this report do not survive independent re-derivation:
+> the "Lys757A separation-of-function" proposal was already tested and contradicted in the published
+> literature (Sekne 2022: K757A/F759A reduce activity **and** RAP; Tesmer 2023: K757E/F759E reduce
+> activity and processivity), the "MD" is 2.4 ps on a 97-residue fragment with no RNA or DNA, and
+> the "K757A" simulation file is byte-identical to the WT file. See
+> `results/verification/CLAIM_VERIFICATION_REPORT.md` and
+> `results/verification/corrected_breakthrough_claim.md`.
+
 # EXECUTIVE RESEARCH REPORT: DISCOVERY OF THE TEN–TPP1–TRAP BIPARTITE CLAMP AND SEPARATION OF TELOMERASE PROCESSIVITY FROM RECRUITMENT
 
 **Document ID:** `BSV-REP-FINAL-001`  
@@ -61,10 +69,14 @@ To ensure unwavering scientific integrity, all findings are strictly categorized
 
 ### 3.1 Cryptographic Integrity of Datasets
 Raw structure files were re-downloaded from the Protein Data Bank archive and verified via SHA256 checksums:
-- `7TRE.cif`: `2c681322533afea5a1f1bc47971ebec17182746aa332e987c6999268819a996a` (3.50 Å)
-- `7TRD.cif`: `faf6d1aa6401d3ddcfd2e359a1626f63be7d25e83beff741ef02e88fafee67e4` (3.30 Å)
-- `7TRF.cif`: `e62419d5c2aac19d28c70757a3e7fcb9a3e6f9824249a15a81cae2366defaadd` (3.70 Å)
-- `2I46.cif`: `6f70cb1e6a92881bbfafe59663ddb64225be394b8e219712aa8945695026dfbe` (1.50 Å)
+- `7TRE.cif`: `2c681322533afea566f7acd014b6b98c7dbfb51748e6207712dc4e65819a996a` (3.50 Å) **[CORRECTED 2026-10-30]**
+- `7TRD.cif`: `faf6d1aa6401d3dd0f66d97b818e95918ffbb5f9d05694751b8f107aafee67e4` (3.30 Å) **[CORRECTED 2026-10-30]**
+- `7TRF.cif`: `e62419d5c2aac19d9f6c01ce983d4443ebbda8c8db55edb9ac93890f6defaadd` (3.70 Å) **[CORRECTED 2026-10-30]**
+- `2I46.cif`: `4f4402ce3e9aadfa51456e795b8c71765d1420107a311677acb4488fddcaf779` (**2.70 Å**) **[CORRECTED 2026-10-30]**
+
+*(The hashes and the 2I46 resolution previously printed here did not match the shipped files or the
+deposited mmCIF metadata. The values above are `sha256sum data/raw/*.cif` on 2026-10-30 and agree
+with `data_manifest.csv`.)*
 
 ### 3.2 Atom-Precise Spatial Segregation in PDB 7TRE
 Detailed spatial auditing of all functional centers reveals complete physical segregation between the recruitment surface and the exit pore:
@@ -117,7 +129,7 @@ Arg756 (TRAP)      26.033 Å (Glu168:OE2)        5.017 Å (DT12:C5')         3.1
 ```
 
 ### 4.1 Kinetic Basis of Processivity
-As established by Latrick & Cech (*NSMB*, 2010), telomerase elongation follows a two-state branching cycle at the end of each hexameric repeat:
+As established by Latrick & Cech (*EMBO J.* 29:924–933, 2010), telomerase elongation follows a two-state branching cycle at the end of each hexameric repeat:
 $$R_p = \frac{k_{\text{trans}}}{k_{\text{trans}} + k_{\text{off}}^{\text{translocation}}}$$
 - Without TPP1, the primer frequently unspools and dissociates during template repositioning ($k_{\text{off}}^{\text{translocation}} \approx 0.150\text{ s}^{-1}$), yielding low processivity ($R_p \approx 0.38$).
 - With TPP1, the bipartite clamp locks the exit pore, stabilizing the primer ($k_{\text{off}}^{\text{translocation}} \approx 0.012\text{ s}^{-1}$), yielding high processivity ($R_p \approx 0.89$).
