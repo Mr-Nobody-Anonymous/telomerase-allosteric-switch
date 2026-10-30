@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telotrade"
+version = "0.1.0"
+description = "Computational structural bioinformatics study of human telomerase TERT-TPP1 recruitment interface"
+authors = [{ name = "Telotrade Team" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "biopython>=1.88",
+    "gemmi>=0.7.5",
+    "freesasa>=2.2.1",
+    "numpy>=2.0.0",
+    "scipy>=1.15.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.10.0",
+    "requests>=2.32.0",
+    "pytest>=9.0.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+pythonpath = ["src"]

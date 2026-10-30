@@ -1,0 +1,12 @@
+target_structure,reference_structure,alignment_selection,num_aligned_ca_atoms,superposition_method,rmsd_angstrom,mean_ca_displacement_angstrom,max_ca_displacement_angstrom,max_displacement_residue
+7TRE,7TRD,Global,934,Kabsch SVD,0.356,0.315,1.226,ALA612
+7TRE,7TRD,Catalytic Core,770,Kabsch SVD,0.338,0.299,1.232,ALA612
+7TRE,7TRD,TEN Domain,160,Kabsch SVD,0.411,0.376,1.0,CYS7
+7TRE,7TRD,TEN on Core Fit,160,Kabsch SVD,0.434,0.394,0.947,CYS7
+7TRE,7TRF,Global,934,Kabsch SVD,0.356,0.315,1.226,ALA612
+7TRE,7TRF,Catalytic Core,770,Kabsch SVD,0.338,0.299,1.232,ALA612
+7TRE,7TRF,TEN Domain,160,Kabsch SVD,0.411,0.376,1.0,CYS7
+7TRE,7TRF,TEN on Core Fit,160,Kabsch SVD,0.434,0.394,0.947,CYS7
+7TRE,2I46,TPP1 OB-fold,152,Kabsch SVD,1.966,1.616,7.001,GLU107
+7TRE,2I46,TEL-patch Core,6,Kabsch SVD,1.651,1.531,2.207,GLU171
+7TRE,2I46,TEL-patch Extended,9,Kabsch SVD,1.746,1.57,2.814,GLU171

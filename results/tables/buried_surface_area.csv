@@ -1,0 +1,2 @@
+structure_id,interface_id,partner_a_name,partner_b_name,sasa_partner_a_alone_angstrom2,sasa_partner_b_alone_angstrom2,sasa_complex_angstrom2,delta_sasa_total_angstrom2,bsa_interface_half_angstrom2,probe_radius_angstrom,n_sphere_points,algorithm,bsa,delta_sasa,sasa_tert,sasa_tpp1,sasa_complex
+7TRE,TERT_A__TPP1_C,TERT,TPP1,49776.0,10651.36,58713.7,1713.65,856.82,1.4,960,Shrake-Rupley,856.82,1713.65,49776.0,10651.36,58713.7

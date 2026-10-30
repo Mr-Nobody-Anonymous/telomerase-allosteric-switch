@@ -1,0 +1,33 @@
+contact_pair,chain_tert,resnum_tert,resname_tert,chain_tpp1,resnum_tpp1,resname_tpp1,min_distance_angstrom,present_at_3_5A,present_at_4_0A,present_at_4_5A,persistence_class,notes
+Arg774-Glu168,A,774,ARG,C,168,GLU,2.32,True,True,True,Core Persistent,Salt bridge; min ARG:NH1--GLU:OE1 (2.32 A); TERT domain: TRAP_IFD; TPP1 TEL-patch; Primary electrostatic anchor; 2.32 A distance reflects cryo-EM coordinate compaction
+Asn799-Arg92,A,799,ASN,C,92,ARG,3.24,True,True,True,Core Persistent,Hydrogen bond / polar; min ASN:CB--ARG:O (3.24 A); TERT domain: TRAP_IFD
+Ala46-Glu169,A,46,ALA,C,169,GLU,3.35,True,True,True,Core Persistent,Van der Waals contact; min ALA:CB--GLU:OE2 (3.35 A); TERT domain: TEN; TPP1 TEL-patch
+Tyr772-Leu211,A,772,TYR,C,211,LEU,3.36,True,True,True,Core Persistent,Hydrogen bond / polar; min TYR:OH--LEU:O (3.36 A); TERT domain: TRAP_IFD; TPP1 TEL-patch; Polar/hydrophobic contact; present at 3.5 A (3.36 A)
+Ala45-Glu171,A,45,ALA,C,171,GLU,3.45,True,True,True,Core Persistent,Hydrogen bond / polar; min ALA:N--GLU:OE1 (3.45 A); TERT domain: TEN; TPP1 TEL-patch
+Pro44-Glu171,A,44,PRO,C,171,GLU,3.51,False,True,True,Intermediate Boundary,Van der Waals contact; min PRO:CA--GLU:OE2 (3.51 A); TERT domain: TEN; TPP1 TEL-patch
+Pro771-Leu212,A,771,PRO,C,212,LEU,3.52,False,True,True,Intermediate Boundary,Hydrophobic contact; min PRO:CG--LEU:CD2 (3.52 A); TERT domain: TRAP_IFD; TPP1 TEL-patch; Hydrophobic cradle; Pro771 exhibits 0.868 A coordinate displacement
+Asp129-Pro213,A,129,ASP,C,213,PRO,3.55,False,True,True,Intermediate Boundary,Hydrogen bond / polar; min ASP:CB--PRO:O (3.55 A); TERT domain: TEN
+Tyr772-Pro213,A,772,TYR,C,213,PRO,3.56,False,True,True,Intermediate Boundary,Hydrophobic contact; min TYR:CE2--PRO:CG (3.56 A); TERT domain: TRAP_IFD
+Lys78-Glu215,A,78,LYS,C,215,GLU,3.58,False,True,True,Intermediate Boundary,Salt bridge; min LYS:NZ--GLU:OE2 (3.58 A); TERT domain: TEN; TPP1 TEL-patch; Secondary electrostatic latch; TEN domain clamp
+Ala130-Pro213,A,130,ALA,C,213,PRO,3.62,False,True,True,Intermediate Boundary,Hydrophobic contact; min ALA:CA--PRO:CB (3.62 A); TERT domain: TEN
+Pro771-Pro213,A,771,PRO,C,213,PRO,3.63,False,True,True,Intermediate Boundary,Hydrophobic contact; min PRO:CB--PRO:CD (3.63 A); TERT domain: TRAP_IFD
+Leu766-Leu93,A,766,LEU,C,93,LEU,3.64,False,True,True,Intermediate Boundary,Hydrophobic contact; min LEU:CD1--LEU:CD1 (3.64 A); TERT domain: TRAP_IFD
+Asn799-Gly91,A,799,ASN,C,91,GLY,3.66,False,True,True,Intermediate Boundary,Van der Waals contact; min ASN:CB--GLY:O (3.66 A); TERT domain: TRAP_IFD
+Leu769-Leu183,A,769,LEU,C,183,LEU,3.67,False,True,True,Intermediate Boundary,Hydrophobic contact; min LEU:CD2--LEU:CD2 (3.67 A); TERT domain: TRAP_IFD; TPP1 TEL-patch; Central hydrophobic anchor; shields Arg774-Glu168; emerges at 4.0 A (3.67 A)
+Leu769-Leu212,A,769,LEU,C,212,LEU,3.75,False,True,True,Intermediate Boundary,Hydrophobic contact; min LEU:CD1--LEU:CD2 (3.75 A); TERT domain: TRAP_IFD; TPP1 TEL-patch
+Ser121-Arg92,A,121,SER,C,92,ARG,3.85,False,True,True,Intermediate Boundary,Hydrogen bond / polar; min SER:OG--ARG:NH2 (3.85 A); TERT domain: TEN
+Tyr772-Arg180,A,772,TYR,C,180,ARG,3.87,False,True,True,Intermediate Boundary,Hydrogen bond / polar; min TYR:OH--ARG:NH2 (3.87 A); TERT domain: TRAP_IFD; TPP1 TEL-patch
+Ala46-Glu168,A,46,ALA,C,168,GLU,3.96,False,True,True,Intermediate Boundary,Van der Waals contact; min ALA:CB--GLU:O (3.96 A); TERT domain: TEN; TPP1 TEL-patch
+Asp43-Glu171,A,43,ASP,C,171,GLU,3.97,False,True,True,Intermediate Boundary,Hydrogen bond / polar; min ASP:O--GLU:OE2 (3.97 A); TERT domain: TEN; TPP1 TEL-patch
+Leu798-Leu93,A,798,LEU,C,93,LEU,3.98,False,True,True,Intermediate Boundary,Hydrophobic contact; min LEU:CB--LEU:N (3.98 A); TERT domain: TRAP_IFD
+Asp129-Thr214,A,129,ASP,C,214,THR,4.07,False,False,True,Peripheral / Sensitive,Van der Waals contact; min ASP:OD2--THR:CA (4.07 A); TERT domain: TEN
+Arg132-Glu215,A,132,ARG,C,215,GLU,4.07,False,False,True,Peripheral / Sensitive,Van der Waals contact; min ARG:NH1--GLU:OE2 (4.07 A); TERT domain: TEN; TPP1 TEL-patch
+Pro124-Arg92,A,124,PRO,C,92,ARG,4.08,False,False,True,Peripheral / Sensitive,Van der Waals contact; min PRO:CB--ARG:NE (4.08 A); TERT domain: TEN
+Gly133-Arg180,A,133,GLY,C,180,ARG,4.1,False,False,True,Peripheral / Sensitive,Van der Waals contact; min GLY:CA--ARG:NH1 (4.10 A); TERT domain: TEN; TPP1 TEL-patch
+Ala136-Glu169,A,136,ALA,C,169,GLU,4.21,False,False,True,Peripheral / Sensitive,Van der Waals contact; min ALA:N--GLU:OE1 (4.21 A); TERT domain: TEN; TPP1 TEL-patch
+Gly135-Glu169,A,135,GLY,C,169,GLU,4.25,False,False,True,Peripheral / Sensitive,Van der Waals contact; min GLY:N--GLU:OE1 (4.25 A); TERT domain: TEN; TPP1 TEL-patch
+Leu766-Pro112,A,766,LEU,C,112,PRO,4.32,False,False,True,Peripheral / Sensitive,Hydrophobic contact; min LEU:CD2--PRO:CB (4.32 A); TERT domain: TRAP_IFD
+Asn799-Leu93,A,799,ASN,C,93,LEU,4.36,False,False,True,Peripheral / Sensitive,Van der Waals contact; min ASN:CB--LEU:N (4.36 A); TERT domain: TRAP_IFD
+Asp129-Arg92,A,129,ASP,C,92,ARG,4.39,False,False,True,Peripheral / Sensitive,Van der Waals contact; min ASP:OD2--ARG:NH2 (4.39 A); TERT domain: TEN
+Gln775-Asp166,A,775,GLN,C,166,ASP,4.41,False,False,True,Peripheral / Sensitive,Van der Waals contact; min GLN:NE2--ASP:O (4.41 A); TERT domain: TRAP_IFD; Precedes DE-loop; threshold-sensitive peripheral contact at 4.41 A
+Leu766-Arg113,A,766,LEU,C,113,ARG,4.49,False,False,True,Peripheral / Sensitive,Van der Waals contact; min LEU:CD2--ARG:N (4.49 A); TERT domain: TRAP_IFD

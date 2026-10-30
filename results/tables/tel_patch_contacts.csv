@@ -1,0 +1,54 @@
+tert_auth_asym,tert_label_asym,tert_resnum,tert_resname,tert_atom,tert_domain,tpp1_auth_asym,tpp1_label_asym,tpp1_resnum,tpp1_resname,tpp1_atom,is_tel_patch,distance_angstrom,interaction_type,tel_patch_subregion
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,OE1,True,2.32,Salt Bridge,Acidic DE-loop
+A,B,774,ARG,CZ,TRAP_IFD,C,D,168,GLU,OE1,True,3.31,Van der Waals,Acidic DE-loop
+A,B,46,ALA,CB,TEN,C,D,169,GLU,OE2,True,3.35,Van der Waals,Acidic DE-loop
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,O,True,3.36,Polar/H-Bond,TEL-patch
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,CD,True,3.4,Van der Waals,Acidic DE-loop
+A,B,45,ALA,N,TEN,C,D,171,GLU,OE1,True,3.45,Polar/H-Bond,Acidic DE-loop
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CG,True,3.48,Van der Waals,TEL-patch
+A,B,44,PRO,CA,TEN,C,D,171,GLU,OE2,True,3.51,Van der Waals,Acidic DE-loop
+A,B,771,PRO,CG,TRAP_IFD,C,D,212,LEU,CD2,True,3.52,Hydrophobic,Hydrophobic Core
+A,B,44,PRO,CA,TEN,C,D,171,GLU,OE1,True,3.54,Van der Waals,Acidic DE-loop
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CD2,True,3.55,Van der Waals,TEL-patch
+A,B,78,LYS,NZ,TEN,C,D,215,GLU,OE2,True,3.58,Salt Bridge,Auxiliary Clamp
+A,B,771,PRO,CB,TRAP_IFD,C,D,212,LEU,CD2,True,3.66,Hydrophobic,Hydrophobic Core
+A,B,769,LEU,CD2,TRAP_IFD,C,D,183,LEU,CD2,True,3.67,Hydrophobic,Hydrophobic Core
+A,B,774,ARG,CD,TRAP_IFD,C,D,168,GLU,OE1,True,3.71,Van der Waals,Acidic DE-loop
+A,B,44,PRO,CA,TEN,C,D,171,GLU,CD,True,3.72,Van der Waals,Acidic DE-loop
+A,B,772,TYR,CE1,TRAP_IFD,C,D,211,LEU,O,True,3.74,Van der Waals,TEL-patch
+A,B,769,LEU,CD1,TRAP_IFD,C,D,212,LEU,CD2,True,3.75,Hydrophobic,Hydrophobic Core
+A,B,772,TYR,CZ,TRAP_IFD,C,D,211,LEU,O,True,3.84,Van der Waals,TEL-patch
+A,B,774,ARG,NE,TRAP_IFD,C,D,168,GLU,OE1,True,3.85,Salt Bridge,Acidic DE-loop
+A,B,772,TYR,OH,TRAP_IFD,C,D,180,ARG,NH2,True,3.87,Polar/H-Bond,Basic Finger
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,OE2,True,3.87,Salt Bridge,Acidic DE-loop
+A,B,774,ARG,CD,TRAP_IFD,C,D,168,GLU,OE2,True,3.94,Van der Waals,Acidic DE-loop
+A,B,46,ALA,CB,TEN,C,D,168,GLU,O,True,3.96,Van der Waals,Acidic DE-loop
+A,B,43,ASP,O,TEN,C,D,171,GLU,OE2,True,3.97,Polar/H-Bond,Acidic DE-loop
+A,B,44,PRO,C,TEN,C,D,171,GLU,OE1,True,4.02,Van der Waals,Acidic DE-loop
+A,B,44,PRO,N,TEN,C,D,171,GLU,OE2,True,4.03,Van der Waals,Acidic DE-loop
+A,B,46,ALA,CB,TEN,C,D,169,GLU,CD,True,4.05,Van der Waals,Acidic DE-loop
+A,B,774,ARG,CD,TRAP_IFD,C,D,168,GLU,CD,True,4.05,Van der Waals,Acidic DE-loop
+A,B,44,PRO,CB,TEN,C,D,171,GLU,OE1,True,4.07,Van der Waals,Acidic DE-loop
+A,B,132,ARG,NH1,TEN,C,D,215,GLU,OE2,True,4.07,Van der Waals,Auxiliary Clamp
+A,B,44,PRO,CB,TEN,C,D,171,GLU,CD,True,4.09,Van der Waals,Acidic DE-loop
+A,B,44,PRO,CB,TEN,C,D,171,GLU,OE2,True,4.1,Van der Waals,Acidic DE-loop
+A,B,78,LYS,NZ,TEN,C,D,215,GLU,OE1,True,4.1,Van der Waals,Auxiliary Clamp
+A,B,133,GLY,CA,TEN,C,D,180,ARG,NH1,True,4.1,Van der Waals,Basic Finger
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CD1,True,4.13,Van der Waals,TEL-patch
+A,B,769,LEU,CD1,TRAP_IFD,C,D,212,LEU,CD1,True,4.18,Hydrophobic,Hydrophobic Core
+A,B,78,LYS,NZ,TEN,C,D,215,GLU,CD,True,4.21,Van der Waals,Auxiliary Clamp
+A,B,136,ALA,N,TEN,C,D,169,GLU,OE1,True,4.21,Van der Waals,Acidic DE-loop
+A,B,46,ALA,CB,TEN,C,D,169,GLU,OE1,True,4.21,Van der Waals,Acidic DE-loop
+A,B,774,ARG,NH2,TRAP_IFD,C,D,168,GLU,OE1,True,4.23,Van der Waals,Acidic DE-loop
+A,B,43,ASP,C,TEN,C,D,171,GLU,OE2,True,4.25,Van der Waals,Acidic DE-loop
+A,B,135,GLY,N,TEN,C,D,169,GLU,OE1,True,4.25,Van der Waals,Acidic DE-loop
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,C,True,4.27,Van der Waals,TEL-patch
+A,B,136,ALA,CB,TEN,C,D,169,GLU,OE2,True,4.3,Van der Waals,Acidic DE-loop
+A,B,774,ARG,CZ,TRAP_IFD,C,D,168,GLU,CD,True,4.3,Van der Waals,Acidic DE-loop
+A,B,45,ALA,N,TEN,C,D,171,GLU,CD,True,4.32,Van der Waals,Acidic DE-loop
+A,B,771,PRO,CD,TRAP_IFD,C,D,212,LEU,CD2,True,4.33,Hydrophobic,Hydrophobic Core
+A,B,135,GLY,CA,TEN,C,D,169,GLU,OE1,True,4.36,Van der Waals,Acidic DE-loop
+A,B,44,PRO,CG,TEN,C,D,171,GLU,OE2,True,4.42,Van der Waals,Acidic DE-loop
+A,B,769,LEU,CG,TRAP_IFD,C,D,212,LEU,CD2,True,4.45,Hydrophobic,Hydrophobic Core
+A,B,133,GLY,O,TEN,C,D,180,ARG,NH1,True,4.45,Van der Waals,Basic Finger
+A,B,133,GLY,C,TEN,C,D,180,ARG,NH1,True,4.49,Van der Waals,Basic Finger

@@ -1,0 +1,27 @@
+structure_id,metric_name,original_value,independent_value,delta,percent_diff,methodology_notes
+7TRE_vs_7TRD,ca_rmsd_global,0.356,0.3557,-0.0003,-0.08%,Bio.SVDSuperimposer across all 934 Calpha atoms (TERT auth chain A). Matches Gemmi superpose_positions.
+7TRE_vs_7TRD,ca_rmsd_catalytic_core,0.338,0.3377,-0.0003,-0.09%,Bio.SVDSuperimposer across 770 Calpha atoms (residues 326-1132). Gemmi superpose_positions yields 0.3377 A.
+7TRE_vs_7TRD,ca_rmsd_ten_domain_alone,0.411,0.4112,+0.0002,+0.05%,Bio.SVDSuperimposer across 160 Calpha atoms of TEN domain alone (residues 7-178).
+7TRE_vs_7TRD,ca_displacement_ten_core_fit,0.434,0.4341,+0.0001,+0.02%,Rigid-body excursion of TEN domain (160 Calpha) when superposed on catalytic core.
+7TRE_vs_7TRD,ca_displacement_ifd_trap_core_fit,0.427,0.4268,-0.0002,-0.05%,"Displacement of TRAP/IFD clamp (31 Calpha, residues 755-785) on catalytic core fit. Independent internal RMSD = 0.2625 A."
+7TRE_vs_7TRF,ca_rmsd_global,0.356,0.3557,-0.0003,-0.08%,Bio.SVDSuperimposer across 934 Calpha atoms. TERT is auth chain A (label chain D).
+7TRE_vs_7TRF,ca_rmsd_catalytic_core,0.338,0.3377,-0.0003,-0.09%,Bio.SVDSuperimposer across 770 catalytic core Calpha atoms (residues 326-1132).
+7TRE_vs_2I46,ca_rmsd_tpp1_ob_fold_global,1.966,1.9661,+0.0001,+0.01%,"Bio.SVDSuperimposer across all 152 Calpha atoms (7TRE Chain C vs 2I46 Chain A, residues 90-241)."
+7TRE_vs_2I46,ca_rmsd_tpp1_ob_fold_excl_de_loop,1.873,1.8729,-0.0001,-0.01%,Bio.SVDSuperimposer across 141 Calpha atoms excluding DE-loop (residues 165-175). Eliminates mobile loop bias.
+7TRE_vs_2I46,tpp1_de_loop_peak_shift_lys170,4.293,4.293,+0.0000,+0.00%,Calpha coordinate distance between 7TRE Chain C and 2I46 Chain A on global OB-fold fit. DE-loop apex remodeling.
+7TRE_vs_2I46,tpp1_de_loop_shift_glu168,1.253,1.2535,+0.0005,+0.04%,Calpha coordinate shift in DE-loop entry residue engaged in Arg774 salt bridge.
+7TRE_vs_2I46,tpp1_de_loop_shift_glu169,3.809,3.8093,+0.0003,+0.01%,Calpha coordinate shift in DE-loop acidic crest residue.
+7TRE_vs_2I46,tpp1_de_loop_shift_glu171,3.32,3.3205,+0.0005,+0.02%,Calpha coordinate shift in DE-loop exit residue.
+7TRE_vs_2I46,tpp1_anchor_rigidity_leu183,0.512,0.5119,-0.0001,-0.02%,Calpha coordinate shift in central TEL-patch hydrophobic anchor. Confirms pre-organized ground state (<0.6 A).
+7TRE_vs_2I46,tpp1_anchor_displacement_leu212,1.04,1.0399,-0.0001,-0.01%,Calpha coordinate shift in hydrophobic cradle contact.
+7TRE,interface_bsa_bondi_shrake_rupley,856.82,856.82,+0.0000,+0.00%,"FreeSASA Shrake-Rupley (960 pts, 1.4 A probe, element-level Bondi radii). Biopython ShrakeRupley yields exact concordance (856.82 A^2)."
+7TRE,interface_bsa_protor_shrake_rupley,856.82,923.16,+66.3400,+7.74%,"FreeSASA ProtOr (960 pts, united-atom radii). Demonstrates +7.7% (+66.34 A^2) radius sensitivity vs Bondi definition."
+7TRE,interface_bsa_protor_lee_richards,856.82,923.19,+66.3700,+7.75%,FreeSASA ProtOr Lee-Richards analytical slice integration. Differs by only 0.03 A^2 (0.003%) from Shrake-Rupley under identical radii.
+7TRE,interface_contacts_count_3.5A,9,9,+0,+0.00%,SciPy cKDTree query_ball_point at 3.5 A (5 residue pairs). Core Robust (5 unique residue pairs; 100% persistent).
+7TRE,interface_contacts_count_4.0A,46,46,+0,+0.00%,SciPy cKDTree query_ball_point at 4.0 A (21 residue pairs). Full physiological contact shell (21 unique residue pairs; 37 intermediate contacts).
+7TRE,interface_contacts_count_4.5A,123,123,+0,+0.00%,SciPy cKDTree query_ball_point at 4.5 A (32 residue pairs). Expanded contact shell (32 unique residue pairs; 77 threshold-sensitive contacts).
+7TRE,primary_salt_bridge_arg774_glu168,2.32,2.3202,+0.0002,+0.01%,Euclidean distance Arg774:NH1--Glu168:OE1. Uncharacteristically compacted salt bridge reflecting cryo-EM real-space refinement.
+7TRE,secondary_salt_latch_lys78_glu215,3.58,3.5836,+0.0036,+0.10%,Euclidean distance Lys78:NZ--Glu215:OE2. Auxiliary electrostatic clamp on TEN domain.
+7TRE,peripheral_contact_gln775_asp166,4.41,4.4086,-0.0014,-0.03%,Euclidean distance Gln775:NE2--Asp166:O. Threshold-sensitive peripheral contact at 4.41 A.
+7TRE,hydrophobic_anchor_leu769_leu183,3.67,3.6653,-0.0047,-0.13%,Euclidean distance Leu769:CD2--Leu183:CD2. Core hydrophobic shield for Arg774-Glu168 salt bridge.
+7TRE,hydrophobic_groove_pro771_leu212,3.52,3.5236,+0.0036,+0.10%,Euclidean distance Pro771:CG--Leu212:CD2. Hydrophobic cradle stabilization.

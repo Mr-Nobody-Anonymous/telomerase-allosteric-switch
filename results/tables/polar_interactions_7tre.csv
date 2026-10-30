@@ -1,0 +1,12 @@
+interaction_type,tert_resnum,tert_resname,tert_atom,tert_domain,tpp1_resnum,tpp1_resname,tpp1_atom,distance_angstrom,is_tel_patch
+Salt Bridge,774,ARG,NH1,TRAP_IFD,168,GLU,OE1,2.32,True
+H-Bond Backbone-Sidechain,772,TYR,OH,TRAP_IFD,211,LEU,O,3.36,True
+H-Bond Backbone-Sidechain,45,ALA,N,TEN,171,GLU,OE1,3.45,True
+H-Bond Backbone-Sidechain,799,ASN,ND2,TRAP_IFD,92,ARG,O,3.49,False
+Salt Bridge,78,LYS,NZ,TEN,215,GLU,OE2,3.58,True
+H-Bond Sidechain-Sidechain,121,SER,OG,TEN,92,ARG,NH2,3.85,False
+H-Bond Backbone-Backbone,129,ASP,O,TEN,213,PRO,O,3.85,False
+Salt Bridge,774,ARG,NE,TRAP_IFD,168,GLU,OE1,3.85,True
+H-Bond Sidechain-Sidechain,772,TYR,OH,TRAP_IFD,180,ARG,NH2,3.87,True
+Salt Bridge,774,ARG,NH1,TRAP_IFD,168,GLU,OE2,3.87,True
+H-Bond Backbone-Sidechain,43,ASP,O,TEN,171,GLU,OE2,3.97,True

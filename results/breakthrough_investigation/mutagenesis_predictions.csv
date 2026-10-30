@@ -1,0 +1,10 @@
+mutation,domain,dist_to_tpp1_A,dist_to_dna_A,dist_to_rna_A,delta_charge,pred_delta_delta_G_fold_kcal_mol,pred_tpp1_binding,pred_basal_catalytic_kcat,pred_intrinsic_primer_Kd,pred_tpp1_stimulated_RAP,role_in_study,primary_confounder
+Arg756A,TRAP base,26.03,5.02,3.12,-1,0.8,Normal (unimpaired),Slightly reduced (2-3 fold),Slightly increased (1.5-2 fold),Defective (severe loss of stimulation),Primary test mutant for decoupling,RNA A55 stacking loss affects basal kcat
+Arg756E,TRAP base,26.03,5.02,3.12,-2,1.9,Normal (unimpaired),Severely impaired / Inactive,Severely weakened (>10 fold),Inactive / Not evaluable,Electrostatic repulsion control,Catastrophic catalytic loss confounds processivity
+Lys757A,TRAP base,25.43,5.75,8.33,-1,0.4,Normal (unimpaired),Normal (unimpaired),Moderately weakened (2-3 fold),Partially defective,Secondary test mutant (pore anchor),Altered intrinsic primer retention off-rate
+Lys757E,TRAP base,25.43,5.75,8.33,-2,1.5,Normal (unimpaired),Markedly reduced,Severely weakened (>5 fold),Severely defective,Electrostatic repulsion control,General primer repulsion from active site
+His754A,TRAP base,31.23,7.22,8.26,0,0.3,Normal (unimpaired),Normal (unimpaired),Normal (unimpaired),Normal (unimpaired),Negative control (proximal TRAP neutral),None
+Val755A,TRAP base,28.34,7.29,9.33,0,0.6,Normal (unimpaired),Normal (unimpaired),Normal (unimpaired),Normal (unimpaired),Negative control (hydrophobic core neutral),None
+Phe759A,TRAP base,19.98,8.73,10.24,0,2.1,Normal (unimpaired),Moderately reduced,Normal (unimpaired),Partially defective,Hairpin structural anchor control,Local packing disruption of TRAP base
+Leu769A,TRAP apex,3.67,29.13,21.4,0,0.5,Severely impaired (>10 fold Kd increase),Normal (unimpaired),Normal (unimpaired),Lost due to lack of binding,Recruitment-defective control (hydrophobic),Recruitment failure confounds RAP assay
+Arg774A,TRAP apex,2.32,26.46,10.86,-1,0.2,Severely impaired (>50 fold Kd increase),Normal (unimpaired),Normal (unimpaired),Lost due to lack of binding,Recruitment-defective control (salt bridge),Recruitment failure confounds RAP assay

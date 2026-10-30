@@ -1,0 +1,47 @@
+tert_auth_asym,tert_label_asym,tert_resnum,tert_resname,tert_atom,tert_domain,tpp1_auth_asym,tpp1_label_asym,tpp1_resnum,tpp1_resname,tpp1_atom,is_tel_patch,distance_angstrom,interaction_type
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,OE1,True,2.32,Salt Bridge
+A,B,799,ASN,CB,TRAP_IFD,C,D,92,ARG,O,False,3.24,Van der Waals
+A,B,774,ARG,CZ,TRAP_IFD,C,D,168,GLU,OE1,True,3.31,Van der Waals
+A,B,46,ALA,CB,TEN,C,D,169,GLU,OE2,True,3.35,Van der Waals
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,O,True,3.36,Polar/H-Bond
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,CD,True,3.4,Van der Waals
+A,B,45,ALA,N,TEN,C,D,171,GLU,OE1,True,3.45,Polar/H-Bond
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CG,True,3.48,Van der Waals
+A,B,799,ASN,ND2,TRAP_IFD,C,D,92,ARG,O,False,3.49,Polar/H-Bond
+A,B,44,PRO,CA,TEN,C,D,171,GLU,OE2,True,3.51,Van der Waals
+A,B,771,PRO,CG,TRAP_IFD,C,D,212,LEU,CD2,True,3.52,Hydrophobic
+A,B,44,PRO,CA,TEN,C,D,171,GLU,OE1,True,3.54,Van der Waals
+A,B,129,ASP,CB,TEN,C,D,213,PRO,O,False,3.55,Van der Waals
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CD2,True,3.55,Van der Waals
+A,B,772,TYR,CE2,TRAP_IFD,C,D,213,PRO,CG,False,3.56,Hydrophobic
+A,B,78,LYS,NZ,TEN,C,D,215,GLU,OE2,True,3.58,Salt Bridge
+A,B,772,TYR,CZ,TRAP_IFD,C,D,213,PRO,CD,False,3.58,Hydrophobic
+A,B,772,TYR,CE2,TRAP_IFD,C,D,213,PRO,CD,False,3.59,Hydrophobic
+A,B,130,ALA,CA,TEN,C,D,213,PRO,CB,False,3.62,Hydrophobic
+A,B,771,PRO,CB,TRAP_IFD,C,D,213,PRO,CD,False,3.63,Hydrophobic
+A,B,799,ASN,CG,TRAP_IFD,C,D,92,ARG,O,False,3.63,Van der Waals
+A,B,766,LEU,CD1,TRAP_IFD,C,D,93,LEU,CD1,False,3.64,Hydrophobic
+A,B,771,PRO,CB,TRAP_IFD,C,D,212,LEU,CD2,True,3.66,Hydrophobic
+A,B,799,ASN,CB,TRAP_IFD,C,D,91,GLY,O,False,3.66,Van der Waals
+A,B,769,LEU,CD2,TRAP_IFD,C,D,183,LEU,CD2,True,3.67,Hydrophobic
+A,B,774,ARG,CD,TRAP_IFD,C,D,168,GLU,OE1,True,3.71,Van der Waals
+A,B,799,ASN,CB,TRAP_IFD,C,D,92,ARG,C,False,3.71,Van der Waals
+A,B,44,PRO,CA,TEN,C,D,171,GLU,CD,True,3.72,Van der Waals
+A,B,772,TYR,CD2,TRAP_IFD,C,D,213,PRO,CG,False,3.72,Hydrophobic
+A,B,772,TYR,CE1,TRAP_IFD,C,D,211,LEU,O,True,3.74,Van der Waals
+A,B,769,LEU,CD1,TRAP_IFD,C,D,212,LEU,CD2,True,3.75,Hydrophobic
+A,B,772,TYR,CE2,TRAP_IFD,C,D,213,PRO,CB,False,3.79,Hydrophobic
+A,B,130,ALA,N,TEN,C,D,213,PRO,CB,False,3.8,Van der Waals
+A,B,772,TYR,CZ,TRAP_IFD,C,D,211,LEU,O,True,3.84,Van der Waals
+A,B,121,SER,OG,TEN,C,D,92,ARG,NH2,False,3.85,Polar/H-Bond
+A,B,129,ASP,O,TEN,C,D,213,PRO,O,False,3.85,Polar/H-Bond
+A,B,774,ARG,NE,TRAP_IFD,C,D,168,GLU,OE1,True,3.85,Salt Bridge
+A,B,130,ALA,CB,TEN,C,D,213,PRO,CB,False,3.86,Hydrophobic
+A,B,772,TYR,OH,TRAP_IFD,C,D,180,ARG,NH2,True,3.87,Polar/H-Bond
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,OE2,True,3.87,Salt Bridge
+A,B,772,TYR,OH,TRAP_IFD,C,D,213,PRO,CD,False,3.88,Van der Waals
+A,B,774,ARG,CD,TRAP_IFD,C,D,168,GLU,OE2,True,3.94,Van der Waals
+A,B,46,ALA,CB,TEN,C,D,168,GLU,O,True,3.96,Van der Waals
+A,B,43,ASP,O,TEN,C,D,171,GLU,OE2,True,3.97,Polar/H-Bond
+A,B,798,LEU,CB,TRAP_IFD,C,D,93,LEU,N,False,3.98,Van der Waals
+A,B,129,ASP,C,TEN,C,D,213,PRO,O,False,3.99,Van der Waals

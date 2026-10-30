@@ -1,0 +1,8 @@
+Bound_Mean_Dist=3.4956
+Bound_Std_Dist=0.2481
+Apo_Mean_Dist=5.2964
+Apo_Std_Dist=0.1804
+P_Val_Dist=1.149041e-03
+Bound_Mean_Occ=40.67
+Apo_Mean_Occ=0.00
+P_Val_Occ=5.558794e-04

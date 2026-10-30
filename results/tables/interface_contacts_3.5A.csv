@@ -1,0 +1,10 @@
+tert_auth_asym,tert_label_asym,tert_resnum,tert_resname,tert_atom,tert_domain,tpp1_auth_asym,tpp1_label_asym,tpp1_resnum,tpp1_resname,tpp1_atom,is_tel_patch,distance_angstrom,interaction_type
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,OE1,True,2.32,Salt Bridge
+A,B,799,ASN,CB,TRAP_IFD,C,D,92,ARG,O,False,3.24,Van der Waals
+A,B,774,ARG,CZ,TRAP_IFD,C,D,168,GLU,OE1,True,3.31,Van der Waals
+A,B,46,ALA,CB,TEN,C,D,169,GLU,OE2,True,3.35,Van der Waals
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,O,True,3.36,Polar/H-Bond
+A,B,774,ARG,NH1,TRAP_IFD,C,D,168,GLU,CD,True,3.4,Van der Waals
+A,B,45,ALA,N,TEN,C,D,171,GLU,OE1,True,3.45,Polar/H-Bond
+A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CG,True,3.48,Van der Waals
+A,B,799,ASN,ND2,TRAP_IFD,C,D,92,ARG,O,False,3.49,Polar/H-Bond

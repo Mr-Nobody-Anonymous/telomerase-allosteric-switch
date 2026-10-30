@@ -1,0 +1,10 @@
+construct,replicate,basal_activity_frac,P_overall_minus,P_overall_plus,chi_RAP,mean_Rp_plus,Evaluation_Verdict
+TERT_Asp712A_dead,1,0.027,0.646,0.691,1.07,0.736,FALSIFIED (Severe Catalytic Failure; k_cat < 30%)
+TERT_Lys757A,1,0.951,0.441,0.443,1.0,0.424,CRITERIA 2B & 2C PASSED (Selective Processivity Uncoupling Hit)
+TERT_Lys757A,2,0.936,0.448,0.435,0.97,0.402,CRITERIA 2B & 2C PASSED (Selective Processivity Uncoupling Hit)
+TERT_Lys757A,3,0.956,0.435,0.42,0.97,0.408,CRITERIA 2B & 2C PASSED (Selective Processivity Uncoupling Hit)
+TERT_Lys757R,1,0.981,0.366,0.852,2.33,0.819,RESCUE CONTROL CONFIRMED (Stereochemical & Charge Integrity Validated)
+TERT_Lys757R,2,0.981,0.42,0.844,2.01,0.812,RESCUE CONTROL CONFIRMED (Stereochemical & Charge Integrity Validated)
+TERT_WT,1,1.001,0.364,0.852,2.34,0.819,WT REFERENCE BASELINE
+TERT_WT,2,0.966,0.446,0.861,1.93,0.825,WT REFERENCE BASELINE
+TERT_WT,3,1.033,0.374,0.844,2.25,0.812,WT REFERENCE BASELINE
