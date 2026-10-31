@@ -1,0 +1,7 @@
+model_a,model_b,note,replicates_needed_median,replicates_needed_worst,informative_bands_median
+G1/G5 const hazard,G2 heterogeneous,conditional on the parameter sets explored; nested at w->1,0.015814032211929906,0.027289537581178986,41.5
+G1/G5 const hazard,G3 repeat-dependent,conditional on the parameter sets explored; nested at w->1,0.08624561892210579,0.15525231953731888,30.5
+G1/G5 const hazard,G4 reversible pause,conditional on the parameter sets explored; nested at w->1,1.747444392917328,1.763289473524004,0.5
+G2 heterogeneous,G3 repeat-dependent,conditional on the parameter sets explored; nested at w->1,0.00544304000056024,0.015708051443042607,42.5
+G2 heterogeneous,G4 reversible pause,conditional on the parameter sets explored; nested at w->1,0.015056349342198667,0.02754334115642684,40.0
+G3 repeat-dependent,G4 reversible pause,conditional on the parameter sets explored; nested at w->1,0.10086841741844937,0.20825976509272834,25.5
