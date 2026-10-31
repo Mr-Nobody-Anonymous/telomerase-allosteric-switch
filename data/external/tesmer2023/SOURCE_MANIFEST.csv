@@ -1,0 +1,4 @@
+file,sha256_local,bytes,sha256_upstream,upstream_retrievable,replicate_semantics,measurement_type
+fig3b_processivity_plusPT.csv,aa51f25ffe15fad2c6de49f3acd044572cd5836d7dbaca89e8892b85f06b9264,995,TESMER_FIG3B_PT,NO (network egress blocked; see README.md),n=3 independent experiments,"derived fraction, per-replicate value"
+fig3c_activity_plusPT.csv,89c6652bef49ff1540ba3570e96e9c9466095aedde88117ffe89d9f6644eed37,949,TESMER_FIG3C_PT,NO (network egress blocked; see README.md),n=3 independent experiments,"ratio, normalised to WT within each experiment"
+fig3e_motif3n_activity.csv,b116d01d52405a0301243c1f6901398423c1cec06fdaa1615e4210bbf533082f,509,TESMER_FIG3E,NO (network egress blocked; see README.md),n=3 independent experiments,"ratio, normalised to WT"

@@ -1,0 +1,9 @@
+# Source: Tesmer et al. 2023, Life Sci Alliance 6:e202201727, Fig 3E
+# Upstream file: LSA-2022-01727_SdataF3.1.pdf (PMC10055720)
+# Quantity: normalised total activity, motif 3N deletion (d641-651) panel,
+#           +/- POT1-TPP1. WT rows are 1.000000 by definition.
+# Replicate semantics: rows = three independent experiments. NOT technical replicates.
+experiment,WT,WT_PT,d641_651,d641_651_PT
+1,1.000000,1.108778,2.794098,1.207795
+2,1.000000,1.062298,1.365823,1.979337
+3,1.000000,1.020584,2.101151,2.765274

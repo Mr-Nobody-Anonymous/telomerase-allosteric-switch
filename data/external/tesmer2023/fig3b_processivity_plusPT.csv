@@ -1,0 +1,13 @@
+# Source: Tesmer et al. 2023, Life Sci Alliance 6:e202201727, Fig 3B
+# Upstream file: LSA-2022-01727_SdataF3.1.pdf (PMC10055720)
+# Quantity: processivity of IFD-TRAP mutants in the +POT1-TPP1 (PT) lanes,
+#           as published in the source-data file (fraction of signal in products
+#           of >=16 repeats; definition in Tesmer Fig 3 legend / Fig S2E-F).
+# Replicate semantics: rows = the three independent trans-complementation
+#           experiments reported by the authors. NOT technical replicates.
+# Transcription: values copied verbatim from the PMC-extracted text of the PDF.
+#           No smoothing, no renormalisation, no rounding.
+experiment,WT,K749E,R756E,K757E,F759E,K760E,H762E,F776E,L786E,D788R
+1,0.508790,0.369453,0.320793,0.203158,0.199718,0.269501,0.499718,0.229079,0.239126,0.283557
+2,0.554671,0.325139,0.346240,0.179349,0.094687,0.301299,0.458955,0.146742,0.140600,0.467410
+3,0.392860,0.142375,0.195215,0.207296,0.056956,0.220829,0.287844,-0.337890,0.133442,0.186042
