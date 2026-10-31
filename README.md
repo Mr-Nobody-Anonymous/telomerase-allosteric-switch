@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-376%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-401%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -23,6 +23,14 @@
 > | WP3 model comparison | [`model_comparison.md`](results/mechanism/model_comparison.md) | Affinity/anchoring (C) best supported; conduit (A) contradicted; allostery (B) untested |
 > | WP4 decision matrix | [`experimental_decision_matrix.md`](results/mechanism/experimental_decision_matrix.md) | Two cheap experiments would settle it |
 > | WP5 assessment | [`MECHANISM_ASSESSMENT.md`](results/mechanism/MECHANISM_ASSESSMENT.md) | Findings ranked by confidence, with falsification criteria |
+>
+> **Next phase (open): affinity–processivity causality.** Does primer retention quantitatively
+> account for the TPP1-dependent processivity increase, without a mechanical signal? The
+> [preregistration](results/causality/PREREGISTRATION.md) is frozen before any fitting, with its
+> source-data provenance and SHA-256 in [`data/external/tesmer2023/`](data/external/tesmer2023/).
+> Two constraints were found at the gate: the numeric source data contain **no product-length
+> distribution** (one scalar per replicate), and **n = 3** with CVs of 35–90% can only resolve
+> ~2.2× differences in processivity. Neither is a reason to fit anyway.
 >
 > **Four things this repository keeps separate** (they were previously merged, which is how a
 > distance gradient became a "mechanism"):
@@ -47,7 +55,7 @@
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (376 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (401 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -204,7 +212,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── allosteric_coupling.py           # ANM engine (result: inconclusive; retired as evidence)
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (376 passing tests)
+├── tests/                               # Comprehensive test suite (401 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests

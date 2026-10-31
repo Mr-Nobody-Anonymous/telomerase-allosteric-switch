@@ -1,0 +1,12 @@
+# Source: Tesmer et al. 2023, Life Sci Alliance 6:e202201727, Fig 3C
+# Upstream file: LSA-2022-01727_SdataF3.1.pdf (PMC10055720)
+# Quantity: relative total activity of IFD-TRAP mutants in the +PT lanes,
+#           normalised WITHIN EACH EXPERIMENT to WT (=1.000000 in every row).
+#           Consequence: inter-experiment variation in absolute signal is removed
+#           by construction, so these are ratios, not absolute activities.
+# Replicate semantics: rows = the three independent experiments. NOT technical replicates.
+# Note: the upstream table labels the ninth column "L786" (typo for L786E).
+experiment,WT,K749E,R756E,K757E,F759E,K760E,H762E,F776E,L786E,D788R
+1,1.000000,1.132561,1.004672,0.674734,0.695901,0.539852,1.387196,0.976458,0.573581,0.606591
+2,1.000000,0.147964,0.123393,0.105502,0.128053,0.274883,0.220485,0.110720,0.042355,0.065442
+3,1.000000,0.420697,0.270876,0.501341,0.335026,0.182804,0.432991,0.168121,0.128089,0.031861
