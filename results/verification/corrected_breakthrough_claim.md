@@ -1,5 +1,16 @@
 # The Corrected Claim — TERT IFD-TRAP DNA-Anchor ↔ TPP1 Interface Coupling
 
+> **Correction (2026-10-31).** This document describes 756-775 as one continuous IFD-TRAP
+> helix and builds a "helix conduit" hypothesis on that description. An independent
+> recomputation of the backbone dihedrals in `results/mechanism/structural_validation.md`
+> (WP1, section 5) shows the description is wrong: 752-765 is an extended beta-strand,
+> 766-767 is a single turn, 768-771 is a loop containing P771, and 772-780 is helix
+> alpha25. The strand->turn->loop->helix junction cannot support helix propagation.
+> The distance gradient quoted below is correct and stands; the mechanism wording does not.
+> The 760-766 conduit has also since been contradicted experimentally (H762E retains 86%
+> of WT processivity). Current assessment: `results/mechanism/MECHANISM_ASSESSMENT.md`.
+
+
 **Version 2.0 — 2026-10-30** · supersedes the "TEN–TPP1–TRAP Bipartite Clamp / Lys757A
 separation-of-function" claim in `README.md`, `report.md` and
 `results/breakthrough_investigation/FINAL_RESEARCH_REPORT.md`

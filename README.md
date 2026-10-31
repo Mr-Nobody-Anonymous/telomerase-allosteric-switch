@@ -1,42 +1,65 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-357%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-376%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Pre--Registered%20%2F%20Wet--Lab%20Ready-brightgreen.svg)](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md)
+[![Status](https://img.shields.io/badge/Status-Mechanism%20audit%20complete%20--%20two%20experiments%20proposed-blue.svg)](results/mechanism/MECHANISM_ASSESSMENT.md)
 
-**A rigorous computational structural biology, molecular dynamics, and experimental pre-registration platform investigating the human telomerase (TERT–TPP1) allosteric recruitment and repeat addition processivity (RAP) switch.**
+**A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
 
-> ## ⚠️ Verification status (2026-10-30)
-> Every headline number in this repository has been re-derived from the raw mmCIF files with an
-> independent implementation (`scripts/verify_all_claims.py`, 56 claims). **38 verify, 14 are
-> contradicted, 2 are untestable as shipped, 2 are partially verified.**
+> ## ⚠️ Status (2026-10-31): mechanism audit complete, no mechanism proven
 >
-> - **Retained:** interface BSA 857 Å², contact networks 9/46/123 (5/21/32 residue pairs),
->   Arg774:NH1–Glu168:OE1 = 2.320 Å, Lys78:NZ–Glu215:OE2 = 3.584 Å, core RMSD 0.3377 Å,
->   TPP1 conformational shifts (Leu183 0.512 Å, Lys170 4.293 Å).
-> - **Retracted:** the "Lys757A separation-of-function breakthrough" (already tested and
->   contradicted — Sekne et al. 2022; Tesmer et al. 2023), all MD-based mechanistic claims
->   (2.4 ps on a 97-residue fragment with no RNA/DNA; the "K757A" system file is byte-identical
->   to WT), the TELIN-1 ligand, and the synthetic SPR/RAP "validation" datasets.
-> - **Bottleneck analysis (2026-10-30):** the "25 Å allostery" premise was tested and does not
->   hold — TPP1 binds the *same helix* as the DNA anchor (contact gradient 26.0 → 2.3 Å along
->   756–774), and a distance-matched null finds no coupling beyond proximity. Reframed,
->   testable hypothesis: [`results/allostery/ALLOSTERIC_COUPLING_ANALYSIS.md`](results/allostery/ALLOSTERIC_COUPLING_ANALYSIS.md)
-> - **Corrected claim:** [`results/verification/corrected_breakthrough_claim.md`](results/verification/corrected_breakthrough_claim.md)
-> - **Full audit:** [`results/verification/CLAIM_VERIFICATION_REPORT.md`](results/verification/CLAIM_VERIFICATION_REPORT.md)
-> - **What changed where:** [`results/verification/ERRATA.md`](results/verification/ERRATA.md)
-> - The suite now reports **357 passed** on a clean Linux clone. The previously advertised
->   "342 passed" was only reachable after fixing three defects found in this pass: a missing
->   `data/manifest/data_manifest.csv`, a case-sensitive `data/raw/7tre.cif` path in one test, and
->   the label-chain fallback in `compute_bsa`. Ten further tests
->   (`tests/test_claim_verification.py`) pin the facts this audit rests on.
+> The question this repository exists to answer is: **does TPP1 stimulate processivity through a
+> local structural conduit, through broad conformational allostery, or through
+> affinity/anchoring that requires no mechanical propagation?** The audit that answered as much as
+> the published data allow is in [`results/mechanism/`](results/mechanism/MECHANISM_ASSESSMENT.md):
+>
+> | Work package | Deliverable | Result |
+> |---|---|---|
+> | WP1 structural validation | [`structural_validation.md`](results/mechanism/structural_validation.md) | Recomputed from raw mmCIF; **retracts the "one continuous IFD-TRAP helix" claim** |
+> | WP2 experimental evidence | [`experimental_evidence.md`](results/mechanism/experimental_evidence.md) | Recruitment is separable from processivity; a mechanical signal is not |
+> | WP3 model comparison | [`model_comparison.md`](results/mechanism/model_comparison.md) | Affinity/anchoring (C) best supported; conduit (A) contradicted; allostery (B) untested |
+> | WP4 decision matrix | [`experimental_decision_matrix.md`](results/mechanism/experimental_decision_matrix.md) | Two cheap experiments would settle it |
+> | WP5 assessment | [`MECHANISM_ASSESSMENT.md`](results/mechanism/MECHANISM_ASSESSMENT.md) | Findings ranked by confidence, with falsification criteria |
+>
+> **Four things this repository keeps separate** (they were previously merged, which is how a
+> distance gradient became a "mechanism"):
+>
+> 1. The original **TEN–TPP1–TRAP bipartite clamp** hypothesis — refuted on its structural
+>    premise: the TEN domain makes **zero** primer contacts (Tyr176 is 11.1 Å away) and TPP1 is
+>    28.7 Å from the DNA.
+> 2. The **structural audit** that invalidated it — stands, and is now extended: 752–65 is a
+>    β-strand, 766–67 a single turn, 768–71 a loop with P771, 772–80 helix α25. There is no
+>    single helix between the DNA anchor and the TPP1 footprint.
+> 3. The **conduit hypothesis (760–766)** built on the audit — not supported: only **L766** of
+>    that window is at the TPP1 interface (3.6 Å), and **H762E** inside it retains 86% of WT
+>    processivity. Retired.
+> 4. The **ANM coupling result** — **inconclusive, not evidence against allostery.** Its "specific"
+>    effect (−0.041) equals the short-range positive control (+0.041) and is +0.34σ from a
+>    distance-matched null. It is retired as evidence.
+>
+> Two facts from the published literature carry the assessment: (i) adding the TPT complex
+> **rescues** — rather than fails to stimulate — telomerase mutants with a damaged DNA anchor
+> (Sekne et al. 2022), the signature of affinity compensation; (ii) processivity-defective
+> IFD-TRAP mutants are still **recruited to telomeres normally** (Tesmer et al. 2023), so
+> recruitment is a separate function. **What remains untested is whether any mechanical component
+> exists at all**, because no published perturbation separates it from DNA affinity.
+>
+> The **pytest badge (376 passed)** is verified on a clean clone with `pip install -e .`; the
+> previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
+> fixtures, and are superseded.
+>
+> **Historical record, retained deliberately:** the older banner below this section, and sections
+> 1–5, describe claims that have since been retracted (K757A "breakthrough", 25 Å allosteric
+> switch, MD-based mechanism, TELIN-1 ligand). They are kept because deleting a negative result is
+> worse than publishing it. [`results/verification/CLAIM_VERIFICATION_REPORT.md`](results/verification/CLAIM_VERIFICATION_REPORT.md)
+> records 38 verified / 14 contradicted / 2 untestable / 2 partial of 56 headline claims.
 
 ---
 
-## 1. Scientific Overview & Central Discovery Hypothesis
+## 1. Scientific Overview & Central Discovery Hypothesis *(historical — retracted, see the status banner)*
 
 For over two decades, the structural mechanism by which the shelterin component **POT1–TPP1** stimulates human telomerase **Repeat Addition Processivity (RAP)** while tethering the enzyme to chromosome ends has remained an unsolved problem in telomere biology. While the TPP1 TEL-patch is known to recruit telomerase to telomeres, how recruitment translates across distance into enhanced primer retention during translocation has lacked structural explanation.
 
@@ -147,6 +170,13 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 
 ```
 .
+├── results/mechanism/                   # CURRENT deliverable: the mechanism assessment (WP1-WP5)
+│   ├── structural_validation.md         # WP1: interface, numbering, contacts, 2ry structure, retractions
+│   ├── experimental_evidence.md         # WP2: what published experiments do and do not establish
+│   ├── model_comparison.md              # WP3: three models scored against the evidence
+│   ├── experimental_decision_matrix.md  # WP4: experiments ranked by discriminating power
+│   └── MECHANISM_ASSESSMENT.md          # WP5: findings ranked by confidence + falsification criteria
+│
 ├── docs/                                # Technical architecture, methodology, & SOP manuals
 │   ├── ARCHITECTURE.md                  # Comprehensive software design, pipeline flow, & data contracts
 │   ├── METHODOLOGY.md                   # Biophysical derivations, OpenMM setup, & kinetic equations
@@ -170,9 +200,11 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── export_raw_trajectories.py       # Raw trajectory timeseries generator and exporter
 │   ├── generate_independent_benchmarks.py # Independent SPR and RAP benchmark dataset generator
 │   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
+│   ├── structural_validation.py         # WP1: independent gemmi/numpy recomputation of the TPP1 interface
+│   ├── allosteric_coupling.py           # ANM engine (result: inconclusive; retired as evidence)
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (357 passing tests)
+├── tests/                               # Comprehensive test suite (376 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
