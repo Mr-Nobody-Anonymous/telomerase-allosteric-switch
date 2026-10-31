@@ -195,3 +195,40 @@ neutropenia), TEL-patch loss causes Hoyeraal–Hreidarsson syndrome, and the kin
 partial processivity loss would spare slowly dividing stem cells while killing tumour cells has
 **not been measured** in any system. That argument is a hypothesis about telomere-length kinetics,
 not a result, and should be stated as such — in one sentence, at the end, with no numbers.
+
+---
+
+## 8. Update 2026-10-30 — the bottleneck analysis changed this claim
+
+`scripts/allosteric_coupling.py` tested the premise behind Tier 3 and produced a structural result
+that supersedes the wording above. Full analysis:
+[`../allostery/ALLOSTERIC_COUPLING_ANALYSIS.md`](../allostery/ALLOSTERIC_COUPLING_ANALYSIS.md).
+
+**What changed**
+
+1. The "25 Å gap" that motivated an allosteric framing is a mis-measurement of the problem.
+   TPP1 sits on the **same IFD-TRAP helix** that carries the DNA anchor; the distance decays
+   continuously along it (Arg756 26.0 → Lys757 25.4 → Phe759 20.0 → Ser761 15.2 → Thr765 7.2 →
+   Leu766 3.6 → Arg774 2.3 Å). There is no void for a signal to cross.
+2. An anisotropic network model with a distance-matched null finds **no** coupling beyond
+   proximity (z = +0.34; the displaced-TPP1 decoy sits *below* its own null; the TEN↔IFD-TRAP
+   staple metric changes by −0.04 once the non-specific effect is removed). Same model also fails
+   a positive control (catalytic site ↔ primer, |corr| 0.10 vs 0.09 background), so this is
+   "this model class cannot adjudicate", not "coupling is absent".
+3. The two-hand clamp is not present in 7TRE: the TEN domain makes no contact with the modelled
+   primer (Tyr176 is 11.1 Å away). Only the RT/IFD-TRAP side touches DNA.
+
+**Superseding claim (H_conduit)**
+
+> TPP1 stimulates processivity by binding one face of the IFD-TRAP helix that carries the DNA
+> anchor, propagating a local change along residues 760–766 into the primer exit channel. It does
+> not require long-range allosteric propagation.
+
+Discriminating prediction: helix mutants at 760–766 (and L766P) should reduce χ_RAP with K_d
+intact, whereas the already-published K757A/F759A anchor mutants lose basal catalysis as well
+(Sekne et al. 2022). If both classes behave identically, H_conduit is falsified and the effect is
+simply "anything that perturbs the exit channel".
+
+The Tier 3 epistasis design above remains valid and complementary — but it should now be run on
+the 760–766 panel rather than on the anchor-site mutants, because the anchor mutants cannot
+distinguish recruitment from catalysis (their basal activity defect is already known).

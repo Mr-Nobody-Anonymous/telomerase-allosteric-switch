@@ -1,0 +1,144 @@
+================================================================================================
+TELOMERASE TERT MECHANICAL COUPLING — signal transmission, or a two-hand staple?
+================================================================================================
+Design: all three systems share the IDENTICAL TERT/hTR/DNA coordinates (7TRE), so the
+only variable is the presence and placement of the TPP1 OB fold. 7TRD and 7TRE TERT
+superpose at 0.34 A (verified in results/verification), so 'APO' here means the same
+conformation with the ligand removed, which isolates the ligand's mechanical effect.
+
+BOUND 1310 beads (1086 protein, 224 nucleic acid)
+APO   1158 beads (identical TERT/hTR/DNA, TPP1 deleted)
+
+docking surface   (TERT <=4.5 A of TPP1, 21 res): [43, 44, 45, 46, 78, 121, 124, 129, 130, 132, 133, 135, 136, 766, 769, 771, 772, 774, 775, 798, 799]
+TEN module (DNA-binding, 7-196), mean min distance to DNA = 0.0
+  TEN DNA-anchor residues (<=6 A):  []
+  IFD-TRAP DNA-anchor residues:     [756, 757]
+  TPP1 -> DNA minimum heavy-atom distance: 28.73 A
+  TPP1 -> TERT contacts at <=4.5 A: 21 residues = 13 outside + 8 inside the IFD-TRAP module ([766, 769, 771, 772, 774, 775, 798, 799])
+  primer-channel residues (<=8 A of the DNA 3' end + published anchors, 65): [176, 177, 499, 500, 567, 570, 571, 631, 633, 680, 681, 682, 683, 686, 710, 712, 713, 716, 717, 756, 757, 759, 794, 833, 835, 838, 839, 865, 866, 867, 868, 869, 870, 929, 930, 931, 932, 933, 944, 945, 946, 947, 948, 949, 952, 953, 954, 956, 957, 958, 959, 960, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 986, 1007, 1011]
+
+TPP1 footprint reaches to within 4.5 A of TERT residues 43-799
+contact gradient along the IFD-TRAP helix (distance from TPP1):
+   ARG756: 26.03 A
+   LYS757: 25.43 A
+   ALA758: 21.95 A
+   PHE759: 19.98 A
+   LYS760: 17.59 A
+   SER761: 15.18 A
+   HIS762: 12.95 A
+   VAL763: 13.57 A
+   SER764:  9.86 A
+   THR765:  7.21 A
+   LEU766:  3.64 A
+   THR767:  4.86 A
+   ASP768:  7.11 A
+   LEU769:  3.67 A
+   GLN770:  6.49 A
+   PRO771:  3.52 A
+   TYR772:  3.36 A
+   MET773:  6.70 A
+   ARG774:  2.32 A
+   GLN775:  4.41 A
+  backbone path length 757 -> 766 = 34.2 A
+
+[APO]
+    ANM: 1158 beads, cutoff 15.0 A, 26189 contacts (mean degree 45.2), 40 modes, 6 null modes discarded, 2.2 s
+    K(TEN, IFD-TRAP)        = +0.521   [1 = rigid staple, 0 = independent modules]
+    K(catalytic site, TEN)  = +0.204   [control: should not care about TPP1]
+    K(docking surface, TEN) = +0.394
+    K(dock, primer channel) = +0.591   [H_switch would require a rise when TPP1 docks]
+    positive control K(catalytic site, primer channel) = +0.130 (overlapping sets — informational only)
+    positive control: mean coupling residual for residue pairs <8 A apart = +0.0478  [must be strongly positive]
+    positive control: |corr| catalytic site <-> DNA 3' end = 0.333  [must be well above the inter-chain background 0.203]
+    switch coupling dock->IFD-TRAP = +0.0335 (distance-matched null +0.0362 +- 0.0153, z = -0.18)
+
+[BOUND]
+    ANM: 1310 beads, cutoff 15.0 A, 29979 contacts (mean degree 45.8), 40 modes, 6 null modes discarded, 3.0 s
+    K(TEN, IFD-TRAP)        = +0.395   [1 = rigid staple, 0 = independent modules]
+    K(catalytic site, TEN)  = -0.217   [control: should not care about TPP1]
+    K(docking surface, TEN) = +0.069
+    K(dock, primer channel) = -0.054   [H_switch would require a rise when TPP1 docks]
+    positive control K(catalytic site, primer channel) = +0.070 (overlapping sets — informational only)
+    positive control: mean coupling residual for residue pairs <8 A apart = +0.0412  [must be strongly positive]
+    positive control: |corr| catalytic site <-> DNA 3' end = 0.103  [must be well above the inter-chain background 0.087]
+    switch coupling dock->IFD-TRAP = +0.0489 (distance-matched null +0.0437 +- 0.0154, z = +0.34)
+
+[DECOY]
+    ANM: 1310 beads, cutoff 15.0 A, 29233 contacts (mean degree 44.6), 40 modes, 12 null modes discarded, 2.8 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+    K(TEN, IFD-TRAP)        = +0.436   [1 = rigid staple, 0 = independent modules]
+    K(catalytic site, TEN)  = -0.001   [control: should not care about TPP1]
+    K(docking surface, TEN) = -0.137
+    K(dock, primer channel) = +0.190   [H_switch would require a rise when TPP1 docks]
+    positive control K(catalytic site, primer channel) = +0.269 (overlapping sets — informational only)
+    positive control: mean coupling residual for residue pairs <8 A apart = +0.0561  [must be strongly positive]
+    positive control: |corr| catalytic site <-> DNA 3' end = 0.193  [must be well above the inter-chain background 0.102]
+    switch coupling dock->IFD-TRAP = +0.0105 (distance-matched null +0.0362 +- 0.0145, z = -1.78)
+
+================================================================================================
+HYPOTHESIS TEST (all systems share the same TERT/hTR/DNA coordinates)
+================================================================================================
+  H_clamp  (TPP1 staples the two DNA-binding modules together):
+    K(TEN,IFD-TRAP):  APO +0.521 -> BOUND +0.395   Δ = -0.126
+    non-specific control (TPP1 present but 250 A away):       Δ = -0.085
+    specific ligation effect = -0.041
+    K(dock, primer channel): BOUND -0.054 vs DECOY +0.190   Δ = -0.244
+  H_switch (signal reaches the primer channel from the dock):
+    switch coupling Δ = +0.0385; z(BOUND) = +0.34, z(DECOY) = -1.78
+  Positive control K(catalytic site, primer channel): BOUND +0.070, DECOY +0.269  (the model must show strong coupling here or it lacks sensitivity)
+  Control: catalytic-site/TEN coupling should be insensitive to TPP1:
+    Δ = -0.421 (non-specific -0.205)
+
+  => H_clamp : NOT SUPPORTED
+  => H_switch: NOT SUPPORTED
+
+================================================================================================
+RETROSPECTIVE VALIDATION — published loss-of-function positions
+================================================================================================
+ resnum resname  rank_to_ifd_trap  coupling_to_ifd_trap                          published
+    176     TYR               146              0.103468 TEN PLYQ (Y176A/Q177A, Sekne 2022)
+    177     GLN               122              0.108301 TEN PLYQ (Y176A/Q177A, Sekne 2022)
+    749     LYS               273              0.082845      IFD-TRAP (K749E, Tesmer 2023)
+    756     ARG                48              0.135962      IFD-TRAP (R756E, Tesmer 2023)
+    757     LYS                32              0.143828 IFD-TRAP (K757A/F759A, Sekne 2022)
+    759     PHE               738             -0.002273 IFD-TRAP (K757A/F759A, Sekne 2022)
+    794     GLN               302              0.078259       IFD-TRAP (Q794A, Sekne 2022)
+
+  AUC (published positions vs all other TERT residues) = 0.748
+  Weak test only: 7 positions, several chosen because they contact DNA.
+
+================================================================================================
+STRONGEST COUPLING PATH  docking surface -> IFD-TRAP
+================================================================================================
+  ASP43
+
+================================================================================================
+MOBILITY CHANGE (ANM MSF ratio apo/bound) by domain — where TPP1 dampens motion
+================================================================================================
+  TEN (7-196)              n= 160  median MSF ratio = 1.424
+  TRBD (326-540)           n= 188  median MSF ratio = 1.768
+  RT (541-739)             n= 189  median MSF ratio = 2.403
+  IFD-TRAP (740-800)       n=  61  median MSF ratio = 1.775
+  RT-after-IFD (801-935)   n= 135  median MSF ratio = 1.355
+  CTE (936-1132)           n= 197  median MSF ratio = 1.380
+
+================================================================================================
+ROBUSTNESS — repeat the staple metric at other contact cutoffs
+================================================================================================
+    ANM: 1158 beads, cutoff 12.0 A, 14528 contacts (mean degree 25.1), 40 modes, 11 null modes discarded, 1.9 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+    ANM: 1310 beads, cutoff 12.0 A, 16614 contacts (mean degree 25.4), 40 modes, 11 null modes discarded, 2.7 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+    ANM: 1310 beads, cutoff 12.0 A, 16328 contacts (mean degree 24.9), 36 modes, 17 null modes discarded, 2.6 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+  cutoff 12.0 A: K apo +0.858, bound -0.213, decoy +0.809  ->  specific effect -1.022 (null modes 11/11/17)
+    ANM: 1158 beads, cutoff 18.0 A, 41335 contacts (mean degree 71.4), 40 modes, 6 null modes discarded, 2.3 s
+    ANM: 1310 beads, cutoff 18.0 A, 47450 contacts (mean degree 72.4), 40 modes, 6 null modes discarded, 3.2 s
+    ANM: 1310 beads, cutoff 18.0 A, 45869 contacts (mean degree 70.0), 40 modes, 12 null modes discarded, 3.1 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+  cutoff 18.0 A: K apo +0.240, bound +0.387, decoy +0.438  ->  specific effect -0.051 (null modes 6/6/12)
+    ANM: 1158 beads, cutoff 15.0 A, 26189 contacts (mean degree 45.2), 40 modes, 6 null modes discarded, 2.1 s
+    ANM: 1310 beads, cutoff 15.0 A, 29979 contacts (mean degree 45.8), 40 modes, 6 null modes discarded, 2.9 s
+    ANM: 1310 beads, cutoff 15.0 A, 29233 contacts (mean degree 44.6), 40 modes, 12 null modes discarded, 2.8 s
+      WARNING: more than the six rigid-body modes are null — the cutoff under-constrains this bead model; treat absolute values with care
+  cutoff 15.0 A: K apo +0.521, bound +0.395, decoy +0.436  ->  specific effect -0.041 (null modes 6/6/12)

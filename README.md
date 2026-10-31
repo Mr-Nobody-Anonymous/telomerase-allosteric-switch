@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-352%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-357%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -21,10 +21,14 @@
 >   contradicted — Sekne et al. 2022; Tesmer et al. 2023), all MD-based mechanistic claims
 >   (2.4 ps on a 97-residue fragment with no RNA/DNA; the "K757A" system file is byte-identical
 >   to WT), the TELIN-1 ligand, and the synthetic SPR/RAP "validation" datasets.
+> - **Bottleneck analysis (2026-10-30):** the "25 Å allostery" premise was tested and does not
+>   hold — TPP1 binds the *same helix* as the DNA anchor (contact gradient 26.0 → 2.3 Å along
+>   756–774), and a distance-matched null finds no coupling beyond proximity. Reframed,
+>   testable hypothesis: [`results/allostery/ALLOSTERIC_COUPLING_ANALYSIS.md`](results/allostery/ALLOSTERIC_COUPLING_ANALYSIS.md)
 > - **Corrected claim:** [`results/verification/corrected_breakthrough_claim.md`](results/verification/corrected_breakthrough_claim.md)
 > - **Full audit:** [`results/verification/CLAIM_VERIFICATION_REPORT.md`](results/verification/CLAIM_VERIFICATION_REPORT.md)
 > - **What changed where:** [`results/verification/ERRATA.md`](results/verification/ERRATA.md)
-> - The suite now reports **352 passed** on a clean Linux clone. The previously advertised
+> - The suite now reports **357 passed** on a clean Linux clone. The previously advertised
 >   "342 passed" was only reachable after fixing three defects found in this pass: a missing
 >   `data/manifest/data_manifest.csv`, a case-sensitive `data/raw/7tre.cif` path in one test, and
 >   the label-chain fallback in `compute_bsa`. Ten further tests
@@ -168,7 +172,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (352 passing tests)
+├── tests/                               # Comprehensive test suite (357 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
@@ -231,7 +235,7 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (352 passing tests)
+# 1. Run full project test suite (357 passing tests)
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -255,7 +259,7 @@ python run_pipeline.py
 ## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `352 passed` across 21 test modules.
+- **Test Suite**: `357 passed` across 22 test modules.
 - **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
 - **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 
