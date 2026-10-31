@@ -517,8 +517,13 @@ def compute_bsa(
         biopdb_struct = parser.get_structure("complex", str(cif_path))
         biopdb_model = biopdb_struct[0]
 
-        ch_a = biopdb_model[chain_tert]
-        ch_b = biopdb_model[chain_tpp1]
+        # Bio.PDB's MMCIFParser keys chains by *author* chain id, whereas the atom lists
+        # above may have been selected by label chain id.  Resolve the requested chains to
+        # their author ids through the atoms that were actually selected.
+        auth_a = tert_atoms[0].auth_asym_id if tert_atoms else chain_tert
+        auth_b = tpp1_atoms[0].auth_asym_id if tpp1_atoms else chain_tpp1
+        ch_a = biopdb_model[auth_a]
+        ch_b = biopdb_model[auth_b]
 
         sr = ShrakeRupley(probe_radius=probe_radius, n_points=n_sphere_points)
 

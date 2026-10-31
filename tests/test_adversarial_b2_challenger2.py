@@ -34,7 +34,7 @@ def sensitivity_df():
 
 @pytest.fixture(scope="module")
 def raw_7tre_heavy_atoms():
-    cif_path = RAW_DIR / "7tre.cif"
+    cif_path = RAW_DIR / "7TRE.cif"
     assert cif_path.is_file(), f"Missing {cif_path}"
     parser = MMCIFParser(auth_chains=True, auth_residues=True, QUIET=True)
     structure = parser.get_structure("7TRE", str(cif_path))

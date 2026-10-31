@@ -1,0 +1,187 @@
+====================================================================================================
+BLOCK 1 — DATA PROVENANCE (SHA-256)
+====================================================================================================
+[HASH-7TRE] CONTRADICTED   claimed=2c681322533afea5a1f1…9a996a            recomputed=2c681322533afea566f7…9a996a
+[HASH-7TRD] CONTRADICTED   claimed=faf6d1aa6401d3ddcfd2…ee67e4            recomputed=faf6d1aa6401d3dd0f66…ee67e4
+[HASH-7TRF] CONTRADICTED   claimed=e62419d5c2aac19d28c7…efaadd            recomputed=e62419d5c2aac19d9f6c…efaadd
+[HASH-2I46] CONTRADICTED   claimed=6f70cb1e6a92881bbfaf…26dfbe            recomputed=4f4402ce3e9aadfa5145…caf779
+    real sha256 7TRE: 2c681322533afea566f7acd014b6b98c7dbfb51748e6207712dc4e65819a996a
+    real sha256 7TRD: faf6d1aa6401d3dd0f66d97b818e95918ffbb5f9d05694751b8f107aafee67e4
+    real sha256 7TRF: e62419d5c2aac19d9f6c01ce983d4443ebbda8c8db55edb9ac93890f6defaadd
+    real sha256 7TRC: 99b61793d50b3c79e3d65acc628a0764056c0c4f17682920ef2630e6ed282aea
+    real sha256 2I46: 4f4402ce3e9aadfa51456e795b8c71765d1420107a311677acb4488fddcaf779
+
+====================================================================================================
+BLOCK 2 — STRUCTURE-LEVEL FACTS (resolution, chains, sequence)
+====================================================================================================
+  7TRE: global resolution = 3.50 Å | chains: B(auth)/A(label):217res 33-321, A(auth)/B(label):934res 7-1132, D(auth)/C(label):7res 12-18, C(auth)/D(label):152res 90-241
+  7TRD: global resolution = 3.30 Å | chains: B(auth)/A(label):217res 33-321, A(auth)/B(label):934res 7-1132, N(auth)/C(label):7res 12-18
+  7TRF: global resolution = 3.70 Å | chains: F(auth)/A(label):90res 36-125, E(auth)/B(label):82res 18-99, B(auth)/C(label):217res 33-321, A(auth)/D(label):934res 7-1132, D(auth)/E(label):7res 12-18
+  7TRC: global resolution = 3.30 Å | chains: K(auth)/A(label):330res 150-513, G(auth)/B(label):341res 48-392, J(auth)/C(label):64res 1-64, B(auth)/D(label):92res 211-449, H(auth)/E(label):94res 66-159, I(auth)/F(label):129res 25-153, D(auth)/G(label):91res 68-158, F(auth)/H(label):64res 1-64, E(auth)/I(label):129res 25-153, C(auth)/J(label):357res 34-396
+  2I46: global resolution = 2.70 Å | chains: A(auth)/A(label):203res 90-301, B(auth)/B(label):171res 90-287
+[RES-2I46] CONTRADICTED   claimed=1.85 Å (report.md) / 1.50 Å (FINAL_RESEARCH_REPORT.md) / 2.70 Å (data_manifest.csv) recomputed=2.70 Å (deposited _reflns.d_resolution_high)
+[RANGE-2I46] CONTRADICTED   claimed=90–241                                 recomputed=chain A = 90–301 (203 residues); chain B = 90–287
+[CHAIN-2I46-DE] VERIFIED       claimed=chain B missing 168–171                recomputed=A has [168, 169, 170, 171]; B has []
+[SEQ-753-761] VERIFIED       claimed=GHVRKAFKS                              recomputed=GHVRKAFKS
+  hTERT 753-761 from 7TRE coordinates: GHVRKAFKS
+
+====================================================================================================
+BLOCK 3 — INTERFACE BSA (7TRE TERT-A vs TPP1-C), Shrake–Rupley, probe 1.4 Å, 960 pts
+====================================================================================================
+  heavy atoms: TERT=7488  TPP1=1171
+  Bondi : SASA(A)= 49761.75  SASA(B)=10649.67  SASA(AB)= 58696.51  ΔSASA= 1714.91  interface=  857.46 Å²
+  ProtOr: SASA(A)= 49761.75  SASA(B)=10649.67  SASA(AB)= 58696.51  ΔSASA= 1714.91  interface=  857.46 Å²
+[BSA-BONDI] VERIFIED       claimed=856.82 Å                               recomputed=857.46 Å (Δ=+0.64)
+[DSASA-BONDI] VERIFIED       claimed=1713.65 Å                              recomputed=1714.91 Å (Δ=+1.26)
+[BSA-PROTOR] UNTESTED       claimed=923.16 Å²                              recomputed=not reproducible offline
+  sensitivity: probe 1.2 Å, Bondi   radii → interface BSA =   682.70 Å²
+  sensitivity: probe 1.2 Å, Chothia radii → interface BSA =   749.15 Å²
+  sensitivity: probe 1.4 Å, Bondi   radii → interface BSA =   857.46 Å²
+  sensitivity: probe 1.4 Å, Chothia radii → interface BSA =   927.69 Å²
+  sensitivity: probe 1.6 Å, Bondi   radii → interface BSA =  1036.27 Å²
+  sensitivity: probe 1.6 Å, Chothia radii → interface BSA =  1092.42 Å²
+  BSA spread across probe 1.2–1.6 Å and Bondi/Chothia radii: 409.7 Å² (39.5% of the 1.4 Å/Bondi value)
+[BSA-SENS] PARTIALLY_VERIFIED claimed=up to ~250 Å² (~30%)                   recomputed=410 Å² (39.5%) across 1.2–1.6 Å probe and Bondi/Chothia
+
+====================================================================================================
+BLOCK 4 — CONTACT NETWORKS (TERT-A vs TPP1-C, heavy atoms)
+====================================================================================================
+  ≤3.5 Å : 9 atom–atom contacts, 5 residue pairs (claimed 9/5)
+[CONTACTS-3.5] VERIFIED       claimed=9                                      recomputed=9
+[RESPAIRS-3.5] VERIFIED       claimed=5                                      recomputed=5
+  ≤4.0 Å : 46 atom–atom contacts, 21 residue pairs (claimed 46/21)
+[CONTACTS-4.0] VERIFIED       claimed=46                                     recomputed=46
+[RESPAIRS-4.0] VERIFIED       claimed=21                                     recomputed=21
+  ≤4.5 Å : 123 atom–atom contacts, 32 residue pairs (claimed 123/32)
+[CONTACTS-4.5] VERIFIED       claimed=123                                    recomputed=123
+[RESPAIRS-4.5] VERIFIED       claimed=32                                     recomputed=32
+  tier partition: core(p≤3.5Å)=5  intermediate(3.5-4.0)=16  peripheral(4.0-4.5)=11   [claimed 5 / 16 / 11]
+[TIERS ] VERIFIED       claimed=5 / 16 / 11                            recomputed=5 / 16 / 11
+    core residue pairs ≤3.5 Å: TERT ALA45–TPP1 GLU171; TERT ALA46–TPP1 GLU169; TERT TYR772–TPP1 LEU211; TERT ARG774–TPP1 GLU168; TERT ASN799–TPP1 ARG92
+
+====================================================================================================
+BLOCK 5 — SPECIFIC INTERACTION DISTANCES (7TRE)
+====================================================================================================
+  Arg774:NH1–Glu168:OE1 = 2.320 Å  (NH2 variant 4.230 Å, claimed 2.32 Å)
+[D-R774-E168] VERIFIED       claimed=2.32 Å                                 recomputed=2.32 Å (Δ=+0.00)
+  closest Arg774–Glu168 heavy-atom pair: 2.320 Å (NH1–OE1)
+  Lys78:NZ–Glu215:OE2 = 3.584 Å (OE1 4.098); closest pair 3.584 Å (NZ–OE2)  [claims in repo: 2.89 Å, 3.58 Å, 4.1 Å]
+[D-K78-E215] CONTRADICTED   claimed=2.89 Å                                 recomputed=3.58 Å (Δ=+0.69)
+  closest Lys78–Glu215 heavy-atom pair: 3.584 Å (NZ–OE2)   [repo states 2.89 / 3.58 / 4.1 Å]
+  closest Leu769–Leu183 heavy-atom pair: 3.665 Å (CD2–CD2)   [repo states 3.52 / 3.67 Å]
+  closest Pro771–Leu212 heavy-atom pair: 3.524 Å (CG–CD2)   [repo states 3.86 / 3.52 Å]
+  closest Arg774–Glu168 heavy-atom pair: 2.320 Å (NH1–OE1)   [repo states 2.32 Å]
+  Leu769:CD2–Leu183:CD1 = 5.532 Å; CD2–CD2 = 3.665 Å [claims: 3.52 Å (report), 3.67 Å (ledger)]
+[D-L769-L183] CONTRADICTED   claimed=3.52 Å                                 recomputed=5.53 Å (Δ=+2.01)
+  Pro771:CG–Leu212:CD2 = 3.524 Å; CG–CD1 = 5.630 Å [claims: 3.86 Å (report, CG–CD1), 3.52 Å (ledger, CG–CD2)]
+[D-P771-L212] CONTRADICTED   claimed=3.86 Å                                 recomputed=5.63 Å (Δ=+1.77)
+
+====================================================================================================
+BLOCK 6 — CROSS-STATE Cα GEOMETRY (Kabsch superposition)
+====================================================================================================
+  7TRE vs 7TRD catalytic core 326–1132: 0.3377 Å over 770 Cα (claimed 0.338)
+[RMSD-326-1132] VERIFIED       claimed=0.338 Å                                recomputed=0.34 Å (Δ=-0.00)
+  7TRE vs 7TRD global all-modelled: 0.3557 Å over 934 Cα (claimed 0.356)
+[RMSD-7-1132] VERIFIED       claimed=0.356 Å                                recomputed=0.36 Å (Δ=-0.00)
+  7TRE vs 7TRD TEN domain 7–178 (self-fit): 0.4112 Å over 160 Cα (claimed None)
+  TEN excursion relative to core fit (7–178, n=160): 0.4341 Å (claimed 0.434 Å)
+[TEN-EXC] VERIFIED       claimed=0.434 Å                                recomputed=0.43 Å (Δ=+0.00)
+  7TRE vs 7TRF core RMSD (326–1132): 0.3377 Å over 770 Cα (claimed 0.338 Å)
+[RMSD-TRF] VERIFIED       claimed=0.338 Å                                recomputed=0.34 Å (Δ=-0.00)
+  7TRD vs 7TRF TERT Cα RMSD = 0.0005 Å over 934 Cα; mean B-factor difference = 0.0000 Å²
+[TRF-INDEPENDENCE] CONTRADICTED   claimed=treated as an independent state        recomputed=7TRD/7TRF TERT superpose at 0.0005 Å (mean B-factor difference 0.0000 Å²)
+
+====================================================================================================
+BLOCK 7 — THE 'STATE-DEPENDENT SWITCH' (Tyr176:OH ↔ Gln794:OE1)
+====================================================================================================
+  7TRE: Tyr176:OH–Gln794:OE1 = 2.338 Å   (OH–NE2 = 3.404 Å, B-factors Tyr176:OH=40.290000915527344, Gln794:OE1=25.860000610351562)
+  7TRD: Tyr176:OH–Gln794:OE1 = 4.372 Å   (OH–NE2 = 3.798 Å, B-factors Tyr176:OH=130.19000244140625, Gln794:OE1=103.4800033569336)
+  7TRF: Tyr176:OH–Gln794:OE1 = 4.372 Å   (OH–NE2 = 3.797 Å, B-factors Tyr176:OH=130.19000244140625, Gln794:OE1=103.4800033569336)
+[SWITCH-BOUND] VERIFIED       claimed=2.338 Å                                recomputed=2.34 Å (Δ=+0.00)
+[SWITCH-APO] VERIFIED       claimed=4.372 Å                                recomputed=4.372 Å (7TRF: 4.372 Å)
+
+====================================================================================================
+BLOCK 8 — Lys757 / Arg756 ENVIRONMENT (the proposed hinge)
+====================================================================================================
+  7TRE: mean B-factor of Lys757 sidechain/backbone atoms =   25.78 Å² (CA=25.8, NZ=25.8)
+  7TRD: mean B-factor of Lys757 sidechain/backbone atoms =  121.53 Å² (CA=121.5, NZ=121.5)
+  7TRF: mean B-factor of Lys757 sidechain/backbone atoms =  121.53 Å² (CA=121.5, NZ=121.5)
+[B757-HOLO] VERIFIED       claimed=25.8 Å²                                recomputed=25.78 Å² (Δ=-0.02)
+[B757-APO] VERIFIED       claimed=121.5 Å²                               recomputed=121.53 Å² (Δ=+0.03)
+  B-factor drop 7TRD→7TRE: 78.8% (claimed 78.8%)
+[B757-DROP] VERIFIED       claimed=78.8 %                                 recomputed=78.79 % (Δ=-0.01)
+  Lys757:NZ → nearest TPP1 atom 27.94 Å (90:OG); → nearest DNA atom 6.31 Å (DT12:OP1); → nearest hTR atom 11.49 Å (A55:N6)
+  whole-residue conventions: Lys757→TPP1 25.43 Å, →DNA 5.75 Å, →hTR 8.33 Å
+[D757-TPP1] VERIFIED       claimed=25.43 Å                                recomputed=25.43 Å (any Lys757 atom) / 27.94 Å (side-chain NZ)
+  Lys757:NZ → DT12:OP1 = 6.31 Å (claimed 5.753 Å); DT12:OP1 B-factor = 152.9 Å²
+[D757-DT12] VERIFIED       claimed=5.75 Å                                 recomputed=5.75 Å (any Lys757 atom) / 6.31 Å (NZ)
+  Lys757:NZ → hTR A55:N6 = 11.49 Å (claimed 8.334 Å)
+[D757-RNA] VERIFIED       claimed=8.33 Å                                 recomputed=8.33 Å (any Lys757 atom) / 11.49 Å (NZ)
+  closest Arg756–hTR A55 atom pair: 3.12 Å (NH2–C2); NH1–C2 = 4.13 Å
+[D756-RNA] VERIFIED       claimed=3.12 Å                                 recomputed=3.12 Å at NH2–C2; NH1–C2 = 4.13 Å
+  Lys757:NZ → nearest other TERT atom = 4.36 Å (VAL755:O)
+  B-factor scale: 7TRE mean 16.5 Å² vs 7TRD mean 85.9 Å² (global ratio 0.192)
+  B-factor ratios (7TRE/7TRD): global 0.192, TRAP 750-800 0.259, Lys757 window 0.244
+[B757-SPECIFICITY] CONTRADICTED   claimed=site-specific quench                   recomputed=Lys757 window ratio 0.24 vs TRAP-region 0.26 and global 0.19
+
+====================================================================================================
+BLOCK 9 — TPP1 BOUND (7TRE-C) vs APO (2I46) CONFORMATIONAL SHIFT
+====================================================================================================
+  common Cα residues 7TRE-C ∩ 2I46-A: 152  sequence mismatches: 0
+  global TPP1 OB-fold Cα RMSD (7TRE vs 2I46): 1.966 Å over 152 Cα (claimed 1.966 Å)
+[RMSD-TPP1] VERIFIED       claimed=1.966 Å                                recomputed=1.97 Å (Δ=+0.00)
+  TPP1 L183 Cα displacement = 0.512 Å (claimed 0.512)
+[DE-183] VERIFIED       claimed=0.512 Å                                recomputed=0.51 Å (Δ=-0.00)
+  TPP1 K170 Cα displacement = 4.293 Å (claimed 4.293)
+[DE-170] VERIFIED       claimed=4.293 Å                                recomputed=4.29 Å (Δ=-0.00)
+  TPP1 E169 Cα displacement = 3.809 Å (claimed 3.809)
+[DE-169] VERIFIED       claimed=3.809 Å                                recomputed=3.81 Å (Δ=+0.00)
+  TPP1 E171 Cα displacement = 3.320 Å (claimed 3.32)
+[DE-171] VERIFIED       claimed=3.32 Å                                 recomputed=3.32 Å (Δ=+0.00)
+  TPP1 E168 Cα displacement = 1.253 Å (claimed None)
+  TPP1 L212 Cα displacement = 1.040 Å (claimed 1.04)
+[DE-212] VERIFIED       claimed=1.04 Å                                 recomputed=1.04 Å (Δ=-0.00)
+[DE-168] CONTRADICTED   claimed=2.748 Å                                recomputed=1.25 Å (Δ=-1.49)
+  mean DE-loop (168–171) Cα B-factor: 7TRE 53.6 Å² vs 2I46 88.2 Å²
+[DE-BFAC] VERIFIED       claimed=apo >100 / holo ~53                    recomputed=apo 88.2 / holo 53.6
+
+====================================================================================================
+BLOCK 10 — TELIN-1 LIGAND REALITY CHECK
+====================================================================================================
+  heavy atoms: 36; composition C26F1N2O6S1
+  covalent fragments in telin1_inhibitor.pdb: 2
+  shortest/longest covalent bond: 1.21 / 1.85 Å
+[TELIN-ATOMS] VERIFIED       claimed=36 heavy atoms, C26N2O6SF              recomputed=36 heavy atoms, C26F1N2O6S1
+[TELIN-FRAG] VERIFIED       claimed=2 fragments                            recomputed=2 fragment(s)
+  docked complex: receptor chains ['', 'A', 'B', 'D']; ligand heavy atoms 36; receptor heavy atoms 12240
+  clashes <2.80 Å = 160; <1.50 Å = 21; <1.00 Å = 8; min distance = 0.17 Å to A ALA130:N
+[TELIN-CLASH] VERIFIED       claimed=160 / 21 / 8 / 0.17 Å                  recomputed=160 / 21 / 8 / 0.17 Å
+[TELIN-TPP1] VERIFIED       claimed=absent                                 recomputed=present: False
+
+====================================================================================================
+BLOCK 11 — MOLECULAR DYNAMICS CLAIMS (data/trajectories)
+====================================================================================================
+  apo_wt_seed201_trajectory: 60 production frames, span 2.36 ps, mean d=5.594 Å, ≤3.2 Å occupancy 0.0%
+  apo_wt_seed202_trajectory: 60 production frames, span 2.36 ps, mean d=5.438 Å, ≤3.2 Å occupancy 0.0%
+  apo_wt_seed203_trajectory: 60 production frames, span 2.36 ps, mean d=5.827 Å, ≤3.2 Å occupancy 0.0%
+  bound_wt_seed101_trajectory: 60 production frames, span 2.36 ps, mean d=3.762 Å, ≤3.2 Å occupancy 41.7%
+  bound_wt_seed102_trajectory: 60 production frames, span 2.36 ps, mean d=3.218 Å, ≤3.2 Å occupancy 55.0%
+  bound_wt_seed103_trajectory: 60 production frames, span 2.36 ps, mean d=4.480 Å, ≤3.2 Å occupancy 0.0%
+  frame-pooled means: bound 3.820 Å vs apo 5.620 Å
+  per-replica means: apo_wt_seed201_trajectory=5.594, apo_wt_seed202_trajectory=5.438, apo_wt_seed203_trajectory=5.827, bound_wt_seed101_trajectory=3.762, bound_wt_seed102_trajectory=3.218, bound_wt_seed103_trajectory=4.480
+[MD-README-DIST] PARTIALLY_VERIFIED claimed=3.820 ± 0.633 / 5.620 ± 0.196 Å        recomputed=means reproduced (3.820 / 5.620, frame-pooled); ± reproduced only at replica level (0.633 / 0.196, n=3); frame-level ± would be 0.978 / 0.758
+[MD-DURATION] VERIFIED       claimed=3.0 ps total / 2.4 ps production       recomputed=3.00 ps total, 2.36 ps production span
+  junction_bound_fixed.pdb: 97 residues in 4 chains; nucleic acid present = False
+  junction_apo_fixed.pdb: 60 residues in 2 chains; nucleic acid present = False
+  junction_bound_k757a_fixed.pdb: 97 residues in 4 chains; nucleic acid present = False
+  junction_bound_wt.pdb: 97 residues in 2 chains; nucleic acid present = False
+[MD-SYSTEM] CONTRADICTED   claimed=holoenzyme / holo-TERT construct       recomputed=97-residue fragment, 4 chains, nucleic acid present = False
+  mutant file identical to WT file: True
+[K757A-MODEL] CONTRADICTED   claimed=K757A mutant                           recomputed=byte-identical to junction_bound_fixed.pdb (Lys757 intact)
+  replica-level Welch/t on means: bound n=3, apo n=3, t=-4.705, p=0.0093  (README claims p=0.00928, t=-4.705)
+[MD-PVAL] VERIFIED       claimed=p = 0.00928                            recomputed=p = 0.0093 (n=3 vs n=3 on per-replica means)
+
+====================================================================================================
+BLOCK 12 — RANGE / SHAPE COMPLEMENTARITY CLAIM
+====================================================================================================
+[SC    ] UNTESTED       claimed=reported qualitatively / no SC value in results/tables recomputed=no Sc value found in results/tables (grep 'Sc' columns)

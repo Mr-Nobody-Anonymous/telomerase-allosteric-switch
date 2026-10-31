@@ -36,9 +36,9 @@ A,B,78,LYS,NZ,TEN,C,D,215,GLU,OE1,True,4.1,Van der Waals,Auxiliary Clamp
 A,B,133,GLY,CA,TEN,C,D,180,ARG,NH1,True,4.1,Van der Waals,Basic Finger
 A,B,772,TYR,OH,TRAP_IFD,C,D,211,LEU,CD1,True,4.13,Van der Waals,TEL-patch
 A,B,769,LEU,CD1,TRAP_IFD,C,D,212,LEU,CD1,True,4.18,Hydrophobic,Hydrophobic Core
+A,B,46,ALA,CB,TEN,C,D,169,GLU,OE1,True,4.21,Van der Waals,Acidic DE-loop
 A,B,78,LYS,NZ,TEN,C,D,215,GLU,CD,True,4.21,Van der Waals,Auxiliary Clamp
 A,B,136,ALA,N,TEN,C,D,169,GLU,OE1,True,4.21,Van der Waals,Acidic DE-loop
-A,B,46,ALA,CB,TEN,C,D,169,GLU,OE1,True,4.21,Van der Waals,Acidic DE-loop
 A,B,774,ARG,NH2,TRAP_IFD,C,D,168,GLU,OE1,True,4.23,Van der Waals,Acidic DE-loop
 A,B,43,ASP,C,TEN,C,D,171,GLU,OE2,True,4.25,Van der Waals,Acidic DE-loop
 A,B,135,GLY,N,TEN,C,D,169,GLU,OE1,True,4.25,Van der Waals,Acidic DE-loop
@@ -49,6 +49,6 @@ A,B,45,ALA,N,TEN,C,D,171,GLU,CD,True,4.32,Van der Waals,Acidic DE-loop
 A,B,771,PRO,CD,TRAP_IFD,C,D,212,LEU,CD2,True,4.33,Hydrophobic,Hydrophobic Core
 A,B,135,GLY,CA,TEN,C,D,169,GLU,OE1,True,4.36,Van der Waals,Acidic DE-loop
 A,B,44,PRO,CG,TEN,C,D,171,GLU,OE2,True,4.42,Van der Waals,Acidic DE-loop
-A,B,769,LEU,CG,TRAP_IFD,C,D,212,LEU,CD2,True,4.45,Hydrophobic,Hydrophobic Core
 A,B,133,GLY,O,TEN,C,D,180,ARG,NH1,True,4.45,Van der Waals,Basic Finger
+A,B,769,LEU,CG,TRAP_IFD,C,D,212,LEU,CD2,True,4.45,Hydrophobic,Hydrophobic Core
 A,B,133,GLY,C,TEN,C,D,180,ARG,NH1,True,4.49,Van der Waals,Basic Finger

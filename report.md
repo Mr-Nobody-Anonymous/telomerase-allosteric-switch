@@ -1,3 +1,9 @@
+> **ERRATA — 2026-10-30.** Independent re-derivation of every headline number in this report
+> (`results/verification/CLAIM_VERIFICATION_REPORT.md`) found 14 contradicted claims, including the
+> data hashes, the 2I46 resolution, three atom-pair distances (corrected in place below) and the
+> mechanistic claims built on cross-entry B-factor comparisons. Read the verification report before
+> citing anything from this document.
+
 # Benchmark Audit & Structural Bioinformatics Evaluation of Human Telomerase Recruitment and the Cancer–Aging Dilemma
 
 **Comparative Cryo-EM and Crystallographic Investigation of PDB Entries 7TRE, 7TRD, 7TRF, 7TRC, and 2I46**  
@@ -19,7 +25,7 @@ To investigate whether targeting holoenzyme recruitment to the shelterin compone
 - `7TRD`: Unbound human telomerase catalytic core reference (cryo-EM at 3.30 Å).
 - `7TRF`: Telomerase catalytic core RNP complexed with histone H2A–H2B heterodimers (cryo-EM at 3.70 Å).
 - `7TRC`: Human telomerase H/ACA RNP lobe reference (cryo-EM at 3.30 Å).
-- `2I46`: High-resolution X-ray crystal structure of the unbound human TPP1 OB-fold domain (1.85 Å / 2.70 Å).
+- `2I46`: X-ray crystal structure of the unbound human TPP1 OB-fold domain (**2.70 Å**).
 
 ### Forensic Audit & De-Hyping Summary
 A comprehensive multi-perspective audit was conducted to review earlier claims generated in this codebase. The audit established:
@@ -55,13 +61,13 @@ Every numerical and biological claim in the project was audited, indexed into `r
 
 ## 3. Prior-Art & Novelty Analysis (Liu et al. vs This Work)
 
-To maintain absolute academic and scientific integrity, all findings were benchmarked against primary literature, specifically Liu et al. (*Nature* 2022; 604:578–585), Sekne et al. (*Science* 2022; 375:1173–1179), and Wang et al. (*Nature Struct. Mol. Biol.* 2007; 14:1011–1017).
+To maintain absolute academic and scientific integrity, all findings were benchmarked against primary literature, specifically Liu et al. (*Nature* 2022; 604:578–583), Sekne et al. (*Science* 2022; 375:1173–1176), and Wang et al. (*Nature* 2007; 445:506–510).
 
 ### Table 3.1: Prior-Art Concordance Matrix
 | Structural Observation | Liu et al. (Nature 2022) | This Work | Novelty Classification |
 |:---|:---|:---|:---|
 | **Arg774–Glu168 Salt Bridge** | Identified as central TEL-patch contact mediating recruitment. | Independently recalculated and verified at 2.32 Å. | **Positive Control (Replicated)** |
-| **Lys78–Glu215 Contact** | Described as secondary N-terminal electrostatic interaction. | Independently recalculated at 2.89 Å (heavy atom) / 3.58 Å. | **Positive Control (Replicated)** |
+| **Lys78–Glu215 Contact** | Described as secondary N-terminal electrostatic interaction. | Independently recalculated at 3.584 Å (Lys78:NZ–Glu215:OE2). | **Positive Control (Replicated)** |
 | **Leu183 / Leu212 Hydrophobic Anchor**| Identified as core hydrophobic TEL-patch anchor. | Confirmed pre-organized with 0.512 Å Cα displacement. | **Positive Control (Replicated)** |
 | **TEN–TRAP Plasticity vs Core Rigidity**| Noted that TPP1 binding dampens TEN-TRAP dynamics. | Rigorously quantified: 0.338 Å Core vs 0.434 Å TEN shift. | **Quantitative Clarification** |
 | **DE-Loop Order-Disorder Transition** | Described bound conformation of DE-loop. | Analyzed B-factor transition (>100 Å² apo to 53 Å² holo) and lattice contacts. | **Refined Structural Insight** |
@@ -99,7 +105,7 @@ The structural foundation of this project comprises 5 experimental structures re
 | **`7TRD`** | Cryo-EM (Single Particle) | 3.30 Å | 7–1132 (934 aa modeled) | Absent (Unbound Core) | Clashscore 7.59; Ramachandran outliers 0.00% |
 | **`7TRF`** | Cryo-EM (Single Particle) | 3.70 Å | 7–1132 (934 aa modeled) | Absent (H2A-H2B Bound) | Clashscore 7.52; Ramachandran outliers 0.09% |
 | **`7TRC`** | Cryo-EM (Single Particle) | 3.30 Å | Absent (H/ACA Lobe) | Absent | Clashscore 8.18; Ramachandran outliers 0.00% |
-| **`2I46`** | X-Ray Diffraction | 1.85 / 2.70 Å | Absent (Apo TPP1) | Chain A: 90–241; Chain B: missing 168–171 | Clashscore 12.97; Ramachandran outliers 0.36% |
+| **`2I46`** | X-Ray Diffraction | 2.70 Å | Absent (Apo TPP1) | Chain A: 90–301; Chain B: 90–287 (missing 168–171) | Clashscore 12.97; Ramachandran outliers 0.36% |
 
 ### Sequence Mapping & Offset Resolution:
 Recombinant constructs contain non-canonical cloning sequences that shift author numbering:
@@ -122,9 +128,9 @@ The hTERT–TPP1 interface was independently recalculated using orthogonal compu
 | **Interface Contacts (4.0 Å)** | 46 contacts | 46 contacts | 0 | 0.000% | VERIFIED |
 | **Interface Contacts (4.5 Å)** | 123 contacts | 123 contacts | 0 | 0.000% | VERIFIED |
 | **Arg774:NH1 – Glu168:OE1** | 2.32 Å | 2.322 Å | +0.002 Å | 0.086% | VERIFIED |
-| **Lys78:NZ – Glu215:OE2** | 2.89 Å | 2.887 Å | -0.003 Å | 0.104% | VERIFIED |
-| **Leu769:CD2 – Leu183:CD1** | 3.52 Å | 3.524 Å | +0.004 Å | 0.114% | VERIFIED |
-| **Pro771:CG – Leu212:CD1** | 3.86 Å | 3.865 Å | +0.005 Å | 0.130% | VERIFIED |
+| **Lys78:NZ – Glu215:OE2** | 2.89 Å *(mis-set; true value 3.584 Å)* | 3.584 Å | +0.694 Å | 24.0% | **CORRECTED 2026-10-30** |
+| **Leu769:CD2 – Leu183:CD2** | 3.52 Å *(atom label was CD1; CD2–CD1 = 5.532 Å)* | 3.665 Å | +0.145 Å | 4.1% | **CORRECTED 2026-10-30** |
+| **Pro771:CG – Leu212:CD2** | 3.86 Å *(atom label was CD1; CG–CD1 = 5.630 Å)* | 3.524 Å | -0.336 Å | 8.7% | **CORRECTED 2026-10-30** |
 | **Catalytic Core RMSD (770 Cα)**| 0.338 Å | 0.3377 Å | -0.0003 Å| 0.089% | VERIFIED |
 
 ### The Arg774–Glu168 Compaction Phenomenon:
@@ -161,7 +167,7 @@ Superposition of bound TPP1 in `7TRE` against the unbound crystal structure `2I4
    - **Lys170**: Exhibits a peak Cα displacement of **4.293 Å**.
    - **Glu169**: Shifts by **3.809 Å**.
    - **Glu171**: Shifts by **3.320 Å**.
-   - **Glu168**: Shifts by **2.748 Å** to engage Arg774 in the primary salt bridge.
+   - **Glu168**: Shifts by **1.253 Å** to engage Arg774 in the primary salt bridge.
 
 ### Structural Basis: Disorder-to-Order Transition
 In apo `2I46`, the DE-loop exhibits extreme thermal motion ($B$-factors $>80\text{--}106\text{ \AA}^2$ in Chain A, completely disordered/unmodeled in Chain B). In holo `7TRE`, the loop is stabilized upon receptor engagement ($B$-factors drop to $\sim 50\text{--}61\text{ \AA}^2$). This demonstrates that TPP1 recruitment involves folding upon binding of an intrinsically disordered loop, rather than a classical rigid-body dock.
@@ -175,7 +181,7 @@ Earlier assertions that an RMSD of 0.338 Å proves "zero allosteric coupling" we
 ### Why Static RMSD Cannot Disprove Allostery:
 1. **Experimental Resolution Limit**: The cryo-EM maps of `7TRE` (3.5 Å) and `7TRD` (3.3 Å) have an estimated coordinate uncertainty (DPI / Cruickshank noise floor) of $0.35\text{--}0.50\text{ \AA}$. An RMSD of $0.338\text{ \AA}$ across 770 residues is within experimental noise.
 2. **Dynamic & Entropic Allostery**: Conformational allostery can occur through altered low-frequency normal modes and vibrational entropy ($\Delta S_{\text{vib}}$) without altering the time-averaged mean atomic coordinates (Cooper & Dryden, *Nature* 1983).
-3. **Biological Reality**: Published biochemical studies (Liu et al., 2022; Jansson et al., 2015) explicitly prove that TPP1 binding stimulates telomerase **Repeat Addition Processivity (RAP)** by dampening TEN–TRAP domain fluctuations and facilitating telomeric primer translocation. Thus, functional allosteric coupling is physically present despite mean-coordinate invariance.
+3. **Biological Reality**: Published biochemical studies (Liu et al., 2022; Wang et al., 2007; Latrick & Cech, 2010) explicitly prove that TPP1 binding stimulates telomerase **Repeat Addition Processivity (RAP)** by dampening TEN–TRAP domain fluctuations and facilitating telomeric primer translocation. Thus, functional allosteric coupling is physically present despite mean-coordinate invariance.
 
 ---
 

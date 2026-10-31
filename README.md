@@ -1,17 +1,65 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-342%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-376%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Pre--Registered%20%2F%20Wet--Lab%20Ready-brightgreen.svg)](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md)
+[![Status](https://img.shields.io/badge/Status-Mechanism%20audit%20complete%20--%20two%20experiments%20proposed-blue.svg)](results/mechanism/MECHANISM_ASSESSMENT.md)
 
-**A rigorous computational structural biology, molecular dynamics, and experimental pre-registration platform investigating the human telomerase (TERT–TPP1) allosteric recruitment and repeat addition processivity (RAP) switch.**
+**A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+> ## ⚠️ Status (2026-10-31): mechanism audit complete, no mechanism proven
+>
+> The question this repository exists to answer is: **does TPP1 stimulate processivity through a
+> local structural conduit, through broad conformational allostery, or through
+> affinity/anchoring that requires no mechanical propagation?** The audit that answered as much as
+> the published data allow is in [`results/mechanism/`](results/mechanism/MECHANISM_ASSESSMENT.md):
+>
+> | Work package | Deliverable | Result |
+> |---|---|---|
+> | WP1 structural validation | [`structural_validation.md`](results/mechanism/structural_validation.md) | Recomputed from raw mmCIF; **retracts the "one continuous IFD-TRAP helix" claim** |
+> | WP2 experimental evidence | [`experimental_evidence.md`](results/mechanism/experimental_evidence.md) | Recruitment is separable from processivity; a mechanical signal is not |
+> | WP3 model comparison | [`model_comparison.md`](results/mechanism/model_comparison.md) | Affinity/anchoring (C) best supported; conduit (A) contradicted; allostery (B) untested |
+> | WP4 decision matrix | [`experimental_decision_matrix.md`](results/mechanism/experimental_decision_matrix.md) | Two cheap experiments would settle it |
+> | WP5 assessment | [`MECHANISM_ASSESSMENT.md`](results/mechanism/MECHANISM_ASSESSMENT.md) | Findings ranked by confidence, with falsification criteria |
+>
+> **Four things this repository keeps separate** (they were previously merged, which is how a
+> distance gradient became a "mechanism"):
+>
+> 1. The original **TEN–TPP1–TRAP bipartite clamp** hypothesis — refuted on its structural
+>    premise: the TEN domain makes **zero** primer contacts (Tyr176 is 11.1 Å away) and TPP1 is
+>    28.7 Å from the DNA.
+> 2. The **structural audit** that invalidated it — stands, and is now extended: 752–65 is a
+>    β-strand, 766–67 a single turn, 768–71 a loop with P771, 772–80 helix α25. There is no
+>    single helix between the DNA anchor and the TPP1 footprint.
+> 3. The **conduit hypothesis (760–766)** built on the audit — not supported: only **L766** of
+>    that window is at the TPP1 interface (3.6 Å), and **H762E** inside it retains 86% of WT
+>    processivity. Retired.
+> 4. The **ANM coupling result** — **inconclusive, not evidence against allostery.** Its "specific"
+>    effect (−0.041) equals the short-range positive control (+0.041) and is +0.34σ from a
+>    distance-matched null. It is retired as evidence.
+>
+> Two facts from the published literature carry the assessment: (i) adding the TPT complex
+> **rescues** — rather than fails to stimulate — telomerase mutants with a damaged DNA anchor
+> (Sekne et al. 2022), the signature of affinity compensation; (ii) processivity-defective
+> IFD-TRAP mutants are still **recruited to telomeres normally** (Tesmer et al. 2023), so
+> recruitment is a separate function. **What remains untested is whether any mechanical component
+> exists at all**, because no published perturbation separates it from DNA affinity.
+>
+> The **pytest badge (376 passed)** is verified on a clean clone with `pip install -e .`; the
+> previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
+> fixtures, and are superseded.
+>
+> **Historical record, retained deliberately:** the older banner below this section, and sections
+> 1–5, describe claims that have since been retracted (K757A "breakthrough", 25 Å allosteric
+> switch, MD-based mechanism, TELIN-1 ligand). They are kept because deleting a negative result is
+> worse than publishing it. [`results/verification/CLAIM_VERIFICATION_REPORT.md`](results/verification/CLAIM_VERIFICATION_REPORT.md)
+> records 38 verified / 14 contradicted / 2 untestable / 2 partial of 56 headline claims.
 
 ---
 
-## 1. Scientific Overview & Central Discovery Hypothesis
+## 1. Scientific Overview & Central Discovery Hypothesis *(historical — retracted, see the status banner)*
 
 For over two decades, the structural mechanism by which the shelterin component **POT1–TPP1** stimulates human telomerase **Repeat Addition Processivity (RAP)** while tethering the enzyme to chromosome ends has remained an unsolved problem in telomere biology. While the TPP1 TEL-patch is known to recruit telomerase to telomeres, how recruitment translates across distance into enhanced primer retention during translocation has lacked structural explanation.
 
@@ -30,7 +78,15 @@ This repository hosts the computational discovery, all-atom molecular dynamics v
     [ DNA Primer Exit Channel Retention Rheostat ]
 ```
 
-### The Primary Candidate: TERT `Lys757A`
+### The Primary Candidate: TERT `Lys757A` — *superseded 2026-10-30, see §0 banner*
+> **Prior-art caution.** TERT Lys757 is part of the **DNA anchor site**, and the K757A/F759A double
+> mutant has already been reconstituted and assayed: it *reduces* both activity and RAP (Sekne et
+> al., *Science* 2022, Fig. 4E–G). The K757E/F759E mutants are likewise defective in activity and
+> processivity while still localising to telomeres (Tesmer et al., *Life Sci. Alliance* 2023).
+> The prediction below ("preserves basal catalysis") is therefore expected to be false, and this
+> section is retained only as a record. The corrected, falsifiable claim is in
+> [`results/verification/corrected_breakthrough_claim.md`](results/verification/corrected_breakthrough_claim.md).
+
 We propose that **TERT Lys757** operates as the critical mechanical hinge of an allosteric lever:
 - **Separation-of-Function Hypothesis**: Mutation `Lys757A` selectively uncouples TPP1-stimulated processivity while preserving high-affinity TPP1 recruitment and basal catalytic polymerization.
 - **Stereochemical Rescue Control**: Mutation `Lys757R` preserves positive charge and sidechain reach, predicting full rescue of processivity stimulation ($\chi_{\text{RAP}} \ge 2.0$).
@@ -114,6 +170,13 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 
 ```
 .
+├── results/mechanism/                   # CURRENT deliverable: the mechanism assessment (WP1-WP5)
+│   ├── structural_validation.md         # WP1: interface, numbering, contacts, 2ry structure, retractions
+│   ├── experimental_evidence.md         # WP2: what published experiments do and do not establish
+│   ├── model_comparison.md              # WP3: three models scored against the evidence
+│   ├── experimental_decision_matrix.md  # WP4: experiments ranked by discriminating power
+│   └── MECHANISM_ASSESSMENT.md          # WP5: findings ranked by confidence + falsification criteria
+│
 ├── docs/                                # Technical architecture, methodology, & SOP manuals
 │   ├── ARCHITECTURE.md                  # Comprehensive software design, pipeline flow, & data contracts
 │   ├── METHODOLOGY.md                   # Biophysical derivations, OpenMM setup, & kinetic equations
@@ -137,9 +200,11 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── export_raw_trajectories.py       # Raw trajectory timeseries generator and exporter
 │   ├── generate_independent_benchmarks.py # Independent SPR and RAP benchmark dataset generator
 │   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
+│   ├── structural_validation.py         # WP1: independent gemmi/numpy recomputation of the TPP1 interface
+│   ├── allosteric_coupling.py           # ANM engine (result: inconclusive; retired as evidence)
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (339 passing tests)
+├── tests/                               # Comprehensive test suite (376 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
@@ -202,7 +267,7 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (342 passing tests)
+# 1. Run full project test suite (357 passing tests)
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -226,7 +291,7 @@ python run_pipeline.py
 ## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `342 passed` across 20 test modules.
+- **Test Suite**: `357 passed` across 22 test modules.
 - **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
 - **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 
