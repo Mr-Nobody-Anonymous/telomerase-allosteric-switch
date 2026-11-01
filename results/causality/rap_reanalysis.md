@@ -1,5 +1,10 @@
 # RAP re-analysis — what the existing data support, and what they do not contain
 
+> **Superseded as the entry point — read [`README.md`](README.md) first.** This document is a
+> descriptive re-analysis from the earlier phase and remains accurate as written. The analysis that
+> closes the question is [`MECHANISM_CLASSIFICATION.md`](MECHANISM_CLASSIFICATION.md), written up in
+> [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md).
+
 **Status:** descriptive only. **No model was fitted.** This document re-analyses the numbers that
 exist, states their precision, and records the two quantities the source omits.
 

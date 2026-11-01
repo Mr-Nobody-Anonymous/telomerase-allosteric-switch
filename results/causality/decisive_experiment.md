@@ -1,5 +1,9 @@
 # The smallest decisive experiment — primer titration ± TPP1
 
+> **Still the recommended next study**, with one addition: before running any new titration, do the
+> densitometry test on an existing gel (gate 3 in [`MECHANISM_CLASSIFICATION.md`](MECHANISM_CLASSIFICATION.md) §8.4).
+> It costs no reagents and can falsify the methodological claim.
+
 This document exists because the previous one produced a negative result that is more useful than
 a positive one would have been: **the product-length distribution cannot separate affinity from
 conformational regulation** (`kinetic_model_comparison.md` §2, G1 ≡ G5, an algebraic identity).

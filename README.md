@@ -1,15 +1,59 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-451%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-480%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Mechanism%20audit%20complete%20--%20two%20experiments%20proposed-blue.svg)](results/mechanism/MECHANISM_ASSESSMENT.md)
+[![Manuscript](https://img.shields.io/badge/manuscript-identifiability%20analysis-purple.svg)](paper/MANUSCRIPT.md)
+[![Status](https://img.shields.io/badge/Status-No%20mechanism%20proven%20--%20awaiting%20densitometry-critical.svg)](results/causality/MECHANISM_CLASSIFICATION.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
 
-> ## ⚠️ Status (2026-10-31): mechanism audit complete, no mechanism proven
+## Manuscript
+
+**What Processivity Distributions Cannot Tell Us About TPP1** — an identifiability analysis of
+telomerase repeat-addition processivity, with a corrected treatment of heterogeneous populations.
+
+**Beamlak Sintayehu** · 2026-11-01 · [`paper/MANUSCRIPT.md`](paper/MANUSCRIPT.md) · [figures](paper/figures/README.md)
+
+The paper asks what a processivity measurement can *identify* about TPP1's mechanism, and answers:
+less than is commonly assumed. It has four moving parts —
+
+1. **An extension-rate mechanism and a retention mechanism are the same function of the
+   observable.** Both act only through the per-repeat survival probability *s*, so under matched
+   *s* they produce identical distributions. A distribution measured at one primer concentration
+   carries no mechanistic information beyond *s*.
+2. **No absolute kinetic rate is recoverable from processivity**, at any precision: every
+   observable is invariant under scaling all rates by a common factor (symbolically, exactly zero).
+   A processivity design has structural rank 3 of 4; direct primer binding is the only independent
+   measurement that adds rank.
+3. **Affinity is not one hypothesis, and this was wrong in the earlier draft.** Lowering *k*_off
+   and raising *k*_on at matched *K*_d are *not* equivalent. The loss term rewrites exactly as
+   *R* = *k*_off²/(*k*_off + [P]·*k*_on), so the two differ by an exact factor λ — which is
+   algebraically confounded with *k*_loss, the parameter a mechanism claim would rest on.
+4. **The tail-slope estimator is window-dependent, and that disqualifies it.** For a two-species
+   mixture the adjacent-band ratio has a closed form; it is bounded by the most extreme
+   subpopulation, it converges to the **longest-lived** species rather than the majority, and a
+   minority takes over beyond a computable length. In a worked case a true *s* = 0.60 reads as 0.61
+   or 0.95 depending only on the band window — a **12-fold** change in the implied *k*_loss/*k*_ext
+   from identical data. Every mechanism claim must therefore come from a full-distribution fit with
+   the mixture weight free.
+
+**The distinction the paper exists to protect:** a mathematically exact result within a model is not
+an experimentally established biological fact. Everything above is of the first kind. **No mechanism
+is demonstrated here**, and the next real step is real per-band densitometry of an existing gel —
+not another simulation.
+
+Reproduce the paper's every number:
+
+```bash
+python scripts/mechanism_classification_checks.py   # ~2 s, writes JSON + CSV
+python paper/make_figures.py                        # all six figures
+pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a number or claim drifts
+```
+
+> ## ⚠️ Status (2026-11-01): audit complete, identifiability established, no mechanism proven
 >
 > The question this repository exists to answer is: **does TPP1 stimulate processivity through a
 > local structural conduit, through broad conformational allostery, or through
@@ -49,6 +93,15 @@
 > a false claim that the two affinity variants are equivalent at matched *K*_d, a sign error in the
 > crossing formula, and an unreproducible saturation bias — all now guarded by tests, not by trust.
 >
+> **That analysis is now written up as a paper** — [`paper/MANUSCRIPT.md`](paper/MANUSCRIPT.md) —
+> which also proves three results the classification document only sketched: the mixture ratio
+> *r*(*n*) is bounded by min(*s*,*s*₂) and max(*s*,*s*₂); the tail slope converges to the
+> **longest-lived** species; and a minority contaminant takes over the signal beyond a computable
+> length *n*\* = 1 + ln(1/κ)/ln(ρ). The consequence is the sharpest thing in the repository: for a
+> true *s* = 0.60 the same distribution reads as 0.61 or 0.95 depending only on which band window is
+> used, a 12-fold change in the implied *k*_loss/*k*_ext. **The next step is densitometry of an
+> existing gel, not another model.**
+>
 > **Four things this repository keeps separate** (they were previously merged, which is how a
 > distance gradient became a "mechanism"):
 >
@@ -72,7 +125,7 @@
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (451 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (480 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -195,7 +248,18 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 
 ```
 .
-├── results/mechanism/                   # CURRENT deliverable: the mechanism assessment (WP1-WP5)
+├── paper/                               # CURRENT deliverable: the manuscript
+│   ├── MANUSCRIPT.md                    # full paper — identifiability of TPP1's mechanism
+│   ├── make_figures.py                  # regenerates all six figures from the same equations
+│   ├── figures/                         # fig1-fig6, PNG (300 dpi) + PDF, with legends index
+│   └── COVER_LETTER.md                  # covering-note template (NOT sent; addresses unverified)
+│
+├── results/causality/                   # the analysis the paper is built on
+│   ├── MECHANISM_CLASSIFICATION.md      # four-level parameter classification + release gates
+│   ├── classification_checks.json       # every quoted number, machine-readable
+│   └── PREREGISTRATION.md               # frozen before any fitting, with source provenance
+│
+├── results/mechanism/                   # the earlier mechanism audit (WP1-WP5)
 │   ├── structural_validation.md         # WP1: interface, numbering, contacts, 2ry structure, retractions
 │   ├── experimental_evidence.md         # WP2: what published experiments do and do not establish
 │   ├── model_comparison.md              # WP3: three models scored against the evidence
@@ -227,14 +291,17 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── verify_telin1.py                 # Coordinate clash and chemical integrity validator for Telin-1
 │   ├── structural_validation.py         # WP1: independent gemmi/numpy recomputation of the TPP1 interface
 │   ├── allosteric_coupling.py           # ANM engine (result: inconclusive; retired as evidence)
+│   ├── mechanism_classification_checks.py # symbolic + complex-step verification of every claim
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (451 passing tests)
+├── tests/                               # Comprehensive test suite (480 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests
 │   ├── test_experimental_scripts.py     # 10 unit tests for SPR, RAP, and MD analysis pipelines
 │   ├── test_ligand_telin1.py            # 2 unit tests verifying Telin-1 clashes and composition
+│   ├── test_mechanism_classification.py # 25 guards on the classification document
+│   ├── test_paper_manuscript.py         # 29 guards: manuscript numbers must match the code
 │   └── test_breakthrough_investigation.py # Invariant tests for allosteric models
 │
 ├── data/
@@ -292,7 +359,11 @@ pip install -e .
 ### Reproduce Key Analyses
 
 ```bash
-# 1. Run full project test suite (357 passing tests)
+# 0. The manuscript: verify every number, then rebuild the figures
+python scripts/mechanism_classification_checks.py   # ~2 s -> classification_checks.json/.csv
+python paper/make_figures.py                        # fig1-fig6, PNG + PDF
+
+# 1. Run full project test suite
 pytest
 
 # 2. Run independent SPR kinetic fitting engine on benchmark data
@@ -316,8 +387,15 @@ python run_pipeline.py
 ## 8. Quality Assurance & Verification
 
 The codebase maintains strict engineering standards:
-- **Test Suite**: `357 passed` across 22 test modules.
-- **Linting & Formatting**: Zero errors via `ruff check src tests scripts`.
+- **Test Suite**: full suite passing across 24 test modules; the manuscript's own 29 guards
+  are in `tests/test_paper_manuscript.py`, and the classification document's 25 in
+  `tests/test_mechanism_classification.py`. Both fail if a quoted number stops matching
+  the code.
+- **Linting & Formatting**: `ruff check src` passes clean, and so do the four modules added for
+  the manuscript (`paper/make_figures.py`, `scripts/mechanism_classification_checks.py`, and
+  the two guard modules). The older `tests/` and `scripts/` files carry a number of
+  pre-existing warnings (unused variables, missing `check=` on `subprocess.run`) that are
+  listed rather than silenced; the previous "zero errors" claim here was not accurate.
 - **Pre-Registration Integrity**: 33 components locked with SHA-256 hashes in [`PRE_REGISTRATION_CODE_FREEZE.md`](results/experimental_validation/PRE_REGISTRATION_CODE_FREEZE.md).
 
 ---

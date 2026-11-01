@@ -1,5 +1,10 @@
 # Research Framing & Falsifiable Hypotheses: Human Telomerase TERT–TPP1 Recruitment Interface
 
+> **Superseded — 2026-11-01.** These questions were narrowed during the causality phase. The
+> current statement of what can and cannot be asked of a processivity measurement is in
+> [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md) and
+> [`results/causality/MECHANISM_CLASSIFICATION.md`](../causality/MECHANISM_CLASSIFICATION.md).
+
 **Document Role**: Primary Research Question & Falsifiable Hypotheses Formulation  
 **Milestone**: Benchmark Milestone B2 (Falsifiable Hypotheses Formulation)  
 **Deliverable Path**: `results/research/question_and_hypotheses.md`  

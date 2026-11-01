@@ -1,5 +1,10 @@
 # Kinetic model comparison — what can be asked, and what the algebra already decides
 
+> **Superseded as the entry point — read [`README.md`](README.md) first.** Two results from this
+> document survived into the final analysis and were strengthened there: the algebraic collapse
+> (now proven for all parameter values, not just sampled) and the finding that the observable carries
+> only the effective survival *s*. See [`MECHANISM_CLASSIFICATION.md`](MECHANISM_CLASSIFICATION.md) §3.
+
 **No model was fitted to the published measurements.** This document compares five pre-registered
 product-length models (`PREREGISTRATION.md` §6) in two ways that do not consume the holdout and do
 not tune anything to the data: an algebraic identity (G1 ≡ G5), and an information-theoretic

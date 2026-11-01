@@ -1,5 +1,9 @@
 # Held-out directional validation against Sekne et al. 2022
 
+> **Complete, used once.** These predictions were tested qualitatively and the result stands as
+> written. The quantitative limits found later are in
+> [`MECHANISM_CLASSIFICATION.md`](MECHANISM_CLASSIFICATION.md) §8.
+
 **Test set used once, qualitatively, exactly as frozen.** Predictions P1–P6 were committed in
 `PREREGISTRATION.md` §2 (hash `050f8d1f…`, guarded by `tests/test_causality_preregistration.py`)
 before any Sekne data were examined for this investigation. Sekne was never a fitting target; the

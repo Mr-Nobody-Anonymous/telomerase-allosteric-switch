@@ -22,7 +22,7 @@ Guards: `tests/test_mechanism_classification.py` (25 tests) — the document is 
 
 | level | finding | status |
 |---|---|---|
-| **exact algebra** | Extension-rate enhancement (B) and affinity-mediated retention (C1) are **globally identical** under matched effective survival: no processivity observable of any kind separates them | proven (symbolic + numerical) |
+| **exact algebra** | Extension-rate enhancement (B) and affinity-mediated retention (C1) are **identical at any single primer concentration once *s* is matched** — the distribution is a function of *s* alone, so no processivity observable separates them there. Across a titration they differ only in the plateau, i.e. only through *k*_loss, the worst-determined parameter | proven (symbolic + numerical) |
 | **exact algebra** | Every rate set is invariant under scaling θ → λθ: **no absolute kinetic rate is recoverable from processivity**, at any precision | proven (symbolic, simplifies to 0) |
 | **exact algebra** | The C1a (*k*_off ↓) and C1b (*k*_on ↑) variants are **not** identical at matched *K*_d: the loss term is *R* = *k*_off²/(*k*_off + [P]·*k*_on), so a matched-*K*_d pair differs by exactly a factor λ — which is algebraically confounded with *k*_loss. Direct binding, *k*_off and *k*_on reported separately, is what separates them | proven (symbolic + numerical) |
 | **exact algebra** | B vs C2 has **exactly one** crossing in primer concentration, linear in [P] | proven (degree 1) |
@@ -30,8 +30,9 @@ Guards: `tests/test_mechanism_classification.py` (25 tests) — the document is 
 | **simulation-derived** | The **tail-slope estimator** can manufacture an apparent concentration-independent loss term from zero true loss | simulated, **not yet validated on real bands** |
 | **unresolved biology** | What microscopic action TPP1 actually changes | **no experiment yet distinguishes** |
 
-The **tail-slope finding** (row 6) is explicitly simulation-derived: it is promoted or retired only
-by fitting real per-band densitometry (gate 3 below). The confidence tiers above are ordered —
+The **tail-slope finding** (row 6) is exact as a statement about a mixture, but its *practical*
+relevance is simulation-derived: it is promoted or retired only by fitting real per-band
+densitometry (gate 3 below). The confidence tiers above are ordered —
 exact algebra is not revisable by measurement, structural identifiability is not revisable by
 measurement either but is conditional on the model class, and everything simulation-derived is
 provisional until it meets real bands.
@@ -312,6 +313,40 @@ A full-distribution fit does not make this error, because φ is fitted as a sepa
 (recovered to ±0.02 in simulation). **Therefore: every mechanistic conclusion in this project must
 come from a full-distribution fit with φ free, never from a tail slope.**
 
+### 5.2a Two further exact results about the mixture ratio
+
+Writing *u* = κρ^(n−1), the ratio r(*n*) = *s*(1+*u*ρ)/(1+*u), so
+
+> **dr/du = s(ρ−1)/(1+u)²**   (verified symbolically)
+
+Because *u* is monotone in *n*, r is monotone in *n* and therefore has no interior extremum. Two
+consequences follow, and both bound how strongly the bias result may be stated:
+
+**Interpolation bound.** For every *n*, φ and *s*₂,
+
+> **min(s, s₂) ≤ r(n) ≤ max(s, s₂)**
+
+so the adjacent-band ratio can never report a processivity beyond the most extreme subpopulation
+actually present. (Worst relative violation 1.0×10⁻¹³ over 5 000 random parameter sets — numerical
+agreement with exactness.) **r(n) → max(s, s₂)** as *n* → ∞, which is the limit stated at the top of
+this subsection.
+
+**Onset length.** The two components of *q*(*n*) are equal, (1−φ)(1−*s*)*s*^(n−1) =
+φ(1−*s*₂)*s*₂^(n−1), at
+
+> **n\* = 1 + ln(1/κ)/ln(ρ)**
+
+Below *n*\* the majority controls the per-band signal; above it, the minority does. Checked against
+the numerically located midpoint of r(*n*) in eight cases: the closed form lands within one band
+every time (e.g. *s* = 0.60, φ = 0.01, *s*₂ = 0.95 → *n*\* = 15.52, midpoint at *n* = 15).
+
+**Why these two matter operationally.** The bound says the damage is finite — a real assay cannot
+report a processivity no molecule has, so the window artefact cannot exceed |*s*₂ − *s*|. The onset
+length says *where* the artefact begins, and it is computable from quantities an experimenter can
+estimate. If *n*\* lies inside the readable band range, the tail slope is measuring the minority; if
+it lies beyond the last readable band, the tail slope is measuring the majority and the artefact is
+harmless. That is a testable, dataset-specific question, and it is the one gate 3 asks.
+
 ### 5.3 Equivalence margin δ (open decision)
 
 Paired TOST design, 80% power, two-sided, Bonferroni over three doublings:
@@ -400,7 +435,7 @@ the parametrisation is stated in every row.
 | ratio | estimate | relative SE |
 |---|---|---|
 | *k*_loss/*k*_ext | 0.250 | 44% |
-| *k*_off/*k*_ext | 2.000 | 13% |
+| *k*_off/*k*_ext | 2.000 | 12% |
 | *k*_on/*k*_ext | 0.500 | 60% |
 
 Condition number **60.3**.

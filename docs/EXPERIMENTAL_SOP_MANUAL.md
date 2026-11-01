@@ -64,7 +64,32 @@
   - Purified TPP1 OB-fold ($0\text{ nM}$ for basal; $500\text{ nM}$ for stimulated).
 - **Reaction**: Incubate at $30^\circ\text{C}$ for 60 min. Quench with $20\text{ }\mu\text{L}$ stop solution ($95\%\text{ formamide}$, $10\text{ mM EDTA}$, $0.05\%\text{ bromophenol blue}$, $0.05\%\text{ xylene cyanol}$) and 500 cpm of $5'\text{-}^{32}\text{P}$-labeled 12-nt oligonucleotide recovery control.
 - **Denaturing Electrophoresis**: Resolve on a 40-cm 12% polyacrylamide / 7 M urea sequencing gel at $55\text{ W}$ constant power for 2 hours until bromophenol blue reaches the bottom.
-- **Detection & Quantification**: Expose dried gel to a Storage Phosphor Screen for 16 hours. Scan on a Typhoon FLA 9500 scanner at $50\text{ }\mu\text{m}$ resolution. Quantify using [`scripts/rap_gel_quantification.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/rap_gel_quantification.py).
+- **Detection & Quantification**: Expose dried gel to a Storage Phosphor Screen for 16 hours. Scan on a Typhoon FLA 9500 scanner at $50\text{ }\mu\text{m}$ resolution.
+
+> ### ⚠️ Quantification rule for processivity (added 2026-11-01)
+>
+> **Do not report a tail slope as your processivity estimate.** It is not a property of the
+> distribution: it is a function of the distribution *and the band window you read*, because a
+> minority subpopulation of products overtakes the majority at a computable length
+> *n*\* = 1 + ln(1/κ)/ln(ρ) with κ = φ(1−*s*₂)/[(1−φ)(1−*s*)]. For a true *s* = 0.60 with 1%
+> contamination at *s*₂ = 0.95, reading *n* = 3–10 returns 0.61 and reading *n* = 40–80 returns
+> 0.95 — a **12-fold** difference in the implied *k*_loss/*k*_ext from identical data. Results are
+> not comparable between papers that read different windows.
+>
+> Required instead, for any claim about mechanism:
+>
+> 1. Integrate **every** resolvable band, including faint high-molecular-weight bands, and record
+>    the window used.
+> 2. Fit the **full** distribution with the mixture weight φ as a free parameter — never read a slope
+>    off the tail.
+> 3. Report the majority *s*, the contaminant *s*₂, φ, *n*\*, and the fitted window.
+> 4. Justify the replication number from measured variance and the smallest effect worth detecting.
+>    For an equivalence test at the published CV of 0.345, δ = 0.10 log costs ~105 replicates per
+>    arm; that number should be read before designing the experiment, not after.
+>
+> Background and derivations: [`results/causality/MECHANISM_CLASSIFICATION.md`](../results/causality/MECHANISM_CLASSIFICATION.md)
+> §5–6 and [`paper/MANUSCRIPT.md`](../paper/MANUSCRIPT.md). Guards:
+> `tests/test_mechanism_classification.py`, `tests/test_paper_manuscript.py`. Quantify using [`scripts/rap_gel_quantification.py`](file:///C:/Users/hp/.gemini/antigravity/scratch/telomerase-research/scripts/rap_gel_quantification.py).
 
 ---
 

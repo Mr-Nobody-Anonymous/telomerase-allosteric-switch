@@ -1,5 +1,11 @@
 # Work package 5 — mechanism assessment, ranked by confidence
 
+> **Current deliverable — 2026-11-01.** This assessment is the prior phase of the project. The
+> question it left open ("what does TPP1 actually change?") was subsequently narrowed to an
+> answerable one and closed in the negative: see [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md)
+> and [`results/causality/MECHANISM_CLASSIFICATION.md`](../causality/MECHANISM_CLASSIFICATION.md).
+> The ranking and falsification criteria below remain valid as written.
+
 This is the closing report for the mechanism-discovery audit. It answers one question and
 deliberately does not answer a larger one.
 

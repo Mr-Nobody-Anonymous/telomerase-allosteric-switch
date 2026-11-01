@@ -68,3 +68,32 @@ python scripts/verify_all_claims.py     # ~2 min, writes claim_recheck.csv + ver
 8. "0.338 Å RMSD proves the absence of allostery" — already retracted by `report.md` itself; restated
    here so it is not resurrected: the value is below the 0.35–0.5 Å coordinate uncertainty of these
    maps and can neither demonstrate nor exclude allostery.
+
+---
+
+## Second pass — 2026-11-01: the identifiability phase
+
+This second errata covers the affinity–processivity investigation
+([`results/causality/`](../causality/README.md)) and the manuscript
+([`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md)). As with the first pass, the list is of
+**errors in our own work**, found by writing the check for each claim rather than by re-reading the
+prose.
+
+| # | claim as first written | why it was wrong | corrected to |
+|---|---|---|---|
+| 9 | "C1a (*k*_off ↓) and C1b (*k*_on ↑) are **identical** at matched *K*_d" | the check written to verify it returned `false`. The loss term is *R* = *k*_off²/(*k*_off + [P]*k*_on), so at matched *K*_d the two differ by an **exact factor λ** | they are not equivalent; the factor is algebraically confounded with *k*_loss |
+| 10 | the displayed closed form for *P*\* | the numerator had the **opposite sign**, turning every real crossing into a non-crossing | sign corrected; now checked against `sympy.solve` and a 20 001-point scan (residual 1.1×10⁻¹⁶) |
+| 11 | "the mixture bias at saturation is −0.040" | not reproducible at any band window; the true value at *s* = 0.999 is −0.0014 | saturation bias is ≈ 0; the real objection is the **window dependence** (12-fold in implied *k*_loss/*k*_ext) |
+| 12 | Δ*s* ≈ φ(1−*s*) as the mixture bias | wrong functional form: omits (1−*s*₂), linear in φ where the truth is not, and cannot change sign | retired; use *r*(*n*) = *s*(1+κρⁿ)/(1+κρⁿ⁻¹) |
+| 13 | "direct binding improves practical identifiability to ~10% for all parameters" (cond. no. 25) | neither the condition number nor the *k*_loss figure was reproducible | cond. no. **7.5**; *k*_off/*k*_on 9.9%, *k*_loss gets **worse** (34.3% → 49.0%) |
+| 14 | "the mixture mean manufactures a C2 signal" | the mixture *mean* stays at 1.0 at saturation; only the *tail-slope estimator* fabricates C2 | estimator-specific, not a property of the distribution |
+| 15 | *k*_off/*k*_ext relative SE quoted as 13% | 12.4932% rounds to **12%** | 12% (also corrected in the manuscript) |
+
+Items 9–12 and 14 are also recorded in the manuscript's §13 and in
+[`results/causality/MECHANISM_CLASSIFICATION.md`](../causality/MECHANISM_CLASSIFICATION.md) §0.1, so
+that a reader who arrives by any route meets the correction rather than the original claim.
+
+**Not an error, but withdrawn as evidence:** the "three independent scales" argument for
+single-turnover incorporation. Adding that measurement to the design adds rank **only** under the
+assumption *k*_chem ≡ *k*_ext; with a free coupling parameter the design gains one observable and
+one parameter and the rank gain is zero.

@@ -73,3 +73,81 @@ To compute equilibrium thermal fluctuations across the entire macromolecular com
    $$C_{ij} = [\Gamma^{-1}]_{ij} = \sum_{k=1}^{N-1} \frac{1}{\lambda_k} \mathbf{v}_k \mathbf{v}_k^T$$
    $$\text{CC}(i,j) = \frac{C_{ij}}{\sqrt{C_{ii} C_{jj}}}$$
    Positive cross-correlation ($\text{CC} > 0.40$) between the TEN domain apex (`Tyr176`) and TRAP pore rim (`Lys757`–`Gln794`) demonstrates collective mechanical coupling upon TPP1 docking.
+
+---
+
+## 5. Identifiability Analysis of Processivity Observables
+
+Added 2026-11-01. This section documents the methods behind
+[`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md) and
+[`results/causality/MECHANISM_CLASSIFICATION.md`](../results/causality/MECHANISM_CLASSIFICATION.md).
+Everything here is verified by `scripts/mechanism_classification_checks.py`, which writes the
+machine-readable values that the manuscript quotes, and by `tests/test_mechanism_classification.py`
+and `tests/test_paper_manuscript.py`, which fail if the text drifts.
+
+### 5.1 The model class
+
+Per repeat the enzyme either extends or is lost, with primer binding in equilibrium:
+
+$$s = \frac{k_{\text{ext}}}{k_{\text{ext}} + k_{\text{loss}} + R}, \qquad
+R = \frac{k_{\text{off}} K_d}{K_d + [P]} = \frac{k_{\text{off}}^2}{k_{\text{off}} + [P]\,k_{\text{on}}}$$
+
+and the observable is $P(\geq n) = s^{\,n-1}$ for a single population. $k_{\text{loss}}$ is an
+**effective** rate — the loss that more primer cannot rescue — not a molecular state. The second
+form of $R$ is an exact identity, not an approximation, and it is what makes §5.2 work.
+
+### 5.2 Symbolic verification (SymPy)
+
+Each of these is computed, not asserted:
+
+| quantity | how |
+|---|---|
+| scale invariance | `simplify(s(λθ) − s(θ))` must be exactly `0` |
+| B–C2 crossing | solve `s_B = s_C2` for `P`; the result is **degree 1 in P**, so at most one crossing |
+| degenerate case | `α = β` numerator must simplify to `α·k_off²(α−1)` |
+| loss-term rewrite | `simplify(R − k_off²/(k_off + P·k_on))` must be `0` |
+| matched-*K*_d scaling | `simplify(R(λθ) − λR(θ))` must be `0` at fixed *K*_d |
+| mixture monotonicity | `dr/du = s(ρ−1)/(1+u)²`, so *r* has no interior extremum |
+
+The displayed formula for $P^*$ is checked twice: against `sympy.solve` and against a 20 001-point
+numeric scan that counts sign changes of $s_B - s_{C2}$ in $[P]$. The scan must find **one** crossing
+iff $P^* > 0$ and **zero** otherwise. This is not decoration — an earlier draft of the manuscript
+displayed the numerator with the opposite sign, which turns every real crossing into a non-crossing.
+
+### 5.3 Identifiability
+
+**Structural.** The Jacobian $J_{ij} = \partial s(P_i)/\partial\theta_j$ is evaluated with
+**complex-step** derivatives, $\operatorname{Im}[s(\theta_j + ih)]/h$ with $h = 10^{-20}$, because
+finite differences produce unreliable rank here. Rank is declared from the relative singular values
+against a $10^{-8}$ cut-off, and is checked to be grid-independent across three primer grids.
+
+**Practical.** A log-space Fisher matrix $F = J^\top W J$ with $W = 1/(0.15\,s)^2$, condition number
+$\sqrt{\lambda_{\max}/\lambda_{\min}}$, and relative standard errors from $\mathrm{pinv}(F)$. Two
+parametrisations are reported — ratio form (3 parameters) and absolute four-rate form (4) — because
+condition numbers from different parametrisations are not comparable, and the manuscript states
+which is which in every row.
+
+### 5.4 Mixture ratio and the tail-slope audit
+
+For a two-species mixture the adjacent-band ratio is
+
+$$r(n) = s\,\frac{1+\kappa\rho^{n}}{1+\kappa\rho^{n-1}}, \qquad
+\kappa = \frac{\phi(1-s_2)}{(1-\phi)(1-s)}, \quad \rho = \frac{s_2}{s}$$
+
+evaluated in log space ($\log(1+e^x)$ via `logaddexp`) because $\rho^n$ overflows for $n$ in the
+hundreds. Three quantities are extracted: the tail slope over a given band window, the implied
+$k_{\text{loss}}/k_{\text{ext}} = (1-s)/s$, and the onset length
+$n^* = 1 + \ln(1/\kappa)/\ln\rho$ at which the minority component overtakes the majority.
+
+**Standing rule.** The tail slope is **forbidden** as the basis for any mechanistic claim. It is a
+function of the read window, not of the distribution: for a true $s = 0.60$ it returns 0.610 over
+$n = 3\text{–}10$ and 0.950 over $n = 40\text{–}80$, a 12-fold change in the implied loss ratio from
+identical data. Mechanistic conclusions must come from a full-distribution fit with the mixture
+weight $\phi$ free.
+
+### 5.5 What these methods cannot do
+
+They cannot establish a biological mechanism, and no result from this section may be cited as
+having done so. The analysis is exact *within the model class*; whether the model describes a real
+gel is an empirical question, and the test for it is per-band densitometry of an existing gel, not
+another simulation.

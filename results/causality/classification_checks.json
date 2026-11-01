@@ -192,6 +192,97 @@
     "sign_change_count_matches_sign_of_P_star": true,
     "has_positive_example": true
   },
+  "mixture_bound": {
+    "dr_du": "s*(rho - 1)/(u**2 + 2*u + 1)",
+    "r_as_u_to_0": "s",
+    "r_as_u_to_inf": "rho*s",
+    "monotone": true,
+    "bound_worst_relative_violation": 1.0405090732526981e-13
+  },
+  "mixture_onset": {
+    "rows": [
+      {
+        "s_majority": 0.6,
+        "phi": 0.01,
+        "s2": 0.95,
+        "kappa": 0.0012626262626262636,
+        "rho": 1.5833333333333333,
+        "n_star": 15.524682955043414,
+        "midpoint_crossed_at": 15,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.6,
+        "phi": 0.05,
+        "s2": 0.95,
+        "kappa": 0.006578947368421058,
+        "rho": 1.5833333333333333,
+        "n_star": 11.932594291334274,
+        "midpoint_crossed_at": 11,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.7,
+        "phi": 0.01,
+        "s2": 0.9,
+        "kappa": 0.003367003367003366,
+        "rho": 1.2857142857142858,
+        "n_star": 23.655810801433745,
+        "midpoint_crossed_at": 23,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.85,
+        "phi": 0.05,
+        "s2": 0.95,
+        "kappa": 0.01754385964912282,
+        "rho": 1.1176470588235294,
+        "n_star": 37.34999488946854,
+        "midpoint_crossed_at": 37,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.9,
+        "phi": 0.02,
+        "s2": 0.99,
+        "kappa": 0.0020408163265306146,
+        "rho": 1.0999999999999999,
+        "n_star": 65.99206489613188,
+        "midpoint_crossed_at": 65,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.95,
+        "phi": 0.02,
+        "s2": 0.99,
+        "kappa": 0.004081632653061224,
+        "rho": 1.0421052631578949,
+        "n_star": 134.38660479468314,
+        "midpoint_crossed_at": 134,
+        "minority_more_processive": true
+      },
+      {
+        "s_majority": 0.99,
+        "phi": 0.1,
+        "s2": 0.9,
+        "kappa": 1.11111111111111,
+        "rho": 0.9090909090909092,
+        "n_star": 2.1054487136015716,
+        "midpoint_crossed_at": 1,
+        "minority_more_processive": false
+      },
+      {
+        "s_majority": 0.99,
+        "phi": 0.01,
+        "s2": 0.95,
+        "kappa": 0.050505050505050504,
+        "rho": 0.9595959595959596,
+        "n_star": -71.39252575044021,
+        "midpoint_crossed_at": null,
+        "minority_more_processive": false
+      }
+    ]
+  },
   "tail_slope": {
     "cases": [
       {
