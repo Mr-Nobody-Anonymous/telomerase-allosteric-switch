@@ -84,7 +84,7 @@ def test_readme_points_at_the_assessment_and_separates_the_four_framings():
 def test_readme_test_badge_matches_the_suite():
     proc = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q",
                            "-p", "no:cacheprovider"],
-                          cwd=ROOT, capture_output=True, text=True)
+                          cwd=ROOT, check=False, capture_output=True, text=True)
     if proc.returncode != 0:
         pytest.skip("collection failed in this environment; badge check not applicable")
     m = re.search(r"(\d+) tests? collected", proc.stdout)

@@ -5,8 +5,11 @@
 The comprehensive, requirement-driven, opaque-box E2E test suite for the **Human Telomerase TERT–TPP1 Structural Bioinformatics Study** has been authored, verified, and published. The suite provides complete coverage across all 18 features in `PROJECT.md` and Requirements R1 through R5 of `ORIGINAL_REQUEST.md`.
 
 - **Test Suite Location**: `tests/e2e/`
-- **Total Test Cases**: 52 tests across 4 tiers
-- **Current Execution Baseline**: **40 PASSED**, 12 SKIPPED (downstream M5 pipeline outputs in progress), 0 FAILED
+- **Total Test Cases**: 479 collected (52 end-to-end tests across 4 tiers, plus the unit, guard and
+  adversarial modules added since)
+- **Current Execution Baseline**: **full suite passing** — see the README badge for the count.
+  The original 40-passed/12-skipped baseline below refers to the E2E tiers only, before the
+  downstream pipeline outputs existed, and is retained as history.
 - **Expected Exit Code**: `0`
 
 ---
@@ -43,7 +46,7 @@ python -m pytest tests/e2e/test_tier4_scenarios.py -v -m tier4
 | **Tier 2** | `tests/e2e/test_tier2_boundaries.py` | 13 | **13 PASSED** | Boundary stress tests (cutoff thresholds 3.5/4.0/4.5 Å, zero/negative cutoffs, unmodeled linker 179–321, 2I46 Chain B disorder, Kabsch determinant check). |
 | **Tier 3** | `tests/e2e/test_tier3_interactions.py` | 6 | **6 PASSED** | Multi-module data flow (sequence mapping -> contacts, sequence correspondence -> Kabsch SVD, contacts monotonicity $C_{3.5} \subset C_{4.0} \subset C_{4.5}$, polar subsetting). |
 | **Tier 4** | `tests/e2e/test_tier4_scenarios.py` | 12 | **12 SKIPPED (Pending M5)** | End-to-end execution of `run_pipeline.py`, verification of all 11 CSV tables in `results/tables/`, figure outputs, and `report.md` structure. |
-| **Total** | | **52** | **40 PASSED, 12 SKIPPED** | Full progressive testability guaranteed. |
+| **Total** | | **52** | historical baseline (see header) | Full progressive testability guaranteed. |
 
 ---
 

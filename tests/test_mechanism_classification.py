@@ -19,7 +19,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +40,7 @@ def doc() -> str:
 @pytest.fixture(scope="module")
 def results(tmp_path_factory) -> dict:
     """Run the check script in-process-independent fashion and load what it wrote."""
-    proc = subprocess.run([sys.executable, str(SCRIPT)], cwd=ROOT,
+    proc = subprocess.run([sys.executable, str(SCRIPT)], cwd=ROOT, check=False,
                           capture_output=True, text=True, timeout=600)
     assert proc.returncode == 0, f"script failed:\n{proc.stdout}\n{proc.stderr}"
     assert JSON_OUT.exists()
@@ -163,9 +162,10 @@ def test_structural_ranks(results):
 def test_practical_identifiability_numbers_match_the_document(results, doc):
     ident = results["identifiability"]
     flat = " ".join(doc.split())
+    # 12.49% rounds to 12%, not 13%; the rounding is checked, not eyeballed
     se = {k: round(100 * v) for k, v in ident["ratio_relative_SE"].items()}
     assert se == {"k_loss/k_ext": 44, "k_off/k_ext": 12, "k_on/k_ext": 60}
-    for token in ("44%", "13%", "60%"):
+    for token in ("44%", "12%", "60%"):
         assert token in flat
     assert abs(ident["cond_number_ratios"] - 60.3) < 0.1
     assert "60.3" in flat

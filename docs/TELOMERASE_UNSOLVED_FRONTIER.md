@@ -1,5 +1,10 @@
 # The Unsolved Frontier: Human Telomerase at the Nexus of Cancer & Longevity
 
+> **Current status — 2026-11-01.** The identifiability analysis in
+> [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md) formalises why several of the open questions
+> described here cannot be resolved by processivity measurements alone. Where the two documents
+> differ on what is inferable, the manuscript is the current statement.
+
 ## Executive Summary
 
 The **Human Telomerase Complex** represents the single greatest molecular paradox in biomedical science:

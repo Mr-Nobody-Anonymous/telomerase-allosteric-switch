@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "results" / "causality"
 
 # Reference parameter set used throughout (arbitrary units, not fitted to anything).
-REF = dict(k_ext=2.0, k_loss=0.5, k_off=2.0, k_on=1.0)
+REF = {"k_ext": 2.0, "k_loss": 0.5, "k_off": 2.0, "k_on": 1.0}
 RESULTS: dict[str, object] = {}
 ROWS: list[dict] = []
 
@@ -126,7 +126,7 @@ def _cs_div(f, x: list[complex], i: int, h: float = 1e-20) -> float:
 def jacobian(P_grid, theta, columns: int = 4) -> np.ndarray:
     rows = []
     for P in P_grid:
-        rows.append([_cs_div(lambda *a: s_of(P, *a), theta, i) for i in range(columns)])
+        rows.append([_cs_div(lambda *a, _P=P: s_of(_P, *a), theta, i) for i in range(columns)])
     return np.array(rows)
 
 
@@ -163,8 +163,8 @@ def identifiability_checks() -> dict:
     # differentiate in LOG parameters, so the SEs are relative (log-scale) and the
     # condition number is scale-free
     log_theta = list(np.log(ratio_theta[1:]))
-    Jr = np.array([[_cs_div(lambda *a: s_ratio(p, *np.exp(np.array(a))), log_theta, i)
-                    for i in range(3)] for p in P])
+    Jr = np.array([[_cs_div(lambda *a, _p=p: s_ratio(_p, *np.exp(np.array(a))),
+                            log_theta, i) for i in range(3)] for p in P])
     F = Jr.T @ (Jr * W[:, None])
     C = np.linalg.inv(F)
     se = np.sqrt(np.diag(C))
@@ -209,7 +209,7 @@ def absolute_fisher(bind_cv: float | None = None) -> tuple[float, np.ndarray]:
     rows = []
     for p in P:
         m = s_of(p, *theta)
-        f = lambda *a: s_of(p, *np.exp(np.array(a)))
+        f = lambda *a, _p=p: s_of(_p, *np.exp(np.array(a)))
         rows.append([_cs_div(f, log_theta, i) / (0.15 * m) for i in range(4)])
     if bind_cv is not None:
         for j in (2, 3):          # direct binding measures k_off and k_on, each at bind_cv
@@ -359,6 +359,79 @@ def tail_slope_checks() -> dict:
 
 
 # =======================================================================================
+# 4b. Two exact results about the mixture ratio r(n).
+#
+#   Interpolation bound.  With u = kappa*rho**(n-1), r = s(1+u*rho)/(1+u), so
+#   dr/du = s(rho-1)/(1+u)^2.  r is therefore monotone in u, u is monotone in n, and
+#   min(s,s2) <= r(n) <= max(s,s2) for every n and phi: the adjacent-band ratio can never
+#   exaggerate beyond the most extreme subpopulation actually present.  This is what keeps the
+#   bias result defensible — a real assay cannot report a processivity that no molecule has.
+#
+#   Onset length.  The two components of q(n) are equal at n* = 1 + ln(1/kappa)/ln(rho).
+#   Reading a window beyond n* reports the minority; reading below it reports the majority.
+# =======================================================================================
+def _stable_r(n_axis, s, phi, s2):
+    """r(n) evaluated in log space; naive rho**n overflows for n in the hundreds."""
+    kap = phi * (1 - s2) / ((1 - phi) * (1 - s))
+    rho = s2 / s
+    lg = np.log(kap) + n_axis * np.log(rho)          # lg = ln u,  u = kappa*rho**(n-1)
+    # log(1+exp(x)) via logaddexp, so nothing overflows anywhere in the exponent range
+    return s * np.exp(np.logaddexp(0.0, lg + np.log(rho)) - np.logaddexp(0.0, lg))
+
+
+def mixture_bound_checks() -> dict:
+    import sympy as sp
+
+    s, _phi, _s2, u, rho = sp.symbols("s phi s2 u rho", positive=True)
+    r_sym = s * (1 + u * rho) / (1 + u)
+    dr_du = sp.simplify(sp.diff(r_sym, u))
+    r_u0 = sp.limit(r_sym, u, 0)
+    r_inf = sp.limit(r_sym, u, sp.oo)
+
+    rng = np.random.default_rng(20261101)
+    worst = 0.0
+    n_axis = np.arange(1, 400)
+    for _ in range(5000):
+        s_m = rng.uniform(0.05, 0.995)
+        phi_m = rng.uniform(1e-4, 0.5)
+        s2_m = rng.uniform(0.05, 0.999)
+        if abs(s2_m - s_m) < 1e-9:
+            continue
+        r_vals = _stable_r(n_axis, s_m, phi_m, s2_m)
+        lo, hi = min(s_m, s2_m), max(s_m, s2_m)
+        worst = max(worst, float(np.max((r_vals - hi) / hi)), float(np.max((lo - r_vals) / lo)))
+
+    record("mixture", "dr_du", str(dr_du))
+    record("mixture", "r_at_u_0_and_inf", f"{r_u0} .. {r_inf}")
+    record("mixture", "bound_worst_relative_violation", worst)
+    return {"dr_du": str(dr_du), "r_as_u_to_0": str(r_u0), "r_as_u_to_inf": str(r_inf),
+            "monotone": bool(sp.simplify(dr_du - s * (rho - 1) / (1 + u) ** 2) == 0),
+            "bound_worst_relative_violation": worst}
+
+
+def onset_length_checks() -> dict:
+    rows = []
+    n_axis = np.arange(1, 5000)
+    for s_m, phi_m, s2_m in ((0.60, 0.01, 0.95), (0.60, 0.05, 0.95), (0.70, 0.01, 0.90),
+                             (0.85, 0.05, 0.95), (0.90, 0.02, 0.99), (0.95, 0.02, 0.99),
+                             (0.99, 0.10, 0.90), (0.99, 0.01, 0.95)):
+        kap = phi_m * (1 - s2_m) / ((1 - phi_m) * (1 - s_m))
+        rho = s2_m / s_m
+        n_star = 1 + np.log(1 / kap) / np.log(rho)
+        r_vals = _stable_r(n_axis, s_m, phi_m, s2_m)
+        mid = (s_m + s2_m) / 2
+        # r moves from s towards s2; find where it has covered half the distance
+        reached = (r_vals - mid) * (s2_m - s_m) >= 0
+        crossed = n_axis[np.argmax(reached)] if reached.any() else None
+        rows.append({"s_majority": s_m, "phi": phi_m, "s2": s2_m, "kappa": float(kap),
+                     "rho": float(rho), "n_star": float(n_star),
+                     "midpoint_crossed_at": int(crossed) if crossed is not None else None,
+                     "minority_more_processive": bool(s2_m > s_m)})
+        record("mixture_onset", f"s={s_m},phi={phi_m},s2={s2_m}", round(float(n_star), 2))
+    return {"rows": rows}
+
+
+# =======================================================================================
 # 5. TOST power
 # =======================================================================================
 def tost_replicates(delta: float, cv: float, power: float = 0.80,
@@ -397,6 +470,8 @@ def main() -> int:
         }
     RESULTS["c1_variants"] = c1_variant_check()
     RESULTS["crossing_numeric"] = crossing_numeric_check()
+    RESULTS["mixture_bound"] = mixture_bound_checks()
+    RESULTS["mixture_onset"] = onset_length_checks()
     RESULTS["tail_slope"] = tail_slope_checks()
     RESULTS["power"] = power_checks()
 

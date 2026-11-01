@@ -1,3 +1,8 @@
+> **Later development — 2026-11-01.** The current deliverable of this repository is the
+> identifiability manuscript at [`paper/MANUSCRIPT.md`](paper/MANUSCRIPT.md), which asks what a
+> processivity measurement can identify about TPP1's mechanism and concludes that it cannot
+> distinguish the leading proposals. This report predates that work; its own errata follow.
+>
 > **ERRATA — 2026-10-30.** Independent re-derivation of every headline number in this report
 > (`results/verification/CLAIM_VERIFICATION_REPORT.md`) found 14 contradicted claims, including the
 > data hashes, the 2I46 resolution, three atom-pair distances (corrected in place below) and the

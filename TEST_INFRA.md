@@ -119,3 +119,23 @@ All test assertions compare against analytically derived and empirically verifie
      - Lys170: $4.293\ \text{Å}$
      - Glu171: $3.320\ \text{Å}$
      - Leu183: $0.512\ \text{Å}$ (strictly invariant anchor).
+
+
+---
+
+## Manuscript and analysis guards (added 2026-11-01)
+
+Two modules exist for a reason the rest of this suite does not cover: they guard **prose**. A
+document can drift from its own computation without any code failing, so the numbers are asserted
+rather than trusted.
+
+| module | guards | method |
+|---|---|---|
+| `tests/test_mechanism_classification.py` | 25 | re-runs `scripts/mechanism_classification_checks.py`, then asserts each quoted value equals the recomputed one; asserts the SHA-256 freeze is current; asserts no retracted claim has reappeared in the prose |
+| `tests/test_paper_manuscript.py` | 28 | the same discipline applied to `paper/MANUSCRIPT.md`, plus: every reference carries a DOI, every figure exists in PNG and PDF, every figure has a legend, and the abstract still says no mechanism is demonstrated |
+
+The design principle: **a negative assertion is worth as much as a positive one.** Both modules
+contain assertions of the form "this claim must *not* appear", because the failures in this
+repository's history have been overstatements that survived review, not errors in arithmetic.
+
+They run in about 3 seconds and are part of the default suite.

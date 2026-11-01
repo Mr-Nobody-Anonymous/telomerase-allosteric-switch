@@ -1,5 +1,10 @@
 # Falsifiable Wet-Lab Experimental Protocols for Telomerase–TPP1 Recruitment and Allostery
 
+> **Current status — 2026-11-01.** These predictions predate the identifiability analysis. Read
+> them together with the release gates in
+> [`results/causality/MECHANISM_CLASSIFICATION.md`](../causality/MECHANISM_CLASSIFICATION.md) §8.4,
+> which specify what a mechanistic claim must satisfy to be admissible at all.
+
 ## Objective and Epistemic Standard
 
 This protocol suite translates computational findings from experimental structures (**PDB: 7TRE, 7TRD, 7TRF, 7TRC, 2I46**) into concrete, reproducible wet-lab experimental assays. 

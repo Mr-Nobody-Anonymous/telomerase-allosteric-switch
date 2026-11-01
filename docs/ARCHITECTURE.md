@@ -110,3 +110,52 @@ flowchart TD
    - `raw_intensity_plus_tpp1`: Raw phosphorimager pixel count in the presence of 500 nM TPP1.
    - `background_intensity`: Local lane background intensity.
    - `internal_control_recovery`: Internal radiolabeled recovery control factor.
+
+---
+
+## 7. Identifiability & Manuscript Subsystem
+
+Added 2026-11-01. This subsystem produces the repository's current scientific deliverable and is
+deliberately separated from the structural and MD pipelines, because it makes no use of coordinates
+or trajectories — only of kinetic equations.
+
+```
+scripts/mechanism_classification_checks.py
+        │  symbolic (SymPy) + complex-step numerical checks
+        ├──> results/causality/classification_checks.json   (every quoted number)
+        ├──> results/causality/classification_checks.csv    (flat section,item,value rows)
+        │
+        ├── consumed by tests/test_mechanism_classification.py  (25 guards)
+        │                            tests/test_paper_manuscript.py     (29 guards)
+        │
+        └── consumed by paper/make_figures.py
+                               └──> paper/figures/fig1..6  (.png 300 dpi + .pdf)
+                                       └── cited by paper/MANUSCRIPT.md
+```
+
+### 7.1 Design contracts
+
+| contract | enforced by |
+|---|---|
+| the checks script is self-contained (numpy + sympy, no project imports) and runs in ~2 s | CI runtime; `main()` returns 0 |
+| every number in the classification document and the manuscript is reproducible from the JSON | the two guard modules; they re-run the script and compare |
+| the classification document is frozen by SHA-256 | `MECHANISM_CLASSIFICATION.sha256` + a test |
+| figures are regenerated, never hand-edited | `paper/make_figures.py` writes both formats and `MANIFEST.json` |
+| a retracted claim may not reappear | explicit negative assertions in both guard modules |
+
+### 7.2 Why the numbers are guarded rather than trusted
+
+The three errors found in this subsystem's own first draft — a false equivalence between the two
+affinity variants, a sign error in the crossing formula, and an unreproducible saturation bias —
+were all caught by writing the check for the claim, not by re-reading the prose. The guard modules
+encode the same discipline: a numeric string in the text is asserted equal to a number recomputed
+from the code, so drift fails the build rather than reaching a reader.
+
+### 7.3 Adding a result
+
+1. Add the computation to `mechanism_classification_checks.py` and `record()` its value.
+2. Quote it in `MECHANISM_CLASSIFICATION.md` and, if it belongs in the paper, in `MANUSCRIPT.md`.
+3. Add the assertion to both guard modules.
+4. Regenerate the classification hash and, if a figure changed, the figure manifest.
+5. If the result upgrades a mechanistic claim, stop: §9 of the classification document and §8 of the
+   manuscript define what may not be claimed without an independent measurement.
