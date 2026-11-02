@@ -12,7 +12,6 @@ requires-python = ">=3.10"
 dependencies = [
     "biopython>=1.88",
     "gemmi>=0.7.5",
-    "freesasa>=2.2.1",
     "numpy>=2.0.0",
     "scipy>=1.15.0",
     "pandas>=2.0.0",
@@ -20,6 +19,9 @@ dependencies = [
     "requests>=2.32.0",
     "pytest>=9.0.0"
 ]
+
+[project.optional-dependencies]
+freesasa = ["freesasa>=2.2.1"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
