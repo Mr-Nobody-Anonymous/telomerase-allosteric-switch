@@ -458,6 +458,17 @@ def verdict(recs: list[dict]) -> dict:
 
     out["structures_used"] = [r["pdb"] for r in usable]
 
+    # Structures that never yielded coordinates. These are NOT the same thing as
+    # structures whose nucleotides are unmodelled, and conflating the two turns a
+    # network failure into a data limitation. Reproduced 2026-11-06: with five of
+    # eight downloads failing, the verdict read "every usable structure has
+    # unmodelled nucleotides" and never mentioned that 7QXS/7QXA/9SHY/9SHZ/9SI0
+    # were never fetched -- discarding precisely the two entries that answer the
+    # question. The 30-nt RAP states are the ONLY structures that can answer it;
+    # the 7-mers cannot, by construction.
+    unavailable = [r["pdb"] for r in recs if r.get("error")]
+    out["structures_unavailable"] = unavailable
+
     if not usable:
         out["status"] = "TEST DID NOT RUN"
         out["text"] = [
@@ -465,6 +476,9 @@ def verdict(recs: list[dict]) -> dict:
             f"{ACTIVE_SITE_OK} A of the DNA 3' end), so the anchor question was not",
             "tested. This is NOT a negative result. Re-run with network access.",
         ]
+        if unavailable:
+            out["text"].insert(0, f"{len(unavailable)} structure(s) could not be "
+                                  f"obtained: {', '.join(unavailable)}.")
         return out
 
     contacts = [(r["pdb"], r["PLYQ_174_177"]) for r in usable
@@ -511,6 +525,19 @@ def verdict(recs: list[dict]) -> dict:
             f"nucleotides near the anchor ({', '.join(unresolved)}).",
             "This is missing data, not a negative result.",
         ]
+        # Name the structures that were never obtained. Without this the report
+        # says "missing data" and the reader has no way to tell whether the data
+        # is absent from the deposition or absent from the download.
+        if unavailable:
+            out["text"] += [
+                "",
+                f"SEPARATE CAVEAT: {len(unavailable)} structure(s) were never obtained "
+                f"({', '.join(unavailable)});",
+                "those were not measured at all. If any of them is one of the 30-nt",
+                "RAP states (7QXS, 7QXA, 9SHY, 9SHZ, 9SI0) the anchor question has NOT",
+                "in fact been tested here and this verdict must not be reported as",
+                "though the available data were exhausted. Re-run with network access.",
+            ]
         return out
 
     best = min(resolved, key=lambda r: r["PLYQ_174_177"])
@@ -640,6 +667,28 @@ def selftest() -> int:
         good = got == want
         ok = ok and good
         print(f"  {name:14s} -> {got:38s} {'ok' if good else 'MISMATCH'}")
+
+    # Download failure must never be reported as if it were a data limitation.
+    # This is the exact failure seen on 2026-11-06: five of eight entries failed
+    # to download and the verdict blamed "unmodelled nucleotides" instead.
+    print("  DOWNLOAD-FAILURE DISCLOSURE (must name what was never fetched)")
+    recs_dl = ([{"pdb": p, "error": "not available: URLError"} for p in
+                ("7QXS", "7QXA", "9SHY", "9SHZ", "9SI0")]
+               + [fake(p, 7, 11.11) for p in ("7TRE", "7TRD", "7TRF")])
+    v_dl = verdict(recs_dl)
+    disclosed = any("never obtained" in t for t in v_dl["text"])
+    named = all(p in " ".join(v_dl["text"]) for p in ("7QXS", "7QXA"))
+    good = disclosed and named
+    ok = ok and good
+    print(f"  {'dl disclosure':14s} -> {v_dl['status']:38s} "
+          f"{'ok' if good else 'MISMATCH (failed downloads not disclosed!)'}")
+
+    # And the converse: when nothing failed to download, the caveat must NOT appear.
+    v_clean = verdict([fake("X2", 30, 12.1)])
+    good = not any("never obtained" in t for t in v_clean["text"])
+    ok = ok and good
+    print(f"  {'dl absent':14s} -> {'no spurious caveat':38s} "
+          f"{'ok' if good else 'MISMATCH (false caveat!)'}")
 
     print()
     print("RAP-STATE COMPARISON TEST (inject a known motion; it must be recovered)")

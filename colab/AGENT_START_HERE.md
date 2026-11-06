@@ -3,6 +3,12 @@
 You are an automated agent. Read this file, run one command, report the verdict.
 Nothing below requires judgement on your part.
 
+> **Do not run `pytest` and report success.** All 480 tests passing is the *precondition*,
+> not the deliverable — it proves only that the code is internally consistent. It answers no
+> scientific question. An agent has already made exactly this mistake and reported "480 tests
+> passed, no further troubleshooting required", which was a false claim of completion.
+> The task is the structural measurement below, and it requires network access.
+
 ---
 
 ## Run this

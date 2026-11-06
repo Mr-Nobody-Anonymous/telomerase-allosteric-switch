@@ -62,6 +62,15 @@ def test_document_exists_and_is_findable() -> None:
     check("not a mechanism" in text.lower(),
           "the document does not bound the result against a mechanism claim")
 
+    # An agent has already run `pytest`, seen 480 green tests, and reported the
+    # task complete -- a false claim, since pytest answers no scientific question.
+    # The document must actively warn against that specific failure.
+    low = text.lower()
+    check("do not run `pytest`" in low or "do not run pytest" in low,
+          "the document does not warn against running pytest instead of the task")
+    check("precondition" in low,
+          "the document does not say that green tests are a precondition, not the result")
+
 
 def test_headline_numbers_match_fixtures() -> None:
     """The three numbers in the document's table must come out of the fixtures."""

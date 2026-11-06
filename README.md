@@ -10,6 +10,27 @@
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
 
+> ### 🤖 If you are an automated agent, read this first
+>
+> **`pytest` is not the task.** 480 passing tests only prove the code is internally
+> consistent; they answer no scientific question. An agent that runs `pytest`, sees green,
+> and reports success has done nothing — this has already happened once.
+>
+> **Your task is one command:**
+>
+> ```bash
+> bash colab/run_colab.sh
+> ```
+>
+> That downloads the telomerase structures from RCSB, applies the fixed verdict rule, and
+> writes `colab_out/report.md`. **It needs internet access.** Report the `VERDICT:` block it
+> prints, and read [`colab/AGENT_START_HERE.md`](colab/AGENT_START_HERE.md) before
+> interpreting it — in particular, the list of things the result does **not** show.
+>
+> The expected outcome is a measurement, not a "pass". `NOT RESOLVED` and
+> `TEST DID NOT RUN` are legitimate, reportable verdicts, and neither means "no contact".
+> If downloads fail, say so — do not report the run as successful.
+
 ## Manuscript
 
 **What Processivity Distributions Cannot Tell Us About TPP1** — an identifiability analysis of
