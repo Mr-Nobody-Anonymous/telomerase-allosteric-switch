@@ -4,8 +4,14 @@ pandas>=2.0.0
 matplotlib>=3.8.0
 biopython>=1.84
 gemmi>=0.7.5
-freesasa>=2.2.1
+# freesasa is OPTIONAL: it is a C extension with no wheel on several platforms and
+# needs CPython headers to build. The code falls back to Biopython's ShrakeRupley when
+# it is absent, and the test suite passes without it. Uncomment to opt in.
+# freesasa>=2.2.1
 requests>=2.31.0
+sympy>=1.12
+# openmm / pdbfixer: ONLY for scripts/prepare_md_systems.py and the MD runners.
+# Not needed by the library or the test suite; heavy and platform-specific.
 openmm>=8.6.0
 pdbfixer>=1.12.0
 pytest>=8.0.0

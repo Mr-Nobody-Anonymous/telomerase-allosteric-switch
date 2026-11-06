@@ -12,14 +12,26 @@ requires-python = ">=3.10"
 dependencies = [
     "biopython>=1.88",
     "gemmi>=0.7.5",
-    "freesasa>=2.2.1",
     "numpy>=2.0.0",
     "scipy>=1.15.0",
     "pandas>=2.0.0",
     "matplotlib>=3.10.0",
     "requests>=2.32.0",
+    "sympy>=1.12",
     "pytest>=9.0.0"
 ]
+
+[project.optional-dependencies]
+# freesasa is a C extension with no wheel on several platforms; building it needs
+# CPython headers (python3-dev). It is OPTIONAL because the code does not require
+# it: src/telotrade/interface_geometry.py imports it inside a try/except and falls
+# back to Bio.PDB's ShrakeRupley, and the frozen reference values are compared
+# against the Biopython implementation in tests. Keeping it in `dependencies` made
+# `pip install -e .` -- the install command this project's own README gives --
+# fail at the compile step on any machine without Python.h, which meant a clean
+# clone could not be set up as documented.
+freesasa = ["freesasa>=2.2.1"]
+all = ["freesasa>=2.2.1"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
