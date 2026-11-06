@@ -100,6 +100,15 @@ RNA_RES = {"A", "U", "G", "C", "I"}
 AMINO = set("ALA ARG ASN ASP CYS GLN GLU GLY HIS ILE LEU LYS MET PHE PRO SER "
             "THR TRP TYR VAL".split())
 
+# Standard amino acids plus the modified residues that actually occur in
+# deposited protein chains. Selenomethionine (MSE) alone is enough to break the
+# old `names <= AMINO` test; the rest are here so the same bug cannot recur.
+PROTEIN_LIKE = AMINO | {
+    "MSE", "SEC", "PYL", "UNK", "HYP", "CSO", "CSD", "KCX", "MLY", "M3L",
+    "SEP", "TPO", "PTR", "FME", "PCA", "CAS", "LLP", "MHO", "SME", "OCS",
+    "CME", "ASX", "GLX",
+}
+
 CONTACT = 4.5          # A, heavy-atom contact cutoff
 NEAR = 5.0             # A, "contact" for the anchor verdict
 FAR = 10.0             # A, "no contact" for the anchor verdict
@@ -178,8 +187,25 @@ def load_model(path: Path):
 
 
 def classify(chain) -> str:
+    """Chain type, decided by composition AND by the TERT signature.
+
+    CHANGED 2026-11-06. The old test was `names <= AMINO`: an all-or-nothing
+    subset check. A single non-standard residue anywhere in a 1000-residue TERT
+    chain (selenomethionine MSE being the common case) sent the whole chain to
+    OTHER. TERT then never entered `prot`, the DNA+RNA contact score came back
+    0, and the `max(prot, key=len)` fallback silently analysed a histone as
+    TERT. Observed on 9SHY/9SHZ/9SI0 as "TERT candidate only 81/90 residues"
+    plus "D868 not modelled", with every TERT-region column blank.
+
+    The discriminative fact is not composition: only TERT carries the catalytic
+    Asp868. That is a positive signature, so it is tested first.
+    """
     names = {r.name for r in chain}
-    if names <= AMINO:
+    if not names:
+        return "OTHER"
+    if any(r.name == "ASP" and r.seqid.num == 868 for r in chain):
+        return "PROTEIN"          # direct TERT signature
+    if len(names & PROTEIN_LIKE) / len(names) >= 0.90:
         return "PROTEIN"
     if names <= DNA_RES:
         return "DNA"
@@ -294,13 +320,29 @@ def analyse_entry(pdb: str, path: Path, label: str, expect_tpp1: bool) -> dict:
                                   for o in other_chains]))
         return int((tree.query(P)[0] <= CONTACT).sum())
 
-    scores = [(ch, contacts_any(ch, dna_chains) + contacts_any(ch, rna_chains)) for ch in prot]
-    tert, best = max(scores, key=lambda t: t[1])
-    if best == 0:
-        tert = max(prot, key=len)
-        rec["warnings"].append("TERT identified by length; no chain contacts DNA+RNA")
+    # --- TERT: identify POSITIVELY, and refuse rather than guess.
+    # "the longest protein" is not a fallback, it is a wrong answer: on
+    # 9SHY/9SHZ/9SI0 it returned a histone/TPP1 (81-90 res) and every
+    # downstream TERT-region column was then measured against it.
+    def contacts_any_safe(ch) -> int:
+        return contacts_any(ch, dna_chains) + contacts_any(ch, rna_chains)
+
+    has_868 = [ch for ch in prot
+               if any(r.name == "ASP" and r.seqid.num == 868 for r in ch)]
+    if has_868:
+        tert = max(has_868, key=contacts_any_safe)
+    else:
+        scored = [(ch, contacts_any_safe(ch)) for ch in prot]
+        tert, best = max(scored, key=lambda t: t[1])
+        if best == 0:
+            rec["error"] = ("TERT not identifiable: no chain contains ASP 868 and no "
+                            "chain contacts both DNA and RNA; refusing to substitute "
+                            "another chain")
+            rec["warnings"].append(rec["error"])
+            return rec
     if len(tert) < 500:
-        rec["warnings"].append(f"TERT candidate only {len(tert)} residues - may be incomplete")
+        rec["warnings"].append(
+            f"TERT candidate only {len(tert)} residues - may be incomplete")
 
     rec["tert_chain"] = f"{tert.name} ({len(tert)} res)"
 
