@@ -88,11 +88,16 @@ REGIONS = {
     "catalytic_D868_869": [868, 869],
 }
 
+# Domain boundaries, in author numbering. IFD-TRAP is 755-785, matching
+# `src/telotrade/cross_state.py` and the residue span used throughout
+# results/cancer_selective_vulnerability/ (755-785).  It sits INSIDE RT
+# 541-935, which is why compare_states() must exclude a measured domain from
+# the superposition frame -- see tests/test_open_findings.py.
 DOMAINS = {
     "TEN 1-196": range(1, 197),
     "TRBD 326-540": range(326, 541),
     "RT 541-935": range(541, 936),
-    "IFD-TRAP 745-805": range(745, 806),
+    "IFD-TRAP 755-785": range(755, 786),  # inside RT; excluded from the frame
 }
 
 DNA_RES = {"DA", "DT", "DG", "DC", "DU"}
@@ -446,19 +451,38 @@ def compare_states(recs: list[dict]) -> dict:
 
     ref = states[0]
     rt = list(DOMAINS["RT 541-935"])
+    # IFD-TRAP is a mobile sub-domain of RT.  It must be removed from the
+    # superposition frame, otherwise the fit absorbs the very motion it is
+    # asked to report: on injected ground truth a true 2.00 A displacement
+    # reads as 1.68 A (-16%), and it invents ~0.5 A of motion inside the
+    # "rigid" ring.  The frame is therefore the invariant RT core.
+    ifd = set(DOMAINS["IFD-TRAP 755-785"])
+    core = [i for i in rt if i not in ifd]
     out = {"available": True, "reference": ref["pdb"], "domains": {},
            "tpp1_in_all_states": all(r["TPP1_present"] for r in states)}
 
     for dname, rng in DOMAINS.items():
         row = {}
         for s in states[1:]:
-            common = [i for i in rng if i in ref["_ca"] and i in s["_ca"]]
-            common_rt = [i for i in rt if i in ref["_ca"] and i in s["_ca"]]
-            if len(common) < 10 or len(common_rt) < 20:
+            if dname.startswith("IFD-TRAP"):
+                # measure the IFD helix itself against the invariant core
+                measured, frame = list(rng), core
+            elif dname.startswith("RT"):
+                # the RT row reports the invariant core, so it is 0 by
+                # construction -- it defines the frame rather than being an
+                # independent measurement of it
+                measured, frame = core, core
+            else:
+                measured = list(rng)
+                # do not let the mobile IFD helix vote on the frame
+                frame = core
+            common = [i for i in measured if i in ref["_ca"] and i in s["_ca"]]
+            frame = [i for i in frame if i in ref["_ca"] and i in s["_ca"]]
+            if len(common) < 10 or len(frame) < 20:
                 row[s["pdb"]] = None
                 continue
-            A = np.array([ref["_ca"][i] for i in common_rt])
-            B = np.array([s["_ca"][i] for i in common_rt])
+            A = np.array([ref["_ca"][i] for i in frame])
+            B = np.array([s["_ca"][i] for i in frame])
             R, tr = rigid_transform(A, B)
             dom_ref = np.array([ref["_ca"][i] for i in common])
             dom_tgt = np.array([s["_ca"][i] for i in common])

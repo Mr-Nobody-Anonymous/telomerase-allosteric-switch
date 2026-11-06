@@ -1,18 +1,18 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-480%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-490%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Manuscript](https://img.shields.io/badge/manuscript-identifiability%20analysis-purple.svg)](paper/MANUSCRIPT.md)
-[![Status](https://img.shields.io/badge/Status-No%20mechanism%20proven%20--%20awaiting%20densitometry-critical.svg)](results/causality/MECHANISM_CLASSIFICATION.md)
+[![Status](https://img.shields.io/badge/Status-No%20mechanism%20proven-R1%20untested-critical.svg)](results/causality/MECHANISM_CLASSIFICATION.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
 
 > ### 🤖 If you are an automated agent, read this first
 >
-> **`pytest` is not the task.** 480 passing tests only prove the code is internally
+> **`pytest` is not the task.** 490 passing tests only prove the code is internally
 > consistent; they answer no scientific question. An agent that runs `pytest`, sees green,
 > and reports success has done nothing — this has already happened once.
 >
@@ -93,16 +93,57 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 >
 > The long-standing structural gap is closed. The Sekne 2022 depositions with a **30-nt** DNA put
 > **Tyr176 within 2.75 Å (7QXS), 4.35 Å (7QXA) and 2.78 Å (9SHY)** of the DNA — a backbone contact —
-> against **11.11–11.94 Å** in this repository's 7-nucleotide structures. Both entries pass a
-> catalytic control (Asp868 within 2.65 / 2.93 Å of the DNA 3′ end), so their active sites are
-> verifiably seated. Two independently refined models agree on the same residue and the same
+> against **11.11–11.94 Å** in this repository's 7-nucleotide structures. All three pass a
+> catalytic control (Asp868 within 2.65 / 2.93 / 2.78 Å of the DNA 3′ end), so their active sites
+> are verifiably seated. Two independently refined models agree on the same residue and the same
 > nucleotide.
+>
+> **9SHY was previously reported as `NOT RESOLVED` at 30.23 Å.** That was a bug, not a result: the
+> old code measured to the *furthest* modelled nucleotide instead of the nearest, and read the
+> `NOT RESOLVED` branch while sitting 2.78 Å from a contact. The row now reads CONTACT, and
+> `tests/test_open_findings.py` fails if a single row ever reports a contact distance and
+> `NOT RESOLVED` at the same time again.
 >
 > **This settles geometry, not mechanism.** The contact is to the sugar–phosphate backbone, so it
 > cannot be reading sequence, and it is equally consistent with a positioning element and with a
 > steric barrier. It does not distinguish DNA retention from catalytic activation, and it does not
 > change the standing mechanism verdict. See
 > [`results/solve/WP16_ANCHOR_SITE_RESULT.md`](results/solve/WP16_ANCHOR_SITE_RESULT.md).
+>
+> ### WP17 — R1 was never tested, and the obvious experiment does not fix that (2026-11-06)
+>
+> **"R1 excluded, R2 supported" was too strong.** The fit *sets* the resting primer off-rate equal
+> with and without TPP1 (`resting_koff_no_PT == resting_koff_PT == 0.012` in
+> `wp3_predictions.json`) — R1 is assumed away *inside the model*, not excluded by a measurement.
+> The structural argument only rules out a direct TPP1–DNA contact.
+>
+> The natural fix — titrate primer until R1 and R2 diverge — **fails**, and it fails in a way that
+> is worth stating plainly. Under eq. 1 both arms act on the same scalar `s`, so they are
+> degenerate at A₀ = 0.99 (gap < 0.0005 fold). They do separate as processivity falls, but only
+> because *both* effects collapse toward 1.0×:
+>
+> | A₀ | best \[P\]/K_d | R1 | R2 | R2/R1 |
+> |---|---|---|---|---|
+> | 0.99 | 0.01 | 1.0004 | 1.0075 | 1.007 |
+> | 0.90 | 0.01 | 1.0038 | 1.0803 | 1.076 |
+> | 0.70 | 0.01 | 1.0115 | 1.2877 | 1.273 |
+>
+> At A₀ = 0.70 the model's **largest possible** TPP1 effect is 1.29×. The effect to be explained
+> is **2.7 ± 0.6×**. The separating regime is not the regime where the phenomenon lives.
+>
+> **What would settle it** is a variable that enters one arm and not the other — vary `k_pol` at
+> fixed `K_d` (R1 predicts the effect is invariant; R2 predicts it moves), measure `K_d` directly
+> ± TPP1, or use `Y176A` to remove the anchor without touching the catalytic step. Designs, power
+> and falsification criteria are in
+> [`results/solve/WP17_MECHANISM_DESIGN.md`](results/solve/WP17_MECHANISM_DESIGN.md).
+>
+> **Also fixed.** `compare_states()` superposed on RT 541–935 while reporting IFD-TRAP 755–785,
+> which sits entirely inside that range — the fit absorbed the motion it was measuring (~16 %
+> attenuation, ~0.5 Å of invented motion in the "rigid" ring). The frame is now the invariant RT
+> core and IFD-TRAP is defined as **755–785** in both `colab/` and `src/` (they previously
+> disagreed: 745–805 vs 755–785). The RAP-state superposition for **9SHZ and 9SI0 is still not
+> computed** — those coordinates have never been retrieved, so no per-domain displacement for
+> those states exists in this repository.
 >
 > Reproduce, offline, in one command:
 >
@@ -171,7 +212,7 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (480 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (490 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -340,7 +381,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── mechanism_classification_checks.py # symbolic + complex-step verification of every claim
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (480 passing tests)
+├── tests/                               # Comprehensive test suite (490 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests

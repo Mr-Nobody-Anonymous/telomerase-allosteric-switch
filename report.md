@@ -3,6 +3,18 @@
 > processivity measurement can identify about TPP1's mechanism and concludes that it cannot
 > distinguish the leading proposals. This report predates that work; its own errata follow.
 >
+> **Latest — 2026-11-06.** Two findings postdate the manuscript draft.
+> **(a)** The TEN anchor geometry is resolved: Tyr176 contacts the DNA backbone at **2.78 Å in
+> 9SHY** as well as 2.75 Å in 7QXS and 4.35 Å in 7QXA, against 11.11–11.94 Å in this repository's
+> 7-nucleotide structures. This settles geometry, not mechanism
+> ([`results/solve/WP16_ANCHOR_SITE_RESULT.md`](results/solve/WP16_ANCHOR_SITE_RESULT.md)).
+> **(b)** A primer-titration design meant to separate the affinity (R1) and retention (R2)
+> hypotheses was tested and **fails**: the two are degenerate at high processivity, and the
+> low-processivity regime that separates them caps the effect at ~1.29× against the 2.7× actually
+> observed. R1 has never been excluded by measurement — it is assumed away in the fit
+> ([`results/solve/WP17_MECHANISM_DESIGN.md`](results/solve/WP17_MECHANISM_DESIGN.md)). Neither
+> finding upgrades any claim in this report, which remains a retracted-claims catalog.
+>
 > **ERRATA — 2026-10-30.** Independent re-derivation of every headline number in this report
 > (`results/verification/CLAIM_VERIFICATION_REPORT.md`) found 14 contradicted claims, including the
 > data hashes, the 2I46 resolution, three atom-pair distances (corrected in place below) and the

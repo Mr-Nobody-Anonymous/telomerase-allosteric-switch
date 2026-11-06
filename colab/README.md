@@ -27,14 +27,14 @@ python colab/test_colab.py              # does AGENT_START_HERE.md match the cod
 ## The answer, already measured
 
 The question — does the TEN anchor motif PLYQ (174–177) contact the DNA once the substrate is
-long enough? — has now been answered from deposited coordinates. Two independent entries agree
-on the same contact nucleotide:
+long enough? — has now been answered from deposited coordinates. Three independent entries put the same residue on the DNA backbone:
+
 
 | entry | modelled DNA | Y176 → DNA | catalytic control | verdict |
 |---|---|---|---|---|
 | **7QXS** | 22 of 30 nt | **2.75 Å** (OH···O3′) | 2.65 Å ✓ | **CONTACT** |
 | **7QXA** | 12 of 30 nt | **4.35 Å** (OH···C5′) | 2.93 Å ✓ | **CONTACT** |
-| 9SHY | 10 of 34 nt | 30.23 Å | 2.78 Å ✓ | NOT RESOLVED |
+| **9SHY** | 10 of 34 nt | **2.78 Å** (OH···OP1 of nt 25) | 2.78 Å ✓ | **CONTACT** |
 | 7TRE / 7TRD / 7TRF | 7 nt | 11.11 / 11.94 / 11.94 Å | — | never reaches the site |
 
 **Yes — the anchor site contacts the DNA**, via **Tyr176**, against the **sugar–phosphate
@@ -48,8 +48,8 @@ statement is the factor-of-four ordering, ~3 Å versus ~11 Å.
 ## Why the first version of this test could not have answered it
 
 The original runner gated on **"at least one entry with ≥15 modelled nucleotides"**. 7QXA models
-12 and 9SHY models 10, so both were discarded — and 7QXA is one of the two entries that settle the
-question. The runner would then have printed `TEST DID NOT RUN`.
+12 and 9SHY models 10, so both were discarded — and 7QXA is one of the three entries that settle
+the question. The runner would then have printed `TEST DID NOT RUN`.
 
 The gate was testing the wrong thing. Usability is now decided by a **positive control**: catalytic
 Asp868 must lie within 6 Å of the DNA 3′ end. If the active site is seated, the coordinates mean

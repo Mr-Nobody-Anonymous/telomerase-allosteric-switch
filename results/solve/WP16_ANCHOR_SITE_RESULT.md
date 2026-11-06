@@ -54,7 +54,7 @@ below are reproducible offline (`python colab/verdict.py --selftest`).
 |---|---|---|---|---|---|
 | **7QXS** (Sekne 2022) | 22 of 30 nt (auth 7–16, 19–30) | **2.65 Å** | **2.75 Å** | OH ··· O3′ of auth 19 | **CONTACT** |
 | **7QXA** (Sekne 2022, no POT1 side chains) | 12 of 30 nt (auth 19–30) | **2.93 Å** | **4.35 Å** | OH ··· C5′ of auth 19 | **CONTACT** |
-| 9SHY (Balch 2026, initiation) | 10 of 34 nt (auth 25–34) | 2.78 Å | 30.23 Å | nearest modelled nt is auth 33 | NOT RESOLVED |
+| 9SHY (Balch 2026, initiation) | 10 of 34 nt (auth 25–34) | 2.78 Å | **2.78 Å** | OH ··· OP1 of auth 25 | **CONTACT** |
 | 7TRE / 7TRD / 7TRF (7-nt reference) | 7 nt | — | 11.11 / 11.94 / 11.94 Å | — | out of reach |
 
 Two independently refined models place the contact on **the same nucleotide** (auth 19),

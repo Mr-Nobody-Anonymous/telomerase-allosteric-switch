@@ -170,7 +170,7 @@ Recorded so the record is even-handed:
 | claim | first pass | corrected |
 |---|---|---|
 | decisive experiment | no-primer single turnover | **impossible**; use translocation at matched residence time |
-| retention | "demonstrated" | **R1 excluded, R2 supported but not demonstrated** |
+| retention | "demonstrated" | **R1 not excluded (it is assumed away in the fit), R2 supported but not demonstrated** — see WP17; a primer titration cannot separate them |
 | 2.48× prediction | quantitative agreement | **calibration, not confirmation** |
 | what TPP1 acts on | DNA grip | **TEN orientation, via the FGF-loop face, on a hinged linker** |
 | remaining work | one experiment | **a matched TPP1-free structural series + residence-time-matched kinetics** |
