@@ -78,7 +78,9 @@ def test_headline_numbers_match_fixtures() -> None:
     expected = {
         "7QXS": {"anchor": 2.75, "ctrl_max": 6.0},
         "7QXA": {"anchor": 4.35, "ctrl_max": 6.0},
-        "9SHY": {"anchor": 30.23, "ctrl_max": 6.0},
+        # CORRECTED 2026-11-06: 30.23 was an artefact of an under-populated
+        # fixture (only DNA auth 33-34 stored). Complete fixture -> 2.78 A, CONTACT.
+        "9SHY": {"anchor": 2.78, "ctrl_max": 6.0},
     }
     for entry, exp in expected.items():
         fx = load_fixture(entry)
@@ -101,14 +103,19 @@ def test_headline_numbers_match_fixtures() -> None:
         check(call["call"] == "CONTACT",
               f"{entry}: document says CONTACT, code says {call['call']}")
 
-    # 9SHY must NOT be reported as a negative result
+    # 9SHY: the fixture must stay COMPLETE. The old one declared 10 modelled nt
+    # but stored 2, which silently turned a 2.78 A contact into "30.23 A, not
+    # resolved". Assert the coverage, not just the resulting number.
     fx = load_fixture("9SHY")
+    dna = [r for r in fx["records"] if r["resname"] in ("DA", "DT", "DG", "DC")]
+    check(len(dna) == fx["modelled_dna"]["n_modelled"],
+          f"9SHY fixture stores {len(dna)} DNA residues but declares "
+          f"{fx['modelled_dna']['n_modelled']} modelled -- an under-populated fixture "
+          f"can hide a contact")
     call = v.structure_call("9SHY", fx["records"], fx["modelled_dna"]["n_modelled"])
-    check(call["call"] != "NO CONTACT",
-          "9SHY is being reported as NO CONTACT; its anchor nucleotide is unmodelled, "
-          "so that would be missing data read as a negative result")
-    check("caveat" in call or call["call"] == "NOT RESOLVED",
-          "9SHY carries no caveat about unmodelled nucleotides")
+    check(call["call"] == "CONTACT", f"9SHY should be CONTACT; got {call['call']}")
+    check(call.get("nearest_nt_auth") == 25,
+          f"9SHY anchor should be nt25 (the 5' end); got {call.get('nearest_nt_auth')}")
 
 
 def test_seven_mer_reference_is_quoted_correctly() -> None:
@@ -167,6 +174,41 @@ def test_old_defect_stays_fixed() -> None:
               f"a size gate has been reintroduced")
 
 
+def test_modified_residues_do_not_hide_tert() -> None:
+    """
+    GUARD for the chain-classification bug found 2026-11-06.
+
+    classify() used `names <= AMINO`, an all-or-nothing subset test. One
+    selenomethionine (MSE) anywhere in a ~1000-residue TERT chain sent the whole
+    chain to OTHER. TERT then never entered `prot`, the DNA+RNA contact score was
+    0, and `max(prot, key=len)` analysed an 81-residue histone instead. Seen on
+    9SHY/9SHZ/9SI0 as "TERT candidate only 81/90 residues" + "D868 not modelled",
+    with every TERT-region column blank.
+
+    synthetic_mse.cif carries that exact contrast: chain F = 900 res with one MSE
+    and ASP 868; chain A = 81 res, all standard.
+    """
+    import gemmi
+    sys.path.insert(0, str(COLAB))
+    import tpp1_colab as T
+
+    cif = COLAB / "fixtures" / "synthetic_mse.cif"
+    check(cif.exists(), "synthetic_mse.cif fixture is missing")
+    if not cif.exists():
+        return
+
+    st = gemmi.read_structure(str(cif))
+    st.setup_entities()
+    chains = {ch.name: (len(ch), T.classify(ch)) for ch in st[0]}
+
+    check(chains["F"][1] == "PROTEIN",
+          f"a 900-residue chain containing one MSE is classified {chains['F'][1]} "
+          f"instead of PROTEIN -- the all-or-nothing `names <= AMINO` bug is back")
+    check(chains["D"][1] == "DNA", f"DNA chain classified as {chains['D'][1]}")
+    check(chains["A"][1] == "PROTEIN", "the 81-residue histone should be PROTEIN")
+    check(chains["F"][0] > chains["A"][0], "TERT must be selected over the shorter histone")
+
+
 def test_runner_and_files_exist() -> None:
     for rel in ("run_colab.sh", "tpp1_colab.py", "verdict.py", "test_colab.py"):
         check((COLAB / rel).exists(), f"colab/{rel} is referenced but missing")
@@ -194,6 +236,7 @@ def main() -> int:
         test_every_verdict_branch_reachable,
         test_failure_is_not_reported_as_negative,
         test_old_defect_stays_fixed,
+        test_modified_residues_do_not_hide_tert,
         test_runner_and_files_exist,
         test_document_references_real_paths,
     ]

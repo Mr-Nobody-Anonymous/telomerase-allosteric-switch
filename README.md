@@ -92,7 +92,7 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > ### WP16 — the TEN anchor site has now been measured (2026-11-06)
 >
 > The long-standing structural gap is closed. The Sekne 2022 depositions with a **30-nt** DNA put
-> **Tyr176 within 2.75 Å (7QXS) and 4.35 Å (7QXA) of nucleotide auth 19** — a backbone contact —
+> **Tyr176 within 2.75 Å (7QXS), 4.35 Å (7QXA) and 2.78 Å (9SHY)** of the DNA — a backbone contact —
 > against **11.11–11.94 Å** in this repository's 7-nucleotide structures. Both entries pass a
 > catalytic control (Asp868 within 2.65 / 2.93 Å of the DNA 3′ end), so their active sites are
 > verifiably seated. Two independently refined models agree on the same residue and the same

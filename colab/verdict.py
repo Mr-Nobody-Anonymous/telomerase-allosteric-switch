@@ -241,7 +241,12 @@ def selftest() -> int:
     EXPECT = {
         "7QXS": {"anchor_d": 2.75, "anchor_pair": "OH-O3'", "catalytic": True, "call": "CONTACT"},
         "7QXA": {"anchor_d": 4.35, "catalytic": True, "call": "CONTACT"},
-        "9SHY": {"catalytic": True, "call": "NOT RESOLVED"},
+        # CORRECTED 2026-11-06. The fixture used to store only DNA auth 33-34
+        # while declaring 10 modelled nt, so the nearest reachable nucleotide
+        # looked 30.23 A away. Those two are the FURTHEST from Tyr176: the DNA
+        # recedes as the auth number rises (nt25 3.34 A, nt32 33.92 A). With
+        # auth 25-34 present the anchor contact is 2.78 A, i.e. CONTACT.
+        "9SHY": {"anchor_d": 2.78, "anchor_pair": "OH-OP1", "catalytic": True, "call": "CONTACT"},
     }
 
     for entry, exp in EXPECT.items():

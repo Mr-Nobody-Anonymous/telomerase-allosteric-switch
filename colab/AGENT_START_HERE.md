@@ -46,7 +46,7 @@ The measurement has been made and cross-checked. Two independent entries agree:
 |---|---|---|---|
 | **7QXS** | **2.75 Å** (H-bond to a phosphate O3′) | 2.65 Å ✓ | **CONTACT** |
 | **7QXA** | **4.35 Å** (vdW to a sugar C5′) | 2.93 Å ✓ | **CONTACT** |
-| 9SHY | 30.23 Å, but the relevant nucleotide is unmodelled | 2.78 Å ✓ | NOT RESOLVED |
+| **9SHY** | **2.78 Å** (H-bond to the phosphate of nt25, the 5′ end) | 2.78 Å ✓ | **CONTACT** |
 | 7TRE / 7TRD / 7TRF | 11.11 / 11.94 / 11.94 Å (7-nt DNA, never reaches the site) | — | out of reach |
 
 **Verdict: the TEN PLYQ anchor site does physically contact the DNA** once the substrate is
@@ -66,8 +66,11 @@ Read this part before reporting anything.
   steric barrier equally.
 - **Do not quote 2.75 Å as a precise number.** These are 3.2–3.8 Å cryo-EM maps. What is
   robust is the ordering: ~3 Å vs ~11 Å, a factor of four.
-- **Do not report "no contact" from 9SHY.** Its anchor-contacting nucleotide is not modelled.
-  That is missing data, and the rule returns NOT RESOLVED precisely so it cannot be misread.
+- **9SHY is a CONTACT, not a negative.** An earlier version of this document reported it as
+  NOT RESOLVED at 30.23 Å. That was an artefact of an under-populated fixture: it stored only
+  DNA auth 33-34 (the two nucleotides *furthest* from Tyr176, since the DNA recedes from the
+  TEN domain as the auth number rises) while declaring 10 modelled. With auth 25-34 present the
+  contact is 2.78 Å to the phosphate of nt25. Three independent entries now agree.
 
 ## Output files
 
