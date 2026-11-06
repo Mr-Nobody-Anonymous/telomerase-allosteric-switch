@@ -1,0 +1,5 @@
+mechanism,signature,effect_size,se_required,se_achievable,detectable,k_pol,cv_s,n_rep,n_mol
+retention,s/phi changes,0.653,0.1648,0.009,yes,0.1,0.02,6,2000
+translocation,phi changes,0.0664,0.0168,0.009,yes,0.1,0.02,6,2000
+catalytic,s/phi changes,0.4729,0.1194,0.009,yes,0.1,0.02,6,2000
+combined,s/phi changes,0.2438,0.0615,0.009,yes,0.1,0.02,6,2000

@@ -1,0 +1,17 @@
+s_obs,k_loss_over_k_ext,R_feasible,R_over_k_ext,k_off_over_k_ext,note
+0.55,0.05,yes,0.768182,77.586364,
+0.55,0.1,yes,0.718182,72.536364,
+0.55,0.3,yes,0.518182,52.336364,
+0.55,1.0,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.7,0.05,yes,0.378571,38.235714,
+0.7,0.1,yes,0.328571,33.185714,
+0.7,0.3,yes,0.128571,12.985714,
+0.7,1.0,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.9,0.05,yes,0.061111,6.172222,
+0.9,0.1,yes,0.011111,1.122222,
+0.9,0.3,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.9,1.0,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.95,0.05,yes,0.002632,0.265789,
+0.95,0.1,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.95,0.3,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"
+0.95,1.0,no,,,"residual loss must be negative; this (s,w) cannot be described by eq.1 with a primer-recoverable loss term"

@@ -1,0 +1,5 @@
+model,phi_ratio,s_ratio,s_over_phi_ratio,verdict
+M1 retention      (k_off 4x lower),1.1233,1.1539,1.0273,both move -> RETENTION/COMBINED
+M2 translocation  (k_tr 1.74x up),1.0664,1.0664,1.0,s/phi flat -> TRANSLOCATION
+M3 catalytic      (k_pol 2.4x up),1.0,1.0211,1.0211,phi flat -> CATALYTIC
+M4 combined       (both),1.1433,1.1744,1.0273,both move -> RETENTION/COMBINED

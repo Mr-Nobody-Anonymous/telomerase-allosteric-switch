@@ -1,0 +1,7 @@
+measurement,eq1_prediction,observed,verdict
+resting primer k_off (no nucleotide present),one k_off parameter; unchanged by POT1-TPP1,0.012 /min; unchanged by saturating POT1-TPP1,consistent
+dissociation t1/2 of actively cycling enzyme,unchanged - same single k_off parameter,increased >= 4-fold at 16 C and at 30 C,FALSIFIED
+translocation efficiency (single round),not represented: eq.1 has no translocation step,0.57 -> 0.99,out of scope of model
+translocation rate constant,not represented,0.07 -> 0.10 /min,out of scope of model
+k_pol (nucleotide incorporation),k_ext changes iff model B,no increase in k_pol with POT1-TPP1,constrains B but k_pol != k_ext
+processivity at saturating primer (1 uM vs Km 10 nM),affinity term silent (d s/d k_off -> 0); only k_ext or k_loss can change,2.7-fold increase,locates the effect OUTSIDE k_off

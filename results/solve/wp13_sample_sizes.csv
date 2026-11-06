@@ -1,0 +1,7 @@
+A_baseline,A_ratio_fold4,se_required,n_rep_cv5,n_rep_cv10,verdict
+0.99,1.0076,0.00191,686,2744,infeasible
+0.95,1.0392,0.00989,26,103,hard
+0.9,1.082,0.02071,6,24,feasible
+0.7,1.3041,0.07675,1,2,feasible
+0.5,1.669,0.16885,1,1,feasible
+0.3,2.4099,0.35585,1,1,feasible

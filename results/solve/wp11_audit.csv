@@ -1,0 +1,10 @@
+assumption,k_tr_invariant,estimator,status
+"A1-A3 baseline (6 identical steps, single k_off)",True,k_off/k_pol = (s/phi)^(-1/6)-1,valid
+A2 k_pol profile: all equal (control),True,aggregate,"invariance holds, point estimate biased"
+A2 k_pol profile: 1 slow step (10x),True,aggregate,"invariance holds, point estimate biased"
+A2 k_pol profile: 2 slow steps (10x),True,aggregate,"invariance holds, point estimate biased"
+A2 k_pol profile: graded 10x..1x,True,aggregate,"invariance holds, point estimate biased"
+"A2 k_pol profile: one fast, one slow",True,aggregate,"invariance holds, point estimate biased"
+A3 phase-dependent k_off,True,A=s/phi -> extension phase only; B=phi/(1-phi) -> translocation only,"valid, and strictly stronger"
+A4 effective step count n_eff,True,scales as (s/phi)^(-1/n_eff),2x systematic if n_eff unknown
+A5 k_off_ext -> 0 limit,True,s/phi -> 1,degenerate but interpretable

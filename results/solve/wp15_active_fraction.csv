@@ -1,0 +1,6 @@
+mixture,w_a1,A_1,A_2,A_obs,gate,R_obs,n_obs,n_worst_subpopulation
+50/50 of A=0.30 and A=0.95,0.5,0.3,0.95,0.625,pass,2.5154,3,26
+50/50 of A=0.30 and A=0.99,0.5,0.3,0.99,0.645,pass,2.413,3,688
+60/40 of A=0.20 and A=0.95,0.6,0.2,0.95,0.5,pass,3.8312,3,26
+50/50 of A=0.30 and A=0.70 (both powered),0.5,0.3,0.7,0.5,pass,3.3956,3,3
+50/50 of A=0.70 and 100% inactive,0.5,0.7,1.0,0.85,fail,1.3472,3,3

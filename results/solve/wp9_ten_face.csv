@@ -1,0 +1,9 @@
+residue,resid,d_TPP1_A,d_DNA_A,median_B,role
+A46,46,3.35,36.46,47.16,closest TPP1 contact on TEN
+F101,101,5.81,26.77,50.95,FGF loop
+G100,100,7.38,24.34,42.41,Zaug 2010: G100V abolishes stimulation
+F99,99,8.81,18.66,45.25,FGF loop
+Y176,176,19.21,11.11,40.29,Liu 2022: DNA anchor
+Q177,177,23.05,13.25,53.88,Liu 2022: DNA anchor
+P174,174,19.72,16.34,47.06,PLYQ
+L175,175,20.35,13.99,49.23,PLYQ

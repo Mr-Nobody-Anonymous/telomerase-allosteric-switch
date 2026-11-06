@@ -1,0 +1,21 @@
+{
+ "7TRE": {
+  "tert_chain": "A",
+  "dna_chain": "D",
+  "tpp1_chain": "C",
+  "dna_nt_modelled": 7,
+  "tpp1_dna_min_A": 28.73
+ },
+ "7TRD": {
+  "tert_chain": "A",
+  "dna_chain": "N",
+  "tpp1_chain": null,
+  "dna_nt_modelled": 7
+ },
+ "7TRF": {
+  "tert_chain": "A",
+  "dna_chain": "D",
+  "tpp1_chain": null,
+  "dna_nt_modelled": 7
+ }
+}

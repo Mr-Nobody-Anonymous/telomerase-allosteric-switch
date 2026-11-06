@@ -1,0 +1,4 @@
+pair,same_atom_order,same_b_factors,median_coord_diff_A,max_coord_diff_A
+7TRE/7TRD,True,False,0.5045,8.584
+7TRE/7TRF,True,False,0.4839,8.777
+7TRD/7TRF,True,True,0.2288,2.312

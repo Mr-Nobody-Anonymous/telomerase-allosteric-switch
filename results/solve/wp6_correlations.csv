@@ -1,0 +1,7 @@
+subset,variable,pearson_r,pearson_p,spearman_rho,spearman_p,n
+all mutants,d_to_TPP1_A,0.2517,0.5136,0.3,0.4328,9
+all mutants,d_to_DNA_A,-0.0539,0.8905,0.0167,0.9661,9
+all mutants,burial_neighbors,0.4263,0.2525,0.3713,0.3251,9
+excl. F776E (flagged),d_to_TPP1_A,-0.3509,0.3941,0.0,1.0,8
+excl. F776E (flagged),d_to_DNA_A,0.5451,0.1623,0.4524,0.2604,8
+excl. F776E (flagged),burial_neighbors,0.3503,0.3949,0.3374,0.4138,8
