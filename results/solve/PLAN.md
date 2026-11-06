@@ -58,10 +58,16 @@ number, but no number requires it. See RESULTS.md and CORRECTIONS.md.
 
 **Milestone:** WP11-WP15 complete.
 
-**Open thread — Colab.** `colab/TPP1_structural_test.ipynb` tests the PLYQ-DNA contact against
-7QXS/7QXA/9SHY/9SHZ/9SI0, which this sandbox cannot download. Verified end-to-end on the three
-local CIFs (TPP1 correctly identified by contact; histones correctly excluded). Needs only a
-browser to finish. Mechanism unresolved, and now with a measured reason: the
+**Closed thread — anchor site (WP16).** The PLYQ–DNA contact has been measured in the Sekne
+long-DNA depositions: **Tyr176 is 2.75 Å (7QXS) and 4.35 Å (7QXA) from auth nt 19**, both entries
+passing a catalytic control. Against 11.11–11.94 Å in the 7-nt structures this is a fourfold
+change. It is a backbone contact, not base-specific, and it settles geometry only — the mechanism
+remains open. See `WP16_ANCHOR_SITE_RESULT.md`.
+
+**Next structural experiment it raises, not yet done:** PLYQ cavity mutant **Y176A**, assayed for
+processivity and for TPP1 stimulation. If the anchor is load-bearing, processivity should fall
+while recruitment stays intact. This is falsifiable with the readouts already specified in
+`WP15_DESIGN_VALIDATION.md` and needs no new structures. Mechanism unresolved, and now with a measured reason: the
 discriminator works only inside an unmeasured operating regime, and the first experiment should
 measure that regime (A untreated, one reaction, no TPP1) rather than the mechanism.
 

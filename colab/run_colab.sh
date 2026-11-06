@@ -45,13 +45,34 @@ echo "interpreter: $PY"
 "$PY" -c "import numpy, scipy, gemmi; print('numpy', numpy.__version__, '| scipy', scipy.__version__, '| gemmi', gemmi.__version__)"
 
 echo
-echo "=== self-test (offline) ==="
+echo "=== self-test 1/3: geometry against the bundled CIFs (offline) ==="
 "$PY" colab/tpp1_colab.py --selftest
 SELF=$?
 if [ "$SELF" -ne 0 ]; then
   echo
-  echo "SELF-TEST FAILED (exit $SELF). Not continuing to the download stage." >&2
+  echo "SELF-TEST 1 FAILED (exit $SELF). Not continuing to the download stage." >&2
   exit "$SELF"
+fi
+
+echo
+echo "=== self-test 2/3: verdict rule against real coordinate subsets (offline) ==="
+"$PY" colab/verdict.py --selftest
+SELF2=$?
+if [ "$SELF2" -ne 0 ]; then
+  echo
+  echo "SELF-TEST 2 FAILED (exit $SELF2). The verdict rule does not reproduce the" >&2
+  echo "documented numbers. Not continuing." >&2
+  exit "$SELF2"
+fi
+
+echo
+echo "=== self-test 3/3: does AGENT_START_HERE.md match the code? ==="
+"$PY" colab/test_colab.py
+SELF3=$?
+if [ "$SELF3" -ne 0 ]; then
+  echo
+  echo "SELF-TEST 3 FAILED (exit $SELF3). The document and the code disagree." >&2
+  exit "$SELF3"
 fi
 
 if [ "${1:-}" = "--selftest" ]; then

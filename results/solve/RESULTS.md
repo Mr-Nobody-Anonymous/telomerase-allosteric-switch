@@ -101,9 +101,18 @@ the anchor site itself.
 declare the mechanism question unanswerable — is not supported by the coordinates.
 
 *Caveat.* The exit-path extrapolation is a rigid straight line through one nucleotide step and
-ignores helix curvature. It establishes direction only. Confirming the PLYQ contact needs a
-deposition with a longer DNA (7QXS, 30 nt); RCSB's file server is unreachable from this sandbox,
-so the structural claim rests on 7TRE plus the published PLYQ mutagenesis.
+ignores helix curvature. It establishes direction only.
+
+**RESOLVED (WP16).** The contact has now been measured directly in depositions with longer DNA.
+**7QXS: Tyr176 OH is 2.75 Å from the O3′ of auth 19.** **7QXA, an independently refined model of
+the same complex, puts the same residue on the same nucleotide at 4.35 Å.** Both entries pass a
+catalytic control (Asp868 within 2.65 / 2.93 Å of the DNA 3′ end), so their active sites are
+verifiably seated. Against 11.11–11.94 Å in the 7-nt structures, this is a factor-of-four change
+and far outside coordinate error.
+
+The contact is to the **sugar–phosphate backbone**, not a base, and belongs to **Tyr176** alone —
+Pro174 is 7.49 Å away. It therefore cannot be reading sequence, and it does not distinguish
+retention from catalytic activation. See `WP16_ANCHOR_SITE_RESULT.md`.
 
 ## WP2 — The repository's kinetic model does not describe the assay
 
@@ -327,13 +336,13 @@ counted twice as independent evidence.)
 
 ## Limitations of this analysis
 
-1. **No 7QXS — NOW ADDRESSED BY `colab/TPP1_structural_test.ipynb`.** The Sekne structure with a
-   30-nt DNA is the measurement that converts the WP8 exit-path extrapolation into an observed
-   contact. `files.rcsb.org` is unreachable from this sandbox, so the notebook is written to run
-   on any machine with internet access (Google Colab, 2 minutes, CPU). It fetches 8 structures,
-   identifies TPP1 by contact rather than chain letter or length, and applies a verdict rule
-   stated in advance. **It has been executed end-to-end here against the three local files** —
-   everything except the downloads is verified.
+1. **No long-DNA deposition — RESOLVED (WP16).** The Sekne 30-nt structures answered this.
+   Measured: Tyr176 → DNA = **2.75 Å** in 7QXS and **4.35 Å** in 7QXA, both on auth 19, both with
+   the catalytic aspartate seated. The WP8 exit-path extrapolation is now an observation. What is
+   *not* resolved is the mechanism: a backbone contact is equally consistent with a positioning
+   element and with a steric barrier. The measurement, its controls and its limits are in
+   `WP16_ANCHOR_SITE_RESULT.md`; the runnable pipeline is `colab/` (entry point
+   `colab/AGENT_START_HERE.md`).
 2. **Published values are taken as reported.** The Latrick & Cech k_off, φ and k_tr numbers are
    used as point estimates; the k_dissoc ~52-fold figure inherits their error bars, which the paper
    does not state for φ.

@@ -103,6 +103,7 @@ AMINO = set("ALA ARG ASN ASP CYS GLN GLU GLY HIS ILE LEU LYS MET PHE PRO SER "
 CONTACT = 4.5          # A, heavy-atom contact cutoff
 NEAR = 5.0             # A, "contact" for the anchor verdict
 FAR = 10.0             # A, "no contact" for the anchor verdict
+ACTIVE_SITE_OK = 6.0   # A, Asp868 to DNA 3' end: active site is seated
 
 # Self-test expectations, measured independently in scripts/solve/wp1_anchor_geometry.py
 SELFTEST = {
@@ -313,6 +314,22 @@ def analyse_entry(pdb: str, path: Path, label: str, expect_tpp1: bool) -> dict:
     dna_atoms = np.vstack([dna_res[i] for i in dna_ids])
     tree = cKDTree(dna_atoms)
     rec["n_dna_nt"] = len(dna_ids)
+
+    # --- ACTIVE-SITE CONTROL --------------------------------------------------
+    # The catalytic aspartate must be seated on the DNA 3' end. This is a POSITIVE
+    # check that the entry's coordinates are usable, and it replaces the old
+    # ">=15 modelled nucleotides" size gate, which discarded good structures
+    # (7QXA has 12 modelled nt, 9SHY has 10) and then reported "test did not run".
+    tert_res_ctrl = residue_xyz(tert)
+    d868 = [tert_res_ctrl[n] for n in REGIONS["catalytic_D868_869"] if n in tert_res_ctrl]
+    if d868 and dna_ids:
+        three_prime = dna_res[dna_ids[-1]]          # 3' end grows with residue number
+        rec["catalytic_to_3prime"] = round(
+            float(cKDTree(np.vstack(d868)).query(three_prime)[0].min()), 2)
+        rec["catalytic_pair_nt"] = int(dna_ids[-1])
+    else:
+        rec["catalytic_to_3prime"] = None
+        rec["warnings"].append("D868 not modelled - active-site control unavailable")
     rec["dna_range"] = f"{dna_ids[0]}-{dna_ids[-1]}"
 
     tert_res = residue_xyz(tert)
@@ -411,57 +428,99 @@ def compare_states(recs: list[dict]) -> dict:
 
 # ----------------------------------------------------------------------------- verdict
 def verdict(recs: list[dict]) -> dict:
-    """The rule is stated here, before the numbers are seen."""
-    out: dict = {"status": "", "text": [], "long_substrate_available": False}
+    """
+    The rule, fixed before the numbers were seen.
 
-    usable = [r for r in recs if not r.get("error") and r.get("n_dna_nt")]
-    long_dna = [r for r in usable if r["n_dna_nt"] >= 15]
-    out["long_substrate_available"] = bool(long_dna)
+    CHANGED 2026-11-06. The first version gated on ">=15 modelled nucleotides".
+    That gate discarded 7QXA (12 nt) and 9SHY (10 nt), both of which have their
+    active site correctly seated on the DNA and both of which are perfectly
+    usable. It then reported "TEST DID NOT RUN" about structures that had in
+    fact answered part of the question.
+
+    Usability is now decided by a POSITIVE control: catalytic Asp868 must be
+    within ACTIVE_SITE_OK of the DNA 3' end. If the active site is seated, the
+    coordinates mean something. Size is only used to decide whether a *negative*
+    result is admissible, never to discard a structure outright.
+    """
+    out: dict = {"status": "", "text": [], "control_failures": []}
+
+    usable = []
+    for r in recs:
+        if r.get("error") or not r.get("n_dna_nt"):
+            continue
+        ctrl = r.get("catalytic_to_3prime")
+        if ctrl is None or ctrl > ACTIVE_SITE_OK:
+            out["control_failures"].append(
+                {"pdb": r["pdb"], "d868_to_3prime": ctrl,
+                 "why": "active site not seated on the DNA"})
+            continue
+        usable.append(r)
+
     out["structures_used"] = [r["pdb"] for r in usable]
 
-    if not long_dna:
+    if not usable:
         out["status"] = "TEST DID NOT RUN"
         out["text"] = [
-            "No structure with >=15 nt of DNA was available, so the anchor question",
-            "was not tested. This is NOT a negative result. Re-run with network access.",
+            "No structure passed the active-site control (Asp868 within",
+            f"{ACTIVE_SITE_OK} A of the DNA 3' end), so the anchor question was not",
+            "tested. This is NOT a negative result. Re-run with network access.",
         ]
         return out
 
-    vals = [(r["pdb"], r["PLYQ_174_177"]) for r in long_dna if r.get("PLYQ_174_177") is not None]
-    if not vals:
-        out["status"] = "TEST DID NOT RUN"
-        out["text"] = ["PLYQ was not modelled in any long-substrate structure."]
-        return out
-
-    best_pdb, best = min(vals, key=lambda t: t[1])
-    out["closest_plyq"] = {"pdb": best_pdb, "distance_A": best}
-
-    if best <= NEAR:
+    contacts = [(r["pdb"], r["PLYQ_174_177"]) for r in usable
+                if r.get("PLYQ_174_177") is not None and r["PLYQ_174_177"] <= CONTACT]
+    if contacts:
+        best_pdb, best = min(contacts, key=lambda t: t[1])
         out["status"] = "ANCHOR SITE ENGAGES DNA"
+        out["closest_plyq"] = {"pdb": best_pdb, "distance_A": best}
         out["text"] = [
-            f"PLYQ comes within {best:.2f} A of the DNA in {best_pdb}.",
+            f"PLYQ comes within {best:.2f} A of the DNA in {best_pdb}, with the",
+            "catalytic aspartate correctly seated on the 3' end.",
             "The TEN anchor site DOES contact DNA once the substrate is long enough.",
-            "The 11.1 A figure measured a site the 7-mer never reached.",
+            "It is a backbone contact, not base-specific, and it does not by itself",
+            "distinguish retention from catalytic activation.",
         ]
-    elif best >= FAR:
-        out["status"] = "ANCHOR SITE DOES NOT ENGAGE DNA"
-        out["text"] = [
-            f"PLYQ stays >= {best:.2f} A from DNA even at {long_dna[0]['n_dna_nt']}+ nt.",
-            "The anchor-site reading does NOT survive a long substrate.",
-            "The repository's original conclusion was right on this point.",
-        ]
-    else:
-        out["status"] = "INTERMEDIATE - APPROACH, NOT CONTACT"
-        out["text"] = [
-            f"PLYQ approaches to {best:.2f} A in {best_pdb} - between {NEAR} and {FAR} A.",
-            "This is an approach, not a hydrogen-bonding contact.",
-            "Report as such; do not upgrade it to a contact.",
-        ]
+        ten_hits = {r["pdb"]: r.get("dna_contacting_TEN_residues", []) for r in usable}
+        out["TEN_residues_contacting_DNA"] = ten_hits
+        out["any_TEN_contact"] = any(bool(v) for v in ten_hits.values())
+        return out
 
-    # supporting evidence, independent of the headline
-    ten_hits = {r["pdb"]: r.get("dna_contacting_TEN_residues", []) for r in long_dna}
-    out["TEN_residues_contacting_DNA"] = ten_hits
-    out["any_TEN_contact"] = any(bool(v) for v in ten_hits.values())
+    # A usable structure can still lack the anchor residue itself. That is missing
+    # data, not a negative: bail out before trying to format a None distance.
+    with_plyq = [r for r in usable if r.get("PLYQ_174_177") is not None]
+    if not with_plyq:
+        out["status"] = "NOT RESOLVED"
+        out["text"] = [
+            "PLYQ (174-177) is not modelled in any structure that passed the",
+            "active-site control, so its distance to the DNA could not be measured.",
+            "This is missing data, not a negative result.",
+        ]
+        return out
+
+    # no contact: admissible only where the relevant nucleotides are modelled
+    unresolved = [r["pdb"] for r in usable if r.get("n_dna_nt", 0) < 30]
+    resolved = [r for r in usable if r["pdb"] not in unresolved]
+    out["TEN_residues_contacting_DNA"] = {r["pdb"]: r.get("dna_contacting_TEN_residues", [])
+                                          for r in usable}
+    out["any_TEN_contact"] = any(bool(v) for v in out["TEN_residues_contacting_DNA"].values())
+
+    if not resolved:
+        out["status"] = "NOT RESOLVED"
+        out["text"] = [
+            "No contact was seen, but every usable structure has unmodelled",
+            f"nucleotides near the anchor ({', '.join(unresolved)}).",
+            "This is missing data, not a negative result.",
+        ]
+        return out
+
+    best = min(resolved, key=lambda r: r["PLYQ_174_177"])
+    out["status"] = "ANCHOR SITE DOES NOT ENGAGE DNA"
+    out["closest_plyq"] = {"pdb": best["pdb"], "distance_A": best["PLYQ_174_177"]}
+    out["text"] = [
+        f"PLYQ stays {best['PLYQ_174_177']:.2f} A from DNA in {best['pdb']}, which has",
+        "the relevant nucleotides modelled.",
+        "The anchor-site reading does NOT survive a long substrate.",
+    ]
     return out
 
 
@@ -561,18 +620,20 @@ def selftest() -> int:
             print(f"       warnings: {r['warnings']}")
     print()
     print("VERDICT-BRANCH TESTS (fabricated records; every branch must be reachable)")
-    def fake(pdb, ndna, plyq):
+    def fake(pdb, ndna, plyq, ctrl=2.7):
         return {"pdb": pdb, "n_dna_nt": ndna, "PLYQ_174_177": plyq,
-                "dna_contacting_TEN_residues": [], "TPP1_present": True}
+                "dna_contacting_TEN_residues": [], "TPP1_present": True,
+                "catalytic_to_3prime": ctrl}
 
     branches = [
-        ("contact",      [fake("X1", 30, 3.4)],   "ANCHOR SITE ENGAGES DNA"),
-        ("no contact",   [fake("X2", 30, 12.1)],  "ANCHOR SITE DOES NOT ENGAGE DNA"),
-        ("intermediate", [fake("X3", 30, 7.2)],   "INTERMEDIATE - APPROACH, NOT CONTACT"),
-        ("no long DNA",  [fake("X4", 7, 11.1)],   "TEST DID NOT RUN"),
-        ("missing PLYQ", [{"pdb": "X5", "n_dna_nt": 30, "PLYQ_174_177": None,
-                           "dna_contacting_TEN_residues": [], "TPP1_present": True}],
-         "TEST DID NOT RUN"),
+        ("contact",        [fake("X1", 30, 2.8)],  "ANCHOR SITE ENGAGES DNA"),
+        ("no contact",     [fake("X2", 30, 12.1)], "ANCHOR SITE DOES NOT ENGAGE DNA"),
+        ("unresolved nt",  [fake("X3", 10, 12.1)], "NOT RESOLVED"),
+        ("inactive site",  [fake("X4", 30, 2.8, ctrl=25.0)], "TEST DID NOT RUN"),
+        ("missing PLYQ",   [{"pdb": "X5", "n_dna_nt": 30, "PLYQ_174_177": None,
+                             "dna_contacting_TEN_residues": [], "TPP1_present": True,
+                             "catalytic_to_3prime": 2.7}],
+         "NOT RESOLVED"),          # PLYQ absent = missing data, never a negative
     ]
     for name, recs, want in branches:
         got = verdict(recs)["status"]
