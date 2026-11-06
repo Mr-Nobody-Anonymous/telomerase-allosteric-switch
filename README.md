@@ -381,6 +381,18 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
+> **`freesasa` is optional.** It is a C extension with no wheel on several platforms and
+> needs CPython headers (`python3-dev`) to build. The code does not require it:
+> `interface_geometry.py` imports it inside a `try/except` and falls back to Biopython's
+> `ShrakeRupley`, and the reference SASA values are cross-checked against that fallback.
+> `pip install -e .` therefore succeeds without it. If you do want the fast C path:
+> `pip install -e ".[freesasa]"` (add `--no-build-isolation` and install your platform's
+> Python headers if the build fails).
+>
+> `openmm` and `pdbfixer` in `requirements.txt` are only used by the MD-preparation scripts
+> (`scripts/prepare_md_systems.py`); neither the library nor the test suite imports them.
+> They can be skipped on a lean install.
+
 ### Reproduce Key Analyses
 
 ```bash
