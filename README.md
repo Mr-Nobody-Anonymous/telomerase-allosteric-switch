@@ -68,6 +68,31 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > | WP4 decision matrix | [`experimental_decision_matrix.md`](results/mechanism/experimental_decision_matrix.md) | Two cheap experiments would settle it |
 > | WP5 assessment | [`MECHANISM_ASSESSMENT.md`](results/mechanism/MECHANISM_ASSESSMENT.md) | Findings ranked by confidence, with falsification criteria |
 >
+> ### WP16 — the TEN anchor site has now been measured (2026-11-06)
+>
+> The long-standing structural gap is closed. The Sekne 2022 depositions with a **30-nt** DNA put
+> **Tyr176 within 2.75 Å (7QXS) and 4.35 Å (7QXA) of nucleotide auth 19** — a backbone contact —
+> against **11.11–11.94 Å** in this repository's 7-nucleotide structures. Both entries pass a
+> catalytic control (Asp868 within 2.65 / 2.93 Å of the DNA 3′ end), so their active sites are
+> verifiably seated. Two independently refined models agree on the same residue and the same
+> nucleotide.
+>
+> **This settles geometry, not mechanism.** The contact is to the sugar–phosphate backbone, so it
+> cannot be reading sequence, and it is equally consistent with a positioning element and with a
+> steric barrier. It does not distinguish DNA retention from catalytic activation, and it does not
+> change the standing mechanism verdict. See
+> [`results/solve/WP16_ANCHOR_SITE_RESULT.md`](results/solve/WP16_ANCHOR_SITE_RESULT.md).
+>
+> Reproduce, offline, in one command:
+>
+> ```bash
+> bash colab/run_colab.sh --selftest   # three suites, no internet, ~5 s
+> ```
+>
+> The pipeline an agent should run is documented in
+> [`colab/AGENT_START_HERE.md`](colab/AGENT_START_HERE.md); `colab/test_colab.py` asserts that
+> document still matches the code.
+
 > **Next phase (open): affinity–processivity causality.** Does primer retention quantitatively
 > account for the TPP1-dependent processivity increase, without a mechanical signal? The
 > [preregistration](results/causality/PREREGISTRATION.md) is frozen before any fitting, with its

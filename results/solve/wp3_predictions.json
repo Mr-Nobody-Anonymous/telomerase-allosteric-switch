@@ -1,0 +1,12 @@
+{
+ "prediction_phi_only": 1.7368,
+ "prediction_phi_times_ktr": 2.4812,
+ "observed": 2.7,
+ "observed_sd": 0.6,
+ "z_phi_only": -1.605,
+ "z_combined": -0.365,
+ "k_dissoc_no_PT": 0.05281,
+ "k_dissoc_PT": 0.00101,
+ "resting_koff_no_PT": 0.012,
+ "resting_koff_PT": 0.012
+}

@@ -1,0 +1,7 @@
+rule,status,note
+A-ratio CI excludes 1 and |ratio-1| >= 0.05 -> DETECTED,survives,heterogeneity changes effect size but not the direction of inference
+A-ratio null with A_ctrl <= 0.70 -> EXCLUDED,survives with a caveat,valid only for w >= 0.8; a mixture can hide a responsive subpopulation
+A-ratio null with A_ctrl > 0.90 -> INCONCLUSIVE,"survives, strengthened",must be reported as 'no power' or 'mixture' - never as 'no effect'
+B lower bound > control B upper bound -> DETECTED,survives only with a trap,"without an absorbing trap, B is an upper bound and cannot be tested this way"
+"phi diff within resolution, both < 0.95 -> EXCLUDED",survives,still requires both arms below saturation
+"phi_trt > 0.95, CI touches 1 -> INCONCLUSIVE","survives, unchanged",any reparameterisation of B fails the same way

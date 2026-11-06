@@ -1,0 +1,5 @@
+quantity,no_PT,with_PT,fold,units
+translocation efficiency phi,0.57,0.99,1.737,fraction
+translocation rate k_tr,0.07,0.1,1.429,/min
+k_dissoc during translocation,0.0528,0.001,52.28,/min
+resting primer k_off,0.012,0.012,1.0,/min
