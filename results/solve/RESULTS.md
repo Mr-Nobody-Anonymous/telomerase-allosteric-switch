@@ -4,10 +4,20 @@
 processivity (RAP) a *mechanical/allosteric* effect, or *DNA retention* — the enzyme simply
 holding its substrate better?
 
-**Answer reached.** It is retention, and the published numbers do more than that: they exclude
-the repository's own model class, and one published dataset reproduces the observed effect
-quantitatively with no free parameters and no mechanical term. What remains open is narrow and
-specific, and it is named at the end with a powered design.
+**Answer reached — and then narrowed again (2026-11-06).** The body of this file supports the
+retention branch over a mechanical one, and one published dataset reproduces the observed effect
+with no mechanical term. **But the split that matters is R1 vs R2, and only R1 was ever tested**
+(C2 below). Read the answer as: *R1 is excluded, R2 is supported but not demonstrated.*
+
+**A later result removes the obvious way to fix that.** Under eq. 1 the affinity arm (R1) and the
+extension arm (R2) shift the same loss term `R` and therefore the same scalar `s`; they are
+degenerate (gap < 0.005 fold at A₀ = 0.99). A primer titration does separate them — but only in a
+low-processivity regime that caps the whole effect near 1.29×, against the 2.7 ± 0.6× actually
+measured. **So no primer titration separates R1 from R2 while the effect is large enough to
+measure.** That is a negative result about the design, not about TPP1, and it is guarded by
+`tests/test_open_findings.py`. The mechanism question therefore remains open and requires a
+perturbation that changes one arm without the other — see §6 of this file and
+`results/solve/WP17_MECHANISM_DESIGN.md`.
 
 Everything below is reproducible from files in this repository plus published numbers. No new
 experiment and no new simulation was required, and no supercomputer was needed.
@@ -213,6 +223,13 @@ the repository's earlier ANM "coupling" result lacked exactly this control.
 Everything published is reproduced by retention. Allostery is not excluded — it is **unsupported**,
 which is a different thing.
 
+> **Update (WP17, 2026-11-06).** The primer-titration route proposed below does **not** work either,
+> and this was established after the fact. Under eq. 1 the two arms are degenerate at high
+> processivity and separate only where both collapse toward 1.0×, so the separating regime cannot
+> host the 2.7× effect. See
+> [`WP17_MECHANISM_DESIGN.md`](WP17_MECHANISM_DESIGN.md) for the proof and for the three designs
+> that survive — each varies a quantity that enters one arm and not the other.
+
 > **Correction (see `CORRECTIONS.md` C1).** My first-pass proposal — single-turnover incorporation
 > *without primer* — is **not possible**: telomerase incorporation requires a primer base-paired to
 > the RNA template. With no primer there is no chemical step to measure. That recommendation is
@@ -310,6 +327,7 @@ counted twice as independent evidence.)
 | "affinity (C1) and extension rate (B) are indistinguishable" | at [P]/K_d = 100 the affinity channel is closed (0.99% of loss); the two are distinguishable by magnitude alone |
 | "no mechanism is proven" | correct, and now sharper: retention is quantitatively sufficient and predicted (−0.37 SD); allostery is unsupported by any published number |
 | "the mechanism question needs new experiments" | true, and wider than I first said: needs a TPP1-free matched structural series and residence-time-matched kinetics (CORRECTIONS C4) |
+| "a primer titration separates R1 from R2" | **false** — the arms are degenerate at high processivity and the separating regime caps the effect at ~1.29× vs 2.7× observed (WP17) |
 
 ## Files produced
 
@@ -326,6 +344,7 @@ counted twice as independent evidence.)
 | `wp8_dna_polarity.csv`, `wp8_exit_path.csv` | DNA polarity and the 5′ exit path |
 | `wp9_ten_face.csv` | TPP1-facing vs DNA-facing elements of TEN |
 | `wp10_discriminator.csv` | the exact (s, phi) discriminator between the four models |
+| [`WP17_MECHANISM_DESIGN.md`](WP17_MECHANISM_DESIGN.md) | why the primer titration fails, and the three designs that survive |
 | `wp11_audit.csv`, `wp12_recovery.csv` | assumption audit, power analysis, uncertainty propagation |
 | `WP11_WP12_AUDIT.md` | **read this before using the discriminator** — it bounds what the identity can carry |
 | `wp13_*.csv`, `WP13_IDENTIFIABILITY.md` | sensitivity map, sample sizes, exact intervals, decision rule with an inconclusive branch |
