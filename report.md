@@ -11,7 +11,9 @@
 > **(b)** A primer-titration design meant to separate the affinity (R1) and retention (R2)
 > hypotheses was tested and **fails**: the two are degenerate at high processivity, and the
 > low-processivity regime that separates them caps the effect at ~1.29× against the 2.7× actually
-> observed. R1 has never been excluded by measurement — it is assumed away in the fit
+> observed. R1 has never been excluded by measurement — it is assumed away in the fit. The one relevant
+control (resting `k_off = 0.012 /min`, unchanged by saturating POT1-TPP1) argues against R1
+but measures the resting state, not the cycling one
 > ([`results/solve/WP17_MECHANISM_DESIGN.md`](results/solve/WP17_MECHANISM_DESIGN.md)). Neither
 > finding upgrades any claim in this report, which remains a retracted-claims catalog.
 >

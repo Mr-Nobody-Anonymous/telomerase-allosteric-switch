@@ -183,10 +183,17 @@ is expressed only while the enzyme is working — which is exactly what the assa
 **Prediction with no free parameters:** per-repeat survival scales as φ, and if it also scales with
 the rate at which the enzyme commits to the next repeat, the combined prediction is
 φ ratio × k_tr ratio = **2.48×**. Observed: **2.7 ± 0.6×**. Agreement: **−0.37 SD**. With a single
-free weight (0–1) the prediction spans 1.74–2.48× and always brackets the observation.
+free weight (0–1) the prediction spans 1.74–2.48×, which **does not contain** the
+observed 2.7×: the upper end falls 0.36 SD short (every point is still within 2 SD,
+and on a log scale the φ ratio alone accounts for ~56 % of the measured effect). An earlier version
+of this row said the range "always brackets the observation" — that was arithmetically
+false and is corrected here (see WP18).
 
 **No parameterisation of the repository's eq. 1 reproduces both the unchanged resting k_off and the
-2.7× increase.** The repository's model cannot fit the data; this one fits it with nothing tuned.
+2.7× increase.** The repository's model cannot fit the data; this one spans it with nothing tuned,
+though it sits entirely on the low side of the central value (1.74–2.48× vs 2.7×, 0.36 SD short at
+the upper end). That residual is the honest limit of the kinetic account and is carried forward as
+an open item in WP18, not absorbed by fitting.
 
 ---
 

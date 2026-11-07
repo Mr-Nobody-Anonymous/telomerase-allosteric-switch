@@ -114,7 +114,10 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 >
 > **"R1 excluded, R2 supported" was too strong.** The fit *sets* the resting primer off-rate equal
 > with and without TPP1 (`resting_koff_no_PT == resting_koff_PT == 0.012` in
-> `wp3_predictions.json`) — R1 is assumed away *inside the model*, not excluded by a measurement.
+> `wp3_predictions.json`) — R1 is assumed away *inside the model* — and the one control that exists points the other
+> way: the resting primer `k_off` is **measured at 0.012 /min and is unchanged by saturating
+> POT1-TPP1**, which is evidence *against* a global affinity change but does not by itself
+> exclude R1 during cycling.
 > The structural argument only rules out a direct TPP1–DNA contact.
 >
 > The natural fix — titrate primer until R1 and R2 diverge — **fails**, and it fails in a way that

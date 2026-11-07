@@ -16,8 +16,11 @@ here to <5%.
 
 from __future__ import annotations
 
+import importlib.util
+import math
 import pathlib
 import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -182,3 +185,75 @@ def test_wp16_9shy_row_says_contact() -> None:
     row = next(l for l in md.splitlines() if l.startswith("| 9SHY"))
     assert "NOT RESOLVED" not in row, f"stale verdict row: {row.strip()[:90]}"
     assert "CONTACT" in row
+
+
+# ---------------------------------------------------------------- WP18 ----
+WP18 = Path(__file__).resolve().parents[1] / "scripts" / "solve" / "wp18_candidate_model.py"
+
+
+def _wp18():
+    spec = importlib.util.spec_from_file_location("wp18", WP18)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_wp18_exists_and_is_importable():
+    assert WP18.exists(), "WP18 script missing"
+    _wp18()
+
+
+def test_wp18_translocation_rates_match_wp3():
+    m = _wp18()
+    assert m.KOFF_TR_NO == pytest.approx(0.05281, abs=5e-5)
+    assert m.KOFF_TR_PT == pytest.approx(0.00101, abs=5e-5)
+    assert m.KOFF_TR_NO / m.KOFF_TR_PT == pytest.approx(52.3, abs=0.5)
+
+
+def test_wp18_degeneracy_is_real():
+    """The whole point: k_off_tr drop and k_tr rise are one observable."""
+    m = _wp18()
+    eps = m.KOFF_TR_NO / m.KOFF_TR_PT
+    # r = COUPLING/eps reproduces the measured pair ...
+    assert m.ktr_ratio_needed(eps) == pytest.approx(m.KTR_PT / m.KTR_NO_PT, rel=1e-9)
+    # ... and r = 1 with a larger eps reproduces the SAME phi.
+    eps_r1 = m.COUPLING
+    assert m.ktr_ratio_needed(eps_r1) == pytest.approx(1.0, rel=1e-9)
+    assert eps_r1 != pytest.approx(eps, rel=0.2)
+
+
+def test_wp18_identity_holds():
+    """log(s) - log(phi) = -6 log(1+a), independent of k_tr."""
+    m = _wp18()
+    a = 0.03
+    for phi in (0.57, 0.99):
+        s = m.s_of(a, phi)
+        assert math.log(s) - math.log(phi) == pytest.approx(-6 * math.log(1 + a))
+
+
+def test_wp18_only_translocation_candidates_survive():
+    m = _wp18()
+    eps = m.KOFF_TR_NO / m.KOFF_TR_PT
+    s0 = m.s_of(m.A0, m.PHI_NO_PT)
+    # translocation family: resting k_off untouched, phi reaches 0.99
+    assert m.s_of(m.A0, m.PHI_PT) / s0 == pytest.approx(1.7368, abs=1e-3)
+    # retention: global affinity change necessarily moves the resting k_off
+    assert (m.KOFF_RESTING / eps) != pytest.approx(m.KOFF_RESTING)
+
+
+def test_wp18_wp3_bracket_claim_is_retracted():
+    """RESULTS.md / wp3 must not claim the range brackets the observation."""
+    m = _wp18()
+    lo = m.PHI_PT / m.PHI_NO_PT
+    hi = lo * (m.KTR_PT / m.KTR_NO_PT)
+    assert not (lo <= m.RAP_FOLD_OBS <= hi), "range would bracket - claim invalid"
+    root = Path(__file__).resolve().parents[1]
+    for f in ("results/solve/RESULTS.md", "scripts/solve/wp3_step_resolved_model.py"):
+        lines = (root / f).read_text(encoding="utf-8").splitlines()
+        for i, line in enumerate(lines):
+            if "always brackets" not in line:
+                continue
+            # allowed only inside an explicit retraction (+/- 2 lines)
+            window = " ".join(lines[max(0, i - 2): i + 3]).lower()
+            assert "correct" in window or "earlier version" in window, (
+                f"{f}:{i+1} still overclaims: {line.strip()}")

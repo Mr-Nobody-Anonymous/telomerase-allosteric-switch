@@ -22,7 +22,10 @@ says. In `results/solve/wp3_predictions.json` the fit *sets*
 "resting_koff_PT":    0.012      <- identical; R1 is zero by construction
 ```
 
-R1 was **assumed away inside the model**, not excluded by a measurement. The structural argument
+R1 was **assumed away inside the model**, not excluded by a measurement. Note the one control
+that does bear on it: the resting primer `k_off` is measured at 0.012 /min and is unchanged by
+saturating POT1-TPP1 — evidence against a global affinity change, but measured in the resting
+state rather than during cycling. The structural argument
 (TPP1 is 28.7 Å from DNA and makes no DNA contact) excludes a *direct* TPP1–DNA interaction; it
 does not exclude TPP1 changing the enzyme's primer affinity allosterically.
 
