@@ -257,3 +257,61 @@ def test_wp18_wp3_bracket_claim_is_retracted():
             window = " ".join(lines[max(0, i - 2): i + 3]).lower()
             assert "correct" in window or "earlier version" in window, (
                 f"{f}:{i+1} still overclaims: {line.strip()}")
+
+
+# --------------------------------------------------- WP19 / circular frame ----
+def test_src_fit_frame_excludes_every_domain_it_reports():
+    """The src/ frame must not be the catalytic core.
+
+    TRBD 326-540, RT 541-935, IFD-TRAP 755-785 and CTE 936-1132 are each
+    100% inside the catalytic core 326-1132.  Using 326-1132 as the
+    superposition frame therefore lets every reported domain vote on the
+    frame that reports it.
+    """
+    from telotrade.cross_state import CANONICAL_DOMAIN_RANGES as C
+
+    rt_lo, rt_hi = C["RT"]
+    ifd_lo, ifd_hi = C["IFD_TRAP"]
+    frame = {r for r in range(rt_lo, rt_hi + 1) if not (ifd_lo <= r <= ifd_hi)}
+
+    for name in ("TEN", "TRBD", "IFD_TRAP", "CTE"):
+        lo, hi = C[name]
+        inside = sum(1 for r in range(lo, hi + 1) if r in frame)
+        assert inside == 0, (
+            f"{name} {lo}-{hi} overlaps the fit frame in {inside} residues; "
+            "the frame is still circular")
+    assert len(frame) > 300, "frame unexpectedly small"
+
+
+def test_wp19_published_measurements_are_encoded():
+    """The values WP19 relies on must match the primary text."""
+    import importlib.util as ilu
+
+    spec = ilu.spec_from_file_location(
+        "wp19", REPO / "scripts" / "solve" / "wp19_literature_closure.py")
+    m = ilu.module_from_spec(spec)
+    spec.loader.exec_module(m)
+
+    assert (m.PHI0, m.PHI1) == (0.57, 0.99)          # L&C Fig 2F, A
+    assert (m.KTR0, m.KTR1) == (0.07, 0.10)          # L&C Fig 2F, k
+    assert m.KOFF_REST == 0.012                       # resting, unchanged
+    assert m.T12_CYCLING_FOLD == 4.0                  # "at least four-fold"
+    assert (m.R_HALF0, m.R_HALF1) == (0.78, 3.3)      # Wang 2007
+
+    # s = 2^(-1/R_1/2)
+    assert m.s_from_rhalf(m.R_HALF0) == pytest.approx(0.4112, abs=1e-3)
+    assert m.s_from_rhalf(m.R_HALF1) == pytest.approx(0.8105, abs=1e-3)
+
+    # the rebinding gap that WP19 turns into a prediction
+    a0 = m.a_from_identity(m.s_from_rhalf(m.R_HALF0), m.PHI0)
+    a1 = m.a_from_identity(m.s_from_rhalf(m.R_HALF1), m.PHI1)
+    assert a0 / a1 == pytest.approx(1.65, abs=0.02)
+    assert m.T12_CYCLING_FOLD / (a0 / a1) == pytest.approx(2.42, abs=0.05)
+
+
+def test_wp19_retracts_the_never_measured_claim():
+    """Docs must no longer assert that cycling k_off was never measured."""
+    root = Path(__file__).resolve().parents[1]
+    body = (root / "README.md").read_text(encoding="utf-8")
+    assert "has never been measured\" was wrong" in body or \
+           "Correction (WP19)" in body, "README still lacks the WP19 correction"

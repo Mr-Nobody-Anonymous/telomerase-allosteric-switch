@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-496%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-499%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -49,6 +49,12 @@ less than is commonly assumed. It has four moving parts —
    observable is invariant under scaling all rates by a common factor (symbolically, exactly zero).
    A processivity design has structural rank 3 of 4; direct primer binding is the only independent
    measurement that adds rank.
+   > **Correction (WP19).** "Direct primer binding has never been measured" was wrong. Latrick &
+   > Cech 2010 measured it twice by pulse-chase: the *resting* `k_off` = 0.012 /min and is
+   > **unchanged** by saturating POT1-TPP1, while the **cycling** complex's half-dissociation time
+   > increases **at least four-fold**. They also report `k_pol` unchanged. The open item is
+   > therefore narrower and sharper: the cycling measurement needs a DNA trap or dilution to
+   > remove rebinding (WP13), and it is that corrected number which would add rank.
 3. **Affinity is not one hypothesis, and this was wrong in the earlier draft.** Lowering *k*_off
    and raising *k*_on at matched *K*_d are *not* equivalent. The loss term rewrites exactly as
    *R* = *k*_off²/(*k*_off + [P]·*k*_on), so the two differ by an exact factor λ — which is

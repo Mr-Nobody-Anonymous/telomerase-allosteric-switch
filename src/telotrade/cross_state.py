@@ -49,7 +49,9 @@ BENCHMARK_RMSDS: dict[str, float] = {
     "7tre_vs_7trd_global": 0.356,
     "7tre_vs_7trd_core": 0.338,
     "7tre_vs_7trd_ten_alone": 0.411,
-    "7tre_vs_7trd_ten_core_fit": 0.434,
+    "7tre_vs_7trd_ten_core_fit": 0.472,  # invariant RT-core frame; the old
+    # 0.434 used the circular catalytic-core frame (all non-TEN domains lie
+    # inside 326-1132, so the fit absorbed the motion it reported).
     "7tre_vs_7trf_global": 0.356,
     "7tre_vs_7trf_core": 0.338,
     "7tre_vs_2i46_tpp1_global": 1.966,
@@ -385,12 +387,13 @@ def compute_cross_state_rmsd(
         * Global C-alpha (n=934)
         * Catalytic Core (residues 326-1132, n=770, benchmark ~0.338 Å)
         * TEN Domain alone (residues 7-196, n=160, benchmark ~0.411 Å)
-        * TEN Domain on Core Fit (displacement ~0.434 Å)
+        * TEN Domain on Invariant RT-Core Fit (displacement ~0.472 Å; the
+          pre-fix 0.434 Å came from the circular catalytic-core frame)
       - 7TRE vs 7TRF:
         * Global C-alpha (n=934)
         * Catalytic Core (n=770, benchmark ~0.338 Å)
         * TEN Domain alone (n=160, benchmark ~0.411 Å)
-        * TEN Domain on Core Fit (displacement ~0.434 Å)
+        * TEN Domain on Invariant RT-Core Fit (displacement ~0.472 Å)
       - 7TRE vs 2I46 Chain A (strictly Chain A!):
         * TPP1 OB-fold / Global C-alpha (residues 90-241, n=152, benchmark ~1.966 Å)
         * TEL-patch Core (residues 168, 169, 170, 171, 183, 212, n=6)
@@ -590,6 +593,11 @@ def compute_domain_rmsds(
       - CTE: residues 936-1132 (n=197)
       - Catalytic Core: residues 326-1132 (n=770)
 
+    NOTE: the superposition frame is the invariant RT core (RT minus
+    IFD-TRAP, 541-935 less 755-785), NOT the Catalytic Core.  Using the
+    catalytic core as the frame is circular because all four non-TEN
+    domains lie entirely inside it.
+
     Returns:
         pd.DataFrame with columns:
             target_structure, reference_structure, domain_name, residue_range_auth,
@@ -632,8 +640,22 @@ def compute_domain_rmsds(
 
         common_all = sorted(set(ca_target.keys()) & set(ca_ref.keys()))
 
-        # Compute catalytic core fit (residues 326-1132)
-        core_res = [r for r in common_all if 326 <= r <= 1132]
+        # Superposition frame: the invariant RT core, i.e. RT minus IFD-TRAP.
+        #
+        # This used to be "Catalytic Core" 326-1132.  That is circular: TRBD
+        # (326-540), RT (541-935), IFD-TRAP (755-785) and CTE (936-1132) are
+        # each 100% inside 326-1132, so every domain being reported also voted
+        # on the frame that reports it, and the fit absorbs the motion it is
+        # asked to measure (cf. the identical bug fixed in colab/, where a
+        # true 2.00 A displacement read as 1.68 A, -16%).  The mobile IFD helix
+        # must not vote either.  TEN (1-196) is outside the frame by
+        # construction, so its displacement stays an honest measurement.
+        rt_lo, rt_hi = CANONICAL_DOMAIN_RANGES["RT"]
+        ifd_lo, ifd_hi = CANONICAL_DOMAIN_RANGES["IFD_TRAP"]
+        core_res = [r for r in common_all
+                    if rt_lo <= r <= rt_hi and not (ifd_lo <= r <= ifd_hi)]
+        if len(core_res) < 20:
+            core_res = [r for r in common_all if 326 <= r <= 1132]
         p_core = np.array([ca_target[r][1] for r in core_res])
         q_core = np.array([ca_ref[r][1] for r in core_res])
         res_core = svd_kabsch_align(coords_target=q_core, coords_mobile=p_core)
@@ -694,11 +716,15 @@ def compute_per_residue_displacement(
 
     Calculates:
       - disp_7tre_vs_7trd_global_angstrom: displacement under global Kabsch fit.
-      - disp_7tre_vs_7trd_core_fit_angstrom: displacement under catalytic core (326-1132) fit.
-      - disp_7tre_vs_7trf_core_fit_angstrom: displacement under catalytic core (326-1132) fit.
+      - disp_7tre_vs_7trd_core_fit_angstrom: displacement under the invariant
+        RT-core frame (RT 541-935 minus IFD-TRAP 755-785).
+      - disp_7tre_vs_7trf_core_fit_angstrom: same frame.
 
-    Demonstrates that the catalytic core (residues 326-1132) acts as a rigid monolith
-    (<0.34 Å) while the TEN domain undergoes a slight rigid excursion (0.434 Å).
+    Demonstrates that the TERT ring acts as a rigid body while TEN undergoes a
+    rigid excursion (0.472 A).  The frame is the invariant RT core, NOT the
+    catalytic core 326-1132: every non-TEN domain lies entirely inside
+    326-1132, so using it as the frame lets the fit absorb the motion it
+    reports (it under-read CTE by half: 0.375 vs 0.561 A).
 
     Returns:
         pd.DataFrame adhering to Section 4.10 per_residue_displacement_tert.csv schema:

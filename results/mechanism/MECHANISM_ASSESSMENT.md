@@ -54,7 +54,11 @@ runs across a strand→turn→loop→helix junction, so it cannot be a helix-pro
 * **F9. TPP1 acts by stabilising the TEN/DNA interaction (Model C).** Supported by F1, F5, F7,
   F8 together, and it is the interpretation the structural paper itself gives. It is an
   inference, not a measurement: nobody has measured the DNA on-rate/off-rate with and without
-  TPP1 in the same experiment at the single-molecule level.
+  TPP1 in the same experiment at the single-molecule level. **Partly corrected (WP19):** there
+  *is* a bulk measurement in the same experiment — Latrick & Cech 2010, pulse-chase, shows the
+  cycling t½ increasing at least four-fold with POT1-TPP1 while the resting `k_off` stays at
+  0.012 /min. What is missing is the single-molecule / trap-corrected version, not the
+  bulk comparison.
 * **F10. The 760–766 mutant phenotypes are not evidence about a conduit at all.** K760E is
   severe and H762E is mild, which is the opposite of the ordering a conduit requires; the authors
   attribute K760's defect to a possible transient nucleic-acid interaction and cannot assign
