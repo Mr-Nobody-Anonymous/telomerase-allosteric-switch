@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-499%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-506%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -150,9 +150,15 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > which sits entirely inside that range — the fit absorbed the motion it was measuring (~16 %
 > attenuation, ~0.5 Å of invented motion in the "rigid" ring). The frame is now the invariant RT
 > core and IFD-TRAP is defined as **755–785** in both `colab/` and `src/` (they previously
-> disagreed: 745–805 vs 755–785). The RAP-state superposition for **9SHZ and 9SI0 is still not
-> computed** — those coordinates have never been retrieved, so no per-domain displacement for
-> those states exists in this repository.
+> disagreed: 745–805 vs 755–785).
+>
+> **RAP states (9SHZ / 9SI0) — status changed.** These are no longer unobtainable. Both entries
+> are served by `models.rcsb.org`, and `scripts/solve/fetch_rap_fixture.py` now fetches their CA
+> atoms in the same fixture format as 7TRE/7TRD/7TRF/2I46/9SHY. The parser is tested offline
+> against a live-verified single-atom pull (Y176 CA = 133.669, 153.363, 143.095 Å,
+> `tests/test_rap_fixture_fetch.py`). The remaining step is one network-enabled run of that
+> script; the sandbox this was developed in blocks TLS egress from Python, so **the fixtures are
+> fetched but not yet ingested**, and no per-domain displacement for those states is claimed here.
 >
 > Reproduce, offline, in one command:
 >
