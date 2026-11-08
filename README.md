@@ -6,30 +6,9 @@
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Manuscript](https://img.shields.io/badge/manuscript-identifiability%20analysis-purple.svg)](paper/MANUSCRIPT.md)
-[![Status](https://img.shields.io/badge/Status-No%20mechanism%20proven-R1%20untested-critical.svg)](results/causality/MECHANISM_CLASSIFICATION.md)
+[![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
-
-> ### 🤖 If you are an automated agent, read this first
->
-> **`pytest` is not the task.** 490 passing tests only prove the code is internally
-> consistent; they answer no scientific question. An agent that runs `pytest`, sees green,
-> and reports success has done nothing — this has already happened once.
->
-> **Your task is one command:**
->
-> ```bash
-> bash colab/run_colab.sh
-> ```
->
-> That downloads the telomerase structures from RCSB, applies the fixed verdict rule, and
-> writes `colab_out/report.md`. **It needs internet access.** Report the `VERDICT:` block it
-> prints, and read [`colab/AGENT_START_HERE.md`](colab/AGENT_START_HERE.md) before
-> interpreting it — in particular, the list of things the result does **not** show.
->
-> The expected outcome is a measurement, not a "pass". `NOT RESOLVED` and
-> `TEST DID NOT RUN` are legitimate, reportable verdicts, and neither means "no contact".
-> If downloads fail, say so — do not report the run as successful.
 
 ## Manuscript
 
@@ -240,7 +219,7 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (490 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (513 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -409,7 +388,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── mechanism_classification_checks.py # symbolic + complex-step verification of every claim
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (490 passing tests)
+├── tests/                               # Comprehensive test suite (513 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests

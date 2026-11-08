@@ -53,6 +53,12 @@ PHI_NO_PT, PHI_PT = 0.57, 0.99
 KTR_NO_PT, KTR_PT = 0.07, 0.10          # /min
 KOFF_RESTING = 0.012                    # /min
 RAP_FOLD_OBS, RAP_FOLD_SD = 2.7, 0.6    # processivity increase, n = 4
+#  NOTE (WP22): this 2.7 is a ratio of R1/2, a MEDIAN product length, not a ratio
+#  of per-repeat survival s.  L&C give "half the chains elongated by eight
+#  repeats (48 nt)", so R1/2 = 8 with POT1-TPP1 and the s ratio is 1.159, not
+#  2.700 - a 2.33x difference.  The comparisons below therefore mix units; they
+#  are retained for the historical record and superseded by
+#  scripts/solve/wp22_rap_model_v2.py, which converts to s before comparing.
 
 
 def k_dissoc_during_translocation(k_tr: float, phi: float) -> float:

@@ -1,9 +1,27 @@
 # The Unsolved Frontier: Human Telomerase at the Nexus of Cancer & Longevity
 
-> **Current status — 2026-11-01.** The identifiability analysis in
-> [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md) formalises why several of the open questions
-> described here cannot be resolved by processivity measurements alone. Where the two documents
-> differ on what is inferable, the manuscript is the current statement.
+> **Current status — 2026-11-22.** Read the warning below before using anything in this file.
+>
+> ## ⚠ This document is a *research frontier survey*, not a set of findings
+>
+> Everything from **"Method 1"** onward describes **proposed** therapeutic strategies drawn from
+> the wider literature. **None of it is a result of this repository, and none of it is validated
+> here.** Specifically:
+>
+> - **No therapeutic claim in this repository survives audit.** The repository produces a
+>   mechanistic and structural analysis; a mechanism is not a treatment.
+> - **TELIN-1 is quarantined** — it is an in-silico proposal with **zero empirical evidence**.
+> - The earlier "K757A switch", "25 Å switch" and "2.48×" claims are **retracted**.
+> - **14 of 56** claims reviewed were found to be contradicted by the underlying data.
+>
+> The identifiability analysis in [`paper/MANUSCRIPT.md`](../../paper/MANUSCRIPT.md) formalises
+> why several of the open questions described here cannot be resolved by processivity
+> measurements alone. Where the two documents differ on what is inferable, the manuscript is the
+> current statement.
+>
+> **For the mechanism work, read instead:** [`results/solve/WP22_RAP_MODEL_V2.md`](../../results/solve/WP22_RAP_MODEL_V2.md)
+> (the corrected model, M5) and [`results/causality/MECHANISM_CLASSIFICATION.md`](../../results/causality/MECHANISM_CLASSIFICATION.md)
+> (what is proven, what is not).
 
 ## Executive Summary
 
