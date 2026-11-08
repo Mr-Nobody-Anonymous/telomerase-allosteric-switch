@@ -1,5 +1,15 @@
 # WP20 — Exhaustive feasibility: every mechanism, swept
 
+> **⚠ SUPERSEDED IN PART BY WP22.** Two things here are wrong:
+> (i) `2.7` is a ratio of **R₁/₂ (median length)**, not of per-repeat survival `s`.
+> L&C's own text gives R₁/₂ = 8 with POT1-TPP1, so the `s` ratio is **1.159**, not
+> 2.700 — the "ceiling violation" below is a **units error**, not a contradiction.
+> (ii) Wang's `s₀` (RRL-reconstituted enzyme) and L&C's 2.7 (HEK
+> "super-telomerase") are **different enzymes** and must not be multiplied in one
+> equation. WP22 scores them separately.
+> What still stands: the **T2 sweep** and the **T3 Kd route**, both computed
+> within a single system. See `WP22_RAP_MODEL_V2.md`.
+
 WP19 gathered the literature numbers. This asks the question that follows:
 **given those numbers, which mechanism combinations are actually possible?**
 The answer is a computed feasible set, not an argument.

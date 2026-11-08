@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-506%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-513%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -55,6 +55,19 @@ less than is commonly assumed. It has four moving parts —
    > increases **at least four-fold**. They also report `k_pol` unchanged. The open item is
    > therefore narrower and sharper: the cycling measurement needs a DNA trap or dilution to
    > remove rebinding (WP13), and it is that corrected number which would add rank.
+   > **Correction (WP22).** Two further errors in how that literature was used, now fixed.
+   > (i) The **2.7× is a ratio of R₁/₂ — a median length** — not of per-repeat survival `s`.
+   > Latrick & Cech give "half the chains elongated by eight repeats (48 nt)", so R₁/₂ = 8 and
+   > the `s` ratio is **1.159**, not 2.700. The two differ by **2.33×**, and WP3/WP18/WP20 all
+   > compared them directly. (ii) Wang 2007's absolute anchor comes from RRL-reconstituted
+   > enzyme while L&C's 2.7× comes from HEK "super-telomerase" — **different enzymes**, which
+   > the model had multiplied into one equation. Scored separately, the repository's proposed
+   > form `s = (1+a)⁻⁶·φ` is **falsified**: on L&C's own no-POT1-TPP1 numbers
+   > `s₀/φ₀ = 0.7914/0.57 = 1.388 > 1` forces a **negative** rate constant. `φ` is a
+   > window-limited efficiency, not a survival probability, and must not multiply into `s`.
+   > The corrected model **M5** — `s = (1+a)⁻⁶`, with stalled complexes retrying — is physical
+   > and predicts a **2.73×** off-rate fall against L&C's independently measured **≥4×**.
+   > See [`results/solve/WP22_RAP_MODEL_V2.md`](results/solve/WP22_RAP_MODEL_V2.md).
 3. **Affinity is not one hypothesis, and this was wrong in the earlier draft.** Lowering *k*_off
    and raising *k*_on at matched *K*_d are *not* equivalent. The loss term rewrites exactly as
    *R* = *k*_off²/(*k*_off + [P]·*k*_on), so the two differ by an exact factor λ — which is

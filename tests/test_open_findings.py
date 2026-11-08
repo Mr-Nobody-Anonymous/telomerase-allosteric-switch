@@ -315,3 +315,77 @@ def test_wp19_retracts_the_never_measured_claim():
     body = (root / "README.md").read_text(encoding="utf-8")
     assert "has never been measured\" was wrong" in body or \
            "Correction (WP19)" in body, "README still lacks the WP19 correction"
+
+
+# ---------------------------------------------------------------- WP22 ----
+WP22 = Path(__file__).resolve().parents[1] / "scripts" / "solve" / "wp22_rap_model_v2.py"
+
+
+def _wp22():
+    spec = importlib.util.spec_from_file_location("wp22", WP22)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_wp22_resolution_conversion_is_right():
+    """R1/2 = -ln2/ln(s) and its inverse must round-trip."""
+    m = _wp22()
+    for R in (0.78, 2.963, 3.3, 8.0):
+        assert m.R_from_s(m.s_from_R(R)) == pytest.approx(R)
+
+
+def test_wp22_2_7_is_a_median_ratio_not_a_survival_ratio():
+    """The core correction: 2.7 must not be used as an s ratio."""
+    m = _wp22()
+    R_no = 8.0 / 2.7
+    s_ratio = m.s_from_R(8.0) / m.s_from_R(R_no)
+    assert 8.0 / R_no == pytest.approx(2.7)          # what the paper reports
+    assert s_ratio == pytest.approx(1.1587, abs=1e-3)  # what it means for s
+    assert s_ratio / 2.7 == pytest.approx(0.429, abs=1e-3)
+
+
+def test_wp22_old_factorisation_is_unphysical():
+    """s = (1+a)^-6 * phi forces a < 0 on L&C's own no-PT numbers."""
+    m = _wp22()
+    s0 = m.s_from_R(m.SYS["L&C 2010 super-telomerase"]["R0"])
+    assert s0 / m.PHI0 > 1.0                 # violates s <= phi
+    a0 = (s0 / m.PHI0) ** (-1.0 / m.N_INCORP) - 1.0
+    assert a0 < 0, "the old form must produce a negative rate constant"
+
+
+def test_wp22_m5_is_physical_for_both_systems():
+    m = _wp22()
+    for d in m.SYS.values():
+        for R in (d["R0"], d["R1"]):
+            a = m.s_from_R(R) ** (-1.0 / m.N_INCORP) - 1.0
+            assert a >= 0, "M5 must keep a physical (non-negative) rate"
+
+
+def test_wp22_predicts_the_measured_off_rate_fall():
+    """2.73x from the product distribution vs >=4x measured by pulse-chase."""
+    m = _wp22()
+    d = m.SYS["L&C 2010 super-telomerase"]
+    a0 = m.s_from_R(d["R0"]) ** (-1.0 / m.N_INCORP) - 1.0
+    a1 = m.s_from_R(d["R1"]) ** (-1.0 / m.N_INCORP) - 1.0
+    assert a0 / a1 == pytest.approx(2.7335, abs=1e-3)
+    assert a0 / a1 < 4.0, "prediction must sit below the >=4x measured bound"
+
+
+def test_wp22_the_two_systems_are_never_multiplied():
+    """Wang s0 and L&C's fold must not be combined into one equation."""
+    m = _wp22()
+    assert m.SYS["L&C 2010 super-telomerase"]["R1"] == 8.0
+    assert m.SYS["Wang 2007 RRL enzyme"]["R1"] == 3.3
+    # L&C is the more processive enzyme, as the paper states
+    lc = m.s_from_R(8.0)
+    wg = m.s_from_R(3.3)
+    assert lc > wg
+
+
+def test_wp20_is_marked_superseded():
+    root = Path(__file__).resolve().parents[1]
+    for f in ("results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md",
+              "scripts/solve/wp20_exhaustive_feasibility.py"):
+        body = (root / f).read_text(encoding="utf-8")
+        assert "WP22" in body, f"{f} must defer to the corrected model"

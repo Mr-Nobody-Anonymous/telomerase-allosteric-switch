@@ -187,6 +187,17 @@ def main() -> int:
 
     # ---------------------------------------------------------------- verdict
     print("WP20.7  VERDICT")
+    print("  ** SUPERSEDED BY WP22 on two points - read this first **")
+    print("     (i) 2.7 is a ratio of R1/2 (median length), NOT of per-repeat")
+    print("         survival s. L&C's own text gives R1/2 = 8 with POT1-TPP1, so")
+    print("         the s ratio is 1.159, not 2.700. The ceiling below is compared")
+    print("         against the wrong quantity and the 'violation' is a units error.")
+    print("    (ii) Wang's s0 and L&C's 2.7 come from DIFFERENT ENZYMES (RRL")
+    print("         reconstitution vs HEK super-telomerase) and must not be")
+    print("         multiplied into one equation. WP22 scores them separately.")
+    print("  What survives from WP20: the sweep (T2) and the Kd route (T3) are")
+    print("  unaffected because both are computed within a single system.")
+    print()
     print(f"  1. CEILING {CEILING:.3f} (from s0={S0_ANCHOR:.4f}): the identity cannot")
     print("     produce 2.7x at all. L&C's 2.7x processivity EXCEEDS what s can")
     print("     reach at s0=0.4112. The two literature numbers are mutually")
