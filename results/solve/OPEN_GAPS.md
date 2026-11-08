@@ -76,6 +76,23 @@ no-op, and it returned a 3-tuple under a `-> float | None` annotation. The
 correct implementation already exists inline in `analyse_entry`. Removed (32
 lines); colab selftest unchanged at 53/0.
 
+## Simulation-only closure (WP26)
+
+Requested: what simulation must supply to settle this before any lab transfer.
+Measured state: the repo's MD is **3.0 ps** per replica on a **97-residue,
+1,547-atom** fragment — **~8 orders of magnitude** short of the ~100 µs needed
+for an equilibrium answer, and the **catalytic aspartates are not in the system**.
+
+| route | settles | closable? |
+|---|---|---|
+| **S3** alchemical free energy | is the TPP1–TEN interface energetically real? | **yes** — 1st priority |
+| **S2** pathway, all-atom graph | is a mechanical conduit plausible? | yes, but WP23 already measured ≤0.53 Å |
+| **S1** equilibrium | M1 vs M4 | expensive and pre-empted by WP23's endpoint null |
+| **S4** kinetics | the 2.73× vs ≥4× tension | **no** — needs 1.46× precision on k_off; methods give 2–3× |
+
+So the **structural half is closable in simulation; the kinetic half is not** —
+and that is a property of the degeneracy, not of available compute.
+
 ## 6. Gates 4 and 5
 
 Gate 4 needs a dNTP-chase experiment. Gate 5 needs a judgement on the smallest

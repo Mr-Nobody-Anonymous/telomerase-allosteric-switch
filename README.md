@@ -25,6 +25,10 @@ are blocked for stated reasons rather than neglected:
 - **The 2.73× vs ≥4× tension** — reduced to two branches separated by a single
   DNA-trap experiment with distinct numeric predictions. See
   [`WP25`](results/solve/WP25_RESOLVING_TESTS.md).
+- **Simulation-only closure** — quantified. The repo's MD is 3.0 ps on a 97-residue
+  fragment, ~8 orders of magnitude short, and omits the active site. The structural
+  half is closable (alchemical free energy first); the kinetic half is not closable by
+  any amount of compute. See [`WP26`](results/solve/WP26_SIMULATION_READINESS.md).
 - **9SHZ / 9SI0** — parser written and verified offline; the sandbox blocks TLS.
   One networked run of `scripts/solve/fetch_rap_fixture.py` finishes it.
 
