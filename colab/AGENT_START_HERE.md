@@ -3,7 +3,7 @@
 You are an automated agent. Read this file, run one command, report the verdict.
 Nothing below requires judgement on your part.
 
-> **Do not run `pytest` and report success.** All 513 tests passing is the *precondition*,
+> **Do not run `pytest` and report success.** All 522 tests passing is the *precondition*,
 > not the deliverable — it proves only that the code is internally consistent. It answers no
 > scientific question. An agent has already made exactly this mistake and reported "all tests
 > passed, no further troubleshooting required", which was a false claim of completion.

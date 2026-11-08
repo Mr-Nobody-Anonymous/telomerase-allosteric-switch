@@ -1,0 +1,10 @@
+gap,item,value,note
+2,M5 predicted off-rate fall,2.7335,"from product distribution, unfed"
+2,L&C measured fold,4.0,"pulse-chase, lower bound"
+2,ratio measured/predicted,1.4633,attributed to stalling
+2,E1 k_tr ratio required,0.0049,EXCLUDED: contradicts fitted 0.07->0.10
+2,trap prediction if E2,2.7335,falls to 2.73x
+2,trap prediction if E3,>=4,stays >=4x
+3,"k_off_tr, k_tr flat",0.00071,M4 branch
+3,"k_off_tr, k_tr=0.10",0.00101,M2 branch
+3,load-bearing for M5,no,phi not in the product

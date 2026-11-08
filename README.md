@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-513%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-522%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,29 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## Where the open questions stand
+
+A single audited ledger of every gap, each checked against the tree rather than
+recalled: [`results/solve/OPEN_GAPS.md`](results/solve/OPEN_GAPS.md).
+
+Four of the seven gaps that were open are now closed, and the three that remain
+are blocked for stated reasons rather than neglected:
+
+- **Gate 3 (densitometry)** — the repository's data cannot satisfy it, and this is
+  now a *proof*: two product-length distributions can share the recorded ≥16-repeat
+  fraction exactly while differing 4.98× in shape. See
+  [`WP24`](results/solve/WP24_GATE3_STATUS.md).
+- **The 2.73× vs ≥4× tension** — reduced to two branches separated by a single
+  DNA-trap experiment with distinct numeric predictions. See
+  [`WP25`](results/solve/WP25_RESOLVING_TESTS.md).
+- **9SHZ / 9SI0** — parser written and verified offline; the sandbox blocks TLS.
+  One networked run of `scripts/solve/fetch_rap_fixture.py` finishes it.
+
+Newly closed: the **TPP1-free matched series**. 7TRD is apo and matches 7TRE at
+934/934 residues; the largest domain displacement on TPP1 binding is **0.53 Å**,
+i.e. at the coordinate uncertainty — a *measured null*, not an untested
+assumption. See [`WP23`](results/solve/WP23_TPP1_FREE_SERIES.md).
 
 ## Manuscript
 
@@ -219,7 +242,7 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (513 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (522 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -388,7 +411,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── mechanism_classification_checks.py # symbolic + complex-step verification of every claim
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (513 passing tests)
+├── tests/                               # Comprehensive test suite (522 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests

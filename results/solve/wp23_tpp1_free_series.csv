@@ -1,0 +1,11 @@
+frame,domain,n,mean_disp,max_disp,frame_rmsd
+RT_core,TEN,160,0.435,1.173,0.292
+RT_core,TRBD,188,0.318,0.735,0.292
+RT_core,RT,385,0.261,1.089,0.292
+RT_core,IFD_TRAP,31,0.304,0.82,0.292
+RT_core,CTE,197,0.529,0.969,0.292
+global,TEN,160,0.385,0.978,0.356
+global,TRBD,188,0.259,0.73,0.356
+global,RT,385,0.293,1.226,0.356
+global,IFD_TRAP,31,0.379,0.847,0.356
+global,CTE,197,0.353,0.808,0.356
