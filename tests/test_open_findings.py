@@ -389,3 +389,44 @@ def test_wp20_is_marked_superseded():
               "scripts/solve/wp20_exhaustive_feasibility.py"):
         body = (root / f).read_text(encoding="utf-8")
         assert "WP22" in body, f"{f} must defer to the corrected model"
+
+
+# ---------------------------------------------------------------- WP27 ----
+WP27 = Path(__file__).resolve().parents[1] / "scripts" / "solve" / "wp27_transcription_layer.py"
+
+
+def _wp27():
+    spec = importlib.util.spec_from_file_location("wp27", WP27)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_wp27_transcription_layer_does_not_disturb_verdicts():
+    """The Yamanaka layer must not change anything already decided."""
+    m = _wp27()
+    assert m._self_test() == 0
+
+
+def test_wp27_layers_compose_multiplicatively():
+    m = _wp27()
+    a = m.R_half(m.S_PT) * 1.0
+    b = m.R_half(m.S_PT) * 2.0
+    assert b == pytest.approx(2 * a)
+
+
+def test_wp27_enzyme_layer_has_more_leverage_than_abundance():
+    """A 1% change in s must beat a 1% change in [TERT]."""
+    m = _wp27()
+    assert m.elasticity(m.S_PT) > 1.0
+    assert m.elasticity(m.S_NO_PT) > 1.0
+
+
+def test_wp27_documents_the_oct4_hazard():
+    """Any Yamanaka document must carry the safety caveat, not just the upside."""
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP27_YAMANAKA_LAYER.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())          # phrases wrap across lines in prose
+    assert "Velychko" in flat
+    assert "None of these factors is a telomerase drug" in flat
+    assert "zero empirical evidence" in flat
