@@ -42,14 +42,21 @@ about `s`; an enzyme assay says nothing about `[TERT]`. They are orthogonal.
 | + TPP1 (L&C) | 0.9170 | 8.000 | **11.54** |
 | s = 0.99 | 0.9900 | 68.968 | 99.50 |
 
-**A 1 % gain in per-repeat survival buys 4.3–11.5 % more product. A 1 % gain in
-TERT abundance buys exactly 1 %.**
+**A 1 % gain in per-repeat survival buys 4.3–11.5 % more product at the two
+anchors. A 1 % gain in TERT abundance buys exactly 1 %.**
+
+> **Scope correction (WP28).** Those two numbers are **anchor slopes, not a
+> range** — `ε = −1/ln(s)` diverges as `s → 1` (99.5 at `s = 0.99`). And the
+> linear `[TERT]` term below is the `x ≪ 1` limit of a saturating one. M6 is
+> superseded by **M6′ `output = N_tel · c(x) · R½(s)`**; M6 remains exactly
+> valid in that limit. See `WP28_OPERATING_POINT.md`.
 
 That is the substantive answer to "compare it to what we arrived at": the factor
-this repo spent 22 work packages on is the **high-leverage** knob, and the
-Yamanaka layer is the low-leverage one. It is not that transcription is
-unimportant — it is that if `s` can be improved at all, it beats an
-equal-percentage change in abundance by 4–12×.
+this repo spent 22 work packages on is the **high-leverage** knob **per
+percent**, and the Yamanaka layer is the low-leverage one. It is not that
+transcription is unimportant — it is that if `s` can be improved at all, it
+beats an equal-percentage change in abundance. WP28 shows the *total-range*
+ranking depends on the operating point, which is the stronger result.
 
 ## What was added to the design — M6
 
@@ -103,5 +110,6 @@ against the enzyme layer's.
 
 Adding these features makes the design **more complete and more honest**, but it
 does not change a single existing conclusion — and the self-test proves that
-rather than asserting it. M5 remains the thing to get right first, because it
-controls the knob with 4–12× more leverage per percent.
+rather than asserting it. M5 remains the thing to get right first: it controls
+the only knob the in vitro programme can see, and its price does not rise with
+the operating point the way transcription's does (WP28).

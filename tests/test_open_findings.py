@@ -19,6 +19,7 @@ from __future__ import annotations
 import importlib.util
 import math
 import pathlib
+import subprocess
 import sys
 from pathlib import Path
 
@@ -430,3 +431,69 @@ def test_wp27_documents_the_oct4_hazard():
     assert "Velychko" in flat
     assert "None of these factors is a telomerase drug" in flat
     assert "zero empirical evidence" in flat
+
+
+# --------------------------------------------------------------- WP28
+def test_wp28_saturating_model_reduces_to_wp27_linear():
+    """M6' must be a strict generalisation of M6, not a replacement of it."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    wp28 = importlib.import_module("wp28_operating_point")
+    s = wp28.S_NO_PT
+    x = 1e-9
+    assert abs(wp28.output(s, x) / x - wp28.R_half(s)) < 1e-6
+    # and it saturates: 10x more TERT at x=1e4 adds < 0.1%
+    assert wp28.output(s, 1e5) / wp28.output(s, 1e4) - 1.0 < 1e-3
+
+
+def test_wp28_enzyme_elasticity_always_beats_transcription():
+    """The one inequality that survived WP27's scope correction."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    wp28 = importlib.import_module("wp28_operating_point")
+    for s in (wp28.S_NO_PT, wp28.S_PT, 0.99):
+        for x in (1e-6, 1.0, 1e3):
+            assert wp28.eps_s(s) > wp28.eps_x(x)
+    # the occupancy elasticity is exactly 1 - coverage
+    for x in (0.01, 0.5, 3.0):
+        assert abs(wp28.eps_x(x) - (1.0 - wp28.occupancy(x))) < 1e-15
+
+
+def test_wp28_elasticity_is_not_a_bounded_range():
+    """WP27 quoted 4.3-11.5 as a range; the elasticity in fact diverges."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    wp28 = importlib.import_module("wp28_operating_point")
+    assert wp28.eps_s(0.99) > 90.0            # outside WP27's "range" by 8x
+    assert wp28.eps_s(0.999) > 900.0          # and it keeps going
+    assert wp28.eps_s(0.99) > wp28.eps_s(wp28.S_PT) > wp28.eps_s(wp28.S_NO_PT)
+
+
+def test_wp28_reports_unreachable_targets_as_unreachable():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    wp28 = importlib.import_module("wp28_operating_point")
+    rng = wp28.R_half(wp28.S_PT) / wp28.R_half(wp28.S_NO_PT)
+    f = wp28.fold_to_match(rng, 0.01)
+    assert abs(wp28.output(wp28.S_NO_PT, 0.01 * f) / wp28.output(wp28.S_NO_PT, 0.01) - rng) < 1e-9
+    assert wp28.fold_to_match(rng, 2.0) is None       # needs coverage > 1
+    # the price rises with the operating point, monotonically, and is gone by x=1
+    prices = [wp28.fold_to_match(rng, x) for x in (0.001, 0.01, 0.1, 0.5)]
+    assert all(a < b for a, b in zip(prices, prices[1:]))
+    assert prices[-1] > 10.0          # one-third coverage already costs >10x
+    assert wp28.fold_to_match(rng, 1.0) is None
+
+
+def test_wp28_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp28_operating_point.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp28_doc_states_the_scope_correction():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP28_OPERATING_POINT.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "M6'" in flat
+    assert "diverges" in flat
+    assert "operating point" in flat
+    assert "no therapeutic claim" in flat.lower()
