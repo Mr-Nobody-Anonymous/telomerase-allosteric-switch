@@ -577,3 +577,101 @@ def test_wp29_doc_states_the_impossibility_and_the_target():
     assert "still senesces" in flat
     assert "not a therapy" in flat.lower()
     assert "no therapeutic claim" in flat.lower()
+
+
+# --------------------------------------------------------------- WP30
+def _wp30():
+    pytest.importorskip("rdkit", reason="WP30 needs the optional 'chem' extra")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp30_ligand_completion")
+
+
+def test_wp30_original_ligand_is_two_fragments():
+    """The defect is measured from the file, not taken on trust."""
+    wp = _wp30()
+    atoms, bonds = wp.parse_pdb(wp.LIG / "telin1_inhibitor.pdb")
+    assert len(atoms) == 36
+    comps = wp.components(len(atoms), bonds)
+    assert len(comps) == 2
+    assert sorted(len(c) for c in comps) == [7, 29]
+
+
+def test_wp30_original_ligand_has_impossible_geometry():
+    wp = _wp30()
+    atoms, bonds = wp.parse_pdb(wp.LIG / "telin1_inhibitor.pdb")
+    by = {a["name"]: a for a in atoms}
+    # a 1.208 A bond inside a six-membered ring, with a 158.9 degree angle there
+    assert wp.dist(by, "C4", "C1") < 1.22
+    assert wp.angle_deg(by, "C4", "C1", "N1") > 150
+    # and the ring is flat, which is what makes the angles impossible
+    ring = ["C1", "N1", "C2", "N2", "C3", "C4"]
+    torsions = [abs(wp.torsion_deg(by, ring[i], ring[(i+1) % 6],
+                                   ring[(i+2) % 6], ring[(i+3) % 6])) for i in range(6)]
+    assert max(torsions) < 10.0
+
+
+def test_wp30_repair_reproduces_the_declared_formula():
+    """The header says C26H27FN2O6S; the repair must hit it exactly."""
+    wp = _wp30()
+    core = wp.repaired_properties(wp.CORE_SMILES)
+    assert core["formula"] == "C21H19FN2O4S" and core["heavy"] == 29
+    for label, smi in wp.REPAIRED.items():
+        p = wp.repaired_properties(smi)
+        assert p["formula"] == "C26H27FN2O6S", label
+        assert p["heavy"] == 36, label
+        assert abs(p["mw"] - 514.58) < 0.01, label
+
+
+def test_wp30_repair_is_one_connected_molecule():
+    pytest.importorskip("rdkit", reason="WP30 needs the optional 'chem' extra")
+    from rdkit import Chem
+    wp = _wp30()
+    for label, smi in wp.REPAIRED.items():
+        assert len(Chem.GetMolFrags(Chem.MolFromSmiles(smi))) == 1, label
+
+
+def test_wp30_repair_is_valid_but_not_druglike():
+    """The honest finding: fixing the formula does not fix the drug."""
+    wp = _wp30()
+    p = wp.repaired_properties(wp.REPAIRED["para-to-N"])
+    nfail, fails = wp.lipinski_pass(p)
+    assert nfail == 2 and "MW>500" in fails and "logP>5" in fails
+
+
+def test_wp30_borrowed_design_rule_passes_lipinski():
+    """One anchor carboxylate on a shorter arm - the precedent's rule."""
+    wp = _wp30()
+    p = wp.repaired_properties(wp.VARIANTS["TLN-3 anchor, short arm"])
+    assert wp.lipinski_pass(p)[0] == 0
+    assert p["acidic"] == 1
+    # and the reference molecule really is a one-carboxylate precedent
+    lif = wp.repaired_properties(wp.LIFITEGRAST_SMILES)
+    assert lif["acidic"] == 1
+
+
+def test_wp30_repaired_pdb_on_disk_is_one_component():
+    wp = _wp30()
+    rp = wp.LIG / "telin1_repaired.pdb"
+    assert rp.is_file()
+    ra, rb = wp.parse_pdb(rp)
+    assert len(ra) == 36
+    assert len(wp.components(len(ra), rb)) == 1
+    lengths = wp.bond_lengths(ra, rb)
+    assert lengths[0][0] > 1.20          # no impossible short bond
+    assert lengths[-1][0] < 1.90         # no absurd long bond
+
+
+def test_wp30_self_test_passes():
+    pytest.importorskip("rdkit", reason="WP30 needs the optional 'chem' extra")
+    subprocess.run([sys.executable, "scripts/solve/wp30_ligand_completion.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp30_doc_keeps_the_quarantine():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP30_LIGAND_COMPLETION.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine unchanged" in flat
+    assert "not an activity claim" in flat
+    assert "no TPP1 chain" in flat

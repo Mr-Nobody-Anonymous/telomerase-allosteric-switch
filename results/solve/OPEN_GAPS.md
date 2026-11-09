@@ -12,6 +12,11 @@ Every item below was checked against the tree, not recalled. Each is either
 | 5 | `domain_motion()` dead code | **closed — removed (it was also broken)** | `colab/tpp1_colab.py` |
 | 6 | Gate 4 (dNTP chase), Gate 5 (δ) | **experimental / a judgement, unchanged** | `paper/MANUSCRIPT.md` §11 |
 | 7 | No TPP1-free matched series | **closed — measured** | `WP23_TPP1_FREE_SERIES.md` |
+| 8 | TELIN-1 is two fragments, not a molecule | **repaired; 3 sub-items remain open** | `WP30_LIGAND_COMPLETION.md` |
+| 9 | No defined TPP1 epitope for docking | **blocked: TPP1 absent from every file on disk** | `WP30_LIGAND_COMPLETION.md` §7 |
+| 10 | Gate 3 criterion not operational | **stated, and deliberately not fitted** | this file, §1 |
+| 11 | Y176A mutant panel (WP16 follow-up) | **designed, not run** — needs a wet lab | `PLAN.md` |
+| 12 | 9SHZ/9SI0 ingestion | **still blocked** — re-tested this session | `fetch_rap_fixture.py` |
 
 ---
 
@@ -109,3 +114,37 @@ So: *no displacement larger than the uncertainty is detectable on TPP1 binding.*
 This is a **measured null**, and it constrains the mechanism — a large-scale
 mechanical switch is not supported. Caveat: 7TRD and 7TRF share one TERT model
 (0.0005 Å apart), so there is one apo model, not two.
+
+
+## 8. TELIN-1's missing part — repaired, with what stays open
+
+`WP30_LIGAND_COMPLETION.md` closed the *chemical* half of gap 8 and left three
+things open, named rather than papered over:
+
+| | state |
+|---|---|
+| one connected molecule, correct formula | **fixed** — `data/ligands/telin1_repaired.pdb` |
+| impossible geometry (1.208 Å ring bond, 1.715 Å C–C, 158.9°) | **fixed** |
+| which aryl position carries the arm | **open** — three positions tie on formula |
+| docked pose (160 clashes, C19 0.17 Å from a backbone N) | **open** — must be redone elsewhere |
+| TPP1 epitope to dock against | **blocked** — TPP1 is in no file on disk |
+
+The last one is the gap that matters. The complex holds TERT, TERC and DNA and
+`no TPP1 chain`, so the pose never tested the claimed mechanism. **The part
+TELIN-1 is really missing is a target**, and no ligand edit substitutes for it.
+
+## 9. Re-tested this session, still blocked
+
+RCSB is reached over TLS only, and every endpoint fails the handshake from this
+sandbox:
+
+| endpoint | result |
+|---|---|
+| `files.rcsb.org/download/9SHY.cif` | `SSL_ERROR_SYSCALL` |
+| `models.rcsb.org/9SHY.pdb` | `SSL_ERROR_SYSCALL` |
+| `www.ebi.ac.uk/pdbe/entry-files/download/9shz.cif` | connection refused |
+| `github.com` (control) | **200** |
+
+So the block is specific to those hosts, not a general egress failure — gap 12
+stays blocked for a reason, and `fetch_rap_fixture.py` still needs one ordinary
+run elsewhere.

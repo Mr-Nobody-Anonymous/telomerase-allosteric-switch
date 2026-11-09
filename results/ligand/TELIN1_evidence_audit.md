@@ -32,6 +32,41 @@ The core findings of this audit are unsparing and definitive:
 
 ---
 
+## 1b. UPDATE — the defect has now been repaired and the claim re-tested (WP30)
+
+`results/solve/WP30_LIGAND_COMPLETION.md` re-measured this ligand and closed part
+of **finding 3** above. Recorded here so the audit is not read as still-open:
+
+- **Confirmed by independent tools** (`rdkit` bond perception, not the original
+  script): 2 connected components, 29 + 7 atoms, closest approach **2.744 Å**,
+  no bond listed between them. The file is two molecules.
+- **Confirmed, with a correction of detail**: the ring is *closed* (all six
+  CONECT bonds exist), so it is **not** a missing ring bond. It is a flat ring
+  (all torsions < 8°) carrying interior angles of **158.9°** and **95.8°** with
+  one C–C at **1.208 Å**. Lens-shaped, not hexagonal.
+- **The missing part is identified**: the 7-atom pentanoic acid has nowhere to
+  attach, because the core scaffold is fully substituted and its nearest atom is
+  a terminal thiocarbonyl sulfur. The declared formula `C26H27FN2O6S` is exactly
+  `C21H19FN2O4S` (core, 29 heavy) + a C5 acid arm − 1 H, so **the intended
+  molecule is core + one aryl C5 carboxylic arm**. All three aryl positions
+  reproduce the formula; which one is **open**.
+- **Repaired files written**: `data/ligands/telin1_repaired.pdb` / `.sdf` — one
+  connected 36-atom molecule, bond lengths 1.217–1.676 Å.
+- **New finding, and it is the important one**: the docked complex contains
+  TERT, TERC and DNA and **no TPP1 chain** (`A`, `B`, `D`, `L` only). A molecule
+  cannot disrupt a TERT–TPP1 interface that is not in the model, so the pose
+  never tested the claimed mechanism.
+- **Tested and rejected as an improvement by itself**: the repaired molecule
+  fails two Lipinski rules (MW 514.58 > 500, logP 5.08 > 5). Applying the
+  approved precedent's rule (one anchor carboxylate, shorter linker) gives
+  TLN-3, MW 442.51 / logP 4.60, which passes all four — **a hypothesis with a
+  tested physchem profile, not a candidate.**
+
+**Quarantine status is unchanged.** No affinity has been measured, none can be
+measured here, and passing a permeability heuristic is not evidence of binding.
+
+---
+
 ## 2. Bibliographic & Patent Database Provenance Audit
 
 An exhaustive query across primary bibliographic, chemical registry, and intellectual property databases was conducted to establish whether "TELIN-1" has any documented existence outside internal repository files.
