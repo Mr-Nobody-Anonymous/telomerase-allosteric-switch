@@ -675,3 +675,85 @@ def test_wp30_doc_keeps_the_quarantine():
     assert "Quarantine unchanged" in flat
     assert "not an activity claim" in flat
     assert "no TPP1 chain" in flat
+
+
+# --------------------------------------------------------------- WP31
+def _wp31():
+    pytest.importorskip("rdkit", reason="WP31 needs the optional 'chem' extra")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp31_epitope")
+
+
+def test_wp31_tpp1_really_is_in_the_repository():
+    """Gap 9 said TPP1 was absent. It is not - this pins that down."""
+    wp = _wp31()
+    t7 = wp.load_chains(wp.RAW / "7TRE.cif")
+    t2 = wp.load_chains(wp.RAW / "2I46.cif")
+    assert len(t7[wp.TPP1_7TRE_CHAIN]) >= 100
+    assert len(t2[wp.TPP1_2I46_CHAIN]) >= 100
+
+
+def test_wp31_kabsch_is_correct_and_oriented_right():
+    """The frame bug: mapping backwards is silent, so assert the direction."""
+    wp = _wp31()
+    asm = wp.build_assembly()
+    assert asm["rmsd"] < 3.0
+    assert asm["n_shared"] >= 80
+    # transformed TPP1 must land in the TERT frame
+    tpp1 = wp.transform_residues(asm["t2"][wp.TPP1_2I46_CHAIN], asm["R"], asm["t"])
+    tpp1_ca = np.array([a["CA"] for _, _, a in tpp1 if "CA" in a])
+    tert_ca = np.array([a["CA"] for _, _, a in asm["t7"]["A"] if "CA" in a])
+    dmin = np.linalg.norm(tpp1_ca[:, None, :] - tert_ca[None, :, :], axis=2).min()
+    assert dmin < 8.0
+
+
+def test_wp31_epitope_is_an_interface_not_the_whole_protein():
+    wp = _wp31()
+    asm = wp.build_assembly()
+    tpp1 = wp.transform_residues(asm["t2"][wp.TPP1_2I46_CHAIN], asm["R"], asm["t"])
+    ia, ib = wp.interface_residues((asm["t7"]["A"], tpp1))
+    assert 0 < len(ia) < len(asm["t7"]["A"]) / 2
+    assert len(ib) > 3
+    # the TEL patch is in the interface (auth 166-170)
+    assert any(166 <= s <= 170 for s in ib)
+
+
+def test_wp31_scorer_rejects_clashes_rather_than_ranking_them():
+    wp = _wp31()
+    lig = np.array([[0.0, 0.0, 0.0]])
+    ok = wp.score_pose(lig, np.array([[0.0, 3.9, 0.0]]))
+    bad = wp.score_pose(lig, np.array([[0.0, 3.9, 0.0], [0.5, 0.0, 0.0]]))
+    assert ok[0] == 1 and ok[1] == 0
+    assert bad[1] == 1 and bad[3] < 0
+
+
+def test_wp31_every_pose_is_clash_free():
+    wp = _wp31()
+    asm = wp.build_assembly()
+    tpp1 = wp.transform_residues(asm["t2"][wp.TPP1_2I46_CHAIN], asm["R"], asm["t"])
+    ia, ib = wp.interface_residues((asm["t7"]["A"], tpp1))
+    target = np.array([x for _, _, _, x in wp.all_heavy(
+        [(n, s, a) for n, s, a in tpp1 if s in ib])])
+    wp30 = wp._import_wp30()
+    xyz = wp.ligand_conformer(wp30.VARIANTS["TLN-3 anchor, short arm"])[1]
+    sc, c, cl, dmin, P, valid = wp.place_ligand(xyz, target, seed=3, n_iter=800)
+    assert valid and cl == 0 and dmin > 2.6
+
+
+def test_wp31_assembled_file_exists_and_has_tpp1():
+    wp = _wp31()
+    dest = wp.STRUCT / "telomerase_tpp1_assembled.pdb"
+    assert dest.is_file()
+    txt = dest.read_text()
+    assert "SUPERPOSITION RMSD" in txt
+    assert " P" in txt                      # the transformed TPP1 chain
+
+
+def test_wp31_doc_keeps_the_quarantine():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP31_EPITOPE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine unchanged" in flat
+    assert "not a binding measurement" in flat
+    assert "none, and none obtainable here" in flat

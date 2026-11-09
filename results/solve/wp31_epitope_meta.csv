@@ -1,0 +1,8 @@
+item,value,note
+tpp1 residues 7TRE chain C,152,auth 90-241
+tpp1 residues 2I46 chain A,152,TEL-patch resolved
+superposition RMSD (A),1.9661,over 152 shared CA
+TERT interface residues,26,<= 5.0 A heavy atom
+TPP1 interface residues,21,<= 5.0 A heavy atom
+scorer,contacts - 50*clashes,"rigid-body surrogate, NOT an energy"
+affinity,not determined,"no Kd, no IC50, no free energy"

@@ -160,7 +160,7 @@ returns 200 in the same breath, so the block is specific, not general).
 | 1.208 Å ring bond, 1.715 Å C–C, 158.9°/95.8° angles | **fixed** in the rebuild |
 | which aryl position carries the arm | **open** — three candidates tie |
 | docked pose | **open** — 160 clashes < 2.8 Å, ligand C19 0.17 Å from a backbone N |
-| defined TPP1 epitope | **blocked** — TPP1 absent, RCSB unreachable |
+| defined TPP1 epitope | **fixed in WP31** — TPP1 was on disk (7TRE chain C, 2I46 chain A); this row was wrong |
 | any affinity (Kd, IC50) | **none, and not obtainable here** |
 
 **Quarantine unchanged.** TELIN-1 remains an unvalidated in-silico proposal with

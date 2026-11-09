@@ -13,7 +13,7 @@ Every item below was checked against the tree, not recalled. Each is either
 | 6 | Gate 4 (dNTP chase), Gate 5 (δ) | **experimental / a judgement, unchanged** | `paper/MANUSCRIPT.md` §11 |
 | 7 | No TPP1-free matched series | **closed — measured** | `WP23_TPP1_FREE_SERIES.md` |
 | 8 | TELIN-1 is two fragments, not a molecule | **repaired; 3 sub-items remain open** | `WP30_LIGAND_COMPLETION.md` |
-| 9 | No defined TPP1 epitope for docking | **blocked: TPP1 absent from every file on disk** | `WP30_LIGAND_COMPLETION.md` §7 |
+| 9 | No defined TPP1 epitope for docking | **CLOSED — TPP1 was on disk; assembled at 1.97 Å RMSD** | `WP31_EPITOPE.md` |
 | 10 | Gate 3 criterion not operational | **stated, and deliberately not fitted** | this file, §1 |
 | 11 | Y176A mutant panel (WP16 follow-up) | **designed, not run** — needs a wet lab | `PLAN.md` |
 | 12 | 9SHZ/9SI0 ingestion | **still blocked** — re-tested this session | `fetch_rap_fixture.py` |
@@ -127,7 +127,7 @@ things open, named rather than papered over:
 | impossible geometry (1.208 Å ring bond, 1.715 Å C–C, 158.9°) | **fixed** |
 | which aryl position carries the arm | **open** — three positions tie on formula |
 | docked pose (160 clashes, C19 0.17 Å from a backbone N) | **open** — must be redone elsewhere |
-| TPP1 epitope to dock against | **blocked** — TPP1 is in no file on disk |
+| TPP1 epitope to dock against | **fixed in WP31** — TPP1 is in 7TRE chain C and 2I46 chain A |
 
 The last one is the gap that matters. The complex holds TERT, TERC and DNA and
 `no TPP1 chain`, so the pose never tested the claimed mechanism. **The part
@@ -148,3 +148,24 @@ sandbox:
 So the block is specific to those hosts, not a general egress failure — gap 12
 stays blocked for a reason, and `fetch_rap_fixture.py` still needs one ordinary
 run elsewhere.
+
+
+## 10. Gap 9 retracted, and how it was wrong
+
+Gap 9 said the TPP1 epitope was "blocked: TPP1 absent from every file on
+disk". The second clause was false. `data/raw/7TRE.cif` chain C and
+`data/raw/2I46.cif` chain A are both TPP1 TEN, 152 residues each with identical
+sequence; only `data/ligands/7tre_telin1_complex.pdb` had the chain stripped.
+The check that produced the wrong answer looked at the *complex* file and
+generalised to the repository.
+
+`WP31_EPITOPE.md` assembles TERT+TPP1 (superposition RMSD **1.966 Å** over
+152/152 Cα), defines the recruitment epitope as **26 TERT + 21 TPP1 residues
+at 5 Å**, and runs every ligand against it. No network access was needed.
+
+What remains open is smaller and more specific: a real free-energy calculation
+(MM-GBSA / FEP) at the TEL patch. That is gap 13.
+
+| # | gap | state now | where |
+|---|---|---|---|
+| 13 | Affinity at the TEL patch | **open — needs FEP/MM-GBSA, out of scope here** | `WP31_EPITOPE.md` §5 |
