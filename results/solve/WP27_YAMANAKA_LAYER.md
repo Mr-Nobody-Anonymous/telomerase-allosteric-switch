@@ -45,6 +45,10 @@ about `s`; an enzyme assay says nothing about `[TERT]`. They are orthogonal.
 **A 1 % gain in per-repeat survival buys 4.3–11.5 % more product at the two
 anchors. A 1 % gain in TERT abundance buys exactly 1 %.**
 
+> **Superseded objective (WP29).** Everything below optimises product per cell.
+> WP29 shows the deciding quantity is *net maintenance per division*, and that
+> no achievable [TERT] satisfies it. The layer analysis here is unaffected.
+>
 > **Scope correction (WP28).** Those two numbers are **anchor slopes, not a
 > range** — `ε = −1/ln(s)` diverges as `s → 1` (99.5 at `s = 0.99`). And the
 > linear `[TERT]` term below is the `x ≪ 1` limit of a saturating one. M6 is

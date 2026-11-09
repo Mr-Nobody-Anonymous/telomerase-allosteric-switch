@@ -113,6 +113,12 @@ with TERT abundance as the manipulated variable.
 
 ## 6. Revised recommendation (supersedes WP27's bottom line)
 
+> **Superseded in turn by WP29.** This section still optimises *output*. WP29
+> shows output is the wrong objective — a cell is maintained only if gain
+> exceeds loss per division — and that at the measured enzyme kinetics **no**
+> [TERT] reaches the maintenance threshold. Read WP29 for the objective that
+> replaces this one; the analysis below stands as arithmetic.
+
 1. Stop quoting "4–12×". Quote `ε = −1/ln(s)` **with the operating point
    attached**, and state that it diverges as `s → 1`.
 2. Replace **M6** with **M6′**; M6 is its `x ≪ 1` limit and remains valid there.

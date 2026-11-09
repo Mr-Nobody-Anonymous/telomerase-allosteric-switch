@@ -1,0 +1,14 @@
+item,value,note
+objective,6*c*R1/2 - delta,"net maintenance, not output"
+delta* identity,1/log2(1+a),exact; coverage <= 1 is the best case
+delta* at M5 prediction (2.73x),47.985,"bp/PD, full coverage"
+delta* at L&C measured (4x),70.079,"bp/PD, full coverage"
+delta* at Wang 4.48x,78.447,"bp/PD, full coverage"
+fibroblast attrition (low),50.0,bp/PD; exceeds delta* at 2.73x
+HUVEC attrition,90.0,"bp/PD, measured 89-90"
+coverage needed at 90 bp/PD (2.73x),1.876,>1 = unreachable
+off-rate fold needed at 90 bp/PD,5.143,M5 predicts 2.73x; L&C measure >=4x
+max substitution rate per e-fold [TERT],0.003466,dln(1+a)/dln x at c=0.5
+[TERT] fold for 4x by abundance alone,1e174,"dead lever, not weak lever"
+"HUVEC PD, +TPP1 at full coverage",154.7,untreated ~72; still senesces
+therapeutic claim,none,immortalisation is not a treatment

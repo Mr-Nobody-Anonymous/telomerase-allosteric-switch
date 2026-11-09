@@ -497,3 +497,83 @@ def test_wp28_doc_states_the_scope_correction():
     assert "diverges" in flat
     assert "operating point" in flat
     assert "no therapeutic claim" in flat.lower()
+
+
+# --------------------------------------------------------------- WP29
+def _wp29():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp29_maintenance")
+
+
+def test_wp29_delta_star_identity_is_exact():
+    """delta* = 1/log2(1+a) must be an identity, not a fit."""
+    wp = _wp29()
+    for a in (wp.A_NO_PT, wp.A_PT, wp.A_MEAS, wp.A_WANG):
+        assert abs(wp.delta_star(a) - 1.0 / math.log2(1.0 + a)) < 1e-12
+        # ... and it must agree with M5's own s = (1+a)^-6
+        assert abs(wp.delta_star(a) - 6.0 * wp.R_of_a(a)) < 1e-12
+
+
+def test_wp29_reproduces_the_48nt_landc_observed():
+    """The model derives 48 nt; L&C independently observed 48 nt."""
+    wp = _wp29()
+    assert abs(wp.delta_star(wp.A_PT) - 48.0) < 0.05
+
+
+def test_wp29_no_tert_immortalises_a_real_cell():
+    """The impossibility result: coverage <= 1 cannot reach any real attrition."""
+    wp = _wp29()
+    for delta in (wp.DELTA_FIBRO_LO, 60.0, wp.DELTA_HUVEC, wp.DELTA_FIBRO_HI,
+                  wp.DELTA_MAXLIT):
+        assert wp.coverage_needed(wp.A_PT, delta) > 1.0
+        # even at full coverage the net is still a loss
+        assert wp.gain_bp(wp.A_PT, 1.0) < delta
+    # and it is not marginal at the low end, so it is not a rounding artefact
+    assert wp.coverage_needed(wp.A_PT, wp.DELTA_FIBRO_LO) > 1.0
+
+
+def test_wp29_offrate_is_the_only_lever_without_a_ceiling():
+    wp = _wp29()
+    for delta in (50.0, 90.0, 100.0, 200.0):
+        a = wp.a_needed(delta)
+        assert abs(wp.delta_star(a) - delta) < 1e-9        # target is met exactly
+        assert wp.gain_bp(a * 0.99) > delta                # slightly better: maintain
+        assert wp.gain_bp(a * 1.01) < delta                # slightly worse: lose
+    # 90 bp/PD needs ~5.14x, which nothing measured reaches
+    assert 5.0 < wp.offrate_fold_needed(wp.DELTA_HUVEC) < 5.3
+    assert wp.offrate_fold_needed(wp.DELTA_HUVEC) > 4.0
+    assert wp.lifespan_pd(wp.A_MEAS, wp.DELTA_HUVEC, 11.5e3, 5e3) is not None
+
+
+def test_wp29_transcription_is_a_dead_lever_for_maintenance():
+    wp = _wp29()
+    for delta in (50.0, 90.0, 100.0):
+        assert wp.substitution_rate(delta) < 0.01          # < 1% per e-fold
+    # 4x by abundance alone needs ~400 e-folds, i.e. a ~1e174-fold rise in [TERT]
+    need = math.log(4.0) / wp.substitution_rate(wp.DELTA_FIBRO_LO)
+    assert 300 < need < 500
+    assert need * math.log10(math.e) > 170      # ~1e174-fold in [TERT]
+
+
+def test_wp29_untreated_lifespan_check_holds():
+    """The arithmetic must reproduce the observed HUVEC Hayflick limit."""
+    wp = _wp29()
+    pd = wp.lifespan_pd(wp.A_NO_PT, wp.DELTA_HUVEC, 11.5e3, 5e3, coverage=0.0)
+    assert 65 <= pd <= 75
+
+
+def test_wp29_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp29_maintenance.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp29_doc_states_the_impossibility_and_the_target():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP29_MAINTENANCE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "1 / log₂(1 + a)" in flat
+    assert "5.14" in flat                        # the target off-rate fold
+    assert "still senesces" in flat
+    assert "not a therapy" in flat.lower()
+    assert "no therapeutic claim" in flat.lower()
