@@ -1,0 +1,18 @@
+item,value,note
+M5 predicted ratio,2.73,from product distribution alone
+L&C measured ratio (lower bound),4.0,pulse-chase
+retry multiplier needed,1.4652,meas/pred
+retry probability needed,0.3175,1 - 1/multiplier
+stalled fraction observed,0.2798,(s0-phi0)/s0
+fraction of gap explained,0.8811,NEW result
+delta* at 2.73x (bp/PD),47.98,below the 50 floor
+delta* at 4x (bp/PD),70.08,still below a 90 bp/PD cell
+off-rate ratio needed (90 bp/PD),5.14,have >=4
+off-rate ratio needed (50 bp/PD),2.85,have >=4
+P(M5 correct),0.351,"my prior, arguable"
+P(approved drug | gate open),0.00008,pipeline product
+"P(approved drug, now)",0.0,"gate CLOSED, not unlikely"
+best mechanism,M5,only physical + falsifiable
+best molecule,TLN-amide,"MW 441.53, logP 4.00, Lipinski pass"
+best next experiment,P2 DNA trap,"days, no reagent"
+therapeutic claim,none,quarantine unchanged

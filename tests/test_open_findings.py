@@ -954,3 +954,56 @@ def test_wp33_docs_record_the_withdrawals():
     assert "WITHDRAWN" in w33
     assert "ambipolar" in w33
     assert "Quarantine unchanged" in w33
+
+
+# --------------------------------------------------------------- WP34
+def _wp34():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp34_status")
+
+
+def test_wp34_retry_explains_most_of_the_tension():
+    """The new result: the stalled fraction L&C report covers 88% of the gap."""
+    wp = _wp34()
+    retry = wp.MEAS_RATIO / wp.PRED_RATIO
+    p_needed = 1.0 - 1.0 / retry
+    stalled = (wp.S_NO_PT - wp.PHI_NO_PT) / wp.S_NO_PT
+    assert abs(retry - 1.465) < 1e-3
+    assert abs(p_needed - 0.318) < 1e-3
+    assert abs(stalled - 0.280) < 1e-3
+    assert 0.80 <= stalled / p_needed <= 0.95
+
+
+def test_wp34_the_maintenance_gate_statement_is_exact():
+    """Two distinct claims: 2.73x fails the floor, 4x clears it but is short."""
+    wp = _wp34()
+    assert wp.delta_star(wp.A_PT) < 50.0            # 48.0 < 50
+    assert wp.delta_star(wp.A_NO_PT / 4.0) > 50.0   # 70.1 > 50
+    assert wp.delta_star(wp.A_NO_PT / 4.0) < 90.0   # but < 90
+
+
+def test_wp34_required_ratios_round_trip():
+    wp = _wp34()
+    for d in (50.0, 90.0):
+        a = wp.A_NO_PT / wp.offrate_needed(d)
+        assert abs(wp.delta_star(a) - d) < 1e-6
+    assert abs(wp.offrate_needed(90) - 5.14) < 0.02
+    assert abs(wp.offrate_needed(50) - 2.85) < 0.02
+
+
+def test_wp34_self_test_passes():
+    pytest.importorskip("rdkit", reason="WP34 needs the optional 'chem' extra")
+    subprocess.run([sys.executable, "scripts/solve/wp34_status.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp34_doc_states_zero_and_the_non_zero_part():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP34_STATUS.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "88 % explained" in flat
+    assert "CLOSED" in flat
+    assert "0.023 %" in flat
+    assert "near zero" in flat          # markdown emphasis surrounds "not"
+    assert "TLN-amide" in flat

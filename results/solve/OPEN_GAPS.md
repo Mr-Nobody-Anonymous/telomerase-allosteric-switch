@@ -210,3 +210,20 @@ order the series monotonically — which is the expected signature of an
 **ambipolar** patch. So gap 14 is no longer "these ligands are the wrong charge";
 it is "the anchor should probably not be charged at all, and that needs a real
 free-energy calculation to test."
+
+
+## 13. The 1.46x tension is 88% explained - and now makes a sharp prediction
+
+WP34 found that the gap between M5's 2.73x and L&C's measured >=4x is almost
+entirely accounted for by the stalled population L&C report directly:
+
+    required retry probability   1 - 2.73/4.00        = 0.318
+    stalled fraction observed    (0.7914-0.570)/0.7914 = 0.280   -> 88% of the gap
+
+So gap 2 is no longer "an open discrepancy with a plausible explanation". It is
+a **falsifiable prediction with a number attached**: the retry probability
+should measure about **0.32**, and the P2 DNA-trap re-analysis measures that
+quantity directly. This upgrades P2 from "the cheap decisive test" to "the test
+that tests a specific number".
+
+Full status, candidate and odds: `WP34_STATUS.md`.
