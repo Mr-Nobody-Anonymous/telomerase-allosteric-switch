@@ -6,7 +6,7 @@ Every item below was checked against the tree, not recalled. Each is either
 | # | gap | state now | where |
 |---|---|---|---|
 | 1 | Gate 3 — per-band densitometry | **blocked, and provably so** | `WP24_GATE3_STATUS.md` |
-| 2 | 2.73× vs ≥4× tension (P2/P3) | **re-scoped by WP35: §13 is withdrawn, see §14** | `WP35_P2_IDENTIFIABILITY.md` |
+| 2 | 2.73× vs ≥4× tension (P2/P3) | **re-scoped by WP35 (§13 withdrawn, §14); related C1/C2 in §15** | `WP35_P2_IDENTIFIABILITY.md`, `WP36_CIRCULARITY.md` |
 | 3 | M2 vs M4 (`k_tr` vs `k_off_tr`) | **open by construction, not load-bearing** | `WP25_RESOLVING_TESTS.md` |
 | 4 | 9SHZ / 9SI0 ingestion | **blocked: channel limitation** | `fetch_rap_fixture.py` |
 | 5 | `domain_motion()` dead code | **closed — removed (it was also broken)** | `colab/tpp1_colab.py` |
@@ -273,3 +273,36 @@ in the true off-rate, which is step 2 and remains unmeasured.
 experiment-level CV of 17.2 % (Tesmer Fig 3B WT). That is n = 12 per arm
 independent, or n = 3 paired (rho = 0.8). "Days, no reagent" assumed the
 pairing silently.
+
+
+
+## 15. The error CLASS, not just the instances (WP36)
+
+Four failures so far were the same mistake, so fixing them one at a time was
+never going to stop the next. WP36 names the class and makes it testable.
+
+**Circular inference:** a quantity is computed from a construction that already
+contains the conclusion, then reported as evidence for the conclusion. Every
+instance passes its arithmetic. That is why it survived review four times.
+
+| id | claim | what it really is | predicate |
+|---|---|---|---|
+| **C1** | M5 independently reproduces the observed 48 nt | `δ* = n·R½` **identically**; 47.98 *is* 6×8 | holds for every `n` (swept 1–24) |
+| **C2** | the stalled fraction explains 88 % of the gap | `(s₀−φ₀)/s₀` is the anomaly itself, rescaled | negative where φ→1 |
+| **C3** | synchronised confirmation vs chance | the expected value came from the null being tested | equals the null exactly |
+| **C4** | removing all 12 loops changes output 4.4 % | detector and remover share a definition | invariant for any input |
+| **C5** | the "physical" SPR/RAP benchmarks | `np.random.seed(42)` synthetic | recovers its own parameters |
+
+**C1 is the expensive one.** `δ*` tracks `n` over a 24× span while the fold `κ`
+moves only 7.5 %, so `δ*` carries no information — `κ` is the only informative
+statistic. WP34 scored "M5 derives the observed 48 nt exactly" at **90 %** and it
+was the largest single term in `P(M5)`.
+
+**P(M5) is therefore ≈ 21 %, not 35 %.** Both factors that made M5 look
+well-supported (0.90 and 0.65) are the two circular ones. What remains is the
+one genuinely independent thing: `s₀ ≤ φ₀` holds on L&C's own data, which is a
+real falsification of the earlier factorisation.
+
+Guards now in the suite: `δ* == n·R½` for all `n`, the +PT value is negative, the
+synthetic fixture reconstructs its inputs, and every retracted document carries a
+machine-checked marker. Full text: `WP36_CIRCULARITY.md`.

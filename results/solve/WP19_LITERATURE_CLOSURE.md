@@ -107,4 +107,4 @@ TRBD, IFD-TRAP and CTE are now 0 % inside the fit frame.
 | M2 vs M4 — does `k_tr` itself rise? | k_tr = 0.10 /min is reported, so M2 is supported; A and k are fitted from one curve and their covariance is unpublished, so M4 is not excluded. Needs the raw time-course, not a new experiment. |
 | Rebinding correction | quantified by running the pulse-chase under DNA trap/dilution (WP19 prediction). |
 | RAP-state superposition 9SHZ / 9SI0 | coordinates are retrievable one residue at a time from models.rcsb.org; not yet ingested. |
-| 10 vs 8.4 repeats | dropped — 8 × 6 nt = 48 nt exactly, so L&C's count is self-consistent. |
+| 10 vs 8.4 repeats | dropped — 8 × 6 nt = 48 nt exactly, so L&C's count is self-consistent. (Note: `δ* = n·R½` identically, WP36, so 48 is not independent evidence for any model.) |

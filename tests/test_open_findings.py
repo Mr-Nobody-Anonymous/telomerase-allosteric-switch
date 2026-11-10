@@ -17,6 +17,7 @@ here to <5%.
 from __future__ import annotations
 
 import importlib.util
+import inspect
 import math
 import pathlib
 import subprocess
@@ -963,16 +964,41 @@ def _wp34():
     return importlib.import_module("wp34_status")
 
 
-def test_wp34_retry_explains_most_of_the_tension():
-    """The new result: the stalled fraction L&C report covers 88% of the gap."""
+def test_wp34_the_retracted_arithmetic_is_kept_but_marked_retracted():
+    """WP34's 88% is REFUTED by WP35. The numbers stay as the record; the
+    conclusion does not.
+
+    This test used to assert ``0.80 <= stalled/p_needed <= 0.95``, i.e. that the
+    stalled fraction "explains 88% of the gap". That locked a refuted claim into
+    the suite: the arithmetic is reproducible, but the quantity is
+    (s0-phi0)/s0 - the anomaly itself, rescaled - and it is negative in the +PT
+    arm, so it is not a population fraction at all. See WP35.
+    """
     wp = _wp34()
     retry = wp.MEAS_RATIO / wp.PRED_RATIO
     p_needed = 1.0 - 1.0 / retry
     stalled = (wp.S_NO_PT - wp.PHI_NO_PT) / wp.S_NO_PT
+    # the arithmetic is still exactly what WP34 computed - kept as evidence
     assert abs(retry - 1.465) < 1e-3
     assert abs(p_needed - 0.318) < 1e-3
     assert abs(stalled - 0.280) < 1e-3
-    assert 0.80 <= stalled / p_needed <= 0.95
+    # ...but it is NOT a population fraction: the +PT analogue is negative
+    assert wp.wp34_pt_value() < 0.0
+    # ...and 0.318 is not the physical retry probability (WP35 crossing)
+    import wp35_p2_identifiability as w35
+    tau, _ = w35.solve_selfconsistent()
+    assert abs(tau - p_needed) > 0.05
+
+
+def test_wp34_no_longer_asserts_the_gate_is_closed():
+    """WP34's 'P(approved drug, now) = 0, gate CLOSED' was a conditional
+    presented as a closure, because 48.0 is delta* at tau_0 = 0."""
+    wp = _wp34()
+    src = (Path(__file__).resolve().parents[1]
+           / "scripts" / "solve" / "wp34_status.py").read_text(encoding="utf-8")
+    assert "RETRACTED IN PART (WP35)" in src
+    assert "UNDETERMINED" in src
+    assert "gate CLOSED, not unlikely" not in src
 
 
 def test_wp34_the_maintenance_gate_statement_is_exact():
@@ -998,15 +1024,20 @@ def test_wp34_self_test_passes():
                    cwd=REPO, check=True, capture_output=True, text=True)
 
 
-def test_wp34_doc_states_zero_and_the_non_zero_part():
+def test_wp34_doc_is_marked_superseded_and_keeps_what_survives():
     doc = (Path(__file__).resolve().parents[1]
            / "results" / "solve" / "WP34_STATUS.md").read_text(encoding="utf-8")
     flat = " ".join(doc.split())
-    assert "88 % explained" in flat
-    assert "CLOSED" in flat
-    assert "0.023 %" in flat
-    assert "near zero" in flat          # markdown emphasis surrounds "not"
+    # the retraction must be at the top, so no reader meets 88% first
+    assert "SUPERSEDED IN PART (WP35)" in flat
+    assert flat.index("SUPERSEDED IN PART (WP35)") < flat.index("88 % explained")
+    # what still holds
     assert "TLN-amide" in flat
+    assert "Quarantine" in flat or "quarantine" in flat
+    assert "pipeline arithmetic" in flat
+    # what does not
+    assert "UNDETERMINED" in flat
+    assert "an identity" in flat        # the 48 nt retraction (WP36)
 
 
 # --------------------------------------------------------------- WP35
@@ -1115,3 +1146,88 @@ def test_wp35_doc_records_the_corrections():
     assert "57.30" in flat and "46.76" in flat     # both branches, not one
     assert "Quarantine unchanged" in flat
     assert "not a re-analysis" in flat
+
+
+# --------------------------------------------------------------- WP36
+def _wp36():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp36_circularity")
+
+
+def test_wp36_the_48nt_agreement_is_an_identity_not_a_prediction():
+    """C1: delta* = n*R1/2 exactly, so 'deriving 48 nt' is 6x8 vs 8x6.
+
+    This is the guard on the single largest term WP34 used for P(M5) (90%).
+    """
+    wp = _wp36()
+    assert wp.c1_is_an_identity()
+    assert abs(wp.delta_star_from_R(8.0, 6) - 48.0) < 1e-9
+    # and it is vacuous: n=1 "predicts" 8 nt from the same R
+    assert abs(wp.delta_star_from_R(8.0, 1) - 8.0) < 1e-9
+    assert wp.c1_cannot_discriminate()
+
+
+def test_wp36_delta_star_moves_24x_while_kappa_moves_7_percent():
+    """The identity carries no information and kappa is the informative one."""
+    wp = _wp36()
+    sweep = wp.c1_sweep()
+    d = [r["delta_at_R8"] for r in sweep]
+    k = [r["kappa"] for r in sweep]
+    assert d[-1] / d[0] > 20.0
+    assert max(k) / min(k) - 1.0 < 0.10
+
+
+def test_wp36_the_88_percent_is_not_a_fraction():
+    """C2's predicate, stated as a predicate rather than a story."""
+    wp = _wp36()
+    assert wp.c2_fraction(wp.S_NO_PT, wp.PHI_NO_PT) > 0.0
+    assert wp.c2_fraction(wp.S_PT, wp.PHI_PT) < 0.0     # impossible for a share
+    assert wp.c2_is_not_a_fraction()
+    assert wp.c2_not_a_probability()
+
+
+def test_wp36_synthetic_benchmarks_recover_their_own_parameters():
+    """C5: exact recovery is the signature of a written-in answer."""
+    wp = _wp36()
+    assert wp.c5_recover_generating_parameters() < 0.01
+
+
+def test_wp36_every_retraction_marker_is_present():
+    """If a document loses its marker, the refuted claim starts reading as true."""
+    base = Path(__file__).resolve().parents[1] / "results" / "solve"
+    flat = {p.name: " ".join(p.read_text(encoding="utf-8").split())
+            for p in (base / "WP34_STATUS.md", base / "WP29_MAINTENANCE.md",
+                      base / "WP22_RAP_MODEL_V2.md", base / "OPEN_GAPS.md",
+                      base / "WP35_P2_IDENTIFIABILITY.md").__iter__()}
+    assert "SUPERSEDED IN PART (WP35)" in flat["WP34_STATUS.md"]
+    assert "RETRACTED (WP36)" in flat["WP29_MAINTENANCE.md"]
+    assert "CORRECTED BY WP35" in flat["WP22_RAP_MODEL_V2.md"]
+    assert "WITHDRAWN" in flat["OPEN_GAPS.md"]
+    assert "UNDETERMINED" in flat["WP35_P2_IDENTIFIABILITY.md"]
+
+
+def test_wp36_the_honest_probability_is_lower_than_wp34s():
+    """Both terms that made M5 look well-supported were the circular ones."""
+    wp = _wp36()
+    src = inspect.getsource(wp.main)
+    assert "WITHDRAWN" in src              # the two circular terms carry no weight
+    p = 0.60 * 0.70 * 0.50
+    assert abs(p - 0.21) < 1e-9
+    assert p < 0.35
+
+
+def test_wp36_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp36_circularity.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp36_doc_names_the_class_and_does_not_hide_the_earlier_ones():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP36_CIRCULARITY.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "circular inference" in flat.lower()
+    for cid in ("C1", "C2", "C3", "C4", "C5"):
+        assert cid in flat
+    assert "21 %" in flat
+    assert "Quarantine unchanged" in flat

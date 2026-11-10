@@ -14,6 +14,12 @@ moved the maintenance gate, which is the only number in WP34 that mattered.
 
 **Quarantine unchanged.** Nothing here is a therapeutic claim.
 
+> **Follow-on (WP36).** The audit that followed this found that the 48 nt
+> "agreement" WP34 relied on is an *identity* (`δ* = n·R½`), and that four other
+> results share the same error class. `P(M5)` is **≈ 21 %**, not 35 % — both of
+> the factors that made it look well-supported were circular. See
+> `WP36_CIRCULARITY.md`.
+
 ---
 
 ## 1. Three defects in WP34's step 1
@@ -199,12 +205,14 @@ and that is worth knowing before committing to it.
 | M5 prediction stays 2.73× | reconciled fold **3.267×** (2.662× under 'same') |
 | gate **CLOSED** at 48.0 < 50 | **UNDETERMINED**: 57.3 / 46.8 bp/PD |
 | P(approved drug) = 0 % | 0 % was the assumption τ₀ = 0, not a result |
-| P(M5) ≈ 35 % | ≈ 35 %, unchanged — but the weakest link is now **(A)**, not (C) |
+| P(M5) ≈ 35 % | **≈ 21 %** (WP36 — both former support terms were circular; see below) |
 
-The probability did not move. That is the honest outcome: the gap became a
-**bound with a measurable parameter** rather than a fit, which is stronger
-evidence, but the identity itself and its transfer to a second enzyme are
-untouched. **A is now the weakest link**, and A is the one thing no amount of
+The probability did not move *within WP35* — the gap became a **bound with a
+measurable parameter** rather than a fit, which is stronger evidence. But the
+follow-on audit (WP36) then removed both of WP34's scoring terms as circular, and
+the honest value fell to **≈ 21 %**. See `WP36_CIRCULARITY.md`.
+
+**A is the weakest link**, and A — `s = (1+a)⁻⁶` — is the one thing no amount of
 gating, scoring or re-analysis in this repository can test.
 
 ---

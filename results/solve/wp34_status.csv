@@ -11,7 +11,7 @@ off-rate ratio needed (90 bp/PD),5.14,have >=4
 off-rate ratio needed (50 bp/PD),2.85,have >=4
 P(M5 correct),0.351,"my prior, arguable"
 P(approved drug | gate open),0.00008,pipeline product
-"P(approved drug, now)",0.0,"gate CLOSED, not unlikely"
+"P(approved drug, now)",UNDETERMINED,WP35: 0.0 rested on tau_0=0; derived couplings give 57.3 bp/PD
 best mechanism,M5,only physical + falsifiable
 best molecule,TLN-amide,"MW 441.53, logP 4.00, Lipinski pass"
 best next experiment,P2 DNA trap,"days, no reagent"

@@ -1,4 +1,17 @@
-"""Generate Independent Benchmark Datasets for SPR and RAP Automated Fitting Pipelines.
+"""Generate Synthetic Benchmark Datasets for SPR and RAP Automated Fitting Pipelines.
+
+    THESE FILES ARE SYNTHETIC, NOT MEASURED.
+
+    Every intensity below is produced by the forward model in this file from a
+    chosen set of (k_on, k_off, R_max) with np.random.seed(42) noise added. The
+    "expected" verdicts the analysis pipelines report are therefore recovered
+    because the answer was written in, not because the biology was observed.
+
+    They are useful as a REGRESSION FIXTURE for the fitting code - if the fitter
+    stops recovering the parameters it was given, something broke. They are NOT
+    evidence for any biological claim, and no power calculation, model
+    comparison or "confirmation" may use them. (WP35/WP36 found two places that
+    had drifted into calling them "physical"; corrected.)
 
 Outputs:
 1. data/benchmarks/spr_independent_benchmark.csv:

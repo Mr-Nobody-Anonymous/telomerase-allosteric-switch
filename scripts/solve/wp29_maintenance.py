@@ -67,6 +67,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "results" / "solve"
 
+N_INCORP = 6               # nucleotides per repeat; delta* = n * R1/2 exactly
 A_NO_PT = 0.03976          # L&C no-TPP1 off-rate ratio (WP22)
 A_PT = 0.01455             # L&C +TPP1, i.e. the 2.73x M5 predicts
 A_MEAS = A_NO_PT / 4.0     # L&C pulse-chase, >=4x
@@ -164,13 +165,20 @@ def main() -> int:
     print("  A 2.73x off-rate reduction buys 48.0 bp/division, not 90.")
     print()
 
-    print("WP29.3  M5's own number was already on the page (sharpens WP22)")
-    print("  L&C write: 'half the chains elongated by eight repeats (48 nt)'.")
-    print("  M5's 2.73x predicts:")
-    print(f"      delta* = 1/log2(1 + {A_PT:.5f}) = {delta_star(A_PT):.2f} bp")
-    print("  Eight repeats at 6 nt = 48 nt.  The 48 was DERIVED, and it")
-    print("  matches the observed 48.  That agreement is the strongest single")
-    print("  number M5 has, and it is also its own ceiling.")
+    print("WP29.3  [RETRACTED - WP36] The '48 nt agreement' is an identity")
+    print("  This section used to claim that M5 independently derives the 48 nt")
+    print("  L&C observed, and called that the model's strongest number.  It is")
+    print("  not an independent check.  With a = s^(-1/n) - 1 and s = 2^(-1/R):")
+    print()
+    print("      1 + a = 2^(1/(nR))   =>   delta* = 1/log2(1+a) = n * R")
+    print()
+    print("  delta* is IDENTICALLY n x R1/2 - the median product length in nt.")
+    print("  So 'M5 derives 47.98 bp and L&C observed 48 nt' compares 6 x 8 with")
+    print("  8 x 6.  It is a tautology, it carries no evidence, and it held for")
+    print("  every exponent n (see WP36), not just n = 6.")
+    print()
+    n_R = N_INCORP * R_of_a(A_PT)
+    print(f"      n x R1/2 = {N_INCORP} x {R_of_a(A_PT):.3f} = {n_R:.2f} = delta*")
     print()
 
     print("WP29.4  Every real human attrition rate exceeds that ceiling")
@@ -315,8 +323,13 @@ def _self_test() -> int:
     chk("delta* == 6*R1/2 from s=(1+a)^-6", abs(
         delta_star(A_PT) - 6 * (-math.log(2) / math.log(s_of_a(A_PT)))) < 1e-9)
 
-    # 3. M5's 2.73x predicts 48 nt, the number L&C observed
-    chk("2.73x predicts 48.0 bp (L&C observed 48)", abs(delta_star(A_PT) - 48.0) < 0.05)
+    # 3. delta* is IDENTICALLY n*R1/2 - the old "48 nt agreement" was a
+    #    tautology, not a check.  Asserting the identity is what guards it.
+    chk("delta* == n*R1/2, so the 48 nt 'agreement' is an identity",
+        abs(delta_star(A_PT) - N_INCORP * R_of_a(A_PT)) < 1e-6)
+    chk("that identity holds for every exponent, not just n=6",
+        all(abs(1.0 / math.log2(1.0 + (2 ** (-1.0 / R)) ** (-1.0 / n) - 1.0)
+                - n * R) < 1e-6 for n in (1, 2, 3, 6, 12) for R in (2.963, 8.0)))
 
     # 4. the deficit cannot be closed by coverage
     chk("no [TERT] immortalises a 90 bp/PD cell at 2.73x",

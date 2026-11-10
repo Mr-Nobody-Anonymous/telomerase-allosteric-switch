@@ -9,20 +9,26 @@ Written because three questions deserve numbers rather than narrative:
   2. HOW TO ACHIEVE IT         - one experiment each, costed in lab-hours
   3. BEST CANDIDATE + SUCCESS RATE - with the arithmetic shown, not asserted
 
-THE ONE NEW RESULT IN HERE
---------------------------
-The 1.46x tension (M5 predicts 2.73x, L&C measure >=4x) has been carried as an
-open discrepancy. It is closer to explained than it looks:
+RETRACTED IN PART (WP35).  Read WP35_P2_IDENTIFIABILITY.md before using any
+number below.  Three claims in this script do not survive:
 
-    required retry multiplier      = 4.00 / 2.73        = 1.465
-    required retry probability     = 1 - 1/1.465        = 0.318
-    stalled fraction of survivors  = (s0 - phi0)/s0     = 0.280
-    ratio                                        = 0.280/0.318 = 0.88
+  1. The "88% explained" figure.  It compares 1 - 2.73/4.00 = 0.318 with
+     (s0-phi0)/s0 = 0.280, but s and phi are the two DIFFERENT quantities whose
+     mismatch IS the anomaly being explained - so (s0-phi0)/s0 is that anomaly
+     rescaled and cannot explain it.  The same expression is NEGATIVE in the
+     +PT arm, (-0.0796), and a fraction of a population cannot be negative.
+  2. "The retry probability should measure ~0.32".  0.318 is not a retry
+     probability.  Under the renewal model the retry probability at which the
+     two readouts reconcile is tau_0 = 0.1833.
+  3. "The maintenance gate is CLOSED" and "P(approved drug, now) = 0".  48.0
+     bp/PD is delta* at tau_0 = 0, and tau_0 = 0 is exactly what P2 tests.  The
+     two physically derived stall couplings give 57.3 and 57.4 bp/PD, above the
+     50 floor.  The gate is UNDETERMINED, not closed.
 
-So the stalled population L&C already report accounts for 88% of the gap, with
-a single free parameter that is itself observable. That is a much sharper
-prediction than "E2 stalling explains it": the retry probability should come out
-at ~0.32, and the DNA-trap experiment measures exactly that.
+The gap table, the candidate ranking, the pipeline arithmetic and the quarantine
+status are unchanged and remain usable.  WP34.1 below KEEPS its old output, on
+purpose: it is the record of what was claimed and it is asserted by tests as the
+arithmetic that was made.  Fixing it silently would delete the evidence.
 
     python scripts/solve/wp34_status.py
     -> results/solve/wp34_status.csv
@@ -38,7 +44,9 @@ REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "results" / "solve"
 
 S_NO_PT = 0.7914
+S_PT = 0.9170
 PHI_NO_PT = 0.570
+PHI_PT = 0.99
 A_NO_PT = 0.03976
 A_PT = 0.01455
 PRED_RATIO = 2.73
@@ -55,6 +63,15 @@ def offrate_needed(delta: float) -> float:
     return A_NO_PT / (2.0 ** (1.0 / delta) - 1.0)
 
 
+def wp34_pt_value() -> float:
+    """The (s-phi)/s expression evaluated in the +PT arm.
+
+    Exists to show the retracted construction is not a population fraction: it
+    is negative here, and a fraction of a population cannot be.
+    """
+    return (S_PT - PHI_PT) / S_PT
+
+
 def main() -> int:
     L = "=" * 90
     print(L)
@@ -63,7 +80,7 @@ def main() -> int:
     print()
 
     # ---------------------------------------------------------------- 1
-    print("WP34.1  NEW - the 1.46x tension is 88% explained by one observable")
+    print("WP34.1  [RETRACTED BY WP35 - kept as the record, do not cite]")
     retry_needed = MEAS_RATIO / PRED_RATIO
     p_needed = 1.0 - 1.0 / retry_needed
     stalled = (S_NO_PT - PHI_NO_PT) / S_NO_PT
@@ -75,8 +92,15 @@ def main() -> int:
     print("  The stalled population is not a fudge factor - L&C report it")
     print("  directly ('stalled and dissociated complexes could contribute to")
     print("  the untranslocated population'). So the prediction is now SHARP:")
-    print(f"  the retry probability should measure ~{p_needed:.2f}, and the DNA-trap")
-    print("  experiment (P2) measures exactly that quantity.")
+    print(f"  the retry probability should measure ~{p_needed:.2f}")
+    print()
+    print("  RETRACTED (WP35).  Both claims above fail:")
+    print(f"    - 0.280 is (s0-phi0)/s0, i.e. the anomaly itself, rescaled; and it")
+    print(f"      is {wp34_pt_value():+.4f} in the +PT arm - not a fraction at all.")
+    print(f"    - 0.318 is not a retry probability.  The renewal-model crossing is")
+    print(f"      tau_0 = 0.1833 (WP35), and the fold it reconciles is 3.267x, not")
+    print(f"      2.733x.  The stall CANNOT close the ratio gap: kappa_dist is")
+    print(f"      bounded, and 4.00x is outside the bound.")
     print()
 
     # ---------------------------------------------------------------- 2
@@ -86,8 +110,9 @@ def main() -> int:
          "M5 is the only physical, falsifiable candidate, but no independent",
          "DNA-trap re-analysis of existing gels (P2). No new reagent."),
         ("The 4x-vs-2.73x tension unresolved",
-         "88% explained by the stalled fraction; needs one measurement to close",
-         "same P2 run: it reports the retry probability directly."),
+         "WP35: stalling CANNOT close it - kappa_dist is bounded and 4.00x is"
+         " outside the bound. Retained as retracted, WP34's 88% does not hold",
+         "same P2 run: it measures tau_0, and the reconciled fold is 3.267x."),
         ("M2 vs M4 degeneracy open",
          "phi = k_tr/(k_tr+k_off_tr) is 2 unknowns to 1 observation",
          "not load-bearing: phi left the product, s never sees k_tr."),
@@ -148,7 +173,7 @@ def main() -> int:
     print("WP34.4  SUCCESS RATE - arithmetic, not opinion")
     print()
     mech = [("M5 derives the observed 48 nt exactly", 0.90),
-            ("the 4x gap is retry (88% explained, one free parameter)", 0.65),
+            ("the 4x gap is retry (WP35: RETRACTED, stalling cannot reach 4x)", 0.65),
             ("s = (1+a)^-6 survives an independent enzyme", 0.60)]
     p = 1.0
     print(f"  {'mechanism stage':52s} {'P(pass | prior)':>16}")
@@ -233,7 +258,8 @@ def main() -> int:
         dict(item="off-rate ratio needed (50 bp/PD)", value=round(offrate_needed(50), 2), note="have >=4"),
         dict(item="P(M5 correct)", value=round(p, 3), note="my prior, arguable"),
         dict(item="P(approved drug | gate open)", value=f"{p*q:.5f}", note="pipeline product"),
-        dict(item="P(approved drug, now)", value=0.0, note="gate CLOSED, not unlikely"),
+        dict(item="P(approved drug, now)", value="UNDETERMINED",
+             note="WP35: 0.0 rested on tau_0=0; derived couplings give 57.3 bp/PD"),
         dict(item="best mechanism", value="M5", note="only physical + falsifiable"),
         dict(item="best molecule", value="TLN-amide", note="MW 441.53, logP 4.00, Lipinski pass"),
         dict(item="best next experiment", value="P2 DNA trap", note="days, no reagent"),

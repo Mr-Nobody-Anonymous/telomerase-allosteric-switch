@@ -42,8 +42,19 @@ case, and nothing above it exists.
 
 ## 2. M5's own number was already the ceiling — and it matches
 
+> **RETRACTED (WP36).** This is an **identity, not a derivation.** With
+> `a = s^(−1/n) − 1` and `s = 2^(−1/R½)`, `1+a = 2^(1/(n·R½))`, so
+> **`δ* = 1/log₂(1+a) = n·R½` exactly.** `δ* = 47.98` *is* `6 × 8`. Saying the
+> model "derives" the 48 nt L&C observed compares `6×8` with `8×6`.
+>
+> The identity holds for **every** exponent `n`, which is what proves it carries
+> no information: WP36 checked n = 1…24 and δ* scales with n while the fold
+> `κ` moves by only 7.5 %. So `δ*` is set by the median product length you put
+> in, not by anything the model discovered.
+
 L&C write: *"half the chains elongated by eight repeats (48 nt)"*. M5's 2.73×
-**derives** `δ* = 1/log₂(1.01455) = 47.98 bp`. Eight repeats × 6 nt = **48 nt**.
+**gives** `δ* = 1/log₂(1.01455) = 47.98 bp`, which is `6 × 8 = 48` — see the
+retraction above.
 
 That agreement is the strongest single number in the whole programme. It is
 also the ceiling: *48 is not 90.*
@@ -150,7 +161,8 @@ design would have to achieve and which quantity to optimise.
 ```
 delta* == 1/log2(1+a)                                    ok
 delta* == 6*R1/2 from s=(1+a)^-6                         ok
-2.73x predicts 48.0 bp (L&C observed 48)                 ok
+delta* == n*R1/2 (the "48 nt agreement" is an identity) ok
+that identity holds for every exponent, not just n=6    ok
 no [TERT] immortalises a 90 bp/PD cell at 2.73x          ok
 required fold reproduces delta* = target                 ok
 net > 0 iff a < a_needed                                 ok
@@ -161,5 +173,7 @@ gain is linear in coverage (WP28 c(x) enters once)       ok
 10 checks, 0 failed
 ```
 
-Check 3 is the substantive one: the model independently reproduces the 48 nt
-L&C observed. Check 8 guards the arithmetic that everything else rests on.
+Check 3 is now the **guard against** the old claim, not support for it: it
+asserts `δ* == n·R½` exactly, so nobody can re-introduce "the model independently
+reproduces the 48 nt" without failing the suite. Check 8 still guards the
+arithmetic that everything else rests on.

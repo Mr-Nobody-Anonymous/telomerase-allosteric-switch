@@ -106,10 +106,13 @@ physical and falsifiable.**
 - **P1** — the 2.7× is a median-length ratio; any model comparing it to a
   survival ratio is wrong by 2.33×. Checkable against L&C's own
   "eight repeats (48 nt)" sentence.
-- **P2** — the true off-rate change is ≈2.7×, below the ≥4× observed, and the
-  difference is **stalling**. Test: re-measure `k_off` under a **DNA trap**,
-  which removes retries. Prediction: it lands near 2.7×, not ≥4×. **This is the
-  cheap one — it re-analyses existing gel data, no new reagent.**
+- **P2** — ~~the true off-rate change is ≈2.7×, below the ≥4× observed, and the
+  difference is stalling.~~ **CORRECTED BY WP35.** Two errors: the prediction is
+  **3.27×**, not 2.7×, once the product distribution is stall-corrected in the
+  same direction as the chase; and this is **not** a re-analysis — there is no
+  per-band data in the repository to re-analyse (WP24, and the only per-band
+  file is generated). P2 is a new run: the pulse-chase **±** a DNA trap, n = 12
+  per arm independent or n = 3 paired.
 - **P3** — dissociation is **state-split**: falling while extending, rising on
   release. Test: product-length-resolved off-rate; the fast phase must get
   *faster* with POT1-TPP1 even as the slow phase slows.

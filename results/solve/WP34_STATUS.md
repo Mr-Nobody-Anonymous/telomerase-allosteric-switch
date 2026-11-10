@@ -55,8 +55,9 @@ probably explains it", and it is falsifiable in days with no new reagent.
 The only candidate that is **both physical and falsifiable**. M1, M2, M3 and M4
 all break `s₀ ≤ φ₀` on L&C's own no-TPP1 data, so every earlier model is
 unphysical on the data it came from. M5 predicts a number (2.73×) it was **not
-fitted to**, and derives δ* = **47.98 bp/PD** — matching L&C's independently
-observed *"eight repeats (48 nt)"*.
+fitted to**, and gives δ* = **47.98 bp/PD**. That is *not* an independent match
+to L&C's *"eight repeats (48 nt)"*: δ* = n·R½ **identically** (WP36), so 47.98
+is 6 × 8 compared with 8 × 6. Withdrawn.
 
 ### (b) Best molecule: **TLN-amide** (neutral amide anchor)
 
@@ -92,7 +93,7 @@ it if the ratio stays ≥4×, **and** now reports the retry probability.
 
 | stage | P(pass \| prior) |
 |---|---|
-| M5 derives the observed 48 nt exactly | 90 % |
+| M5 reproduces the observed 48 nt (WP36: an identity, carries no evidence) | 90 % → **withdrawn** |
 | the 4× gap is retry (88 % explained, one free parameter) | 65 % |
 | `s = (1+a)⁻⁶` survives an independent enzyme | 60 % |
 | **M5 survives as the correct mechanism** | **≈ 35 %** |
