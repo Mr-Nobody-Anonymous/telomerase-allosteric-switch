@@ -81,6 +81,11 @@ A **positive** Δ means the molecule prefers the interface over the rest of the
 protein surface — which is the shape of a selective molecule. A **negative** Δ
 means it would rather stick somewhere else, and selectivity is not there.
 
+> **RETRACTED (WP32).** This claim does not survive a scorer with charges in
+> it. See `WP32_PHYSICS.md`: all four ligands prefer a control patch, TLN-3 is
+> no longer first, and the "convergence" was an artefact of counting contacts.
+> The paragraph is kept so the retraction has something to point at.
+
 **TLN-3 is the only ligand in the series with a large positive Δ.** Two
 independent changes pointed the same way: the physchem screen in WP30 picked it
 out (MW 442.51, logP 4.60, one carboxylate, passes all four Lipinski rules), and

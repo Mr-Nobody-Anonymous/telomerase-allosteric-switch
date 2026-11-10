@@ -168,4 +168,26 @@ What remains open is smaller and more specific: a real free-energy calculation
 
 | # | gap | state now | where |
 |---|---|---|---|
-| 13 | Affinity at the TEL patch | **open — needs FEP/MM-GBSA, out of scope here** | `WP31_EPITOPE.md` §5 |
+| 13 | Affinity at the TEL patch | **open — needs FEP/MM-GBSA; now with a control showing why** | `WP32_PHYSICS.md` |
+| 14 | No ligand prefers the epitope | **open — and the cause is known (anionic ligands, acidic patch)** | `WP32_PHYSICS.md` §4 |
+
+
+## 11. Gap 14 opened by closing a capability gap
+
+WP32 replaced WP31's contact counter with a function that has partial charges,
+ionisation, directional hydrogen bonds and burial — and gave it a control patch
+it must not prefer. It preferred the control patch for **every** ligand.
+
+Two consequences, both recorded rather than smoothed over:
+
+- **WP31's "convergence" claim is retracted.** TLN-3 led on contact counts;
+  with charges it does not lead, and no ligand is interface-preferring.
+- **The cause is identified and it is chemistry, not code.** The TERT–TPP1
+  interface is net **−17.9**; every ligand in the series is anionic. Swapping
+  the anchor from carboxylate to amine cuts the anti-selectivity **6.2×**
+  (+20.5 → +3.3), which confirms the mechanism and still does not produce a
+  selective molecule.
+
+Gap 13 is therefore better specified than it was: what is needed is not "a
+better scorer" but a calculation with flexibility, solvent and entropy. Gap 14
+is the design problem that survives it.

@@ -757,3 +757,96 @@ def test_wp31_doc_keeps_the_quarantine():
     assert "Quarantine unchanged" in flat
     assert "not a binding measurement" in flat
     assert "none, and none obtainable here" in flat
+
+
+# --------------------------------------------------------------- WP32
+def _wp32():
+    pytest.importorskip("rdkit", reason="WP32 needs the optional 'chem' extra")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp32_physics_scoring")
+
+
+def test_wp32_ionisation_is_correct():
+    """Gasteiger on a neutral molecule sums to ~0 - the acid was never -1."""
+    wp = _wp32()
+    acid = "O=C1C(=S)N(c2ccc(F)cc2CCC(=O)O)C(=O)N(c2ccccc2)C1CC(C)C"
+    amine = "O=C1C(=S)N(c2ccc(F)cc2CCCN)C(=O)N(c2ccccc2)C1CC(C)C"
+    guan = "O=C1C(=S)N(c2ccc(F)cc2CCCNC(=N)N)C(=O)N(c2ccccc2)C1CC(C)C"
+    assert wp.net_formal_charge(wp.apply_ionisation(acid)) == -1
+    assert wp.net_formal_charge(wp.apply_ionisation(amine)) == 1
+    assert wp.net_formal_charge(wp.apply_ionisation(guan)) == 1
+    assert wp.net_formal_charge(wp.apply_ionisation("c1ccccc1C")) == 0
+
+
+def test_wp32_clashes_are_repulsive_not_attractive():
+    """The old penalty was negative, so a 1.5 A overlap beat a good pose."""
+    wp = _wp32()
+    lig = dict(mol=None, xyz=np.zeros((1, 3)), idx=[0], q=np.array([-0.5]),
+               sym=["O"], donors=[], acceptors=[0], donor_h={},
+               all_xyz={0: np.zeros(3)})
+    clash = wp.interaction_energy(lig, lig["xyz"],
+                                  [("LYS", 1, "NZ", np.array([0.0, 0.0, 1.5]),
+                                    1.0, True, False)])
+    good = wp.interaction_energy(lig, lig["xyz"],
+                                 [("LYS", 1, "NZ", np.array([0.0, 0.0, 3.2]),
+                                   1.0, True, False)])
+    assert clash["clash"] > 0            # repulsive
+    assert clash["elec"] == 0.0          # electrostatics off at overlap
+    assert clash["total"] > good["total"]
+
+
+def test_wp32_hbonds_are_directional():
+    """Same distance, different angle: only one of them is a hydrogen bond."""
+    wp = _wp32()
+    lig = dict(mol=None, xyz=np.zeros((1, 3)), idx=[0], q=np.array([0.3]),
+               sym=["N"], donors=[0], donor_h={0: 1}, acceptors=[],
+               all_xyz={0: np.zeros(3), 1: np.array([0.0, 0.0, 1.0])})
+    good = wp.interaction_energy(lig, lig["xyz"],
+                                 [("ASP", 1, "OD1", np.array([0.0, 0.0, 3.2]),
+                                   -0.55, False, True)])
+    bent = wp.interaction_energy(lig, lig["xyz"],
+                                 [("ASP", 1, "OD1", np.array([2.0, 0.0, 2.0]),
+                                   -0.55, False, True)])
+    assert good["n_hb"] == 1
+    assert bent["n_hb"] == 0
+    assert good["hbond"] < bent["hbond"]
+
+
+def test_wp32_control_patch_is_far_from_the_interface():
+    wp = _wp32()
+    tg = wp.build_targets()
+    assert tg["n_tert_iface"] > 5 and tg["n_tpp1_iface"] > 3
+    assert len(tg["control"]) > 5
+
+
+def test_wp32_the_control_test_fails_and_that_is_recorded():
+    """If this ever starts passing, the doc's negative result must change."""
+    wp = _wp32()
+    tg = wp.build_targets()
+    prot = {k: wp.protein_atoms(v) for k, v in
+            (("interface", tg["interface"]), ("control", tg["control"]))}
+    q_if = sum(a[4] for a in prot["interface"])
+    q_ct = sum(a[4] for a in prot["control"])
+    # the interface really is the more negative patch - the stated cause
+    assert q_if < q_ct
+    # and every ligand in the series really is anionic
+    from wp30_ligand_completion import CORE_SMILES, REPAIRED, VARIANTS
+    for smi in (CORE_SMILES, REPAIRED["para-to-N"],
+                VARIANTS["TLN-3 anchor, short arm"]):
+        assert wp.ligand_typed(smi)["q"].sum() < -1.0
+
+
+def test_wp32_self_test_passes():
+    pytest.importorskip("rdkit", reason="WP32 needs the optional 'chem' extra")
+    subprocess.run([sys.executable, "scripts/solve/wp32_physics_scoring.py",
+                    "--self-test"], cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp32_docs_record_the_retraction():
+    base = Path(__file__).resolve().parents[1] / "results" / "solve"
+    w32 = " ".join((base / "WP32_PHYSICS.md").read_text(encoding="utf-8").split())
+    w31 = " ".join((base / "WP31_EPITOPE.md").read_text(encoding="utf-8").split())
+    assert "RETRACTED (WP32)" in w31
+    assert "WP31's ranking was an artefact" in w32
+    assert "Quarantine unchanged" in w32
