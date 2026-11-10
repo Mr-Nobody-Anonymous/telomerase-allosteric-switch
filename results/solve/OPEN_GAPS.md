@@ -6,7 +6,7 @@ Every item below was checked against the tree, not recalled. Each is either
 | # | gap | state now | where |
 |---|---|---|---|
 | 1 | Gate 3 — per-band densitometry | **blocked, and provably so** | `WP24_GATE3_STATUS.md` |
-| 2 | 2.73× vs ≥4× tension (P2/P3) | **reduced to 2 branches, decision stated** | `WP25_RESOLVING_TESTS.md` |
+| 2 | 2.73× vs ≥4× tension (P2/P3) | **re-scoped by WP35: §13 is withdrawn, see §14** | `WP35_P2_IDENTIFIABILITY.md` |
 | 3 | M2 vs M4 (`k_tr` vs `k_off_tr`) | **open by construction, not load-bearing** | `WP25_RESOLVING_TESTS.md` |
 | 4 | 9SHZ / 9SI0 ingestion | **blocked: channel limitation** | `fetch_rap_fixture.py` |
 | 5 | `domain_motion()` dead code | **closed — removed (it was also broken)** | `colab/tpp1_colab.py` |
@@ -212,7 +212,14 @@ it is "the anchor should probably not be charged at all, and that needs a real
 free-energy calculation to test."
 
 
-## 13. The 1.46x tension is 88% explained - and now makes a sharp prediction
+## 13. [WITHDRAWN IN PART - see §14] The 1.46x tension is 88% explained
+
+> **This section is withdrawn on two counts, both shown in §14.** The "88 %"
+> compares a probability to `(s-phi)/s`, which *is* the anomaly M5 exists to
+> explain - so it explains itself. It is also negative in the +PT arm. And the
+> consequence drawn from it ("the retry probability should measure about 0.32")
+> does not follow: 0.318 is not a retry probability at all. Retained for the
+> record, not for use.
 
 WP34 found that the gap between M5's 2.73x and L&C's measured >=4x is almost
 entirely accounted for by the stalled population L&C report directly:
@@ -227,3 +234,42 @@ quantity directly. This upgrades P2 from "the cheap decisive test" to "the test
 that tests a specific number".
 
 Full status, candidate and odds: `WP34_STATUS.md`.
+
+
+
+## 14. P2 implemented - and the gate is undetermined, not closed
+
+WP35 built step 1 of WP34's order of operations. It does not re-analyse
+anything, because the repository has nothing to re-analyse (WP24's proof), and
+doing it correctly changed two conclusions.
+
+**The stall correction had the wrong sign.** WP34 applied stalling to the
+chase only. The product distribution is stall-inflated too, and a retry makes
+the observed per-repeat survival *overstate* the true one:
+
+    s_obs  = s_true / (1 - tau(1-s_true))
+    s_true = s_obs (1 - tau) / (1 - tau s_obs)
+
+Corrected that way, the distribution fold **rises** with tau while the
+trap-diluted chase **falls**. They converge on one tau:
+
+    tau_0 = 0.1833     fold = 3.2670     delta* = 57.30 bp/PD
+
+**So the gate is UNDETERMINED.** WP34's 48.0 bp/PD is delta* at tau_0 = 0, and
+tau_0 = 0 is exactly what P2 tests. The two physically derived couplings give
+57.3 and 57.4 bp/PD - above the 50 floor. The pessimistic "same tau in both
+arms" coupling gives 46.8, and the phi data contradict it. The spread from 46.8
+to 57.4 is assumption-driven, so all three are reported and none alone.
+
+**P(approved drug) is therefore not 0 %.** It is WP34's own pipeline product,
+conditional on the gate opening: ~0.008 %. "0 % because the gate is closed" was
+a conditional presented as a closure.
+
+What does not change: 57.3 bp/PD is still short of a 90 bp/PD cell, which needs
+5.14x - so the maintenance objective stays out of reach without a real change
+in the true off-rate, which is step 2 and remains unmeasured.
+
+**Cost.** P2 is 3.27x against 4.00x, a ratio of 1.224, against a real
+experiment-level CV of 17.2 % (Tesmer Fig 3B WT). That is n = 12 per arm
+independent, or n = 3 paired (rho = 0.8). "Days, no reagent" assumed the
+pairing silently.

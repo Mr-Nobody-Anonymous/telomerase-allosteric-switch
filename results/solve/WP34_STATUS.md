@@ -1,5 +1,13 @@
 # WP34 — What is not achieved, how to achieve it, the best candidate, and the odds
 
+> **SUPERSEDED IN PART (WP35).** Three claims below do not survive: P2 is not a
+> re-analysis (it needs the chase +/- a DNA trap), the "88 % explained" figure
+> compares a probability to the anomaly it is meant to explain and is negative
+> in the +PT arm, and the maintenance gate is **UNDETERMINED** rather than
+> CLOSED — the two physically derived stall couplings give delta* ≈ 57 bp/PD,
+> above the 50 floor. See `WP35_P2_IDENTIFIABILITY.md`. The candidate ranking,
+> the pipeline arithmetic and the quarantine status are unchanged.
+
     python scripts/solve/wp34_status.py
     -> results/solve/wp34_status.csv
 

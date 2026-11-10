@@ -1007,3 +1007,111 @@ def test_wp34_doc_states_zero_and_the_non_zero_part():
     assert "0.023 %" in flat
     assert "near zero" in flat          # markdown emphasis surrounds "not"
     assert "TLN-amide" in flat
+
+
+# --------------------------------------------------------------- WP35
+def _wp35():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp35_p2_identifiability")
+
+
+def test_wp35_the_stall_correction_has_the_right_sign():
+    """The first draft of WP35 ran the correction forward; this pins it back.
+
+    If someone "simplifies" the inverse away, kappa_dist stops rising with tau
+    and the whole reconciliation collapses.  That is the failure this blocks.
+    """
+    wp = _wp35()
+    assert wp.kappa_dist(0.30) > wp.kappa_dist(0.0)          # rises, not flat
+    assert wp.kappa_dist(0.30) / wp.kappa_dist(0.0) > 1.30    # materially
+    # and the forward (wrong) form is explicitly NOT what is computed
+    a0 = wp.a_of_s(wp.S_NO_PT)
+    forward = a0 / wp.a_of_s(wp.s_obs_given_true(wp.S_PT, 0.30))
+    assert abs(wp.kappa_dist(0.30) - forward) > 0.1
+
+
+def test_wp35_inverse_correction_round_trips():
+    wp = _wp35()
+    assert abs(wp.s_true_given_obs(wp.S_NO_PT, 0.0) - wp.S_NO_PT) < 1e-15
+    for t in (0.05, 0.1833, 0.35):
+        st = wp.s_true_given_obs(wp.S_NO_PT, t)
+        assert abs(wp.s_obs_given_true(st, t) - wp.S_NO_PT) < 1e-12
+
+
+def test_wp35_the_crossing_is_unique_and_the_prediction_holds():
+    wp = _wp35()
+    tau, kappa = wp.solve_selfconsistent()
+    assert abs(tau - 0.1833) < 2e-3
+    assert abs(kappa - 3.2670) < 5e-3
+    assert abs(wp.kappa_dist(tau) - wp.kappa_chase(tau)) < 1e-9
+    for i in range(120):
+        t = i / 200
+        assert (wp.kappa_dist(t) - wp.kappa_chase(t)) * (t - tau) >= -1e-9
+
+
+def test_wp35_all_three_couplings_reconcile_and_are_reported():
+    """No single coupling may be quoted alone: the spread is assumption-driven."""
+    wp = _wp35()
+    solved = {c: wp.solve_selfconsistent(coupling=c) for c in wp.COUPLINGS}
+    assert len(solved) == 3
+    assert abs(solved["failure-scaled"][1] - solved["none"][1]) < 0.05
+    assert solved["same"][1] < solved["failure-scaled"][1]
+    assert abs(wp.FAILURE_RATIO - 0.02326) < 1e-4
+    assert 1.0 / wp.FAILURE_RATIO > 40.0        # 43x rarer with POT1-TPP1
+
+
+def test_wp35_the_gate_is_undetermined_not_closed():
+    wp = _wp35()
+    tau, kappa = wp.solve_selfconsistent()
+    assert wp.delta_star(wp.kappa_dist(0.0)) < wp.DELTA_FLOOR     # 48.0 closed
+    assert wp.delta_star(kappa) > wp.DELTA_FLOOR                  # 57.3 open
+    assert wp.delta_star(kappa) < wp.DELTA_HUVEC                  # still short of 90
+    assert abs(wp.kappa_needed(wp.DELTA_HUVEC) - 5.1426) < 1e-3
+    assert wp.tau_for_delta(wp.DELTA_HUVEC) is None or \
+        wp.tau_for_delta(wp.DELTA_HUVEC) > tau
+
+
+def test_wp35_wp34s_88_percent_is_refuted_on_its_own_terms():
+    """0.280 is the anomaly itself rescaled, and it is negative in the +PT arm."""
+    wp = _wp35()
+    assert abs((wp.S_NO_PT - wp.PHI_NO_PT) / wp.S_NO_PT - 0.2798) < 5e-4
+    assert (wp.S_PT - wp.PHI_PT) / wp.S_PT < 0.0      # not a fraction
+    tau, _ = wp.solve_selfconsistent()
+    assert abs(tau - 0.318) > 0.05                    # 0.318 was not a tau
+
+
+def test_wp35_powering_uses_a_real_assay_and_states_the_pairing():
+    wp = _wp35()
+    cv = wp.assay_cv()
+    assert abs(cv - 0.1718) < 1e-3
+    r = wp.KAPPA_CHASE / wp.solve_selfconsistent()[1]
+    assert wp.n_per_arm(cv, r) == 12                  # independent arms
+    assert wp.n_per_arm(cv, r, 0.8) == 3              # paired
+    assert wp.cv_tolerated(r, 12) >= cv
+    assert wp.cv_tolerated(r, 11) < cv
+
+
+def test_wp35_the_benchmark_file_is_generated_not_measured():
+    """Guards the claim that P2 cannot use data/benchmarks/*.csv."""
+    src = (Path(__file__).resolve().parents[1] / "scripts"
+           / "generate_independent_benchmarks.py").read_text(encoding="utf-8")
+    assert "np.random.seed(42)" in src
+    assert "synthesise" in src or "generate" in src.lower()
+
+
+def test_wp35_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp35_p2_identifiability.py",
+                    "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp35_doc_records_the_corrections():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP35_P2_IDENTIFIABILITY.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "UNDETERMINED" in flat
+    assert "wrong sign" in flat
+    assert "57.30" in flat and "46.76" in flat     # both branches, not one
+    assert "Quarantine unchanged" in flat
+    assert "not a re-analysis" in flat
