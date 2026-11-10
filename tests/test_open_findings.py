@@ -847,6 +847,110 @@ def test_wp32_docs_record_the_retraction():
     base = Path(__file__).resolve().parents[1] / "results" / "solve"
     w32 = " ".join((base / "WP32_PHYSICS.md").read_text(encoding="utf-8").split())
     w31 = " ".join((base / "WP31_EPITOPE.md").read_text(encoding="utf-8").split())
-    assert "RETRACTED (WP32)" in w31
+    assert "RETRACTED (WP32" in w31        # wording extended in WP33
     assert "WP31's ranking was an artefact" in w32
     assert "Quarantine unchanged" in w32
+
+
+# --------------------------------------------------------------- WP33
+def _wp33():
+    pytest.importorskip("rdkit", reason="WP33 needs the optional 'chem' extra")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp33_valid_scoring")
+
+
+def test_wp33_matched_pairs_only_differ_by_protonation():
+    """The defect: five of six WP30 variants changed the scaffold too."""
+    wp33 = _wp33()
+    from rdkit import Chem
+    from rdkit.Chem import rdMolDescriptors
+    for pair, (neutral, charged) in wp33.PAIRS.items():
+        a = Chem.MolFromSmiles(wp33.SCAFFOLD.format(ANCHOR=neutral))
+        b = Chem.MolFromSmiles(wp33.SCAFFOLD.format(ANCHOR=charged))
+        assert a.GetNumHeavyAtoms() == b.GetNumHeavyAtoms(), pair
+        assert rdMolDescriptors.CalcNumRings(a) == rdMolDescriptors.CalcNumRings(b), pair
+
+
+def test_wp33_series_spans_all_three_charge_states():
+    wp33 = _wp33()
+    wp32 = _wp33()._w()
+    charges = {wp32.net_formal_charge(s) for s in wp33.series().values()}
+    assert charges == {0, -1, 1}
+
+
+def test_wp33_control_is_matched_on_atoms_not_just_residues():
+    """The defect: 377 vs 224 atoms. The fix must close that to within 25%."""
+    wp33 = _wp33()
+    wp31 = wp33._w31()
+    asm = wp31.build_assembly()
+    tpp1 = wp31.transform_residues(asm["t2"][wp31.TPP1_2I46_CHAIN], asm["R"], asm["t"])
+    ia, _ = wp31.interface_residues((asm["t7"]["A"], tpp1))
+    chosen, meta = wp33.matched_control(asm["t7"]["A"], ia)
+    assert abs(meta["atom_ratio"] - 1.0) <= 0.25
+    assert meta["ctrl_res"] >= 15
+    assert not (set(chosen) & set(ia))
+
+
+def test_wp33_tel_patch_is_ambipolar_not_basic():
+    """The prose said 'the TEL patch is basic'. It is net -1 and both signs."""
+    wp33 = _wp33()
+    wp32 = wp33._w()
+    wp31 = wp33._w31()
+    asm = wp31.build_assembly()
+    tpp1 = wp31.transform_residues(asm["t2"][wp31.TPP1_2I46_CHAIN], asm["R"], asm["t"])
+    _, ib = wp31.interface_residues((asm["t7"]["A"], tpp1))
+    q = [wp32.RES_CHARGE.get(n, 0.0) for n, s, a in tpp1 if s in ib]
+    assert any(x > 0 for x in q) and any(x < 0 for x in q)   # ambipolar
+    assert -2.0 < sum(q) <= 0.0                              # net about -1
+
+
+def test_wp33_hbond_probe_realises_the_angle_it_claims():
+    """The first test requested 125 deg and actually built 106 deg."""
+    wp33 = _wp33()
+    for ang in (160, 150, 130, 125, 121, 119, 100):
+        A = wp33.hbond_probe(ang, d_DA=3.0)
+        assert abs(wp33.realised_hbond_angle(A) - ang) < 0.01
+        assert abs(float(np.linalg.norm(A)) - 3.0) < 1e-9
+
+
+def test_wp33_hbond_boundary_holds_at_constant_distance():
+    wp33 = _wp33()
+    wp32 = wp33._w()
+    lig = dict(mol=None, xyz=np.zeros((1, 3)), idx=[0], q=np.array([0.3]),
+               sym=["N"], donors=[0], donor_h={0: 1}, acceptors=[],
+               all_xyz={0: np.zeros(3), 1: np.array([0.0, 0.0, 1.0])})
+    for ang, expect in ((150, 1), (121, 1), (119, 0), (100, 0)):
+        A = wp33.hbond_probe(ang, d_DA=3.0)
+        r = wp32.interaction_energy(lig, lig["xyz"],
+                                    [("ASP", 1, "OD1", A, -0.55, False, True)])
+        assert r["n_hb"] == expect, ang
+
+
+def test_wp33_explicit_protonation_state_is_selectable():
+    """Without this the pairs collapse and the comparison is empty."""
+    wp32 = _wp33()._w()
+    acid = "O=C1C(=S)N(c2ccc(F)cc2CCC(=O)O)C(=O)N(c2ccccc2)C1CC(C)C"
+    neutral = wp32.ligand_typed(acid, ionise=False)["q"].sum()
+    ionised = wp32.ligand_typed(acid, ionise=True)["q"].sum()
+    assert neutral > ionised + 0.5          # the explicit neutral state differs
+
+
+def test_wp33_wp32_fixes_still_hold():
+    wp32 = _wp33()._w()
+    lig = dict(mol=None, xyz=np.zeros((1, 3)), idx=[0], q=np.array([-0.5]),
+               sym=["O"], donors=[], acceptors=[0], donor_h={},
+               all_xyz={0: np.zeros(3)})
+    r = wp32.interaction_energy(lig, lig["xyz"],
+                                [("LYS", 1, "NZ", np.array([0.0, 0.0, 1.5]), 1.0, True, False)])
+    assert r["clash"] > 0 and r["elec"] == 0.0
+
+
+def test_wp33_docs_record_the_withdrawals():
+    base = Path(__file__).resolve().parents[1] / "results" / "solve"
+    w33 = " ".join((base / "WP33_CORRECTED_SCORING.md").read_text(encoding="utf-8").split())
+    w32 = " ".join((base / "WP32_PHYSICS.md").read_text(encoding="utf-8").split())
+    assert "SUPERSEDED IN PART (WP33)" in w32
+    assert "WITHDRAWN" in w33
+    assert "ambipolar" in w33
+    assert "Quarantine unchanged" in w33

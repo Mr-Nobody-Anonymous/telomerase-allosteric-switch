@@ -169,7 +169,7 @@ What remains open is smaller and more specific: a real free-energy calculation
 | # | gap | state now | where |
 |---|---|---|---|
 | 13 | Affinity at the TEL patch | **open — needs FEP/MM-GBSA; now with a control showing why** | `WP32_PHYSICS.md` |
-| 14 | No ligand prefers the epitope | **open — and the cause is known (anionic ligands, acidic patch)** | `WP32_PHYSICS.md` §4 |
+| 14 | No ligand prefers the epitope | **superseded — the neutral amide does prefer it (WP33); the anchor's charge sign is not the whole story** | `WP33_CORRECTED_SCORING.md` |
 
 
 ## 11. Gap 14 opened by closing a capability gap
@@ -191,3 +191,22 @@ Two consequences, both recorded rather than smoothed over:
 Gap 13 is therefore better specified than it was: what is needed is not "a
 better scorer" but a calculation with flexibility, solvent and entropy. Gap 14
 is the design problem that survives it.
+
+
+## 12. Gap 14 re-scoped, because WP32's evidence was confounded
+
+WP33 found four defects in WP32's comparison and fixed each with a test:
+
+| defect | fix | effect |
+|---|---|---|
+| control differed by 1.68× in atom count | matched control (0.91 ratio) + per-atom energies | the size confound is gone |
+| prose said the patch was both acidic and basic | measured it: **ambipolar, net −1** | "the anchor must be basic" **withdrawn** |
+| five of six variants changed the scaffold | matched protonation pairs | charge is now the only variable |
+| H-bond test varied distance and angle together | constant 3.00 Å, angle verified | the 120° boundary is actually tested |
+
+The corrected result is more interesting than the one it replaces: the only
+variant preferring the interface is the **neutral amide**, and charge does not
+order the series monotonically — which is the expected signature of an
+**ambipolar** patch. So gap 14 is no longer "these ligands are the wrong charge";
+it is "the anchor should probably not be charged at all, and that needs a real
+free-energy calculation to test."

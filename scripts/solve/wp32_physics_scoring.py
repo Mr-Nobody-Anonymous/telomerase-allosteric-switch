@@ -238,14 +238,18 @@ DONOR_SMARTS = "[$([O,S;H1;v2]-[!$(*=[O,N,P,S])]),$([N;H1,H2;+0]),$([N;H1;+1])]"
 ACCEPTOR_SMARTS = "[$([O,S;H0;v2]),$([O,S;-]),$([N;v3;!$(N-*=!@[O,N,P,S])]),$([nH0,o,s])]"
 
 
-def ligand_typed(smiles: str, seed: int = 20261108):
+def ligand_typed(smiles: str, seed: int = 20261108, ionise: bool = True):
     """Heavy-atom coords, Gasteiger charges, donor/acceptor flags, and the
     hydrogen positions needed for the angle test."""
     from rdkit import Chem, RDLogger
     from rdkit.Chem import AllChem, rdPartialCharges
     RDLogger.DisableLog("rdApp.*")
 
-    smiles = apply_ionisation(smiles)
+    # `ionise=False` scores an EXPLICIT protonation state as written. It is a
+    # controlled perturbation ("what if this acid were not deprotonated"), not a
+    # claim about what exists at pH 7.4 - at pH 7.4 an acid IS deprotonated.
+    if ionise:
+        smiles = apply_ionisation(smiles)
     m = Chem.MolFromSmiles(smiles)
     mh = Chem.AddHs(m)
     ps = AllChem.ETKDGv3()

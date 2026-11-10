@@ -81,7 +81,7 @@ A **positive** Δ means the molecule prefers the interface over the rest of the
 protein surface — which is the shape of a selective molecule. A **negative** Δ
 means it would rather stick somewhere else, and selectivity is not there.
 
-> **RETRACTED (WP32).** This claim does not survive a scorer with charges in
+> **RETRACTED (WP32, and the retraction itself was corrected in WP33).** This claim does not survive a scorer with charges in
 > it. See `WP32_PHYSICS.md`: all four ligands prefer a control patch, TLN-3 is
 > no longer first, and the "convergence" was an artefact of counting contacts.
 > The paragraph is kept so the retraction has something to point at.

@@ -1,5 +1,14 @@
 # WP32 — Editing the part that lacked the capability. It failed, and that is the result
 
+> **SUPERSEDED IN PART (WP33).** Four claims below do not survive: the control
+> was **size-confounded** (377 vs 224 atoms), the prose said the interface is
+> acidic *and* that the TEL patch is basic, five of six "variants" changed the
+> scaffold rather than the anchor, and the H-bond test did not hold distance
+> constant. `WP33_CORRECTED_SCORING.md` redoes all four and finds that the
+> **neutral amide** — no charge at all — is the only variant preferring the
+> interface. The three bug fixes themselves (repulsive clashes, directional
+> H-bonds, ionisation) stand.
+
 WP31 said, in its own words, that its scoring function was blind to the things
 that decide binding. This work package edits that part. It adds the missing
 physics, and then it adds something the old function never had: **a control it
