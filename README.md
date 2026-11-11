@@ -1,35 +1,48 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-490%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-614%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Manuscript](https://img.shields.io/badge/manuscript-identifiability%20analysis-purple.svg)](paper/MANUSCRIPT.md)
-[![Status](https://img.shields.io/badge/Status-No%20mechanism%20proven-R1%20untested-critical.svg)](results/causality/MECHANISM_CLASSIFICATION.md)
+[![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
 
-> ### 🤖 If you are an automated agent, read this first
->
-> **`pytest` is not the task.** 490 passing tests only prove the code is internally
-> consistent; they answer no scientific question. An agent that runs `pytest`, sees green,
-> and reports success has done nothing — this has already happened once.
->
-> **Your task is one command:**
->
-> ```bash
-> bash colab/run_colab.sh
-> ```
->
-> That downloads the telomerase structures from RCSB, applies the fixed verdict rule, and
-> writes `colab_out/report.md`. **It needs internet access.** Report the `VERDICT:` block it
-> prints, and read [`colab/AGENT_START_HERE.md`](colab/AGENT_START_HERE.md) before
-> interpreting it — in particular, the list of things the result does **not** show.
->
-> The expected outcome is a measurement, not a "pass". `NOT RESOLVED` and
-> `TEST DID NOT RUN` are legitimate, reportable verdicts, and neither means "no contact".
-> If downloads fail, say so — do not report the run as successful.
+## Where the open questions stand
+
+A single audited ledger of every gap, each checked against the tree rather than
+recalled: [`results/solve/OPEN_GAPS.md`](results/solve/OPEN_GAPS.md).
+
+A second, generated ledger records **every claim this repository has retracted**
+— 14 of them, in four fixed states — with the predicate that exposed each one:
+[`results/solve/RETRACTIONS.md`](results/solve/RETRACTIONS.md). It is rebuilt
+from the tree by `scripts/solve/wp38_archive.py`, and the test suite fails if a
+marker is deleted from a source document or a refuted claim is added without
+being registered there.
+
+Four of the seven gaps that were open are now closed, and the three that remain
+are blocked for stated reasons rather than neglected:
+
+- **Gate 3 (densitometry)** — the repository's data cannot satisfy it, and this is
+  now a *proof*: two product-length distributions can share the recorded ≥16-repeat
+  fraction exactly while differing 4.98× in shape. See
+  [`WP24`](results/solve/WP24_GATE3_STATUS.md).
+- **The 2.73× vs ≥4× tension** — reduced to two branches separated by a single
+  DNA-trap experiment with distinct numeric predictions. See
+  [`WP25`](results/solve/WP25_RESOLVING_TESTS.md).
+- **Simulation-only closure** — quantified. The repo's MD is 3.0 ps on a 97-residue
+  fragment, ~8 orders of magnitude short, and omits the active site. The structural
+  half is closable (alchemical free energy first); the kinetic half is not closable by
+  any amount of compute. See [`WP26`](results/solve/WP26_SIMULATION_READINESS.md).
+- **9SHZ / 9SI0** — parser written and verified offline; the sandbox blocks TLS.
+  One networked run of `scripts/solve/fetch_rap_fixture.py` finishes it.
+
+Newly closed: the **TPP1-free matched series**. 7TRD is apo and matches 7TRE at
+934/934 residues; the largest domain displacement on TPP1 binding is **0.53 Å**,
+i.e. at the coordinate uncertainty — a *measured null*, not an untested
+assumption. See [`WP23`](results/solve/WP23_TPP1_FREE_SERIES.md).
 
 ## Manuscript
 
@@ -49,6 +62,25 @@ less than is commonly assumed. It has four moving parts —
    observable is invariant under scaling all rates by a common factor (symbolically, exactly zero).
    A processivity design has structural rank 3 of 4; direct primer binding is the only independent
    measurement that adds rank.
+   > **Correction (WP19).** "Direct primer binding has never been measured" was wrong. Latrick &
+   > Cech 2010 measured it twice by pulse-chase: the *resting* `k_off` = 0.012 /min and is
+   > **unchanged** by saturating POT1-TPP1, while the **cycling** complex's half-dissociation time
+   > increases **at least four-fold**. They also report `k_pol` unchanged. The open item is
+   > therefore narrower and sharper: the cycling measurement needs a DNA trap or dilution to
+   > remove rebinding (WP13), and it is that corrected number which would add rank.
+   > **Correction (WP22).** Two further errors in how that literature was used, now fixed.
+   > (i) The **2.7× is a ratio of R₁/₂ — a median length** — not of per-repeat survival `s`.
+   > Latrick & Cech give "half the chains elongated by eight repeats (48 nt)", so R₁/₂ = 8 and
+   > the `s` ratio is **1.159**, not 2.700. The two differ by **2.33×**, and WP3/WP18/WP20 all
+   > compared them directly. (ii) Wang 2007's absolute anchor comes from RRL-reconstituted
+   > enzyme while L&C's 2.7× comes from HEK "super-telomerase" — **different enzymes**, which
+   > the model had multiplied into one equation. Scored separately, the repository's proposed
+   > form `s = (1+a)⁻⁶·φ` is **falsified**: on L&C's own no-POT1-TPP1 numbers
+   > `s₀/φ₀ = 0.7914/0.57 = 1.388 > 1` forces a **negative** rate constant. `φ` is a
+   > window-limited efficiency, not a survival probability, and must not multiply into `s`.
+   > The corrected model **M5** — `s = (1+a)⁻⁶`, with stalled complexes retrying — is physical
+   > and predicts a **2.73×** off-rate fall against L&C's independently measured **≥4×**.
+   > See [`results/solve/WP22_RAP_MODEL_V2.md`](results/solve/WP22_RAP_MODEL_V2.md).
 3. **Affinity is not one hypothesis, and this was wrong in the earlier draft.** Lowering *k*_off
    and raising *k*_on at matched *K*_d are *not* equivalent. The loss term rewrites exactly as
    *R* = *k*_off²/(*k*_off + [P]·*k*_on), so the two differ by an exact factor λ — which is
@@ -114,7 +146,10 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 >
 > **"R1 excluded, R2 supported" was too strong.** The fit *sets* the resting primer off-rate equal
 > with and without TPP1 (`resting_koff_no_PT == resting_koff_PT == 0.012` in
-> `wp3_predictions.json`) — R1 is assumed away *inside the model*, not excluded by a measurement.
+> `wp3_predictions.json`) — R1 is assumed away *inside the model* — and the one control that exists points the other
+> way: the resting primer `k_off` is **measured at 0.012 /min and is unchanged by saturating
+> POT1-TPP1**, which is evidence *against* a global affinity change but does not by itself
+> exclude R1 during cycling.
 > The structural argument only rules out a direct TPP1–DNA contact.
 >
 > The natural fix — titrate primer until R1 and R2 diverge — **fails**, and it fails in a way that
@@ -141,9 +176,15 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > which sits entirely inside that range — the fit absorbed the motion it was measuring (~16 %
 > attenuation, ~0.5 Å of invented motion in the "rigid" ring). The frame is now the invariant RT
 > core and IFD-TRAP is defined as **755–785** in both `colab/` and `src/` (they previously
-> disagreed: 745–805 vs 755–785). The RAP-state superposition for **9SHZ and 9SI0 is still not
-> computed** — those coordinates have never been retrieved, so no per-domain displacement for
-> those states exists in this repository.
+> disagreed: 745–805 vs 755–785).
+>
+> **RAP states (9SHZ / 9SI0) — status changed.** These are no longer unobtainable. Both entries
+> are served by `models.rcsb.org`, and `scripts/solve/fetch_rap_fixture.py` now fetches their CA
+> atoms in the same fixture format as 7TRE/7TRD/7TRF/2I46/9SHY. The parser is tested offline
+> against a live-verified single-atom pull (Y176 CA = 133.669, 153.363, 143.095 Å,
+> `tests/test_rap_fixture_fetch.py`). The remaining step is one network-enabled run of that
+> script; the sandbox this was developed in blocks TLS egress from Python, so **the fixtures are
+> fetched but not yet ingested**, and no per-domain displacement for those states is claimed here.
 >
 > Reproduce, offline, in one command:
 >
@@ -212,7 +253,7 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (490 passed)** is verified on a clean clone with `pip install -e .`; the
+> The **pytest badge (522 passed)** is verified on a clean clone with `pip install -e .`; the
 > previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
 > fixtures, and are superseded.
 >
@@ -381,7 +422,7 @@ To eliminate confirmation bias, the experimental decision framework is cryptogra
 │   ├── mechanism_classification_checks.py # symbolic + complex-step verification of every claim
 │   └── generate_code_freeze_manifest.py # Computes SHA-256 manifest and creates freeze document
 │
-├── tests/                               # Comprehensive test suite (490 passing tests)
+├── tests/                               # Comprehensive test suite (522 passing tests)
 │   ├── e2e/                             # End-to-end pipeline execution tests
 │   ├── test_adversarial_b2_challenger.py# Adversarial superimposition and SVD stress tests
 │   ├── test_adversarial_m1.py ... m5.py # Data integrity, corrupted CIF, and figure generation tests

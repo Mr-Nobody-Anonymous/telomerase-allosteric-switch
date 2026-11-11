@@ -1,0 +1,11 @@
+test,target,observed,ceiling,exceeds,margin_sd
+T1_ceiling,Wang 2007 absolute s ratio,1.971,2.4076,no,
+T1_ceiling,L&C 2010 processivity fold,2.7,2.4076,yes,0.487
+T4_candidate,M1 strong: k_off down globally,1.2607,-0.7103,FAIL,FAIL
+T4_candidate,M1 weak: k_on up (Kd only),2.1897,0.2187,ok,ok
+T4_candidate,M2: k_tr up + k_off_tr down,1.7368,-0.2342,ok,ok
+T4_candidate,M4: k_off_tr down only,1.7368,-0.2342,ok,ok
+T4_candidate,M3: k_pol up,1.2607,-0.7103,ok,FAIL
+summary,ceiling,2.4076,,,
+summary,a0_from_anchor,0.055934,,,
+summary,kd_route_s_ratio,2.1897,,,

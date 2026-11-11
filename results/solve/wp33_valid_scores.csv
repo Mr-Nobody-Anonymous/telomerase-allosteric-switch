@@ -1,0 +1,8 @@
+variant,formal_q,e_per_atom_iface,e_per_atom_ctrl,delta,n_hb,prefers
+acid / carboxylate :: neutral,0,-0.0563,-0.1298,0.0735,0,control
+acid / carboxylate :: charged,-1,0.0029,-0.2085,0.2114,0,control
+amine / ammonium :: neutral,0,-0.0038,-0.156,0.1522,0,control
+amine / ammonium :: charged,1,-0.1123,-0.1204,0.0081,0,control
+guanidine / guanidinium :: neutral,0,0.0272,-0.1218,0.149,0,control
+guanidine / guanidinium :: charged,1,-0.0295,-0.1633,0.1338,0,control
+amide (neutral control) :: neutral,0,-0.2965,-0.0977,-0.1988,0,interface

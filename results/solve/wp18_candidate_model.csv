@@ -1,0 +1,5 @@
+candidate,rap_fold,z_vs_observed,C1_phi,C3_resting_koff,C4_rap_fold,C5_reach,acting_site,site_distance_A,all_constraints,note
+M1 retention (global k_off),1.1899,-2.517,fail,FAIL,FAIL,pass,"primer duplex, anywhere",3.35,FAIL,global affinity also moves the measured resting k_off
+M2 translocation (k_tr up),1.7368,-1.605,pass,pass,pass,pass,TEN orientation,3.35,pass,TEN/G100 proximal; phi by rate rise + k_off_tr drop
+M3 catalytic (k_pol up),1.1899,-2.517,fail,pass,FAIL,FAIL,catalytic aspartates,35.8,FAIL,requires 35.8 A reach across the RT ring
+M4 state-specific (k_off_tr only),1.7368,-1.605,pass,pass,pass,pass,TEN orientation,3.35,pass,k_tr flat; observationally identical to M2

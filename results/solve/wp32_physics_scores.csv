@@ -1,0 +1,13 @@
+ligand,target,total,elec,hbond,burial,clash,n_hb,n_hb_dist,n_hard,n_soft,buried,dmin
+TELIN-1 core,interface,-2.42,4.58,-12.0,0.0,5.0,0,3,0,1,0,2.45
+TELIN-1 core,control,-11.34,0.66,-12.0,0.0,0.0,0,3,0,0,0,2.69
+TELIN-1 core,dna,0.0,0.0,-0.0,0.0,0.0,0,0,0,0,0,9.76
+TLN-1 repaired,interface,-1.69,5.31,-12.0,0.0,5.0,0,3,0,1,0,2.47
+TLN-1 repaired,control,-16.05,-4.05,-12.0,0.0,0.0,0,3,0,0,0,2.98
+TLN-1 repaired,dna,0.0,0.0,-0.0,0.0,0.0,0,0,0,0,0,11.67
+TLN-3 one anchor,interface,-1.54,6.46,-8.0,0.0,0.0,0,2,0,0,0,2.74
+TLN-3 one anchor,control,-20.09,-4.09,-16.0,0.0,0.0,0,4,0,0,0,2.77
+TLN-3 one anchor,dna,0.0,0.0,-0.0,0.0,0.0,0,0,0,0,0,10.64
+TLN-4 no tail,interface,-2.89,9.11,-12.0,0.0,0.0,0,3,0,0,0,2.77
+TLN-4 no tail,control,-18.4,-6.4,-12.0,0.0,0.0,0,3,0,0,0,2.62
+TLN-4 no tail,dna,0.0,0.0,-0.0,0.0,0.0,0,0,0,0,0,9.7

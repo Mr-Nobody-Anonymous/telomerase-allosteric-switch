@@ -1,0 +1,26 @@
+item,value,note
+P2 is a re-analysis,0,FALSE - needs chase +/- trap
+why re-analysis cannot work,threshold fraction,WP24 proof; >=16 is one scalar
+per-band dataset in repo,0,"generated (seed 42), not measured"
+kappa at tau=0,2.7335,M5 as written
+physical tau at the crossing,0.1833,WP34 said 0.318 (non-physical)
+tau_0 with failure-scaled coupling,0.1833,default; tau_1 = tau_0 x 0.0233
+tau_0 with no +PT correction,0.1815,M5 as written downstream
+tau_0 with same tau both arms,0.3345,"strongest, and contradicted by phi"
+failure ratio (1-phi_PT)/(1-phi_noPT),0.0233,why tau_1 ~ 0
+reconciled true fold,3.267,failure-scaled coupling
+"reconciled fold, same-tau coupling",2.6621,the pessimistic branch
+delta* at tau=0,48.0,"WP29 value, CLOSED vs 50"
+delta* at reconciled tau,57.3,failure-scaled: OPEN vs 50
+delta* under same-tau coupling,46.76,pessimistic: CLOSED vs 50
+kappa for 50 bp/PD,2.8482,below reconciled fold
+kappa for 90 bp/PD,5.1426,needs tau ~0.42
+maintenance gate,UNDETERMINED,"decided by P2, not by a bound"
+WP34 '88% explained',0,"quantity is the anomaly itself, rescaled"
+(s0-phi0)/s0 in +PT arm,-0.0796,negative: not a fraction
+assay CV (Tesmer Fig 3B WT),0.1718,only measured noise in repo
+"n per arm, independent",12,"at CV 0.172, rho=0"
+"n per arm, paired rho=0.8",3,L&C have 3 -> one more
+pre-registered trap fold,3.267,falsified if >= 3.99x
+P(M5 correct),0.35,"0.90 x 0.65 x 0.60, priors, arguable"
+therapeutic claim,none,Quarantine unchanged

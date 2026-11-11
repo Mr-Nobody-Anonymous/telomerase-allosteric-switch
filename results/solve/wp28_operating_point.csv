@@ -1,0 +1,11 @@
+item,value,note
+enzyme elasticity at s_no_TPP1,4.2747,"local slope, not a range"
+enzyme elasticity at s_+TPP1,11.5416,"local slope, not a range"
+enzyme elasticity at s=0.99,99.4992,diverges as s->1
+max transcription elasticity (x->0),1.0,"eps_x = 1/(1+x), bounded by 1"
+enzyme measured range,2.7,ln units 0.9932
+output model,N_tel * c(x) * R1/2(s),M6' saturating; M6 is x<<1 limit
+fold [TERT] to match 2.70x from x0=0.01,2.7467,linear regime
+fold [TERT] to match 2.70x from x0=1.0,unreachable,needs c=2.7>1
+in vitro assay sensitivity to x,0.0,structural - assay holds [TERT] fixed
+therapeutic claim,none,coverage = immortalisation

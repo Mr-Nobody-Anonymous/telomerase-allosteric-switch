@@ -10,6 +10,9 @@ gemmi>=0.7.5
 # freesasa>=2.2.1
 requests>=2.31.0
 sympy>=1.12
+# rdkit: ONLY for scripts/solve/wp30_ligand_completion.py (structure perception and
+# 3D repair of the ligand). Not needed by the library or the rest of the suite.
+rdkit>=2024.3.1
 # openmm / pdbfixer: ONLY for scripts/prepare_md_systems.py and the MD runners.
 # Not needed by the library or the test suite; heavy and platform-specific.
 openmm>=8.6.0

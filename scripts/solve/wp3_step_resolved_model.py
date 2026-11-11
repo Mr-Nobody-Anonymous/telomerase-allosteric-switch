@@ -41,6 +41,7 @@ Run:  python scripts/solve/wp3_step_resolved_model.py
 from __future__ import annotations
 
 import csv
+import math
 import json
 from pathlib import Path
 
@@ -52,6 +53,12 @@ PHI_NO_PT, PHI_PT = 0.57, 0.99
 KTR_NO_PT, KTR_PT = 0.07, 0.10          # /min
 KOFF_RESTING = 0.012                    # /min
 RAP_FOLD_OBS, RAP_FOLD_SD = 2.7, 0.6    # processivity increase, n = 4
+#  NOTE (WP22): this 2.7 is a ratio of R1/2, a MEDIAN product length, not a ratio
+#  of per-repeat survival s.  L&C give "half the chains elongated by eight
+#  repeats (48 nt)", so R1/2 = 8 with POT1-TPP1 and the s ratio is 1.159, not
+#  2.700 - a 2.33x difference.  The comparisons below therefore mix units; they
+#  are retained for the historical record and superseded by
+#  scripts/solve/wp22_rap_model_v2.py, which converts to s before comparing.
 
 
 def k_dissoc_during_translocation(k_tr: float, phi: float) -> float:
@@ -103,9 +110,16 @@ def main() -> int:
         print(f"  {label} agreement: {z:+.2f} SD vs observed -> {verdict}")
     print()
     print("  With one free parameter (the weight of the k_tr term, 0..1) the prediction spans")
-    print(f"  {pred_phi:.2f}-{pred_comb:.2f}x and always brackets the observation; there is no")
-    print("  choice of that weight that requires a mechanical/allosteric term to explain the")
-    print("  data.  Conversely, no parameterisation of the repository's eq.1 reproduces both")
+    print(f"  {pred_phi:.2f}-{pred_comb:.2f}x.  This range does NOT contain the observed")
+    print(f"  {RAP_FOLD_OBS}x - the upper end falls {(RAP_FOLD_OBS - pred_comb)/RAP_FOLD_SD:.2f} SD")
+    print("  short, though every point in the range is within 2 SD of it.  So the family")
+    print("  sits entirely BELOW the central observation.  On a log scale the phi ratio")
+    print(f"  accounts for {math.log(pred_phi)/math.log(RAP_FOLD_OBS)*100:.0f}% of the effect, the k_tr ratio")
+    print(f"  for a further {math.log(pred_comb/pred_phi)/math.log(RAP_FOLD_OBS)*100:.0f}%, leaving {(1-math.log(pred_comb)/math.log(RAP_FOLD_OBS))*100:.0f}%")
+    print(f"  ({(RAP_FOLD_OBS-pred_comb)/RAP_FOLD_SD:.2f} SD) unexplained.")
+    print("  (An earlier version of this script claimed the range 'always brackets the")
+    print("  observation'; that was arithmetically false and is corrected here - WP18.)")
+    print("  Conversely, no parameterisation of the repository's eq.1 reproduces both")
     print("  the unchanged resting k_off and the 2.7-fold increase (WP2.3).")
     print()
 

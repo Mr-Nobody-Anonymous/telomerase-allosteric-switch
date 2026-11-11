@@ -1,0 +1,19 @@
+item,value,note
+n measured by one chase,IMPOSSIBLE,n and tau are confounded (WP36 C7)
+n measured by two chases,CLOSED AS A DESIGN,tau=(m/c-1)/(m/c+1); kappa from kappa=c/(1-tau)
+chase ratio at tau=0,1.0,the two chases coincide
+chase ratio sign,m > c always,trap that gives c>m refutes stalling
+delta* physical definition,6 * R1/2,exponent-free; what a cell experiences
+delta* at +PT anchor,48.0,"= 48 bp/PD, below the 50 floor"
+R1/2 needed for 90 bp/PD,15.0,have 8
+gate status after WP37,CLOSED at c <= 1,"48 bp/PD, exponent-free (WP29's own objective)"
+coverage needed for 50 bp/PD,1.042,just over one extension per division
+coverage needed for 90 bp/PD,1.875,"two overhangs; an assumption, not a result"
+second-system fold (Nat Commun 2020),1.8187,distinct prediction: refuted if near 2.73x
+second-system fold (L&C 2010),2.7335,the datum M5 was built on
+a MEASURED second-enzyme fold,STILL ABSENT,C6 stands: no k_off fold exists for a second system
+TEL-patch affinity,NOT POSSIBLE HERE,rigid-body surrogate only
+TLN-amide,C23H24FN3O3S,"MW 441.53, logP 4.0, Lipinski PASS"
+retrosynthesis,7 steps,chiral resolution by SFC required (racemic route)
+docking proposal,R92Q/K170Q/R180Q,patch net charge -1 -> 0
+therapeutic claim,none,Quarantine unchanged

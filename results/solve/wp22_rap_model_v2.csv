@@ -1,0 +1,23 @@
+quantity,value,source_or_note
+L&C 2010 super-telomerase | R1/2 no PT,2.963,"EMBO J 29:924, Fig 1B and text"
+L&C 2010 super-telomerase | R1/2 +PT,8.0,"EMBO J 29:924, Fig 1B and text"
+L&C 2010 super-telomerase | s no PT,0.791412,R1/2 = -ln2/ln(s)
+L&C 2010 super-telomerase | s +PT,0.917004,R1/2 = -ln2/ln(s)
+L&C 2010 super-telomerase | a no PT,0.03976,M5 identity s=(1+a)^-6
+L&C 2010 super-telomerase | a +PT,0.014545,M5 identity
+L&C 2010 super-telomerase | off-rate fall,2.7335,M5 prediction
+Wang 2007 RRL enzyme | R1/2 no PT,0.78,"Nature 445:506, Fig 4c"
+Wang 2007 RRL enzyme | R1/2 +PT,3.3,"Nature 445:506, Fig 4c"
+Wang 2007 RRL enzyme | s no PT,0.41121,R1/2 = -ln2/ln(s)
+Wang 2007 RRL enzyme | s +PT,0.810548,R1/2 = -ln2/ln(s)
+Wang 2007 RRL enzyme | a no PT,0.159639,M5 identity s=(1+a)^-6
+Wang 2007 RRL enzyme | a +PT,0.035627,M5 identity
+Wang 2007 RRL enzyme | off-rate fall,4.4808,M5 prediction
+L&C measured cycling t1/2 fold,>=4.0,"pulse-chase, Fig 2B/C"
+M5 predicted off-rate fall (L&C),2.7335,out-of-sample vs >=4x
+stall inflation of measured fold,1.4633,measured / predicted
+"s0/phi0 (L&C, no PT)",1.3884,>1 falsifies s = (1+a)^-6 * phi
+a0 under old factorisation,-0.05323,negative = unphysical
+resolution error in old model,2.33,"2.7 is an R1/2 ratio, not an s ratio"
+k_off resting,0.012,"L&C, unchanged by saturating POT1-TPP1"
+phi no PT / +PT,0.57 / 0.99,"window-limited efficiency, NOT a survival term"

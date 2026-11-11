@@ -1,0 +1,13 @@
+ligand,target,contacts,clashes,min_dist,score,atoms
+TELIN-1 core (as drawn),TERT whole (WP30 target),74,0,2.639,74.0,7488
+TELIN-1 core (as drawn),TERT-TPP1 interface,64,0,2.934,64.0,205
+TELIN-1 core (as drawn),TPP1 interface only,54,0,2.692,54.0,172
+TLN-1 repaired (2 COOH),TERT whole (WP30 target),47,0,2.783,47.0,7488
+TLN-1 repaired (2 COOH),TERT-TPP1 interface,64,0,2.667,64.0,205
+TLN-1 repaired (2 COOH),TPP1 interface only,58,0,2.844,58.0,172
+TLN-3 one anchor (best physchem),TERT whole (WP30 target),60,0,2.71,60.0,7488
+TLN-3 one anchor (best physchem),TERT-TPP1 interface,88,0,2.666,88.0,205
+TLN-3 one anchor (best physchem),TPP1 interface only,65,0,2.602,65.0,172
+TLN-4 no alkyl tail,TERT whole (WP30 target),71,0,2.819,71.0,7488
+TLN-4 no alkyl tail,TERT-TPP1 interface,61,0,2.62,61.0,205
+TLN-4 no alkyl tail,TPP1 interface only,46,0,2.746,46.0,172

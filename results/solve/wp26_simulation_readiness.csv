@@ -1,0 +1,10 @@
+route,item,value,note
+inventory,simulated time per replica (ps),3.0,1000 steps x 2 fs
+inventory,system residues,97,9% of TERT
+inventory,system atoms,1547,implicit solvent
+gap,timescale gap to S1 (fold),3.33e+07,orders of magnitude
+gap,system size gap to S1 (fold),97.0,explicit vs implicit solvent
+S2,pathway null p-value range,0.86-1.00,"WP4, 2000 size-matched controls"
+S3,time per mutant (us),1.0,~12 lambda windows incl.
+S4,timescale needed (us),10000.0,and still not accurate enough
+S4,precision available on k_off (fold),2-3,vs a 1.46x tension to resolve

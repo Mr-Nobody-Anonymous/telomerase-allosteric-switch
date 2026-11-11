@@ -22,6 +22,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# chem: only needed for scripts/solve/wp30_ligand_completion.py. Kept optional so
+# `pip install -e .` stays light and the core suite runs without it.
+chem = ["rdkit>=2024.3.1"]
 # freesasa is a C extension with no wheel on several platforms; building it needs
 # CPython headers (python3-dev). It is OPTIONAL because the code does not require
 # it: src/telotrade/interface_geometry.py imports it inside a try/except and falls

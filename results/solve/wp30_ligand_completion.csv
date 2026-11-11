@@ -1,0 +1,20 @@
+item,value,note
+atoms in telin1_inhibitor.pdb,36,declared C26 F N2 O6 S1
+connected components,2,"sizes [29, 7]"
+inter-fragment gap (A),2.744,"one bond length, zero bonds listed"
+shortest CONECT bond (A),1.208,C1-C8
+longest CONECT bond (A),1.847,C6-S7
+core formula,C21H19FN2O4S,"MW 414.46, 29 heavy"
+arm formula,C5H10O2,"pentanoic acid, 7 heavy"
+declared formula,C26H27FN2O6S,"MW 514.58, 36 heavy - reproduced"
+repaired formula (all 3 positions),C26H27FN2O6S,MW 514.58
+attachment position,open,3 candidates match the formula
+acidic groups: TELIN-1,2,no linker control
+acidic groups: lifitegrast,1,one anchor carboxylate
+TLN-1 repaired MW / logP,514.58 / 5.08,fails Lipinski MW>500 and logP>5
+"TLN-3 (one anchor, short arm) MW / logP",442.51 / 4.6,passes all four Lipinski rules
+TLN-3 TPSA / acidic groups,77.92 / 1,"one anchor carboxylate, like the precedent"
+only carboxylate in the epitope,not done,TOP-ID needs TPP1 present - it is not on disk
+TPP1 present in docked complex,no,TPP1 absent from the file
+affinity measured,none,repair is not an activity claim
+therapeutic claim,none,quarantine unchanged

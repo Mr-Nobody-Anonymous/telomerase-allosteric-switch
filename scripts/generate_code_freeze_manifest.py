@@ -50,8 +50,8 @@ def generate_manifest():
         ("docs/TELOMERASE_UNSOLVED_FRONTIER.md", "Documentation", "Scientific foundation report on telomerase recruitment and allostery"),
 
         # Benchmark Data
-        ("data/benchmarks/spr_independent_benchmark.csv", "Benchmark Data", "Physical SPR sensorgrams across WT, K757A, K757R, E169A"),
-        ("data/benchmarks/rap_independent_benchmark.csv", "Benchmark Data", "Physical RAP gel densitometries across WT, K757A, K757R, D712A"),
+        ("data/benchmarks/spr_independent_benchmark.csv", "Benchmark Data", "SYNTHETIC SPR sensorgrams (np.random.seed(42)) for fitter regression only"),
+        ("data/benchmarks/rap_independent_benchmark.csv", "Benchmark Data", "SYNTHETIC RAP gel densitometries (np.random.seed(42)) for fitter regression only"),
         
         # Raw Trajectories
         ("data/trajectories/bound_wt_seed101_trajectory.csv", "Raw MD Trajectory", "TPP1-bound WT replica 1 (seed 101, 75 frames, 3.0 ps)"),

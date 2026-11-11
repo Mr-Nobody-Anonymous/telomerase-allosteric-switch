@@ -65,7 +65,9 @@ change. It is a backbone contact, not base-specific, and it settles geometry onl
 remains open. See `WP16_ANCHOR_SITE_RESULT.md`.
 
 **Next structural experiment it raises, not yet done:** PLYQ cavity mutant **Y176A**, assayed for
-processivity and for TPP1 stimulation. If the anchor is load-bearing, processivity should fall
+processivity and for TPP1 stimulation. *(State: **designed and specified, not run** — it needs a wet
+lab; nothing in this repository can execute it. Recorded as gap 11 in `OPEN_GAPS.md` so it is not
+mistaken for completed work.)* If the anchor is load-bearing, processivity should fall
 while recruitment stays intact. This is falsifiable with the readouts already specified in
 `WP15_DESIGN_VALIDATION.md` and needs no new structures. Mechanism unresolved, and now with a measured reason: the
 discriminator works only inside an unmeasured operating regime, and the first experiment should

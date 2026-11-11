@@ -1,0 +1,6 @@
+test,quantity,value,note
+T1_collision,"fraction >=16, dist A",0.3500000000,identical by construction
+T1_collision,"fraction >=16, dist B",0.3500000000,identical by construction
+T1_collision,inferred survival A vs B,0.9475 vs 0.9709,differ despite equal recorded value
+T2_inventory,per-band ladders present,0,"4 csv files, all scalar-per-condition"
+T3_criterion,operational definition fixed,no,tail window and s_i extraction unspecified

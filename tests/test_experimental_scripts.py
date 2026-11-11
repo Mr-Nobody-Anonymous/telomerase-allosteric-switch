@@ -130,7 +130,12 @@ from scripts.spr_kinetic_analysis import process_spr_benchmark_file
 
 
 def test_spr_independent_benchmark_dataset():
-    """Verify automated processing of the physical independent SPR benchmark dataset."""
+    """Fitter regression on a SYNTHETIC SPR fixture (np.random.seed(42)).
+
+    The expected verdicts are recovered because the parameters were written in
+    by generate_independent_benchmarks.py, not because they were measured. This
+    test checks the FITTER, not the biology.
+    """
     bench_csv = BASE_DIR / "data" / "benchmarks" / "spr_independent_benchmark.csv"
     assert bench_csv.is_file(), f"Missing benchmark file {bench_csv}"
 
@@ -167,7 +172,11 @@ def test_spr_independent_benchmark_dataset():
 
 
 def test_rap_independent_benchmark_dataset():
-    """Verify automated processing of the physical independent RAP benchmark dataset."""
+    """Fitter regression on a SYNTHETIC RAP fixture (np.random.seed(42)).
+
+    Same caveat as the SPR fixture: the verdicts are written in, so this is a
+    regression test for the densitometry pipeline, never evidence.
+    """
     bench_csv = BASE_DIR / "data" / "benchmarks" / "rap_independent_benchmark.csv"
     assert bench_csv.is_file(), f"Missing benchmark file {bench_csv}"
 

@@ -3,6 +3,36 @@
 > processivity measurement can identify about TPP1's mechanism and concludes that it cannot
 > distinguish the leading proposals. This report predates that work; its own errata follow.
 >
+> **Latest — 2026-11-22 — the mechanism model itself was corrected.** Four work packages
+> postdate the manuscript draft and change its central model.
+>
+> **(1) WP18** combined the working part of every package into one candidate set and scored it:
+> M1 (retention) dies because a global affinity change would move the measured resting
+> `k_off = 0.012`; M3 (catalytic) dies because φ must reach 0.99 and the active site is
+> 35.8–42.1 Å from TPP1 across the ring. M2/M4 (state-specific translocation) survived.
+>
+> **(2) WP19** retracted "nobody has measured cycling primer `k_off`". Latrick & Cech 2010
+> measured it by pulse-chase — cycling half-dissociation slows **≥4×** — and report `k_pol`
+> unchanged, so M3 is excluded by measurement, not only by geometry.
+>
+> **(3) WP20** swept every mechanism combination and appeared to find a hard ceiling violation.
+>
+> **(4) WP22 supersedes (3) and partly (1).** Reading the primary texts found a **resolution
+> error**: L&C's **2.7× is a ratio of R₁/₂ (median length)**, not of per-repeat survival `s`;
+> in `s` it is **1.159** — a 2.33× category error that ran through WP3, WP18 and WP20. It also
+> found that Wang's anchor (RRL enzyme) and L&C's fold (HEK super-telomerase) are **different
+> enzymes** that the model had multiplied together. Scored separately, the repository's proposed
+> form `s = (1+a)⁻⁶·φ` is **falsified**: on L&C's own no-POT1-TPP1 numbers
+> `s₀/φ₀ = 0.7914/0.57 = 1.388 > 1` forces a **negative** rate constant. φ is a window-limited
+> efficiency, not a survival probability. The corrected model **M5** — `s = (1+a)⁻⁶`, with
+> stalled complexes retrying — is physical for both systems and predicts a **2.73×** off-rate
+> fall against L&C's independently measured **≥4×**, with the 1.46× residual being the stalling
+> share. WP20's "ceiling violation" is **retracted as a units error**.
+> [`results/solve/WP22_RAP_MODEL_V2.md`](results/solve/WP22_RAP_MODEL_V2.md)
+>
+> **Also:** `scripts/solve/fetch_rap_fixture.py` now fetches the 9SHZ/9SI0 CA atoms that were
+> documented as unobtainable; its parser is verified offline against a live single-atom pull.
+>
 > **Latest — 2026-11-06.** Two findings postdate the manuscript draft.
 > **(a)** The TEN anchor geometry is resolved: Tyr176 contacts the DNA backbone at **2.78 Å in
 > 9SHY** as well as 2.75 Å in 7QXS and 4.35 Å in 7QXA, against 11.11–11.94 Å in this repository's
@@ -11,7 +41,9 @@
 > **(b)** A primer-titration design meant to separate the affinity (R1) and retention (R2)
 > hypotheses was tested and **fails**: the two are degenerate at high processivity, and the
 > low-processivity regime that separates them caps the effect at ~1.29× against the 2.7× actually
-> observed. R1 has never been excluded by measurement — it is assumed away in the fit
+> observed. R1 has never been excluded by measurement — it is assumed away in the fit. The one relevant
+control (resting `k_off = 0.012 /min`, unchanged by saturating POT1-TPP1) argues against R1
+but measures the resting state, not the cycling one
 > ([`results/solve/WP17_MECHANISM_DESIGN.md`](results/solve/WP17_MECHANISM_DESIGN.md)). Neither
 > finding upgrades any claim in this report, which remains a retracted-claims catalog.
 >

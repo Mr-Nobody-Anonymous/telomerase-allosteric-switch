@@ -10,6 +10,26 @@ All-atom molecular dynamics simulations were conducted using the OpenMM 8.6.1 bi
 - **Integration**: Langevin Middle Integrator ($T = 300\text{ K}$, friction coefficient $\gamma = 1.0\text{ ps}^{-1}$, integration time step $\Delta t = 2.0\text{ fs}$).
 - **Equilibration & Production**: 150 steps L-BFGS energy minimization, followed by 1,500 integration steps ($3.0\text{ ps}$). A 300-step burn-in exclusion window ($0.6\text{ ps}$) was applied prior to production analysis.
 
+> ### ⚠ Scope of these simulations (added 2026-11-22, WP26)
+>
+> The numbers above are accurate and are worth reading literally: **3.0 ps per
+> replica on a 97-residue, 1,547-atom fragment with implicit solvent.** That is
+> **~8 orders of magnitude** short of the ~100 µs needed to sample a
+> conformational equilibrium, and the fragment omits the catalytic aspartates
+> (D868 and partners) entirely — the active site is not in the simulation.
+>
+> Consequently **these trajectories cannot support any mechanistic claim about
+> TPP1**, and none is made from them in `paper/MANUSCRIPT.md`. The replica-level
+> t-test below removes pseudoreplication across *frames*; it cannot fix the
+> deeper problem that three 3 ps segments have not left the starting structure,
+> so their means are not draws from an equilibrium ensemble. With 3 replicas
+> (df = 4) the test also cannot resolve effects below ~3× its own noise.
+>
+> `md_replicate_summary.txt` should be read as a description of a short
+> relaxation, not as evidence about allostery. See
+> [`results/solve/WP26_SIMULATION_READINESS.md`](../results/solve/WP26_SIMULATION_READINESS.md)
+> for what closing this would actually require.
+
 ### Avoiding Pseudoreplication: Replica-Level Statistics
 Treating consecutive trajectory frames as independent data points constitutes pseudoreplication because adjacent timeframes exhibit high autocorrelation. Therefore, **independent simulation replicas ($N = 3$) initiated with distinct pseudorandom velocity seeds serve as the true statistical units**:
 

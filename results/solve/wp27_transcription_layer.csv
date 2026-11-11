@@ -1,0 +1,8 @@
+item,value,note
+"R1/2, no TPP1 (L&C)",2.963,elasticity 4.27
+"R1/2, + TPP1 (L&C)",8.0,elasticity 11.54
+"R1/2, s = 0.99",68.9676,elasticity 99.50
+composition,R1/2(s) x [TERT],"multiplicative, orthogonal"
+"leverage advantage, enzyme vs abundance",4.3-11.5x,per 1% change
+Yamanaka factors constrain M5,no,different layer
+therapeutic claim,none,OCT4 hazard documented

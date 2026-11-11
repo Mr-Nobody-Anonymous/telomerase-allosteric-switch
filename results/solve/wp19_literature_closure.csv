@@ -1,0 +1,14 @@
+quantity,value,source
+"s from Wang R_1/2, no PT",0.4112,Wang 2007
+"s from Wang R_1/2, +PT",0.8105,Wang 2007
+s ratio (absolute),1.9711,Wang 2007
+"s lower bound, +PT (8 repeats)",0.917,L&C 2010 text
+"s upper bound, no PT (8 repeats)",0.7499,L&C 2010 text
+a no PT,0.0559,identity
+a +PT,0.0339,identity
+"a fall (off-rate, extension phase)",1.6501,identity
+cycling t1/2 fold (pulse-chase),4.0,L&C 2010
+rebinding inflation factor,2.424,derived
+Kd POT1-a5 nM,26.0,Wang 2007
+Kd POT1-TPP1-a5 nM,7.4,Wang 2007
+k_pol change with PT,0.0,L&C 2010: none

@@ -262,38 +262,6 @@ def rigid_transform(P, Q):
     return R, Q.mean(0) - R @ P.mean(0)
 
 
-def domain_motion(ref_ca, tgt_ca, rt_range) -> float | None:
-    """
-    How far a domain moves RELATIVE to the TERT ring.
-
-    The ring (RT) is superposed onto the target; the same transform is then applied to
-    the domain, and its residual displacement is measured.  This is the quantity that
-    matters: a domain that translates rigidly with the ring has NOT moved, while one
-    that swings away from the ring has.
-
-    Superposing each domain independently (plain per-domain RMSD) would absorb any rigid
-    shift and report ~0 for exactly the motion we are looking for.  That bug was found
-    by injecting a known 1.5 A shift and watching it vanish.
-    """
-    import numpy as np
-    common_rt = [i for i in rt_range if i in ref_ca and i in tgt_ca]
-    common_dm = [i for i in ref_ca if i in tgt_ca]
-    if len(common_rt) < 20 or len(common_dm) < 10:
-        return None
-    A = np.array([ref_ca[i] for i in common_rt])
-    B = np.array([tgt_ca[i] for i in common_rt])
-    R, tr = rigid_transform(A, B)
-
-    # apply the ring transform to the whole molecule, then look at the domain only
-    dom = [i for i in common_dm if i in set(rt_range) or True]
-    ref_all = np.array([ref_ca[i] for i in common_dm])
-    tgt_all = np.array([tgt_ca[i] for i in common_dm])
-    moved = (R @ ref_all.T).T + tr
-    disp = np.linalg.norm(moved - tgt_all, axis=1)
-    idx = {r: k for k, r in enumerate(common_dm)}
-    return idx, disp, common_dm
-
-
 # ----------------------------------------------------------------------------- analysis
 def analyse_entry(pdb: str, path: Path, label: str, expect_tpp1: bool) -> dict:
     import numpy as np

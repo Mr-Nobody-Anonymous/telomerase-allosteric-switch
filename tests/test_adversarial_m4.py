@@ -614,7 +614,17 @@ class TestBiologicalFidelityAndBenchmarkParity:
             f"Core-fit displacement ({core_fit} A) must exceed independent RMSD ({indep} A)"
         )
         assert abs(indep - 0.4112) < 0.01
-        assert abs(core_fit - 0.4341) < 0.01
+        # 0.4719 under the invariant RT-core frame (RT minus IFD-TRAP).
+        # This was 0.4341 while the frame was the catalytic core 326-1132,
+        # which is circular: all four non-TEN domains lie entirely inside it,
+        # so the fit absorbed the motion it reported and under-read TEN by
+        # 8.7%.  The bound below is one-sided on purpose -- a value <= 0.4341
+        # means the circular frame has come back.
+        assert core_fit > 0.4341, (
+            f"TEN displacement under the corrected frame ({core_fit} A) must exceed the "
+            f"0.4341 A the circular catalytic-core frame reported"
+        )
+        assert abs(core_fit - 0.4719) < 0.01
 
     def test_tpp1_tel_patch_plasticity_contrast(self, raw_dir: Path):
         """
