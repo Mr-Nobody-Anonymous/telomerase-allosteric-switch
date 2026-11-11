@@ -1353,3 +1353,46 @@ def test_wp37_doc_is_honest_about_what_is_not_possible():
     assert "Quarantine unchanged" in flat
     assert "1.04" in flat and "1.88" in flat      # the escape hatch, both ends
     assert "√(m·c)" in flat or "sqrt" in flat.lower()
+
+
+# --------------------------------------------------------------- WP38
+def _wp38():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp38_archive")
+
+
+def test_wp38_the_register_is_complete_against_the_tree():
+    """Every document carrying a retraction marker must be registered."""
+    wp = _wp38()
+    assert wp.check_register() == []
+    assert wp.unregistered_markers() == []
+
+
+def test_wp38_the_committed_register_is_in_sync():
+    """A hand-edited register would drift; this recomputes and compares."""
+    wp = _wp38()
+    committed = REPO / "results" / "solve" / "RETRACTIONS.md"
+    assert committed.is_file()
+    assert committed.read_text(encoding="utf-8") == wp.render_markdown()
+
+
+def test_wp38_all_four_states_are_used_and_fixed():
+    wp = _wp38()
+    assert {r["state"] for r in wp.REGISTER} == set(wp.STATES)
+    assert len(wp.STATES) == 4
+    assert len({r["id"] for r in wp.REGISTER}) == len(wp.REGISTER)
+
+
+def test_wp38_the_programme_stayed_quarantined_through_the_archive():
+    """Archiving must not quietly promote TELIN-1 to a therapeutic."""
+    doc = (REPO / "results" / "solve" / "RETRACTIONS.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine is not a retraction" in flat
+    assert "No therapeutic claim" in flat
+    assert "CLM-023" in flat
+
+
+def test_wp38_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp38_archive.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

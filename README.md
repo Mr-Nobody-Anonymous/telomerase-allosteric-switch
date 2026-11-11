@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-609%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-614%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -14,6 +14,13 @@
 
 A single audited ledger of every gap, each checked against the tree rather than
 recalled: [`results/solve/OPEN_GAPS.md`](results/solve/OPEN_GAPS.md).
+
+A second, generated ledger records **every claim this repository has retracted**
+— 14 of them, in four fixed states — with the predicate that exposed each one:
+[`results/solve/RETRACTIONS.md`](results/solve/RETRACTIONS.md). It is rebuilt
+from the tree by `scripts/solve/wp38_archive.py`, and the test suite fails if a
+marker is deleted from a source document or a refuted claim is added without
+being registered there.
 
 Four of the seven gaps that were open are now closed, and the three that remain
 are blocked for stated reasons rather than neglected:
