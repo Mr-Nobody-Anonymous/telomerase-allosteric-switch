@@ -292,16 +292,25 @@ instance passes its arithmetic. That is why it survived review four times.
 | **C3** | synchronised confirmation vs chance | the expected value came from the null being tested | equals the null exactly |
 | **C4** | removing all 12 loops changes output 4.4 % | detector and remover share a definition | invariant for any input |
 | **C5** | the "physical" SPR/RAP benchmarks | `np.random.seed(42)` synthetic | recovers its own parameters |
+| **C6** | M5 passes an out-of-sample test on Wang 2007 | no measured off-rate exists; 4.48× is `a₀/a₁` from Wang's own R½ | recovers its own input (2e-15) |
+| **C7** | δ\* decides the maintenance gate | `δ* = n·R_eff`; at a fixed fold it runs 8.9 → 231 bp/PD over `n = 1…24` | depends on `n` alone |
 
 **C1 is the expensive one.** `δ*` tracks `n` over a 24× span while the fold `κ`
 moves only 7.5 %, so `δ*` carries no information — `κ` is the only informative
 statistic. WP34 scored "M5 derives the observed 48 nt exactly" at **90 %** and it
 was the largest single term in `P(M5)`.
 
-**P(M5) is therefore ≈ 21 %, not 35 %.** Both factors that made M5 look
-well-supported (0.90 and 0.65) are the two circular ones. What remains is the
-one genuinely independent thing: `s₀ ≤ φ₀` holds on L&C's own data, which is a
-real falsification of the earlier factorisation.
+**C6 and C7 are the more serious pair.** C6 means `s = (1+a)⁻⁶` has *never* been
+tested on a second enzyme — the only measured fold is the L&C datum it was built
+on. C7 means the maintenance gate, the thing WP34 declared closed and WP35
+reopened, is a statement about an **assumed exponent** rather than about the
+enzyme: at a fixed 3.267× fold, δ\* is 8.9 bp/PD at `n = 1` and 231 bp/PD at
+`n = 24`, straddling the 50 floor between `n = 4` and `n = 6`.
+
+**P(M5) is ≈ 35 %** — the same figure WP34 quoted, with none of the same terms.
+WP34's was `0.90 × 0.65 × 0.60` (two circular); this is `0.70 × 0.50` (neither
+is). The one genuinely independent result in the programme remains `s₀ ≤ φ₀`
+holding on L&C's own data.
 
 Guards now in the suite: `δ* == n·R½` for all `n`, the +PT value is negative, the
 synthetic fixture reconstructs its inputs, and every retracted document carries a

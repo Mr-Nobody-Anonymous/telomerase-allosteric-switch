@@ -1231,3 +1231,26 @@ def test_wp36_doc_names_the_class_and_does_not_hide_the_earlier_ones():
         assert cid in flat
     assert "21 %" in flat
     assert "Quarantine unchanged" in flat
+
+
+def test_wp36_c6_the_wang_out_of_sample_test_is_an_identity():
+    """C6: there is no measured second-enzyme fold; 4.48x recovers its input."""
+    wp = _wp36()
+    assert wp.c6_wang_prediction_recovers_its_input() < 1e-9
+    assert wp.c6_there_is_no_measured_second_fold()      # WP22 says "not measured"
+
+
+def test_wp36_c7_delta_star_tests_the_exponent_not_the_enzyme():
+    """C7: at a FIXED fold, delta* straddles the 50 bp/PD gate on n alone."""
+    wp = _wp36()
+    assert wp.c7_delta_star_scales_with_the_assumed_exponent()
+    assert wp.delta_star_fixed_fold(1) < 50.0
+    assert wp.delta_star_fixed_fold(24) > 50.0
+    assert wp.delta_star_fixed_fold(4) < 50.0 < wp.delta_star_fixed_fold(6)
+    assert wp.c7_n_and_tau_are_confounded()
+
+
+def test_wp36_all_seven_instances_are_recorded():
+    wp = _wp36()
+    ids = [it["id"] for it in wp.INSTANCES]
+    assert ids == ["C1", "C2", "C3", "C4", "C5", "C6", "C7"]

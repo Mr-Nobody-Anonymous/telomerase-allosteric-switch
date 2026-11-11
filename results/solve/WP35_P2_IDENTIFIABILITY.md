@@ -16,9 +16,11 @@ moved the maintenance gate, which is the only number in WP34 that mattered.
 
 > **Follow-on (WP36).** The audit that followed this found that the 48 nt
 > "agreement" WP34 relied on is an *identity* (`δ* = n·R½`), and that four other
-> results share the same error class. `P(M5)` is **≈ 21 %**, not 35 % — both of
-> the factors that made it look well-supported were circular. See
-> `WP36_CIRCULARITY.md`.
+> results share the same error class — including that the Wang 2007
+> "out-of-sample test" is an identity and that `δ*` scales with an assumed
+> exponent (C6, C7). **All three of WP34's scoring terms are withdrawn**; the
+> honest `P(M5)` is ≈ 35 % composed of two entirely different, non-circular
+> terms. See `WP36_CIRCULARITY.md`.
 
 ---
 
@@ -205,12 +207,13 @@ and that is worth knowing before committing to it.
 | M5 prediction stays 2.73× | reconciled fold **3.267×** (2.662× under 'same') |
 | gate **CLOSED** at 48.0 < 50 | **UNDETERMINED**: 57.3 / 46.8 bp/PD |
 | P(approved drug) = 0 % | 0 % was the assumption τ₀ = 0, not a result |
-| P(M5) ≈ 35 % | **≈ 21 %** (WP36 — both former support terms were circular; see below) |
+| P(M5) ≈ 35 % | ≈ 35 %, but **none of the same terms** (WP36 — all three were circular) |
 
 The probability did not move *within WP35* — the gap became a **bound with a
 measurable parameter** rather than a fit, which is stronger evidence. But the
 follow-on audit (WP36) then removed both of WP34's scoring terms as circular, and
-the honest value fell to **≈ 21 %**. See `WP36_CIRCULARITY.md`.
+the honest value was recomposed rather than reduced: it lands on ≈ 35 % again,
+but built from two terms neither of which is circular. See `WP36_CIRCULARITY.md`.
 
 **A is the weakest link**, and A — `s = (1+a)⁻⁶` — is the one thing no amount of
 gating, scoring or re-analysis in this repository can test.
@@ -224,7 +227,7 @@ gating, scoring or re-analysis in this repository can test.
 | 1 | **P2 not run** | needs the pulse-chase ± trap at n = 3 paired | wet lab, pre-registered above |
 | 2 | gate undetermined | decided by P2 | same run |
 | 3 | 90 bp/PD unreachable | needs 5.14×; reconciled is 3.27× | true k_off ratio, step 2 |
-| 4 | identity A untested | `s = (1+a)⁻⁶` never tested on another enzyme | Wang 2007 data exists; not yet run |
+| 4 | identity A untested | `s = (1+a)⁻⁶` **never tested on another enzyme** — the Wang 2007 "test" is an identity (WP36 C6), and there is no measured second fold | needs a measured k_off fold in a second system, which does not exist yet |
 | 5 | no compound binds the TEL patch | rigid-body surrogate only | MM-GBSA / FEP |
 | 6 | TLN-amide never made | no synthesis, no Kd | synthesise + SPR (WP30/33) |
 | 7 | Gate 3 blocked | per-band densitometry absent | request from depositors |

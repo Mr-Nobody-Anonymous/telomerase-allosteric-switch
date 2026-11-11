@@ -34,6 +34,8 @@ can be tested for this class rather than being trusted about it.
 | C3 | "synchronised **confirmation** vs chance" | the "expected" value was drawn from the null being tested | equals the null exactly | WP00 (later) |
 | C4 | "removing **all** 12 loops changes the output 4.4 %" | loop-detection and removal share a definition | invariance holds for any input | WP00 (later) |
 | C5 | "the **physical** SPR/RAP benchmarks" | `np.random.seed(42)` synthetic | parameters recover exactly | WP36 |
+| C6 | "M5 passes an **out-of-sample** test on Wang 2007" | **no measured off-rate exists**; 4.48× is `a₀/a₁` from Wang's own R½ | recovers its own input | WP36 |
+| C7 | "δ\* **decides** the maintenance gate" | `δ* = n·R_eff` scales with an exponent nothing measures | δ\* at a **fixed** fold varies with `n` | WP36 |
 
 C3 and C4 are earlier instances of the same class, recorded here so the class is
 complete rather than a description of the most recent bug.
@@ -79,6 +81,50 @@ data. The predicate: exact parameter recovery is what you get when you write the
 answer in. Relabelled **SYNTHETIC** at source (generator docstring, freeze
 manifest, the two tests, the freeze doc).
 
+### C6 — there is no out-of-sample test on a second enzyme
+
+WP22 presents a table headed *"M5 passes an out-of-sample test"*, with Wang 2007
+as a second, independent enzyme:
+
+| system | a₀ | a₁ | predicted fold | measured |
+|---|---|---|---|---|
+| Wang 2007 | 0.15964 | 0.03563 | **4.48×** | **not measured** |
+
+The last column says it. `4.48×` is `a₀/a₁` computed **from Wang's own two R½
+values**, so pushing it back through the identity returns Wang's input to
+**2 × 10⁻¹⁵**. It is an identity wearing the word "prediction".
+
+Consequence: the **only measured off-rate fold in this programme is L&C's ≥4×** —
+the very datum M5 was built on. `s = (1+a)⁻⁶` has **never been tested on a second
+enzyme**. WP34's `0.60` for "survives an independent enzyme" was scored as though
+it had.
+
+### C7 — δ\* is a statement about `n`, not about the enzyme
+
+`δ* = 1/log₂(1 + a₀/κ)` with `a₀ = s₀^(−1/n) − 1`. **Hold the fold fixed at
+3.267 and vary only the assumed exponent:**
+
+| n | δ\* (bp/PD) | gate vs 50 |
+|---|---|---|
+| 1 | 8.93 | closed |
+| 2 | 18.59 | closed |
+| 3 | 28.27 | closed |
+| 4 | 37.94 | closed |
+| **6** | **57.30** | **OPEN** |
+| 8 | 76.66 | OPEN |
+| 12 | 115.38 | OPEN |
+| 24 | 231.54 | OPEN |
+
+The fold is identical in every row. `δ*` runs **8.9 → 231 bp/PD (26×)** on the
+exponent alone. And `n` and `τ` are **confounded** — several `(n, τ)` pairs give
+the same 3.267 fold — so a measured fold cannot fix both, and **nothing in this
+repository measures `n`**.
+
+So the maintenance gate does not test the maintenance hypothesis. It tests which
+exponent you assumed. `n = 6` is a reasonable choice (one escape opportunity per
+incorporated nucleotide... of which there are 6 per repeat), but it is a *choice*,
+and the gate's OPEN/CLOSED status flips between `n = 4` and `n = 6`.
+
 ---
 
 ## What the audit adds mechanically
@@ -95,23 +141,28 @@ For each instance the CSV records `claim`, `actual`, `predicate`, `holds_for`,
 4. **C5 recovers its own parameters** — refitting the synthetic fixture returns
    the inputs, demonstrating the circularity rather than describing it;
 5. **the retractions are present** — every document that carried a refuted claim
-   carries its marker, checked against the files.
+   carries its marker, checked against the files;
+6. **C6** — Wang's "prediction" recovers its own input to `1e-9`, and WP22's own
+   table still records Wang as *not measured*;
+7. **C7** — `δ*` at a **fixed** fold varies >20× with `n`, `n = 1` and `n = 24`
+   straddle the 50 bp/PD gate, and `n`/`τ` are confounded.
 
 ## Consequence for the programme
-
-`P(M5 correct)` was `0.90 × 0.65 × 0.60 ≈ 35 %`. The first factor was C1 and is
-**withdrawn as evidence**. Re-scoring honestly:
 
 | term | WP34 | now | why |
 |---|---|---|---|
 | the model reproduces the 48 nt | 0.90 | **—** | C1: an identity, carries no evidence |
 | the 4× gap is retry | 0.65 | **—** | C2: retracted by WP35 |
-| `s = (1+a)⁻⁶` survives another enzyme | 0.60 | 0.60 | untested (identity A) |
+| `s = (1+a)⁻⁶` survives another enzyme | 0.60 | **—** | C6: never tested; Wang was an identity |
 | the model is physical on L&C's own data | — | 0.70 | `s₀ ≤ φ₀` holds; that part is real |
 | the reconciled fold survives P2 | — | 0.50 | pre-registered, not yet run |
 
-**P(M5) ≈ 21 %**, not 35 %. Both factors that made it look well-supported were
-the two circular ones. This is the honest value and it is lower than what the
-repository previously stated.
+**P(M5) ≈ 35 %** — coincidentally the same number as WP34, with **none of the same
+terms**. WP34's figure was `0.90 × 0.65 × 0.60` where two of the three were C1 and
+C2; this one is `0.70 × 0.50` and neither term is circular.
+
+(An earlier revision of this file said **21 %** = `0.60 × 0.70 × 0.50`. That was
+wrong in the same direction as everything else here: the `0.60` was C6, a second
+tautology counted as support. Withdrawn.)
 
 **Quarantine unchanged.** No therapeutic claim.
