@@ -14,6 +14,15 @@ moved the maintenance gate, which is the only number in WP34 that mattered.
 
 **Quarantine unchanged.** Nothing here is a therapeutic claim.
 
+> **SUPERSEDED IN PART (WP37).** The gate status here — "UNDETERMINED", then
+> "OPEN at 57.3 bp/PD" — does not survive. 57.3 is the `n = 6` branch of a
+> quantity that should never have depended on `n`: WP29's own objective was
+> already exponent-free, `6·c·R½ − δ`. Stated that way the gate is **CLOSED at
+> 48 bp/PD**, and it opens only if a cell extends more than one overhang per
+> division (`c > 1.04`). Also, P2 as specified here is a **single** chase and
+> cannot separate τ from `n`; WP37 supplies the two-chase design that can.
+> See `WP37_MISSING.md`.
+>
 > **Follow-on (WP36).** The audit that followed this found that the 48 nt
 > "agreement" WP34 relied on is an *identity* (`δ* = n·R½`), and that four other
 > results share the same error class — including that the Wang 2007

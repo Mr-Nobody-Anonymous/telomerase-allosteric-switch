@@ -315,3 +315,32 @@ holding on L&C's own data.
 Guards now in the suite: `δ* == n·R½` for all `n`, the +PT value is negative, the
 synthetic fixture reconstructs its inputs, and every retracted document carries a
 machine-checked marker. Full text: `WP36_CIRCULARITY.md`.
+
+
+
+## 16. The four missing things, and what WP37 did with each
+
+| # | missing | after WP37 |
+|---|---|---|
+| 1 | a measurement of `n` | **CLOSED as a design** — one chase cannot, two chases can, exactly |
+| 2 | `δ*` defined twice | **CLOSED** — physical `6·R½`; the model form equals it only at `n = 6` |
+| 3 | a second enzyme | **PARTLY** — a second R½ pair exists (1.82× prediction); still no measured fold |
+| 4 | a TEL-patch affinity | **NOT POSSIBLE HERE** — 7-step route + a docking proposal with a negative control |
+
+**The gate is CLOSED, and now for a measured reason.** WP29's objective was
+already exponent-free: `6·c·R½ − δ`. At the +PT anchor that is **48 bp/PD**,
+below the 50 bp/PD floor, and it does not depend on `n`. WP35's "OPEN at 57.3"
+substituted a model expression into an objective that had already been fixed
+correctly. The only escape hatch is `c > 1` — a 50 bp/PD cell needs 1.04
+extensions per division, a HUVEC-like 90 bp/PD cell needs 1.88 — and nothing in
+this repository establishes that. It is recorded as an assumption.
+
+**The two-chase inversion** is the substantive addition. `m = κ(1+τ)` and
+`c = κ(1−τ)`, so `m/c` gives τ with **no model assumption**, then `κ = c/(1−τ)`
+and `n` follows. Exact across a 25-point grid. It also yields a free
+pre-registration: `m > c` always, so a trap that *raised* processivity would
+refute stalling outright.
+
+**What is still impossible here:** a measured second-enzyme off-rate fold, any
+affinity at the TEL patch, `c > 1`, and Gate 3 per-band densitometry. Four
+things, all wet lab or deposition, none of them closable by more analysis.

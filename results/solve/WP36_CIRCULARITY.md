@@ -125,6 +125,15 @@ exponent you assumed. `n = 6` is a reasonable choice (one escape opportunity per
 incorporated nucleotide... of which there are 6 per repeat), but it is a *choice*,
 and the gate's OPEN/CLOSED status flips between `n = 4` and `n = 6`.
 
+> **RESOLVED (WP37).** Two things close this. First, `δ*` has an exponent-free
+> definition — `6·R½`, the median product length in nt, which is WP29's own
+> objective `6·c·R½ − δ`. On that definition the gate is **CLOSED at 48 bp/PD**
+> and does not move with `n` at all. Second, the confound `n` vs `τ` is
+> breakable: **two** chases (untrapped and trapped) give
+> `τ = (m/c − 1)/(m/c + 1)` with `κ` and `n` cancelling exactly. See
+> `WP37_MISSING.md`. C7 remains a true statement about the *old* formulation; it
+> is no longer a live defect.
+
 ---
 
 ## What the audit adds mechanically

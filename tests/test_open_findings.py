@@ -1254,3 +1254,102 @@ def test_wp36_all_seven_instances_are_recorded():
     wp = _wp36()
     ids = [it["id"] for it in wp.INSTANCES]
     assert ids == ["C1", "C2", "C3", "C4", "C5", "C6", "C7"]
+
+
+# --------------------------------------------------------------- WP37
+def _wp37():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp37_missing")
+
+
+def test_wp37_two_chases_recover_tau_kappa_and_n_exactly():
+    """The fix for C7: n and tau are de-confounded by a second chase."""
+    wp = _wp37()
+    for n_true in (1, 2, 6, 12, 24):
+        for tau_true in (0.0, 0.05, 0.1833, 0.35, 0.5):
+            tau, k, n = wp.recover_both(n_true, tau_true)
+            assert abs(tau - tau_true) < 1e-9
+            assert abs(k - wp.kappa(n_true, tau_true)) < 1e-9
+            assert abs(n - n_true) < 1e-6
+
+
+def test_wp37_the_sqrt_shortcut_is_wrong():
+    """m*c = kappa^2 (1-tau^2): taking sqrt recovers a fold biased low."""
+    wp = _wp37()
+    m, c = wp.observed_chases(6, 0.25)
+    true_k = wp.kappa(6, 0.25)
+    assert abs(wp.kappa_from_chases(m, c) - true_k) < 1e-12
+    assert abs(math.sqrt(m * c) - true_k) > 0.05          # the trap
+    assert abs(math.sqrt(m * c) - true_k * math.sqrt(1 - 0.25 ** 2)) < 1e-12
+
+
+def test_wp37_the_trap_must_reduce_processivity():
+    """A trap that increased it would refute the stall model outright."""
+    wp = _wp37()
+    for t in (0.05, 0.2, 0.5):
+        m, c = wp.observed_chases(6, t)
+        assert m > c
+    m0, c0 = wp.observed_chases(6, 0.0)
+    assert abs(m0 - c0) < 1e-12                            # coincide at tau=0
+
+
+def test_wp37_delta_star_is_exponent_free():
+    """The physical quantity is 6*R1/2 and must not depend on n."""
+    wp = _wp37()
+    assert abs(wp.delta_star_physical(8.0) - 48.0) < 1e-12
+    assert wp.physical_and_model_agree_only_at_six()
+    assert wp.delta_star_physical(8.0) < 50.0              # gate CLOSED
+    assert wp.DELTA_HUVEC / wp.NT_PER_REPEAT == 15.0       # R1/2 needed for 90
+
+
+def test_wp37_coverage_is_the_only_escape_hatch():
+    """gain = 6*c*R1/2; c>1 is the only route past the ceiling."""
+    wp = _wp37()
+    assert wp.coverage_needed(46.0) < 1.0
+    assert wp.coverage_needed(50.0) > 1.0                  # just over one
+    assert abs(wp.coverage_needed(48.0) - 1.0) < 1e-12
+    assert wp.coverage_needed(90.0) > 1.5
+
+
+def test_wp37_second_system_predicts_a_different_fold():
+    wp = _wp37()
+    f = wp.system_folds()
+    assert abs(f["L&C 2010 (HEK super-telomerase)"] - 2.7335) < 5e-4
+    assert abs(f["Nat Commun 2020"] - 1.8187) < 5e-4
+    assert wp.folds_are_system_specific()
+
+
+def test_wp37_tln_amide_descriptors_match_wp34():
+    """C23H24FN3O3S / 441.53 - a first draft asserted 429.51 and was wrong."""
+    wp = _wp37()
+    p = wp.ligand_properties()
+    assert p["formula"] == "C23H24FN3O3S"
+    assert abs(p["mw"] - 441.53) < 0.1
+    assert p["charge"] == 0
+    assert p["lipinski_pass"]
+
+
+def test_wp37_route_and_mutant_are_falsifiable():
+    wp = _wp37()
+    assert len(wp.RETROSYNTHESIS) == 7
+    assert "CONH2" in str(wp.RETROSYNTHESIS[-1])
+    assert wp.net_patch_charge([1, 1, 1, -1, -1, -1, -1]) == -1
+    assert wp.net_patch_charge([0] * 7) == 0
+    assert "falsified_if" in wp.DOCKING_PROPOSAL
+
+
+def test_wp37_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp37_missing.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp37_doc_is_honest_about_what_is_not_possible():
+    doc = (Path(__file__).resolve().parents[1]
+           / "results" / "solve" / "WP37_MISSING.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "NOT POSSIBLE HERE" in flat
+    assert "no drug" in flat
+    assert "Quarantine unchanged" in flat
+    assert "1.04" in flat and "1.88" in flat      # the escape hatch, both ends
+    assert "√(m·c)" in flat or "sqrt" in flat.lower()
