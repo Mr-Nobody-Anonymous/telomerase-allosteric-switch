@@ -1,0 +1,97 @@
+{
+  "anchors": {
+    "R1/2 = 8.0 (used everywhere as +PT)": {
+      "value": 8.0,
+      "kind": "PREDICTION",
+      "note": "8.0/2.963 = 2.6998x, which is M5's predicted fold; WP29 labels it 'M5 prediction (2.73x)'. Not an independent measurement.",
+      "delta": 47.41607263166131
+    },
+    "L&C measured >=4x": {
+      "value": 11.852,
+      "kind": "LOWER BOUND",
+      "note": ">=4x implies R1/2 >= 11.852 (WP29 uses 11.680 = 3.94x)",
+      "delta": 70.0807160741675
+    },
+    "no TPP1 (L&C)": {
+      "value": 2.963,
+      "kind": "MEASURED",
+      "note": "R1/2 = 2.963",
+      "delta": 17.777999999999995
+    }
+  },
+  "gate": [
+    {
+      "tau": 0.0,
+      "true_fold": 2.7335,
+      "r_half": 8.00011658719466,
+      "delta": 48.00069952316795,
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "tau": 0.0454,
+      "true_fold": 2.8576009,
+      "r_half": 8.360711780558635,
+      "delta": 50.16427068335181,
+      "holds_50": true,
+      "holds_90": false
+    },
+    {
+      "tau": 0.1,
+      "true_fold": 3.00685,
+      "r_half": 8.794378476403557,
+      "delta": 52.766270858421336,
+      "holds_50": true,
+      "holds_90": false
+    },
+    {
+      "tau": 0.1833,
+      "true_fold": 3.23455055,
+      "r_half": 9.455997019873413,
+      "delta": 56.735982119240475,
+      "holds_50": true,
+      "holds_90": false
+    },
+    {
+      "tau": 0.25,
+      "true_fold": 3.4168749999999997,
+      "r_half": 9.985767565316966,
+      "delta": 59.914605391901794,
+      "holds_50": true,
+      "holds_90": false
+    },
+    {
+      "tau": 0.35,
+      "true_fold": 3.690225,
+      "r_half": 10.780025105147002,
+      "delta": 64.68015063088201,
+      "holds_50": true,
+      "holds_90": false
+    },
+    {
+      "tau": 0.5,
+      "true_fold": 4.10025,
+      "r_half": 11.97140937328136,
+      "delta": 71.82845623968815,
+      "holds_50": true,
+      "holds_90": false
+    }
+  ],
+  "tau_threshold": 0.04195297032983326,
+  "e2_min_tau": 0.46332540698737884,
+  "in_vivo_window": [
+    0.0,
+    0.6295000000000001
+  ],
+  "posterior": {
+    "current": 0.35,
+    "bf_needed": 1.8571428571428572,
+    "scenarios": {
+      "current: 0.70 x 0.50": 0.35,
+      "P2 marginal (0.60)": 0.42,
+      "P2 confirms (0.80) - TARGET CLEARED": 0.5599999999999999,
+      "P2 confirms AND R1/2 measured at +PT (0.85)": 0.595,
+      "P2 fails (0.20)": 0.13999999999999999
+    }
+  }
+}

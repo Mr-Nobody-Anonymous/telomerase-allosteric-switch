@@ -373,3 +373,40 @@ for one is now refuted.
 
 **Still genuinely blocked:** a measured `n`, a measured second-enzyme fold, P2 as
 a two-chase, any affinity at the patch, and Gate 3 densitometry.
+
+
+
+## 18. The 50 bp/PD gate was read off the wrong input (WP40)
+
+`R½ = 8.0` has been used as "the +PT measurement" since WP29. It is not one:
+
+    8.0 / 2.963 = 2.7000x        <- M5's PREDICTED fold
+
+WP29 labels that row *"M5 prediction (2.73×)"*. L&C's measured statement is
+**≥4×**, i.e. `R½ ≥ 11.85`, i.e. **70.1 bp/PD**. So:
+
+| anchor | R½ | bp/PD | provenance |
+|---|---|---|---|
+| no TPP1 | 2.963 | 17.8 | measured |
+| "8.0, +PT" | 8.00 | 47.4 | **M5's prediction, fed back** |
+| L&C ≥4× | 11.85 | **70.1** | measured lower bound |
+
+**"The gate is CLOSED at 48" is a statement about M5's prediction.** On the
+measurement the gate is open, and by a wide margin. The closed gate is therefore
+evidence against **M5**, not against the target: the mechanism predicts less
+processivity than has already been seen.
+
+**Second correction, same section.** The gate is not a fixed number at all — it
+is a function of the stall share τ, and it opens at **τ ≥ 0.042**, not at
+WP35's default of 0.1833. "CLOSED at 48" (τ = 0) and "OPEN at 57.3" (τ = 0.1833)
+are one function at two modelling choices. The honest statement is that the gate
+is open for any stall share above 4.2 %, and P2 exists to measure whether it is
+that big.
+
+**And E2 is closer to dead than it looked.** To make an observed 4.00× into a
+true 2.7335×, `(1+τ₋)/(1+τ₊) = 1.4633`, which needs `τ₊ < 0` — impossible —
+for any `τ₋` below **0.4633**. E2 as written contradicts the stall model it is
+meant to rescue.
+
+**Unchanged:** the 90 bp/PD HUVEC ceiling still needs τ ≥ 0.88 or R½ ≥ 15.0, and
+nothing here supplies that. No affinity exists. TELIN-1 remains quarantined.

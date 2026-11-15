@@ -167,6 +167,13 @@ That is a prediction with a negative control, which is more than a score.
 
 ## 5. What is still missing, after all of this
 
+> **CORRECTED BY WP39, AND AGAIN BY WP40.** The gate sentence below — "CLOSED
+> at 48 bp/PD" — is correct only for `R½ = 8.0`, and WP40 shows that 8.0 is
+> **M5's own prediction** (8.0/2.963 = 2.70×), not L&C's measurement. On L&C's
+> measured ≥4× (R½ ≥ 11.85) the gate is **open at 70.1 bp/PD**. The gate is also
+> a function of the unmeasured stall share: it opens for any τ ≥ 0.042. See
+> `WP40_DESIGN_TO_FIFTY.md`.
+>
 > **CORRECTED BY WP39.** Two rows below were wrong. `c > 1` was called an open
 > assumption when it is **measured** — H1299 = 1.00, HeLa = 0.70 — and at the best
 > measured value the gate misses the floor by 2 bp/PD, so the gate closes

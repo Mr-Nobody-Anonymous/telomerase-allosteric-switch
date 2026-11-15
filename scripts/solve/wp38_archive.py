@@ -184,6 +184,18 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R8", wp="40", state="CORRECTED",
+        claim="the maintenance gate is CLOSED at 48 bp/PD",
+        actual="48 is M5's own PREDICTION (8.0/2.963 = 2.70x) fed back in as if it "
+               "were L&C's measurement; on the measured >=4x it is 70.1 bp/PD, and "
+               "the gate moves with the unmeasured stall share (open above 0.042)",
+        predicate="substituting the measured anchor changes CLOSED to OPEN",
+        replaced_by="gate OPEN on the measurement; the closed gate is evidence "
+                    "against M5, not against the target (WP40)",
+        file="results/solve/WP37_MISSING.md",
+        must_contain="CORRECTED BY WP39, AND AGAIN BY WP40",
+    ),
+    dict(
         id="R7", wp="39", state="CORRECTED",
         claim="two of the six gaps listed in WP37 section 5 cannot be closed here",
         actual="both were misclassified before the literature and the code on disk "

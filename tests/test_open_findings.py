@@ -1483,3 +1483,80 @@ def test_wp39_no_affinity_is_claimed_anywhere():
 def test_wp39_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp39_executable.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP40
+def _wp40():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp40_design_to_fifty")
+
+
+def test_wp40_the_plus_pt_anchor_is_a_prediction_not_a_measurement():
+    """8.0/2.963 = 2.70x is M5's own fold fed back in as if it were L&C's."""
+    wp = _wp40()
+    a = wp.anchors()
+    assert abs(8.0 / wp.R_NO_PT - 2.6998) < 5e-4
+    key = "R1/2 = 8.0 (used everywhere as +PT)"
+    assert a[key]["kind"] == "PREDICTION"
+    assert a["L&C measured >=4x"]["kind"] == "LOWER BOUND"
+    # and the measurement is far past the floor, the prediction is not
+    assert a["L&C measured >=4x"]["delta"] > 50
+    assert a["R1/2 = 8.0 (used everywhere as +PT)"]["delta"] < 50
+
+
+def test_wp40_the_gate_opens_at_a_small_stall_share():
+    wp = _wp40()
+    thr = wp.tau_gate_threshold()
+    assert thr < 0.06                       # a few percent, not 18 percent
+    assert wp.delta_star(wp.FOLD_M5) < 50   # still closed at tau = 0
+    assert wp.delta_star(wp.FOLD_M5 * 1.1833) > 50   # open at WP35's default
+    assert wp._tau_for(90) > 0.5            # the HUVEC ceiling does NOT move
+
+
+def test_wp40_E2_needs_half_the_complexes_to_stall():
+    """E2 must contradict the stall model at the repo's own tau0."""
+    wp = _wp40()
+    assert wp.tau_pos_needed(0.1833) < 0     # impossible: negative stall share
+    assert not wp.e2_feasible(0.1833)
+    assert wp.e2_minimum_tau() > 0.45
+    assert wp.e2_feasible(0.60)
+    assert abs(4.0 / wp.FOLD_M5 - 1.4633) < 5e-4
+
+
+def test_wp40_the_target_needs_only_a_1_43x_odds_shift():
+    wp = _wp40()
+    assert abs(wp.posterior(0.70, 0.50) - 0.35) < 1e-12
+    assert abs(0.50 / 0.70 - 0.7142) < 1e-3          # required P2 term
+    assert wp.posterior(0.70, 0.80) > 0.50           # reachable
+    assert wp.posterior(0.70, 0.60) < 0.50           # not by wishful rounding
+
+
+def test_wp40_an_already_passed_hurdle_is_not_multiplied_in():
+    """The exact mistake C1 warns about; pinned so it cannot come back."""
+    wp = _wp40()
+    current = wp.posterior(0.70, 0.50)
+    if_multiplied = wp.posterior(0.70, 0.50, 0.80)
+    assert if_multiplied < current     # multiplying it in would LOWER P(M5)
+    # the in vivo datum is reported, not multiplied
+    assert wp.in_vivo_consistent(0.0)
+    assert wp.in_vivo_prediction(0.0) / wp.IN_VIVO_NT > 0.7
+
+
+def test_wp40_the_design_is_ordered_and_every_step_has_a_falsifier():
+    wp = _wp40()
+    d = wp.design_table()
+    assert len(d) == 4
+    assert d[0]["what"].startswith("Two-chase")   # removes a confound first
+    for step in d:
+        assert step["falsified_if"] and step["deconfounds"]
+    doc = (REPO / "results" / "solve" / "WP40_DESIGN_TO_FIFTY.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "M5's prediction, fed back" in flat
+    assert "Quarantined" in flat or "quarantined" in flat
+    assert "is a *plan*, not a belief" in flat or "a *plan*, not a belief" in flat
+
+
+def test_wp40_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp40_design_to_fifty.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

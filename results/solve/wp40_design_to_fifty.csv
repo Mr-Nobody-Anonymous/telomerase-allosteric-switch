@@ -1,0 +1,25 @@
+item,key,value,note
+anchor,R1/2 = 8.0 (used everywhere as +PT),8.000,PREDICTION; 47.42 bp/PD
+anchor,L&C measured >=4x,11.852,LOWER BOUND; 70.08 bp/PD
+anchor,no TPP1 (L&C),2.963,MEASURED; 17.78 bp/PD
+gate,tau=0.0000,48.00,"fold 2.7335, holds_50=False"
+gate,tau=0.0454,50.16,"fold 2.8576, holds_50=True"
+gate,tau=0.1000,52.77,"fold 3.0069, holds_50=True"
+gate,tau=0.1833,56.74,"fold 3.2346, holds_50=True"
+gate,tau=0.2500,59.91,"fold 3.4169, holds_50=True"
+gate,tau=0.3500,64.68,"fold 3.6902, holds_50=True"
+gate,tau=0.5000,71.83,"fold 4.1002, holds_50=True"
+gate,tau_threshold_50,0.0420,stall share at which 50 bp/PD is reached
+E2,min_tau_neg_for_feasibility,0.4633,below this tau(+PT) must be negative - impossible
+in_vivo,M5_at_tau0,48.00,vs Zhao 2011 60 nt; ratio 0.800
+posterior,current,0.350,0.70 x 0.50
+posterior,bf_needed,1.857,odds multiplier to reach 0.50
+scenario,current: 0.70 x 0.50,0.350,
+scenario,P2 marginal (0.60),0.420,
+scenario,P2 confirms (0.80) - TARGET CLEARED,0.560,
+scenario,P2 confirms AND R1/2 measured at +PT (0.85),0.595,
+scenario,P2 fails (0.20),0.140,
+design,1. Two-chase +/- DNA trap (WP37 inversion),1 assay,n and tau cancel in m/c; no model assumption survives
+design,"2. Measure R1/2 directly at +PT, not via the fold",1 gel,removes M5's own prediction from its own evidence
+design,"3. In vivo extension per end per cycle, +/- TPP1",2 cell lines,"no chase, no trap, no model - already 60 nt at baseline"
+design,4. Full stall-share sweep to 0.5 (tau = 0.47 question),expansion of 1,settles whether 4x is stall-inflated at all
