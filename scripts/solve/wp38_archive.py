@@ -59,6 +59,14 @@ SOLVE = OUT
 #: and it converts the four scattered markers into four fixed states.
 STATES = ("RETRACTED", "WITHDRAWN", "SUPERSEDED", "CORRECTED")
 
+#: Generated summary documents. They quote the marker vocabulary as data, so they
+#: must be excluded from the completeness sweep - but only if they really are
+#: generated, which `check_generated_banner()` enforces.
+GENERATED_DOCS = {
+    "results/solve/RETRACTIONS.md",
+    "results/solve/STATUS_LEDGER.md",
+}
+
 #: Every marker the tree is allowed to contain. Anything else fails the test, so
 #: a new vocabulary cannot quietly appear.
 MARKER_RE = re.compile(r"\b(RETRACTED|WITHDRAWN|SUPERSEDED|CORRECTED)\b")
@@ -239,6 +247,24 @@ def marker_counts() -> dict[str, dict[str, int]]:
     return out
 
 
+def check_generated_banner() -> list[str]:
+    """Every excluded document must actually say it is generated.
+
+    Without this, the exclusion list is a way to hide a retraction: drop a
+    document into GENERATED_DOCS and the completeness sweep stops looking at it.
+    """
+    problems = []
+    for f in GENERATED_DOCS:
+        path = REPO / f
+        if not path.is_file():
+            problems.append(f"{f}: listed as generated but missing")
+            continue
+        head = " ".join(path.read_text(encoding="utf-8").split()[:120])
+        if "generated, do not edit by hand" not in head:
+            problems.append(f"{f}: listed as generated but carries no banner")
+    return problems
+
+
 def check_register() -> list[str]:
     """Problems with the register itself, checked against the tree."""
     problems = []
@@ -263,7 +289,10 @@ def check_register() -> list[str]:
 def unregistered_markers() -> list[str]:
     """Documents that carry a marker but appear nowhere in the register."""
     registered = {r["file"] for r in REGISTER}
-    generated = {"results/solve/RETRACTIONS.md"}   # the register quotes itself
+    # Documents that USE the marker vocabulary descriptively rather than
+    # carrying a retraction. Each must actually be generated - asserted below,
+    # so a real document cannot be smuggled in by claiming to be generated.
+    generated = GENERATED_DOCS
     out = []
     for f, counts in marker_counts().items():
         if f in registered or f in generated:
@@ -417,6 +446,7 @@ def _self_test() -> int:
         checks.append((name, bool(ok)))
 
     chk("register has no structural problems", not check_register())
+    chk("every excluded document really is generated", not check_generated_banner())
     chk("every id is unique", len({r["id"] for r in REGISTER}) == len(REGISTER))
     chk("every state is in the fixed vocabulary",
         all(r["state"] in STATES for r in REGISTER))
@@ -457,6 +487,16 @@ def _self_test() -> int:
     # --- the register is complete against the tree ----------------------
     chk("no marker document is missing from the register",
         not unregistered_markers())
+    # the exclusion list must not be able to hide a real retraction
+    _probe = set(GENERATED_DOCS)
+    GENERATED_DOCS.clear()
+    GENERATED_DOCS.add("results/solve/WP36_CIRCULARITY.md")   # a real document
+    try:
+        hides = bool(check_generated_banner())
+    finally:
+        GENERATED_DOCS.clear()
+        GENERATED_DOCS.update(_probe)
+    chk("a real document CANNOT be smuggled into the generated list", hides)
     chk("every register row carries a file hash", all(
         len(sha256(REPO / r["file"])) == 64 for r in REGISTER))
     chk("the pre-WP22 CORRECTIONS.md entry has its own namespace (no C1 clash)",

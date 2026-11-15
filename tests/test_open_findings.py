@@ -1560,3 +1560,74 @@ def test_wp40_the_design_is_ordered_and_every_step_has_a_falsifier():
 def test_wp40_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp40_design_to_fifty.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP41
+def _wp41():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp41_status_ledger")
+
+
+def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
+    """A hand-typed figure produced C1, C7 and R8. This one is generated."""
+    wp = _wp41()
+    led = {r["row"]: r for r in wp.ledger()}
+    assert led["Mechanism"]["value"] == "M5, P = 0.35"
+    assert led["n measured"]["value"] == "no"
+    assert led["Affinity"]["value"] == "none"
+    assert led["Drug"]["value"] == "none"
+    assert led["HUVEC (90 bp/PD)"]["value"] == "CLOSED"
+    assert all(r["source"] for r in led.values())
+
+
+def test_wp41_the_committed_ledger_is_in_sync():
+    wp = _wp41()
+    doc = REPO / "results" / "solve" / "STATUS_LEDGER.md"
+    assert doc.is_file()
+    assert doc.read_text(encoding="utf-8") == wp.render_markdown()
+
+
+def test_wp41_the_tesmer_panel_is_a_discriminating_instrument():
+    """Processivity and activity must not be on the same scale."""
+    wp = _wp41()
+    s = wp.panel_summary()
+    assert s["n_mutants"] == 9 and "WT" not in s["mutants"]
+    sep = wp.separates_processivity_from_catalysis(s)
+    assert abs(sep["rho"] - 0.317) < 0.02
+    assert sep["discriminating_mutant"] == "F776E"
+    assert sep["disc_act"] > 0.35 and sep["disc_proc"] < 0.05
+
+
+def test_wp41_the_wt_control_inflates_the_correlation():
+    """WT has activity == 1.0 by construction; including it inflates rho."""
+    wp = _wp41()
+    s = wp.panel_summary()
+    ms = ["WT"] + s["mutants"]
+    rho_all = wp.spearman([s["proc"][m] for m in ms], [s["act"][m] for m in ms])
+    sep = wp.separates_processivity_from_catalysis(s)
+    assert rho_all > sep["rho"] + 0.1
+
+
+def test_wp41_m5_cannot_yet_be_tested_through_the_panel():
+    wp = _wp41()
+    ok, why = wp.m5_can_predict_panel()
+    assert ok is False
+    assert "2.2" in why          # the convention ambiguity, quantified
+
+
+def test_wp41_the_decision_tree_can_kill_the_programme():
+    """A tree whose every branch survives is not a test."""
+    wp = _wp41()
+    tree = wp.decision_tree()
+    assert len(tree) == 4
+    actions = [b["action"] for n in tree for b in n["branches"]]
+    assert any("STOP" in a or "DEAD" in a for a in actions)
+    assert any(b["posterior"] == "0.00" for n in tree for b in n["branches"])
+    assert all(b["falsified_if"] if "falsified_if" in b else b["action"]
+               for n in tree for b in n["branches"])
+
+
+def test_wp41_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp41_status_ledger.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

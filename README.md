@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-628%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-635%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -14,6 +14,11 @@
 
 A single audited ledger of every gap, each checked against the tree rather than
 recalled: [`results/solve/OPEN_GAPS.md`](results/solve/OPEN_GAPS.md).
+
+The six-row status — mechanism, evidence, retractions, affinity, drug, `n` — is
+itself generated from the code that owns each figure, so no number in it can
+drift: [`results/solve/STATUS_LEDGER.md`](results/solve/STATUS_LEDGER.md), with
+the decision tree that would stop the programme at any node.
 
 A second, generated ledger records **every claim this repository has retracted**
 — 14 of them, in four fixed states — with the predicate that exposed each one:

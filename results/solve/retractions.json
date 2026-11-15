@@ -203,6 +203,12 @@
       "SUPERSEDED": 6,
       "CORRECTED": 5
     },
+    "results/solve/STATUS_LEDGER.md": {
+      "RETRACTED": 1,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 0
+    },
     "results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 0,
