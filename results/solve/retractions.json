@@ -1,10 +1,10 @@
 {
-  "count": 14,
+  "count": 15,
   "by_state": {
     "RETRACTED": 6,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
-    "CORRECTED": 1
+    "CORRECTED": 2
   },
   "register": [
     {
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "13ff27fa14cd3841626800d546c8ac6dabd958ec538fa11ca367f58dc24e64ff"
+      "sha256": "596bc2aa8d1d2e6fbfd450ecf356fe428cd906d06820b363aac57908edf47520"
     },
     {
       "id": "C3",
@@ -151,6 +151,17 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R7",
+      "wp": "WP39",
+      "state": "CORRECTED",
+      "claim": "two of the six gaps listed in WP37 section 5 cannot be closed here",
+      "actual": "both were misclassified before the literature and the code on disk were checked: c is measured (H1299 = 1.00) and the docking criterion was runnable but never run",
+      "predicate": "running the criterion refutes the proposal it was written for",
+      "replaced_by": "gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39)",
+      "document": "results/solve/WP37_MISSING.md",
+      "sha256": "cbba3987198febe6e973f1a1ca77628bf44c1539d33491202cfecad6721421f1"
+    },
+    {
       "id": "X1",
       "wp": "pre-WP22",
       "state": "WITHDRAWN",
@@ -179,7 +190,7 @@
       "RETRACTED": 8,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
-      "CORRECTED": 3
+      "CORRECTED": 4
     },
     "results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md": {
       "RETRACTED": 0,
@@ -228,6 +239,12 @@
       "WITHDRAWN": 0,
       "SUPERSEDED": 1,
       "CORRECTED": 0
+    },
+    "results/solve/WP37_MISSING.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 1
     }
   }
 }

@@ -167,13 +167,21 @@ That is a prediction with a negative control, which is more than a score.
 
 ## 5. What is still missing, after all of this
 
+> **CORRECTED BY WP39.** Two rows below were wrong. `c > 1` was called an open
+> assumption when it is **measured** — H1299 = 1.00, HeLa = 0.70 — and at the best
+> measured value the gate misses the floor by 2 bp/PD, so the gate closes
+> **harder**. And the TEL-patch docking proposal was written as a refutation
+> criterion and then never evaluated; WP39 ran it and the proposal is **REFUTED by
+> its own scorer** (amide Δ = −0.046, wrong direction, below its controls). Both
+> corrections are in `WP39_EXECUTABLE.md`.
+
 | # | still missing | why it cannot be closed here |
 |---|---|---|
 | 1 | **`n`, measured** | the design exists; the experiment does not |
 | 2 | **a measured second-enzyme fold** | no published k_off fold for any second system |
 | 3 | **P2, as a two-chase** | needs wet lab; the single-chase version is superseded |
-| 4 | **any affinity at the TEL patch** | no FEP/MM-GBSA; rigid-body surrogate only |
-| 5 | **`c > 1` extensions/division** | would open the gate; nothing establishes it |
+| 4 | **any affinity at the TEL patch** | no FEP/MM-GBSA; the rigid-body proposal was run in WP39 and **refuted** |
+| 5 | ~~`c > 1` extensions/division~~ | **CLOSED (WP39)** — measured, max 1.00; the gate misses the floor by 2 bp |
 | 6 | **Gate 3 per-band densitometry** | not deposited; provably unreachable from what exists |
 
 The programme now has: one falsifiable mechanism (M5, P ≈ 35 %), one closed gate

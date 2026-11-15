@@ -1396,3 +1396,90 @@ def test_wp38_the_programme_stayed_quarantined_through_the_archive():
 def test_wp38_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp38_archive.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP39
+def _wp39():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp39_executable")
+
+
+def test_wp39_c_is_measured_not_assumed():
+    """WP37 called c>1 an open assumption. It was a literature gap."""
+    wp = _wp39()
+    for line, rec in wp.C_EXTENSION.items():
+        assert 0 < rec["c"] <= 1.0, line
+        assert rec["source"], line
+    assert wp.C_EXTENSION["H1299 (adenocarcinoma)"]["c"] == 1.00
+    assert wp.C_EXTENSION["S. cerevisiae"]["c"] == 0.07
+
+
+def test_wp39_the_gate_closes_harder_not_softer():
+    """The best measured c still lands short of the floor."""
+    wp = _wp39()
+    assert abs(wp.delta_of(1.00) - 48.0) < 1e-12
+    assert wp.delta_of(1.00) < wp.DELTA_FLOOR          # 48 < 50
+    assert wp.c_required(wp.DELTA_FLOOR) > 1.0         # unreachable at any measured c
+    assert abs(wp.c_required(wp.DELTA_HUVEC) - 1.875) < 1e-12   # 7.5/4, far out of reach
+    # and no line in the table clears the floor
+    assert not any(r["holds_50"] for r in wp.gate_table())
+
+
+def test_wp39_the_patch_is_the_seven_residues_not_the_interface():
+    """WP33 retired the 47-residue confound; this must not reinstate it."""
+    wp = _wp39()
+    t = wp.patch_targets()
+    assert t["n_res"] == 7
+    assert abs(t["q_formal"] - (-1.0)) < 1e-12
+    # the scorer's total is formal + partial polar, and must be reported apart
+    assert abs(t["q_scorer"] - t["q_formal"]) > 1.0
+    assert abs(t["q_scorer"] - (-2.54)) < 0.05
+
+
+def test_wp39_the_mutant_changes_charge_only():
+    wp = _wp39()
+    t = wp.patch_targets()
+    assert len(t["wt"]) == len(t["mutant"])
+    assert abs(t["q_scorer_mut"]) < 1e-12
+    for a, b in zip(t["wt"], t["mutant"]):
+        assert np.allclose(a[3], b[3])   # same coordinates
+        assert a[5:] == b[5:]        # same donor/acceptor flags
+
+
+def test_wp39_the_verdict_can_refute_in_three_ways():
+    """A guard that can only say yes is not a guard."""
+    wp = _wp39()
+    amide = "neutral amide (TLN-amide anchor)"
+    cases = [
+        -0.40,   # wrong direction: prefers the neutralised patch
+        +0.02,   # right direction but far too small
+        +0.05,   # right direction, but moves less than the control
+    ]
+    for d in cases:
+        fake = [dict(ligand=amide, delta_prefers_wt=d),
+                dict(ligand="control", delta_prefers_wt=0.30)]
+        assert wp.amide_control_verdict(fake)["refuted"], d
+    # and a strong, correctly-signed response must survive
+    good = [dict(ligand=amide, delta_prefers_wt=0.60),
+            dict(ligand="control", delta_prefers_wt=0.05)]
+    assert not wp.amide_control_verdict(good)["refuted"]
+
+
+def test_wp39_no_affinity_is_claimed_anywhere():
+    wp = _wp39()
+    import ast
+    src = (REPO / "scripts" / "solve" / "wp39_executable.py").read_text(encoding="utf-8")
+    fns = {n.name for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)}
+    assert not [f for f in fns if any(k in f.lower()
+                                      for k in ("kd", "dissociation", "affinity", "dg"))]
+    doc = (REPO / "results" / "solve" / "WP39_EXECUTABLE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "REFUTED by its own scorer" in flat
+    assert "still none" in flat                       # no affinity, stated
+    assert "not evidence that nothing binds" in flat  # scope of the refutation
+
+
+def test_wp39_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp39_executable.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

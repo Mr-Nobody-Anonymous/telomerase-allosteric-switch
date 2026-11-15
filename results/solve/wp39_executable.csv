@@ -1,0 +1,17 @@
+item,key,value,note
+c_measured,H1299 (adenocarcinoma),1.00,"48.00 bp/PD; Zhao 2011 Mol Cell 43:251, Fig 6E-F"
+c_measured,HeLa (cervical),0.70,"33.60 bp/PD; Zhao 2011 Mol Cell 43:251, Fig 6C-D"
+c_measured,hESC,0.70,"33.60 bp/PD; Zhao 2011 Mol Cell 43:251, Fig S5"
+c_measured,"HeLa, pH 7.4 (NAR 2016)",0.77,"36.96 bp/PD; NAR 44:8086 (2016), Fig 2B-C"
+c_measured,"HeLa, pH 6.8 (NAR 2016)",0.48,"23.04 bp/PD; NAR 44:8086 (2016), Fig 2B-C"
+c_measured,S. cerevisiae,0.07,"3.36 bp/PD; Teixeira 2004, STEX"
+c_required,c_for_50,1.042,not reachable at c<=1
+c_required,c_for_90,1.875,not reachable at c<=1
+patch,formal_charge_wt,-1.00,"7 patch residues, 66 atoms"
+patch,scorer_charge_wt,-2.54,formal + partial polar; NOT the formal charge
+patch,scorer_charge_mutant,+0.00,all ionisable side chains neutralised
+docking,neutral amide (TLN-amide anchor),-0.046,wt -0.322 mutant -0.368
+docking,carboxylic acid (matched pair),+0.077,wt -0.335 mutant -0.258
+docking,carboxylate (matched pair),+0.011,wt -0.269 mutant -0.258
+docking,amine / ammonium (matched pair),-0.116,wt -0.236 mutant -0.352
+verdict,docking_proposal,REFUTED,amide delta -0.046 vs threshold -0.15

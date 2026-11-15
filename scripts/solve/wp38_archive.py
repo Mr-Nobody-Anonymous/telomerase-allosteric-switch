@@ -184,6 +184,18 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R7", wp="39", state="CORRECTED",
+        claim="two of the six gaps listed in WP37 section 5 cannot be closed here",
+        actual="both were misclassified before the literature and the code on disk "
+               "were checked: c is measured (H1299 = 1.00) and the docking criterion "
+               "was runnable but never run",
+        predicate="running the criterion refutes the proposal it was written for",
+        replaced_by="gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the "
+                    "neutral-amide charge hypothesis REFUTED (WP39)",
+        file="results/solve/WP37_MISSING.md",
+        must_contain="CORRECTED BY WP39",
+    ),
+    dict(
         id="X1", wp="—", state="WITHDRAWN",
         claim="a no-primer incorporation assay is the decisive experiment",
         actual="the assay cannot separate retention from allostery; retention has no "

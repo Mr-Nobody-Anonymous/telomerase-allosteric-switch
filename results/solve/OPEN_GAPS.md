@@ -344,3 +344,32 @@ refute stalling outright.
 **What is still impossible here:** a measured second-enzyme off-rate fold, any
 affinity at the TEL patch, `c > 1`, and Gate 3 per-band densitometry. Four
 things, all wet lab or deposition, none of them closable by more analysis.
+
+
+
+## 17. Two items were misclassified as blocked (WP39)
+
+WP37's closing table said six things could not be closed here. Two of them could,
+and both were classified as blocked **before the literature and the code on disk
+were checked**.
+
+**Gap 5 — `c > 1` extensions/division. CLOSED, and it closes the gate harder.**
+`c` is the fraction of telomere ends extended per cycle, and it is measured per
+cell line: H1299 = **1.00** (Zhao 2011, *Mol Cell* 43:251), HeLa = 0.70, hESC =
+0.70, HeLa at pH 7.4 = 0.77, at pH 6.8 = 0.48, *S. cerevisiae* = 0.07. At the
+best measured value the ceiling is exactly 48 bp/PD — which **misses the 50 floor
+by 2 bp**. `c_required(50) = 1.042`, above every measured value, so the escape
+hatch is not open anywhere in the data. The gate now depends only on R½, which
+would need 8.33 (floor) or 15.0 (HUVEC) against 8.0 measured.
+
+**Gap 4 — the TEL-patch docking criterion. RUN, and the proposal is refuted.**
+WP37 wrote a refutation criterion with a threshold, a mutant and a negative
+control, and never evaluated it. WP39 evaluated it against the seven-residue TEL
+patch (not the 47-residue interface, which is the confound WP33 retired). The
+neutral amide moves **−0.046** per heavy atom across a full neutralisation — the
+wrong direction, below the 0.15 threshold, and *smaller* than both controls. No
+affinity is claimed for anything; the surrogate that was supposed to substitute
+for one is now refuted.
+
+**Still genuinely blocked:** a measured `n`, a measured second-enzyme fold, P2 as
+a two-chase, any affinity at the patch, and Gate 3 densitometry.

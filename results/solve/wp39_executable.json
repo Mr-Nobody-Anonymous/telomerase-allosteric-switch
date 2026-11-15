@@ -1,0 +1,117 @@
+{
+  "c": [
+    {
+      "line": "H1299 (adenocarcinoma)",
+      "c": 1.0,
+      "n_ends": "100% of lagging ends",
+      "delta": 48.0,
+      "source": "Zhao 2011 Mol Cell 43:251, Fig 6E-F",
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "line": "HeLa (cervical)",
+      "c": 0.7,
+      "n_ends": "~70% of lagging ends",
+      "delta": 33.599999999999994,
+      "source": "Zhao 2011 Mol Cell 43:251, Fig 6C-D",
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "line": "hESC",
+      "c": 0.7,
+      "n_ends": "~70% of ends",
+      "delta": 33.599999999999994,
+      "source": "Zhao 2011 Mol Cell 43:251, Fig S5",
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "line": "HeLa, pH 7.4 (NAR 2016)",
+      "c": 0.77,
+      "n_ends": "77 +/- 4% of ends",
+      "delta": 36.96,
+      "source": "NAR 44:8086 (2016), Fig 2B-C",
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "line": "HeLa, pH 6.8 (NAR 2016)",
+      "c": 0.48,
+      "n_ends": "48 +/- 4% of ends",
+      "delta": 23.04,
+      "source": "NAR 44:8086 (2016), Fig 2B-C",
+      "holds_50": false,
+      "holds_90": false
+    },
+    {
+      "line": "S. cerevisiae",
+      "c": 0.07,
+      "n_ends": "~7% of ends",
+      "delta": 3.3600000000000003,
+      "source": "Teixeira 2004, STEX",
+      "holds_50": false,
+      "holds_90": false
+    }
+  ],
+  "scores": [
+    {
+      "ligand": "neutral amide (TLN-amide anchor)",
+      "smiles": "O=C1C(=S)N(c2ccc(F)cc2CCC(=O)N)C(=O)N(c2ccccc2)C1CC(C)C",
+      "n_heavy": 31,
+      "wt_per_atom": -0.3219357870326424,
+      "wt_total": -9.980009398011916,
+      "wt_clashes": 0,
+      "mutant_per_atom": -0.36774193548387096,
+      "mutant_total": -11.4,
+      "mutant_clashes": 0,
+      "delta_prefers_wt": -0.045806148451228546
+    },
+    {
+      "ligand": "carboxylic acid (matched pair)",
+      "smiles": "O=C1C(=S)N(c2ccc(F)cc2CCC(=O)O)C(=O)N(c2ccccc2)C1CC(C)C",
+      "n_heavy": 31,
+      "wt_per_atom": -0.3354808362138614,
+      "wt_total": -10.399905922629703,
+      "wt_clashes": 0,
+      "mutant_per_atom": -0.25806451612903225,
+      "mutant_total": -8.0,
+      "mutant_clashes": 0,
+      "delta_prefers_wt": 0.07741632008482913
+    },
+    {
+      "ligand": "carboxylate (matched pair)",
+      "smiles": "O=C1C(=S)N(c2ccc(F)cc2CCC(=O)[O-])C(=O)N(c2ccccc2)C1CC(C)C",
+      "n_heavy": 31,
+      "wt_per_atom": -0.2692616850903937,
+      "wt_total": -8.347112237802206,
+      "wt_clashes": 0,
+      "mutant_per_atom": -0.25806451612903225,
+      "mutant_total": -8.0,
+      "mutant_clashes": 0,
+      "delta_prefers_wt": 0.01119716896136147
+    },
+    {
+      "ligand": "amine / ammonium (matched pair)",
+      "smiles": "O=C1C(=S)N(c2ccc(F)cc2CC[NH3+])C(=O)N(c2ccccc2)C1CC(C)C",
+      "n_heavy": 29,
+      "wt_per_atom": -0.23605302141439052,
+      "wt_total": -6.845537621017325,
+      "wt_clashes": 0,
+      "mutant_per_atom": -0.35172413793103446,
+      "mutant_total": -10.2,
+      "mutant_clashes": 0,
+      "delta_prefers_wt": -0.11567111651664394
+    }
+  ],
+  "verdict": {
+    "amide_delta": -0.045806148451228546,
+    "loses_preference": false,
+    "big_enough": false,
+    "control_mean_abs_delta": 0.06809486852094485,
+    "moves_more_than_control": false,
+    "refuted": true,
+    "threshold": -0.15
+  }
+}
