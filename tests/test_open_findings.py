@@ -1631,3 +1631,43 @@ def test_wp41_the_decision_tree_can_kill_the_programme():
 def test_wp41_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp41_status_ledger.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# ------------------------------------------------- WP39 review (WP42)
+def test_the_reciprocity_control_replaced_a_vacuous_one():
+    """The zeroing 'control' was identical to the mutant, so it proved nothing."""
+    wp = _wp39()
+    t = wp.patch_targets()
+    assert abs(sum(x[4] for x in wp.control_patch(t["wt"]))) < 1e-12
+    assert abs(sum(x[4] for x in wp.sign_flipped_patch(t["wt"]))
+               + t["q_scorer"]) < 1e-9      # genuinely inverted, not zeroed
+
+
+def test_the_amide_response_is_linear_and_wrongly_signed():
+    """Sharper than 'refuted': real electrostatics aimed at the wrong polarity."""
+    wp = _wp39()
+    ser = wp._w33().series()
+    r = wp.charge_reciprocity(ser["amide (neutral control) :: neutral"],
+                              wp.patch_targets)
+    assert r["linear"]                    # real, not placement noise
+    assert r["midpoint_error"] < 0.01
+    assert r["slope"] < 0                 # worst at -1, best at +1
+    assert r["e_zero"] < r["e_m1"]        # neutralising makes it bind BETTER
+
+
+def test_no_dead_functions_remain_in_the_solve_scripts():
+    """A function that is never executed is not tested, whatever the docs say."""
+    import ast
+    tests_src = (REPO / "tests" / "test_open_findings.py").read_text(encoding="utf-8")
+    offenders = []
+    for f in ("wp39_executable.py", "wp40_design_to_fifty.py", "wp41_status_ledger.py"):
+        path = REPO / "scripts" / "solve" / f
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for n in tree.body:
+            if not isinstance(n, ast.FunctionDef) or n.name in ("main", "_self_test"):
+                continue
+            called_inside = sum(1 for x in ast.walk(tree)
+                                if isinstance(x, ast.Name) and x.id == n.name)
+            if called_inside == 0 and f"{n.name}(" not in tests_src:
+                offenders.append(f"{f}:{n.name}")
+    assert offenders == [], offenders

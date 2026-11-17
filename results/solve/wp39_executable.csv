@@ -14,4 +14,8 @@ docking,neutral amide (TLN-amide anchor),-0.046,wt -0.322 mutant -0.368
 docking,carboxylic acid (matched pair),+0.077,wt -0.335 mutant -0.258
 docking,carboxylate (matched pair),+0.011,wt -0.269 mutant -0.258
 docking,amine / ammonium (matched pair),-0.116,wt -0.236 mutant -0.352
+reciprocity,neutral amide (TLN-amide anchor),-0.0458,E(-1) -0.322 E(0) -0.368 E(+1) -0.414 linear=True
+reciprocity,carboxylic acid (matched pair),+0.0291,E(-1) -0.335 E(0) -0.258 E(+1) -0.277 linear=False
+reciprocity,carboxylate (matched pair),-0.0369,E(-1) -0.269 E(0) -0.258 E(+1) -0.343 linear=False
+reciprocity,amine / ammonium (matched pair),-0.1164,E(-1) -0.236 E(0) -0.352 E(+1) -0.469 linear=True
 verdict,docking_proposal,REFUTED,amide delta -0.046 vs threshold -0.15
