@@ -88,6 +88,36 @@ The amide is **not** charge-sensitive at the patch. It sits 0.046 apart across a
 full neutralisation of a −1 patch, which is *less* than the controls move. The
 charge hypothesis behind the neutral anchor does not survive its own test.
 
+### The control was broken, and fixing it improved the verdict
+
+The table above used **other compounds** as the negative control. That confounds
+charge with chemistry — exactly the defect WP33 retired. Worse, the "charge-free
+patch" control that had been written but never called zeroed every charge, which
+made it **identical to the mutant**, so its floor was identically zero.
+
+Both are replaced by a **reciprocity test** on the same ligand: score it against
+the native patch (formal −1), the neutralised patch (0), and a **sign-flipped**
+patch (+1). A genuine electrostatic response is monotone and roughly *linear* in
+patch charge; placement noise is not.
+
+| ligand | E(−1) | E(0) | E(+1) | midpoint err | slope | linear |
+|---|---|---|---|---|---|---|
+| **neutral amide** | −0.322 | −0.368 | −0.414 | **0.000** | **−0.046** | **yes** |
+| carboxylic acid | −0.335 | −0.258 | −0.277 | 0.832 | +0.029 | no |
+| carboxylate | −0.269 | −0.258 | −0.343 | 0.652 | −0.037 | no |
+| amine / ammonium | −0.236 | −0.352 | −0.469 | 0.003 | −0.116 | yes |
+
+**This is a better verdict, not a worse one.** The amide's response is *perfectly
+linear* (midpoint error 0.000) — so it is **real electrostatics, not placement
+noise**. But the **sign is wrong for the design**: the amide binds *worst* at the
+native −1 patch and *best* at +1. Neutralising the patch doesn't make it lose
+preference — it makes it bind **better**.
+
+So the neutral-amide anchor is **real chemistry aimed at the wrong polarity**.
+That is a sharper and more useful finding than "refuted", because it says what to
+design instead: the anchor should be **cationic** to complement the −1 patch, and
+the amine/ammonium row — steepest slope of all, −0.116 — is where to look.
+
 **This is not evidence that nothing binds.** It is a rigid-body, distance-
 dependent-dielectric, no-desolvation ranking over 4 000 random placements. It has
 no entropy, no induced fit, no explicit water. Entirely possible that the real

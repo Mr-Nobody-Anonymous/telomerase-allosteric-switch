@@ -95,14 +95,13 @@ def fold_required(target: float, c: float = C_MAX) -> float:
 
 
 # ---------------------------------------------------------------- F1: the tau edge
-def stall_inflated_fold(tau_neg: float, tau_pos: float) -> float:
-    """Observed fold = true fold x (1+tau_neg)/(1+tau_pos).
+def stall_ratio(tau_neg: float, tau_pos: float) -> float:
+    """Inflation of the untrapped arm: (1 + tau_neg)/(1 + tau_pos).
 
-    The untrapped arm is inflated by retries; the trapped arm is not. Setting
-    this to the observed 4.00x and solving for tau_pos gives the stall the
-    measurement would require.
+    Observed fold = true fold x this ratio. It is the quantity E2 needs to be
+    large enough to turn L&C's 4.00x into M5's 2.7335x, i.e. >= 1.4633.
     """
-    return FOLD_M5 * (1 + tau_neg) / (1 + tau_pos)
+    return (1 + tau_neg) / (1 + tau_pos)
 
 
 def tau_pos_needed(tau_neg: float, observed: float = 4.00) -> float:
@@ -270,6 +269,8 @@ def main() -> int:
     print()
     print(f"  To turn an observed 4.00x into a true 2.7335x, the stall ratio")
     print(f"  (1+tau_neg)/(1+tau_pos) must be 4.00/2.7335 = {4.0 / FOLD_M5:.4f}.")
+    print()
+    print(f"  sanity: at tau_neg = tau_pos the ratio is {stall_ratio(0.2, 0.2):.4f}")
     print()
     print(f"  {'tau(-PT)':>10} {'tau(+PT) required':>20}  verdict")
     print("  " + "-" * 46)
@@ -481,6 +482,9 @@ def _self_test() -> int:
     chk("E2 is feasible only above ~0.46", e2_minimum_tau() > 0.45)
     chk("E2 is feasible at 0.60", e2_feasible(0.60))
     chk("the ratio needed is 1.463", abs(4.0 / FOLD_M5 - 1.4633) < 5e-4)
+    chk("stall_ratio is 1 when both arms stall equally", abs(stall_ratio(0.3, 0.3) - 1.0) < 1e-12)
+    chk("stall_ratio exceeds the 1.463 threshold only above tau_neg ~0.46",
+        stall_ratio(0.1833, 0.0) < 4.0 / FOLD_M5 < stall_ratio(0.50, 0.0))
 
     # --- in vivo
     chk("M5 at tau=0 is within 30% of 60 nt", in_vivo_consistent(0.0))

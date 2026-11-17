@@ -168,6 +168,45 @@ def _unique_res(residues):
     return out
 
 
+def sign_flipped_patch(patch):
+    """The patch with every charge inverted. A RECIPROCITY control.
+
+    The first version of this control zeroed the charges - which made it
+    identical to the mutant, so the "non-electrostatic floor" was identically
+    zero and proved nothing. A control that cannot differ from the thing it
+    controls is not a control.
+
+    Inverting the sign instead asks a question the scorer can answer: if the
+    effect is really electrostatic, E(q=0) should sit between E(+q) and E(-q),
+    so the two half-deltas should be comparable in size. A ligand whose
+    "preference" is a placement artefact will show no such reciprocity.
+    """
+    return [(t[0], t[1], t[2], t[3], -t[4]) + tuple(t[5:]) for t in patch]
+
+
+def charge_reciprocity(lig, patch_fn, n_iter=4000, seed=11):
+    """E(+q) -> E(0) -> E(-q): is the response linear in the patch charge?"""
+    w32, w33 = _w32(), _w33()
+    t = patch_fn()
+    lig = w32.ligand_typed(lig, ionise=False) if isinstance(lig, str) else lig
+    # WT is the NATIVE patch, formal charge -1. The mutant is 0, and the
+    # sign-flipped control is +1. Name them by their charge, not by position.
+    e_m1, _ = w33.place_normalised(lig, t["wt"], seed=seed, n_iter=n_iter)
+    e_0, _ = w33.place_normalised(lig, t["mutant"], seed=seed, n_iter=n_iter)
+    e_p1, _ = w33.place_normalised(lig, sign_flipped_patch(t["wt"]),
+                                   seed=seed, n_iter=n_iter)
+    em, e0, ep = e_m1["per_atom"], e_0["per_atom"], e_p1["per_atom"]
+    # A genuine electrostatic response is monotone and roughly LINEAR in the
+    # patch charge, so E(q=0) sits near the midpoint of E(-1) and E(+1).
+    # Placement noise is not linear, so this separates signal from artefact.
+    mid = 0.5 * (em + ep)
+    midpoint_error = abs(e0 - mid) / max(abs(ep - em), 1e-9)
+    return dict(e_m1=em, e_zero=e0, e_p1=ep,
+                midpoint_error=midpoint_error,
+                slope=(ep - em) / 2.0,          # dE/d(charge), per heavy atom
+                linear=midpoint_error < 0.15)
+
+
 def control_patch(patch):
     """Same residue count, same shape, charge-neutral by construction.
 
@@ -182,24 +221,12 @@ def control_patch(patch):
     return [(t[0], t[1], t[2], t[3], 0.0) + tuple(t[5:]) for t in patch]
 
 
-def charge_specific_response(lig, patch_fn, n_iter=4000, seed=11):
-    """(wt - neutralised) minus (mutant - charge-free control).
-
-    The second bracket is the non-electrostatic floor for this ligand and this
-    placement protocol.
-    """
-    w32, w33 = _w32(), _w33()
-    wt_p, mut_p = patch_fn()
-    ctrl = control_patch(wt_p)
-    lig = w32.ligand_typed(lig, ionise=False) if isinstance(lig, str) else lig
-    e_wt, _ = w33.place_normalised(lig, wt_p, seed=seed, n_iter=n_iter)
-    e_mut, _ = w33.place_normalised(lig, mut_p, seed=seed, n_iter=n_iter)
-    e_ctrl, _ = w33.place_normalised(lig, ctrl, seed=seed, n_iter=n_iter)
-    charge_part = e_mut["per_atom"] - e_wt["per_atom"]
-    floor_part = e_ctrl["per_atom"] - e_mut["per_atom"]
-    return dict(wt=e_wt["per_atom"], mutant=e_mut["per_atom"],
-                control=e_ctrl["per_atom"], charge_part=charge_part,
-                floor_part=floor_part, specific=charge_part - floor_part)
+#: NOTE: an earlier `charge_specific_response()` lived here. It compared a
+#: ligand's response to the patch against OTHER COMPOUNDS, confounding charge
+#: with chemistry, and its "charge-free" control zeroed every charge - making it
+#: identical to the mutant, so the non-electrostatic floor was identically zero.
+#: Deleted rather than kept: `charge_reciprocity()` below asks the same question
+#: on the same ligand and can actually come out false.
 
 
 def ligand_smiles(w33=None):
@@ -325,6 +352,34 @@ def main() -> int:
         print(f"  {r['ligand']:36s} {r['wt_per_atom']:8.3f} {r['mutant_per_atom']:8.3f} "
               f"{r['delta_prefers_wt']:8.3f}  {prefers:>8}")
     print()
+    # The first version of this test used OTHER COMPOUNDS as the control, which
+    # confounds charge with chemistry, and the "charge-free patch" control was
+    # identical to the mutant so its floor was identically zero. Both are
+    # replaced by a reciprocity test on the same ligand: does the score move
+    # LINEARLY through E(-1) -> E(0) -> E(+1)? Placement artefacts do not.
+    print("  Reciprocity check - the same ligand against native (-1), neutralised")
+    print("  (0) and sign-flipped (+1) patches:")
+    print()
+    print(f"    {'ligand':34s} {'E(-1)':>8} {'E(0)':>8} {'E(+1)':>8} "
+          f"{'midpt err':>9} {'slope':>8} {'linear':>7}")
+    print("    " + "-" * 84)
+    rec = {}
+    for label, smi in ligand_smiles().items():
+        r = charge_reciprocity(smi, patch_targets)
+        rec[label] = r
+        print(f"    {label:34s} {r['e_m1']:8.3f} {r['e_zero']:8.3f} {r['e_p1']:8.3f} "
+              f"{r['midpoint_error']:9.3f} {r['slope']:+8.4f} {str(r['linear']):>7}")
+    print()
+    amide_rec = rec["neutral amide (TLN-amide anchor)"]
+    print(f"  The amide's response IS linear (midpoint error {amide_rec['midpoint_error']:.3f}),"
+          f" so it is")
+    print("  real electrostatics, not placement noise. But the SIGN is wrong for the")
+    print(f"  design: E is worst at the native -1 patch ({amide_rec['e_m1']:+.3f}) and best at")
+    print(f"  +1 ({amide_rec['e_p1']:+.3f}). Neutralising the patch does not make the amide")
+    print("  lose preference - it makes it bind BETTER. The neutral-amide anchor is")
+    print("  real chemistry aimed at the wrong polarity.")
+    print()
+
     v = amide_control_verdict(scores)
     print(f"  WP37's criterion: the neutral amide must LOSE interface preference")
     print(f"  when the patch is neutralised, and the hydrophobic control must not")
@@ -364,6 +419,11 @@ def main() -> int:
         rows.append(dict(item="docking", key=r["ligand"],
                          value=f"{r['delta_prefers_wt']:+.3f}",
                          note=f"wt {r['wt_per_atom']:.3f} mutant {r['mutant_per_atom']:.3f}"))
+    for label, r in rec.items():
+        rows.append(dict(item="reciprocity", key=label,
+                         value=f"{r['slope']:+.4f}",
+                         note=f"E(-1) {r['e_m1']:.3f} E(0) {r['e_zero']:.3f} "
+                              f"E(+1) {r['e_p1']:.3f} linear={r['linear']}"))
     rows.append(dict(item="verdict", key="docking_proposal",
                      value="REFUTED" if v["refuted"] else "SURVIVES",
                      note=f"amide delta {v['amide_delta']:+.3f} vs threshold {THRESHOLD}"))
@@ -445,6 +505,24 @@ def _self_test() -> int:
              dict(ligand="carboxylic acid (matched pair)", delta_prefers_wt=+0.30)]
     chk("an insensitive amide is refuted even if it 'prefers' WT",
         amide_control_verdict(fake3)["refuted"])
+
+    # --- the reciprocity control (added in the WP39 review)
+    ser = _w33().series()
+    amide = charge_reciprocity(ser["amide (neutral control) :: neutral"], patch_targets)
+    acid = charge_reciprocity(ser["acid / carboxylate :: neutral"], patch_targets)
+    chk("the amide's charge response is linear in the patch charge", amide["linear"])
+    chk("the amide's midpoint error is ~0", amide["midpoint_error"] < 0.01)
+    chk("the amide's slope is NEGATIVE - best at +1, worst at -1",
+        amide["slope"] < 0)
+    chk("so neutralising the patch makes the amide bind BETTER, not worse",
+        amide["e_zero"] < amide["e_m1"])
+    chk("the carboxylic acid is NOT linear - it is placement-sensitive",
+        not acid["linear"])
+    chk("sign_flipped_patch actually inverts the charge",
+        abs(sum(t[4] for t in sign_flipped_patch(patch_targets()["wt"]))
+            + patch_targets()["q_scorer"]) < 1e-9)
+    chk("the zeroing control was vacuous and is still recognisable as such",
+        abs(sum(t[4] for t in control_patch(patch_targets()["wt"]))) < 1e-12)
 
     # --- the honesty guards
     src = Path(__file__).read_text(encoding="utf-8")
