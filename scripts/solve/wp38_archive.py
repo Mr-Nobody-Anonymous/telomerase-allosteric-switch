@@ -192,6 +192,26 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R10", wp="44", state="RETRACTED",
+        claim="the two-chase inversion measures tau exactly, with no model assumption",
+        actual="m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, "
+               "so m/c returns tau by construction; the 1e-17 round trip is algebra",
+        predicate="any kappa at all gives the same tau from the same ratio",
+        replaced_by="an independent count of the stalled population is required",
+        file="results/solve/WP37_MISSING.md",
+        must_contain="SUPERSEDED BY WP44",
+    ),
+    dict(
+        id="R11", wp="44", state="RETRACTED",
+        claim="the programme is blocked because n has never been measured",
+        actual="n enters only through the identity C1 already retracted; R1/2 and the "
+               "gate are n-free and move 7% across n = 1..64",
+        predicate="recomputing R1/2 from measured s0 through n barely changes it",
+        replaced_by="drop n from the ledger - it was never load-bearing",
+        file="results/solve/STATUS_LEDGER.md",
+        must_contain="not load-bearing",
+    ),
+    dict(
         id="R9", wp="40", state="CORRECTED",
         claim="the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16)",
         actual="section 18 of the same document corrects it, but section 16 kept the "

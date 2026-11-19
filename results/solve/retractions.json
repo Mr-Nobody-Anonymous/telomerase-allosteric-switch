@@ -1,7 +1,7 @@
 {
-  "count": 17,
+  "count": 19,
   "by_state": {
-    "RETRACTED": 6,
+    "RETRACTED": 8,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
     "CORRECTED": 4
@@ -151,6 +151,28 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R10",
+      "wp": "WP44",
+      "state": "RETRACTED",
+      "claim": "the two-chase inversion measures tau exactly, with no model assumption",
+      "actual": "m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, so m/c returns tau by construction; the 1e-17 round trip is algebra",
+      "predicate": "any kappa at all gives the same tau from the same ratio",
+      "replaced_by": "an independent count of the stalled population is required",
+      "document": "results/solve/WP37_MISSING.md",
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
+    },
+    {
+      "id": "R11",
+      "wp": "WP44",
+      "state": "RETRACTED",
+      "claim": "the programme is blocked because n has never been measured",
+      "actual": "n enters only through the identity C1 already retracted; R1/2 and the gate are n-free and move 7% across n = 1..64",
+      "predicate": "recomputing R1/2 from measured s0 through n barely changes it",
+      "replaced_by": "drop n from the ledger - it was never load-bearing",
+      "document": "results/solve/STATUS_LEDGER.md",
+      "sha256": "da46dab96850d59d8f4cf028eeddc41fa8d0359b4ec879c94864fdef07890641"
+    },
+    {
       "id": "R9",
       "wp": "WP40",
       "state": "CORRECTED",
@@ -170,7 +192,7 @@
       "predicate": "substituting the measured anchor changes CLOSED to OPEN",
       "replaced_by": "gate OPEN on the measurement; the closed gate is evidence against M5, not against the target (WP40)",
       "document": "results/solve/WP37_MISSING.md",
-      "sha256": "29bff27a4936ee1b6433b449ee40daef82a414c660aefff94ecbbb6abb29a257"
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
     },
     {
       "id": "R7",
@@ -181,7 +203,7 @@
       "predicate": "running the criterion refutes the proposal it was written for",
       "replaced_by": "gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39)",
       "document": "results/solve/WP37_MISSING.md",
-      "sha256": "29bff27a4936ee1b6433b449ee40daef82a414c660aefff94ecbbb6abb29a257"
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
     },
     {
       "id": "X1",
@@ -209,7 +231,7 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 8,
+      "RETRACTED": 10,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
       "CORRECTED": 7
@@ -277,7 +299,7 @@
     "results/solve/WP37_MISSING.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 0,
-      "SUPERSEDED": 0,
+      "SUPERSEDED": 1,
       "CORRECTED": 2
     }
   }

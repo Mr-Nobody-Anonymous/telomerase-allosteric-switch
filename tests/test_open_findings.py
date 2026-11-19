@@ -1574,7 +1574,8 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     wp = _wp41()
     led = {r["row"]: r for r in wp.ledger()}
     assert led["Mechanism"]["value"] == "M5, P = 0.35"
-    assert led["n measured"]["value"] == "no"
+    # WP44: n was never load-bearing
+    assert led["n measured"]["value"] == "not load-bearing"
     assert led["Affinity"]["value"] == "none"
     assert led["Drug"]["value"] == "none"
     assert led["HUVEC (90 bp/PD)"]["value"] == "CLOSED"
@@ -1688,3 +1689,69 @@ def test_no_document_asserts_the_superseded_closed_gate_unmarked():
         if not marked:
             offenders.append(f.name)
     assert offenders == [], f"assert CLOSED gate with no correction marker: {offenders}"
+
+
+# --------------------------------------------------------------- WP44
+def _wp44():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp44_attempt_all")
+
+
+def test_wp44_n_was_never_load_bearing():
+    """R1/2 barely moves across a 64-fold range of the exponent."""
+    wp = _wp44()
+    i1 = wp.item1_n_is_not_load_bearing()
+    assert i1["load_bearing"] is False
+    assert i1["spread_fraction"] < 0.10
+    assert abs(i1["r_half_by_n"][6] - i1["r_half_n_free"]) < 1e-3
+    assert abs(i1["delta_n_free"] - 48.0) < 5e-2
+
+
+def test_wp44_the_two_chase_inversion_is_an_identity():
+    """m/c returns tau whether or not stalling exists - the C1 pattern."""
+    wp = _wp44()
+    i3 = wp.item3_two_chase_is_an_identity()
+    assert i3["max_error"] < 1e-15      # algebra, by construction
+    assert i3["kappa_independent"]      # any kappa gives the same tau
+    assert i3["defects"] == 2
+
+
+def test_wp44_gate3_is_not_invertible():
+    wp = _wp44()
+    i5 = wp.item5_gate3_is_not_invertible()
+    assert i5["invertible"] is False
+    assert max(i5["spread"], 1 / i5["spread"]) > 2.0
+
+
+def test_wp44_the_panel_constrains_the_mechanism_without_a_fold():
+    """F776E separates processivity from catalysis inside one experiment."""
+    wp = _wp44()
+    m2 = wp.item2_mechanism_constraint()
+    assert m2["mutant"] == "F776E"
+    assert m2["processivity_below_mutant_mean"]
+    assert m2["activity_above_mutant_mean"]
+    assert 1 < m2["act_rank"] < m2["n_mutants"]
+    i2 = wp.item2_panel_has_no_kinetics()
+    assert i2["has_koff"] is False and i2["has_kd"] is False
+
+
+def test_wp44_partial_inhibition_is_a_model_free_mode_test():
+    """Length constant + fraction falling = processive, from published data."""
+    wp = _wp44()
+    d6 = wp.item6_mode_discriminator()
+    assert d6["length_constant"] and d6["fraction_falls"]
+    assert d6["verdict"] == "PROCESSIVE"
+
+
+def test_wp44_no_affinity_is_derivable_here():
+    wp = _wp44()
+    i4 = wp.item4_no_affinity_is_derivable()
+    assert i4["calibration_ligands"] == 0
+    assert not i4["has_solvent"] and not i4["has_entropy"]
+    assert i4["refuted"]
+
+
+def test_wp44_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp44_attempt_all.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

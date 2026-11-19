@@ -171,9 +171,11 @@ def ledger() -> list[dict]:
         dict(row="Drug", value="none",
              basis="TLN-amide has a formula, a 7-step route and no measured binding",
              source="wp37, wp39", verdict="not a lead; a hypothesis with a route"),
-        dict(row="n measured", value="no",
-             basis="two-chase inversion is exact (wp37) but has not been run",
-             source="wp37", verdict="design exists, experiment does not"),
+        dict(row="n measured", value="not load-bearing",
+             basis=("n enters only via the identity C1 retracted; R1/2 and the gate "
+                    "are n-free and move 7% across n = 1..64 (WP44). The two-chase "
+                    "inversion was an identity and is retracted."),
+             source="wp44", verdict="removed from the ledger - it never mattered"),
         dict(row="Gate (50 bp/PD)", value=f"OPEN above tau = {thr:.3f}",
              basis=("48.0 at M5's own predicted anchor; 70.1 on L&C's measured "
                     ">=4x; the gate is a function of the unmeasured stall share"),
@@ -416,8 +418,11 @@ def _self_test() -> int:
         "amide delta" in led["Affinity"]["basis"])
 
     # --- the corrections the old summary got wrong
-    chk("'n measured' is NO, not 'none - design exists'",
-        led["n measured"]["value"] == "no")
+    # WP44 showed n was never load-bearing, so the row no longer says "no"
+    chk("the n row reflects WP44: n is not load-bearing",
+        led["n measured"]["value"] == "not load-bearing")
+    chk("the n row cites WP44, not wp37",
+        led["n measured"]["source"] == "wp44")
     chk("the HUVEC ceiling is CLOSED, unmoved",
         led["HUVEC (90 bp/PD)"]["value"] == "CLOSED")
     chk("no row claims an affinity", led["Affinity"]["value"] == "none")

@@ -416,3 +416,44 @@ meant to rescue.
 
 **Unchanged:** the 90 bp/PD HUVEC ceiling still needs τ ≥ 0.88 or R½ ≥ 15.0, and
 nothing here supplies that. No affinity exists. TELIN-1 remains quarantined.
+
+
+
+## 19. All six blocked items were attempted (WP44)
+
+They were not all closable, but five changed status and **one was never a gap**.
+
+**Item 1 — "measure `n`" — never load-bearing.** `n` enters only through
+`a = s^(−1/n) − 1`, which *is* the identity C1 retracted. Recomputed from the
+measured `s₀`, `R½` runs 7.53 → 8.09 across `n = 1…64`: **7.4 % over a 64-fold
+range**. `R½`, `δ*` and the gate are `n`-free. Removed from the ledger.
+
+**Item 3 — "P2 as a two-chase" — the design was vacuous.** `m = κ(1+τ)` and
+`c = κ(1−τ)` are one relation written twice, so `m/c` returns τ by construction;
+the 1e-17 round trip proves algebra (C1 pattern). A real two-chase needs an
+**independent count** of the stalled population.
+
+**Item 5 — Gate 3 — unreachable, now shown.** Both conventions reproduce the
+reported fraction 0.485 at survivals implying R½ = 2.395 and 1.036 — a **2.3×
+spread from one number**.
+
+**Item 6 — the Y176A assay is blind to its own question.** BrdU/CsCl counts
+repeats added, not attempts made. But the same paper's partial-inhibition series
+is a model-free **mode** test: at 0 / 50 / 70 % inhibition the extended fraction
+falls 1.00 → 0.50 → 0.30 while **product length stays ~60 nt**. A distributive
+enzyme would shorten products. **Positive, published evidence for processive
+action**, with no assumption from this repository in it.
+
+**Item 2 — still blocked**, and now for a measured reason: the Tesmer readouts
+are unitless fractions with no rate and no affinity. It adds a constraint —
+**F776E** is mid-panel on activity (0.418, rank 5/9) while processivity is at the
+floor (0.013), so the two are separable inside one experiment.
+
+**Item 4 — still blocked, demonstrably**: the surrogate has no solvent, no
+entropy, no flexibility and **zero ligands of known affinity** to calibrate
+against. A score cannot become a `Kd`.
+
+**Bonus.** `s_obs = s_true/(1−τ(1−s_true))` is itself geometric with a rescaled
+probability, so the renewal does not break the `R½` framework — **provided the
+retry is memoryless**. Nobody had checked; if a stall raises the chance of
+stalling again, every `R½` here is an effective value.
