@@ -1671,3 +1671,20 @@ def test_no_dead_functions_remain_in_the_solve_scripts():
             if called_inside == 0 and f"{n.name}(" not in tests_src:
                 offenders.append(f"{f}:{n.name}")
     assert offenders == [], offenders
+
+
+def test_no_document_asserts_the_superseded_closed_gate_unmarked():
+    """OPEN_GAPS §16 kept the CLOSED conclusion while §18 corrected it."""
+    import re
+    solve = REPO / "results" / "solve"
+    offenders = []
+    for f in sorted(solve.glob("*.md")):
+        flat = " ".join(f.read_text(encoding="utf-8").split())
+        if not re.search(r"gate is CLOSED|CLOSED at 48", flat):
+            continue
+        marked = any(k in flat for k in
+                     ("CORRECTED BY WP40", "superseded", "SUPERSEDED",
+                      "is a statement about M5's prediction", "RETRACTED"))
+        if not marked:
+            offenders.append(f.name)
+    assert offenders == [], f"assert CLOSED gate with no correction marker: {offenders}"

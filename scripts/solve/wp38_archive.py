@@ -192,6 +192,17 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R9", wp="40", state="CORRECTED",
+        claim="the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16)",
+        actual="section 18 of the same document corrects it, but section 16 kept the "
+               "unsuperseded conclusion and was the row the ledger summarised",
+        predicate="the same file states both CLOSED and OPEN with no marker on one",
+        replaced_by="section 16 marked CORRECTED BY WP40; WP34 and WP36 given the "
+                    "same banner so no document asserts the closed gate unmarked",
+        file="results/solve/OPEN_GAPS.md",
+        must_contain="CORRECTED BY WP40 (§18 below)",
+    ),
+    dict(
         id="R8", wp="40", state="CORRECTED",
         claim="the maintenance gate is CLOSED at 48 bp/PD",
         actual="48 is M5's own PREDICTION (8.0/2.963 = 2.70x) fed back in as if it "
