@@ -3,8 +3,8 @@
     python scripts/solve/wp38_archive.py
     python scripts/solve/wp38_archive.py --self-test
 
-**16 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 3 corrected.**
-Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×1, pre-WP22 ×1.
+**17 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 4 corrected.**
+Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, pre-WP22 ×1.
 
 This file is **generated** from `scripts/solve/wp38_archive.py`. `--self-test`
 re-derives it and compares; if a marker is deleted from a source document, or a
@@ -41,6 +41,7 @@ different, but they are now **fixed** and all four are enumerated:
 | **R4** | SUPERSEDED | P2 is a re-analysis of existing gels: days, no reagent | no per-band data exists here (WP24); it needs chase +/- a DNA trap | a threshold fraction cannot yield a per-repeat survival | a TWO-chase design, 3-12 replicates per arm (WP37) | `results/solve/WP34_STATUS.md` |
 | **R5** | SUPERSEDED | the maintenance gate is OPEN at 57.3 bp/PD | 57.3 is the n=6 branch of a quantity that need not depend on n | delta* at a fixed fold scales with the assumed exponent | gate CLOSED at 48 bp/PD, exponent-free (WP37) | `results/solve/WP35_P2_IDENTIFIABILITY.md` |
 | **R6** | SUPERSEDED | the feasibility sweep's s-ratio ceiling is the binding constraint | the ceiling assumed a factorisation that WP22 itself falsified | the ceiling is derived from s = (1+a)^-6 * phi, which is false | M5 drops phi from the product entirely | `results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md` |
+| **R9** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16) | section 18 of the same document corrects it, but section 16 kept the unsuperseded conclusion and was the row the ledger summarised | the same file states both CLOSED and OPEN with no marker on one | section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked | `results/solve/OPEN_GAPS.md` |
 | **R8** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD | 48 is M5's own PREDICTION (8.0/2.963 = 2.70x) fed back in as if it were L&C's measurement; on the measured >=4x it is 70.1 bp/PD, and the gate moves with the unmeasured stall share (open above 0.042) | substituting the measured anchor changes CLOSED to OPEN | gate OPEN on the measurement; the closed gate is evidence against M5, not against the target (WP40) | `results/solve/WP37_MISSING.md` |
 | **R7** | CORRECTED | two of the six gaps listed in WP37 section 5 cannot be closed here | both were misclassified before the literature and the code on disk were checked: c is measured (H1299 = 1.00) and the docking criterion was runnable but never run | running the criterion refutes the proposal it was written for | gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39) | `results/solve/WP37_MISSING.md` |
 | **X1** | WITHDRAWN | a no-primer incorporation assay is the decisive experiment | the assay cannot separate retention from allostery; retention has no route to act with no primer | the proposed readout is unchanged between the two hypotheses | the pulse-chase +/- trap design (WP25, revised by WP37) | `results/solve/CORRECTIONS.md` |

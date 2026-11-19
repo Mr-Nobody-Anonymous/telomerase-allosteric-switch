@@ -10,6 +10,11 @@
 
     python scripts/solve/wp34_status.py
     -> results/solve/wp34_status.csv
+> **CORRECTED BY WP40.** Any gate figure in this document (48 bp/PD, "CLOSED") is
+> stated against **M5's own predicted** anchor, R½ = 8.0, which is 8.0/2.963 =
+> 2.70× — a prediction, not a measurement. On L&C's measured ≥4× the figure is
+> **70.1 bp/PD**, and the gate opens for any stall share above 0.042.
+> See `WP40_DESIGN_TO_FIFTY.md` and `OPEN_GAPS.md` §18.
 
 ## One new result first
 

@@ -327,7 +327,13 @@ machine-checked marker. Full text: `WP36_CIRCULARITY.md`.
 | 3 | a second enzyme | **PARTLY** — a second R½ pair exists (1.82× prediction); still no measured fold |
 | 4 | a TEL-patch affinity | **NOT POSSIBLE HERE** — 7-step route + a docking proposal with a negative control |
 
-**The gate is CLOSED, and now for a measured reason.** WP29's objective was
+> **CORRECTED BY WP40 (§18 below).** The conclusion of this section is wrong and
+> is retained only for the record. "CLOSED at 48" is a statement about **M5's own
+> prediction** (8.0/2.963 = 2.70×), not about L&C's measurement, which is ≥4×
+> and gives **70.1 bp/PD**. The gate is also a function of the unmeasured stall
+> share and opens at **τ ≥ 0.042**. Read §18 before using anything below.
+
+**The gate is CLOSED, and now for a measured reason** *(superseded — see §18)*. WP29's objective was
 already exponent-free: `6·c·R½ − δ`. At the +PT anchor that is **48 bp/PD**,
 below the 50 bp/PD floor, and it does not depend on `n`. WP35's "OPEN at 57.3"
 substituted a model expression into an objective that had already been fixed

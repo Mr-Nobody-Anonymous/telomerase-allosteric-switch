@@ -1,10 +1,10 @@
 {
-  "count": 16,
+  "count": 17,
   "by_state": {
     "RETRACTED": 6,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
-    "CORRECTED": 3
+    "CORRECTED": 4
   },
   "register": [
     {
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "f25ddd90b96eff55a309b79e43359d6389ad1b948438f623ec1c7715eef73b53"
+      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
     },
     {
       "id": "C3",
@@ -38,7 +38,7 @@
       "predicate": "the expected value equals the null exactly",
       "replaced_by": "recorded for completeness; no live consequence",
       "document": "results/solve/WP36_CIRCULARITY.md",
-      "sha256": "bc141fe348126fe1de1ad485c1082a13c9fc7136b333562bfea2814872c1ebe8"
+      "sha256": "1440d1b4fcf84d08b3f6a88f2fcb14ae1705e74f462da8e7e51257123a7fb178"
     },
     {
       "id": "C4",
@@ -49,7 +49,7 @@
       "predicate": "the invariance holds for any input",
       "replaced_by": "recorded for completeness; no live consequence",
       "document": "results/solve/WP36_CIRCULARITY.md",
-      "sha256": "bc141fe348126fe1de1ad485c1082a13c9fc7136b333562bfea2814872c1ebe8"
+      "sha256": "1440d1b4fcf84d08b3f6a88f2fcb14ae1705e74f462da8e7e51257123a7fb178"
     },
     {
       "id": "C5",
@@ -82,7 +82,7 @@
       "predicate": "at a FIXED fold, delta* runs 8.9 -> 231 bp/PD over n = 1..24",
       "replaced_by": "the gate is stated exponent-free at 48 bp/PD (WP37)",
       "document": "results/solve/WP36_CIRCULARITY.md",
-      "sha256": "bc141fe348126fe1de1ad485c1082a13c9fc7136b333562bfea2814872c1ebe8"
+      "sha256": "1440d1b4fcf84d08b3f6a88f2fcb14ae1705e74f462da8e7e51257123a7fb178"
     },
     {
       "id": "R1",
@@ -126,7 +126,7 @@
       "predicate": "a threshold fraction cannot yield a per-repeat survival",
       "replaced_by": "a TWO-chase design, 3-12 replicates per arm (WP37)",
       "document": "results/solve/WP34_STATUS.md",
-      "sha256": "58e1f7842dd235f467c7115d52d00209472b3de9b6955ec82e722663e56c61ef"
+      "sha256": "2b28931a02981f00551f448b3b1c4c3a1c15f3cdaed9e9be4a8ebc467d7487ec"
     },
     {
       "id": "R5",
@@ -149,6 +149,17 @@
       "replaced_by": "M5 drops phi from the product entirely",
       "document": "results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md",
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
+    },
+    {
+      "id": "R9",
+      "wp": "WP40",
+      "state": "CORRECTED",
+      "claim": "the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16)",
+      "actual": "section 18 of the same document corrects it, but section 16 kept the unsuperseded conclusion and was the row the ledger summarised",
+      "predicate": "the same file states both CLOSED and OPEN with no marker on one",
+      "replaced_by": "section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked",
+      "document": "results/solve/OPEN_GAPS.md",
+      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
     },
     {
       "id": "R8",
@@ -195,13 +206,13 @@
       "RETRACTED": 0,
       "WITHDRAWN": 1,
       "SUPERSEDED": 0,
-      "CORRECTED": 0
+      "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
       "RETRACTED": 8,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
-      "CORRECTED": 5
+      "CORRECTED": 7
     },
     "results/solve/STATUS_LEDGER.md": {
       "RETRACTED": 1,
@@ -249,13 +260,19 @@
       "RETRACTED": 0,
       "WITHDRAWN": 0,
       "SUPERSEDED": 1,
-      "CORRECTED": 0
+      "CORRECTED": 1
     },
     "results/solve/WP35_P2_IDENTIFIABILITY.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 0,
       "SUPERSEDED": 1,
       "CORRECTED": 0
+    },
+    "results/solve/WP36_CIRCULARITY.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 1
     },
     "results/solve/WP37_MISSING.md": {
       "RETRACTED": 0,
