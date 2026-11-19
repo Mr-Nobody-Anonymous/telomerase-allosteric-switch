@@ -1573,7 +1573,10 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     """A hand-typed figure produced C1, C7 and R8. This one is generated."""
     wp = _wp41()
     led = {r["row"]: r for r in wp.ledger()}
-    assert led["Mechanism"]["value"] == "M5, P = 0.35"
+    # WP45 refuted M5; the discriminator is "what could this have falsified",
+    # not the string of the prior that used to sit here.
+    assert led["Mechanism"]["value"] == "M5 REFUTED"
+    assert led["Mechanism"]["source"] == "wp45"
     # WP44: n was never load-bearing
     assert led["n measured"]["value"] == "not load-bearing"
     assert led["Affinity"]["value"] == "none"
@@ -1754,4 +1757,61 @@ def test_wp44_no_affinity_is_derivable_here():
 
 def test_wp44_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp44_attempt_all.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP45
+def _wp45():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp45_creative")
+
+
+def test_wp45_tau_comes_from_published_numbers():
+    """s_obs and phi are both functions of tau, so the pair fixes it."""
+    wp = _wp45()
+    e = wp.tau_pair_estimate()
+    assert abs(e["tau"] - 0.6506) < 5e-3
+    # the forward map must reproduce the input
+    fwd = wp.PHI_NO_PT / (1 - e["tau"] * (1 - wp.PHI_NO_PT))
+    assert abs(fwd - wp.S_OBS_NO_PT) < 1e-9
+    assert 0 < e["tau"] < 1
+
+
+def test_wp45_m5_is_refuted_by_the_held_out_prediction():
+    wp = _wp45()
+    h = wp.held_out_prediction()
+    assert abs(h["predicted_fold"] - 2.7335) < 0.02
+    assert abs(h["implied_fold_at_8x"] - 6.654) < 0.05
+    assert h["refuted"]
+    assert h["implied_fold_at_8x"] / h["predicted_fold"] > 2.0
+
+
+def test_wp45_the_stored_anchor_assumes_no_pt_stall():
+    """True and apparent agree; both sit 6x below the stored 8.0."""
+    wp = _wp45()
+    g = wp.gate_at_fit()
+    assert abs(g["ratio"] - 1.0) < 0.05          # tau_pt is tiny
+    assert abs(48.0 / g["delta_apparent"] - 6.09) < 0.2
+    assert not g["holds_50_true"] and not g["holds_50_apparent"]
+
+
+def test_wp45_the_90_bp_ceiling_does_not_move():
+    wp = _wp45()
+    c = wp.ceiling()
+    assert not c["holds_90"]
+    assert c["gap"] > 80
+
+
+def test_wp45_the_doc_states_the_load_bearing_assumption():
+    doc = (REPO / "results" / "solve" / "WP45_CREATIVE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "s_true = φ" in flat or "s_true = phi" in flat
+    assert "refuted" in flat.lower()
+    assert "quarantined" in flat
+    assert "modelling step" in flat           # the assumption is flagged
+
+
+def test_wp45_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp45_creative.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)

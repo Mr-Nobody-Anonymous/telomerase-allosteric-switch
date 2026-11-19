@@ -3,8 +3,8 @@
     python scripts/solve/wp38_archive.py
     python scripts/solve/wp38_archive.py --self-test
 
-**19 registered retractions: 8 retracted, 3 withdrawn, 4 superseded, 4 corrected.**
-Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP44 ×2, pre-WP22 ×1.
+**21 registered retractions: 10 retracted, 3 withdrawn, 4 superseded, 4 corrected.**
+Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP44 ×2, WP45 ×2, pre-WP22 ×1.
 
 This file is **generated** from `scripts/solve/wp38_archive.py`. `--self-test`
 re-derives it and compares; if a marker is deleted from a source document, or a
@@ -41,6 +41,8 @@ different, but they are now **fixed** and all four are enumerated:
 | **R4** | SUPERSEDED | P2 is a re-analysis of existing gels: days, no reagent | no per-band data exists here (WP24); it needs chase +/- a DNA trap | a threshold fraction cannot yield a per-repeat survival | a TWO-chase design, 3-12 replicates per arm (WP37) | `results/solve/WP34_STATUS.md` |
 | **R5** | SUPERSEDED | the maintenance gate is OPEN at 57.3 bp/PD | 57.3 is the n=6 branch of a quantity that need not depend on n | delta* at a fixed fold scales with the assumed exponent | gate CLOSED at 48 bp/PD, exponent-free (WP37) | `results/solve/WP35_P2_IDENTIFIABILITY.md` |
 | **R6** | SUPERSEDED | the feasibility sweep's s-ratio ceiling is the binding constraint | the ceiling assumed a factorisation that WP22 itself falsified | the ceiling is derived from s = (1+a)^-6 * phi, which is false | M5 drops phi from the product entirely | `results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md` |
+| **R12** | RETRACTED | M5 is a live candidate mechanism with P ~ 0.35 | with tau fixed by L&C's own two published numbers (0.6506), M5 predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x under-prediction | the held-out prediction fails by more than a factor of 2 | M5 refuted; the surviving question is whether s_true = phi | `results/solve/STATUS_LEDGER.md` |
+| **R13** | RETRACTED | delta* = 48 bp/PD at the +PT anchor distinguishes open from closed | the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed to vanish, while tau(-PT) is simultaneously large enough to move the fold; the two are inconsistent under one coupling rule | the true and stored readings differ by 6x for the same data | tau must be applied consistently; on the true reading delta* is 7.9 bp/PD | `results/solve/WP45_CREATIVE.md` |
 | **R10** | RETRACTED | the two-chase inversion measures tau exactly, with no model assumption | m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, so m/c returns tau by construction; the 1e-17 round trip is algebra | any kappa at all gives the same tau from the same ratio | an independent count of the stalled population is required | `results/solve/WP37_MISSING.md` |
 | **R11** | RETRACTED | the programme is blocked because n has never been measured | n enters only through the identity C1 already retracted; R1/2 and the gate are n-free and move 7% across n = 1..64 | recomputing R1/2 from measured s0 through n barely changes it | drop n from the ledger - it was never load-bearing | `results/solve/STATUS_LEDGER.md` |
 | **R9** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16) | section 18 of the same document corrects it, but section 16 kept the unsuperseded conclusion and was the row the ledger summarised | the same file states both CLOSED and OPEN with no marker on one | section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked | `results/solve/OPEN_GAPS.md` |

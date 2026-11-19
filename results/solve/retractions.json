@@ -1,7 +1,7 @@
 {
-  "count": 19,
+  "count": 21,
   "by_state": {
-    "RETRACTED": 8,
+    "RETRACTED": 10,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
     "CORRECTED": 4
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
+      "sha256": "8ea08852cc85f050732e71ed246520c9570746d75adc804e39c3137011a71c2a"
     },
     {
       "id": "C3",
@@ -151,6 +151,28 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R12",
+      "wp": "WP45",
+      "state": "RETRACTED",
+      "claim": "M5 is a live candidate mechanism with P ~ 0.35",
+      "actual": "with tau fixed by L&C's own two published numbers (0.6506), M5 predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x under-prediction",
+      "predicate": "the held-out prediction fails by more than a factor of 2",
+      "replaced_by": "M5 refuted; the surviving question is whether s_true = phi",
+      "document": "results/solve/STATUS_LEDGER.md",
+      "sha256": "043e53145de93b3b0cd7ba3aa92e335e3f1179a0e0d42f07c80f26d75648d105"
+    },
+    {
+      "id": "R13",
+      "wp": "WP45",
+      "state": "RETRACTED",
+      "claim": "delta* = 48 bp/PD at the +PT anchor distinguishes open from closed",
+      "actual": "the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed to vanish, while tau(-PT) is simultaneously large enough to move the fold; the two are inconsistent under one coupling rule",
+      "predicate": "the true and stored readings differ by 6x for the same data",
+      "replaced_by": "tau must be applied consistently; on the true reading delta* is 7.9 bp/PD",
+      "document": "results/solve/WP45_CREATIVE.md",
+      "sha256": "eec6e6e409556f0d52c73852641cefd77c2fbf76855b04e0f62db3ae89a3debc"
+    },
+    {
       "id": "R10",
       "wp": "WP44",
       "state": "RETRACTED",
@@ -170,7 +192,7 @@
       "predicate": "recomputing R1/2 from measured s0 through n barely changes it",
       "replaced_by": "drop n from the ledger - it was never load-bearing",
       "document": "results/solve/STATUS_LEDGER.md",
-      "sha256": "da46dab96850d59d8f4cf028eeddc41fa8d0359b4ec879c94864fdef07890641"
+      "sha256": "043e53145de93b3b0cd7ba3aa92e335e3f1179a0e0d42f07c80f26d75648d105"
     },
     {
       "id": "R9",
@@ -181,7 +203,7 @@
       "predicate": "the same file states both CLOSED and OPEN with no marker on one",
       "replaced_by": "section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
+      "sha256": "8ea08852cc85f050732e71ed246520c9570746d75adc804e39c3137011a71c2a"
     },
     {
       "id": "R8",
@@ -231,7 +253,7 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 10,
+      "RETRACTED": 12,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
       "CORRECTED": 7

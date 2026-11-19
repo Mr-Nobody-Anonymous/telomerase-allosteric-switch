@@ -192,6 +192,29 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R12", wp="45", state="RETRACTED",
+        claim="M5 is a live candidate mechanism with P ~ 0.35",
+        actual="with tau fixed by L&C's own two published numbers (0.6506), M5 "
+               "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
+               "under-prediction",
+        predicate="the held-out prediction fails by more than a factor of 2",
+        replaced_by="M5 refuted; the surviving question is whether s_true = phi",
+        file="results/solve/STATUS_LEDGER.md",
+        must_contain="M5 REFUTED",
+    ),
+    dict(
+        id="R13", wp="45", state="RETRACTED",
+        claim="delta* = 48 bp/PD at the +PT anchor distinguishes open from closed",
+        actual="the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed "
+               "to vanish, while tau(-PT) is simultaneously large enough to move the "
+               "fold; the two are inconsistent under one coupling rule",
+        predicate="the true and stored readings differ by 6x for the same data",
+        replaced_by="tau must be applied consistently; on the true reading delta* "
+                    "is 7.9 bp/PD",
+        file="results/solve/WP45_CREATIVE.md",
+        must_contain="C7 again, one level up",
+    ),
+    dict(
         id="R10", wp="44", state="RETRACTED",
         claim="the two-chase inversion measures tau exactly, with no model assumption",
         actual="m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, "

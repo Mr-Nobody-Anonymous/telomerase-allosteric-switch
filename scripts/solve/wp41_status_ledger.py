@@ -143,9 +143,11 @@ def ledger() -> list[dict]:
     thr = w40.tau_gate_threshold()
 
     return [
-        dict(row="Mechanism", value=f"M5, P = {p_m5:.2f}",
-             basis=f"0.70 x 0.50; {w40.bayes_factor_needed(p_m5):.2f}x odds needed for 0.50",
-             source="wp40", verdict="falsifiable, untested"),
+        dict(row="Mechanism", value="M5 REFUTED",
+             basis=("tau = 0.6506 from L&C's own published pair (s_obs, phi); M5 then "
+                    "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
+                    "under-prediction (WP45). Prior was 0.35."),
+             source="wp45", verdict="refuted on data the programme already had"),
         dict(row="Evidence",
              value="1 fit datum; 1 model-free check passed; 1 usable panel not yet testable",
              basis=("Lenasi & Cech 2010 = the fit target. Zhao 2011 in vivo ~60 nt: "
@@ -402,8 +404,14 @@ def _self_test() -> int:
         chk(f"ledger has row {row!r}", row in led)
 
     p_m5 = w40.posterior(0.70, 0.50)
-    chk("P(M5) matches wp40", f"{p_m5:.2f}" in led["Mechanism"]["value"])
-    chk("P(M5) is 0.35", abs(p_m5 - 0.35) < 1e-9)
+    # WP45 refuted M5, so the ledger no longer carries the prior - it records
+    # the refutation. Guard the predicate: the row must name WP45 and M5.
+    chk("P(M5) is 0.35 in the model", abs(p_m5 - 0.35) < 1e-9)
+    chk("the ledger records M5 as refuted",
+        led["Mechanism"]["value"].startswith("M5 REFUTED"))
+    chk("the refutation is sourced to wp45", led["Mechanism"]["source"] == "wp45")
+    chk("the refutation is not a bare assertion",
+        "2.4x" in led["Mechanism"]["basis"] and "0.6506" in led["Mechanism"]["basis"])
     chk("the gate threshold matches wp40",
         f"{w40.tau_gate_threshold():.3f}" in led["Gate (50 bp/PD)"]["value"])
     chk("retraction count matches wp38",

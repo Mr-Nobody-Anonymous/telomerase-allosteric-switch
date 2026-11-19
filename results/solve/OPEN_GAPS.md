@@ -457,3 +457,31 @@ against. A score cannot become a `Kd`.
 probability, so the renewal does not break the `R½` framework — **provided the
 retry is memoryless**. Nobody had checked; if a stall raises the chance of
 stalling again, every `R½` here is an effective value.
+
+
+---
+
+## §20 — WP45: the creative route, and what it cost
+
+**Route taken.** Instead of chasing a seventh experiment, τ was recovered from
+two quantities L&C already published from the same preparation
+(`s_obs = 0.7914`, `φ = 0.570`). Both are functions of τ under the stall
+renewal, so the pair fixes it: **τ₀ = 0.6506**.
+
+**Result — the programme's leading mechanism is refuted.**
+With τ fixed, M5 predicts a +PT fold of **2.734** against **6.654** implied by
+L&C's own data — a **2.4× under-prediction**. Registered as **R12**.
+
+**Result — the gate number does not survive.** The stored `R½(+PT) = 8.0` is
+recovered only by assuming the +PT stall *vanishes*, while τ(−PT) is
+simultaneously large enough to move the fold. Those cannot both hold. Applying τ
+consistently gives **δ\* = 7.9 bp/PD**, six times lower. Registered as **R13**.
+
+**Load-bearing assumption: `s_true = φ`.** Everything above rests on reading φ as
+the un-retried per-repeat success. It is a modelling step, not a theorem, and it
+is the single item that decides whether R12 and R13 stand. Named as **A1**.
+
+**Does this close any gate?** No. It moves them further away. The 90 bp/PD
+ceiling is unchanged and is now further out on the true reading.
+
+**Status of the six blocked items:** unchanged from §19 — none converted.
