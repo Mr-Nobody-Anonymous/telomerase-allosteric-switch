@@ -485,3 +485,35 @@ is the single item that decides whether R12 and R13 stand. Named as **A1**.
 ceiling is unchanged and is now further out on the true reading.
 
 **Status of the six blocked items:** unchanged from §19 — none converted.
+
+
+---
+
+## §21 — WP46: what was missing, and the plan
+
+**The gap nobody had named (G3, formal).** The programme tracked `P(M5)` — one
+mechanism — and reported it as `P(a switch is achievable)`. Different quantities,
+same label. Correct structure: `P(any of M1–M6) = 0.541` at premise 0.60, against
+`P(M5) = 0.35`. Refuting M5 removed one route of six, not the outcome. **R14.**
+
+**The unexpected result.** Per unit of input, the largest lever on `P(any)` is
+**M6 — the non-allosteric catalytic route the programme excluded as out of
+scope** (+0.0656 per +0.10, vs +0.0402 for the shared premise). It dominates
+because it does not pay the allosteric-premise tax. The scoping decision was worth
+more than any experiment since WP27. **Open issue #18 — needs a human answer.**
+
+**Five gap classes**, only two closeable here:
+
+| class | gap | here? |
+|---|---|---|
+| G1 | no positive control; every negative is ambiguous | no — #14 |
+| G2 | A1 (`s_true = φ`) and A2 (memoryless retry) | no — #16 |
+| G3 | the wrong quantity was tracked | **yes — closed** |
+| G4 | no compound series, racemic, no SAR | no — #17 |
+| G5 | no preregistration or stopping rule | partly |
+
+**VOI ranking** (expected information gain, not flip rate — the flip rate was
+degenerate at P ≈ 0.54 and is kept only as a record of a bad metric): A1 0.4547 >
+B1 0.3391 > A2 0.3295 > B2 0.1893 > C1 0.0661.
+
+**Plan document:** `results/solve/THE_PLAN.md`. Issues #14–#18 track every gap.

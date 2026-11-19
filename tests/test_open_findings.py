@@ -1815,3 +1815,59 @@ def test_wp45_the_doc_states_the_load_bearing_assumption():
 def test_wp45_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp45_creative.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP46
+def _wp46():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp46_the_plan")
+
+
+def test_wp46_the_tracked_quantity_was_the_wrong_one():
+    """P(M5) is one mechanism; P(any) is the outcome. They shared a label."""
+    wp = _wp46()
+    assert wp.old_framing() < wp.p_any_with_premise() < 1.0
+    assert wp.p_any_with_premise() > 0.5          # crosses, at premise 0.60
+    assert wp.premise_at_half() < wp.P_PREMISE    # 0.498 < 0.60
+
+
+def test_wp46_independence_over_states_the_odds():
+    wp = _wp46()
+    assert wp.naive_independent() > wp.p_any_with_premise()
+
+
+def test_wp46_the_scoped_out_route_is_the_biggest_lever():
+    """The surprise: M6 dominates because it escapes the shared premise."""
+    wp = _wp46()
+    assert wp.lever_sensitivity()[0]["lever"] == "M6"
+
+
+def test_wp46_info_gain_is_not_degenerate():
+    """Ranking by flip rate was noise; EIG must spread the measurements."""
+    wp = _wp46()
+    p0 = wp.p_any_with_premise()
+    eigs = [wp.expected_info_gain(p0, m["sens"], m["fpr"]) for m in wp.MEASUREMENTS]
+    assert max(eigs) - min(eigs) > 0.02
+    assert wp.which_measurement_first()[0]["id"] == "A1"
+
+
+def test_wp46_only_two_gaps_are_closeable_here():
+    wp = _wp46()
+    g = wp.gap_inventory()
+    assert len(g) == 5
+    assert sum(1 for x in g if x["can_simulate_here"]) == 2
+
+
+def test_wp46_the_plan_doc_names_the_unreachable_gaps():
+    doc = (REPO / "results" / "solve" / "THE_PLAN.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "positive control" in flat
+    assert "cannot be done in this repository" in flat
+    assert "labelled assumption" in flat
+    assert "M6" in flat
+
+
+def test_wp46_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp46_the_plan.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

@@ -1,7 +1,7 @@
 {
-  "count": 21,
+  "count": 22,
   "by_state": {
-    "RETRACTED": 10,
+    "RETRACTED": 11,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
     "CORRECTED": 4
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "8ea08852cc85f050732e71ed246520c9570746d75adc804e39c3137011a71c2a"
+      "sha256": "a96f6de4ff858cc2c9cd15ad9fcfe2f0804827a7c06dbb627c4c4948ef443b3d"
     },
     {
       "id": "C3",
@@ -151,6 +151,17 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R14",
+      "wp": "WP46",
+      "state": "RETRACTED",
+      "claim": "P(M5) = 0.35 is the probability that a switch is achievable",
+      "actual": "P(M5) is one mechanism out of six; the outcome quantity is P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the routes are wrongly treated as independent",
+      "predicate": "refuting one of six routes leaves the outcome probability substantially unchanged",
+      "replaced_by": "P(any) with a labelled premise, plus a VOI ranking",
+      "document": "results/solve/THE_PLAN.md",
+      "sha256": "403372b3cc5928f9c4e6edfb9fd5461966095b8e35ec5006315dce9266945ee3"
+    },
+    {
       "id": "R12",
       "wp": "WP45",
       "state": "RETRACTED",
@@ -203,7 +214,7 @@
       "predicate": "the same file states both CLOSED and OPEN with no marker on one",
       "replaced_by": "section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "8ea08852cc85f050732e71ed246520c9570746d75adc804e39c3137011a71c2a"
+      "sha256": "a96f6de4ff858cc2c9cd15ad9fcfe2f0804827a7c06dbb627c4c4948ef443b3d"
     },
     {
       "id": "R8",
@@ -253,7 +264,7 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 12,
+      "RETRACTED": 13,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
       "CORRECTED": 7

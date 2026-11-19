@@ -192,6 +192,18 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R14", wp="46", state="RETRACTED",
+        claim="P(M5) = 0.35 is the probability that a switch is achievable",
+        actual="P(M5) is one mechanism out of six; the outcome quantity is "
+               "P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the "
+               "routes are wrongly treated as independent",
+        predicate="refuting one of six routes leaves the outcome probability "
+                  "substantially unchanged",
+        replaced_by="P(any) with a labelled premise, plus a VOI ranking",
+        file="results/solve/THE_PLAN.md",
+        must_contain="wrong quantity",
+    ),
+    dict(
         id="R12", wp="45", state="RETRACTED",
         claim="M5 is a live candidate mechanism with P ~ 0.35",
         actual="with tau fixed by L&C's own two published numbers (0.6506), M5 "

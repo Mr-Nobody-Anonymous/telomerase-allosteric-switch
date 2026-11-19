@@ -1,0 +1,16 @@
+item,value,note
+P_M5_alone,0.350,the old quantity
+P_any_M1_M6,0.541,"correct structure, premise 0.60"
+premise_at_half,0.498,computed crossing
+top_lever,M6,largest per-unit influence on P(any)
+EVPI_at_half,0.500,max information value
+VOI_A1,0.4547,EIG bits; 1 experiment
+VOI_B1,0.3391,EIG bits; 1 SPR run
+VOI_A2,0.3295,EIG bits; 1 experiment
+VOI_B2,0.1893,EIG bits; 1 stopped-flow series
+VOI_C1,0.0661,EIG bits; 3 interviews
+GAP_G1,reference-standard,"a positive control: any compound in this repo shown to bind its target, or any assay with "
+GAP_G2,measurement,the A1 test (s_true = phi) and the A2 test (memoryless retry)
+GAP_G3,formal,the probability was the wrong quantity: P(M5) was tracked as if it were P(a switch is achi
+GAP_G4,material,a compound series with SAR; one quarantined proposal is not a series
+GAP_G5,process,preregistration against a real assay with a stopping rule and an independent replication s
