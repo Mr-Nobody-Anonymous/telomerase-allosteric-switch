@@ -192,6 +192,17 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R15", wp="46", state="SUPERSEDED",
+        claim="P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714",
+        actual="M5 was refuted outright (WP45, R12), so lifting its probability is "
+               "no longer a live objective; and the target was the wrong quantity "
+               "anyway (R14)",
+        predicate="the mechanism being optimised turns out not to exist",
+        replaced_by="P(any of M1-M6) with a labelled premise, tracked per option",
+        file="results/solve/WP40_DESIGN_TO_FIFTY.md",
+        must_contain="withdrawn",
+    ),
+    dict(
         id="R14", wp="46", state="RETRACTED",
         claim="P(M5) = 0.35 is the probability that a switch is achievable",
         actual="P(M5) is one mechanism out of six; the outcome quantity is "

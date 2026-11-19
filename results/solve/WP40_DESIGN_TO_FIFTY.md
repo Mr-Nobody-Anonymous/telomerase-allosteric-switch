@@ -1,5 +1,31 @@
 # WP40 — Designing past 50 %: the odds and the floor
 
+> ## ⚠ SUPERSEDED ON THE PROBABILITY TARGET — WP45 / WP46
+>
+> **`P(M5)` is not the quantity the design target was about.** It is the
+> probability of *one mechanism*; the target is the probability that *a switch is
+> achievable*. WP45 refuted M5 outright (2.4× under-prediction on L&C's published
+> pair, **R12**), and WP46 replaced the framing (**R14**):
+>
+> | quantity | value |
+> |---|---|
+> | `P(M5)` — what this document optimises | 0.35, now **refuted** |
+> | `P(any of M1–M6)` with the shared premise | **0.541** |
+>
+> The "**reachable**" verdict in the table below is **withdrawn**: it was about
+> lifting one mechanism past 50 %, not about whether a switch exists. M5 is now
+> dead, so lifting its probability is not a live objective.
+>
+> **What survives from this document:** the **δ\* target row** — the discovery
+> that the 48.0 bp/PD "closure" was M5's own prediction rather than a measurement.
+> That finding stands and was the basis of WP45 §3. But note WP45 also shows the
+> `R½ = 8.0` anchor it leans on assumes the +PT stall vanishes (**R13**), so the
+> `70.1 bp/PD` figure should be read as **open at 70.1 on the apparent survival,
+> 7.9 on the true one**.
+>
+> **Current statement:** [`THE_PLAN.md`](THE_PLAN.md) and
+> [`STATUS_LEDGER.md`](STATUS_LEDGER.md).
+
     python scripts/solve/wp40_design_to_fifty.py
     python scripts/solve/wp40_design_to_fifty.py --self-test    -> 43 checks, 0 failed
 

@@ -3,8 +3,8 @@
     python scripts/solve/wp38_archive.py
     python scripts/solve/wp38_archive.py --self-test
 
-**22 registered retractions: 11 retracted, 3 withdrawn, 4 superseded, 4 corrected.**
-Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP44 ×2, WP45 ×2, WP46 ×1, pre-WP22 ×1.
+**23 registered retractions: 11 retracted, 3 withdrawn, 5 superseded, 4 corrected.**
+Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP44 ×2, WP45 ×2, WP46 ×2, pre-WP22 ×1.
 
 This file is **generated** from `scripts/solve/wp38_archive.py`. `--self-test`
 re-derives it and compares; if a marker is deleted from a source document, or a
@@ -41,6 +41,7 @@ different, but they are now **fixed** and all four are enumerated:
 | **R4** | SUPERSEDED | P2 is a re-analysis of existing gels: days, no reagent | no per-band data exists here (WP24); it needs chase +/- a DNA trap | a threshold fraction cannot yield a per-repeat survival | a TWO-chase design, 3-12 replicates per arm (WP37) | `results/solve/WP34_STATUS.md` |
 | **R5** | SUPERSEDED | the maintenance gate is OPEN at 57.3 bp/PD | 57.3 is the n=6 branch of a quantity that need not depend on n | delta* at a fixed fold scales with the assumed exponent | gate CLOSED at 48 bp/PD, exponent-free (WP37) | `results/solve/WP35_P2_IDENTIFIABILITY.md` |
 | **R6** | SUPERSEDED | the feasibility sweep's s-ratio ceiling is the binding constraint | the ceiling assumed a factorisation that WP22 itself falsified | the ceiling is derived from s = (1+a)^-6 * phi, which is false | M5 drops phi from the product entirely | `results/solve/WP20_EXHAUSTIVE_FEASIBILITY.md` |
+| **R15** | SUPERSEDED | P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714 | M5 was refuted outright (WP45, R12), so lifting its probability is no longer a live objective; and the target was the wrong quantity anyway (R14) | the mechanism being optimised turns out not to exist | P(any of M1-M6) with a labelled premise, tracked per option | `results/solve/WP40_DESIGN_TO_FIFTY.md` |
 | **R14** | RETRACTED | P(M5) = 0.35 is the probability that a switch is achievable | P(M5) is one mechanism out of six; the outcome quantity is P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the routes are wrongly treated as independent | refuting one of six routes leaves the outcome probability substantially unchanged | P(any) with a labelled premise, plus a VOI ranking | `results/solve/THE_PLAN.md` |
 | **R12** | RETRACTED | M5 is a live candidate mechanism with P ~ 0.35 | with tau fixed by L&C's own two published numbers (0.6506), M5 predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x under-prediction | the held-out prediction fails by more than a factor of 2 | M5 refuted; the surviving question is whether s_true = phi | `results/solve/STATUS_LEDGER.md` |
 | **R13** | RETRACTED | delta* = 48 bp/PD at the +PT anchor distinguishes open from closed | the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed to vanish, while tau(-PT) is simultaneously large enough to move the fold; the two are inconsistent under one coupling rule | the true and stored readings differ by 6x for the same data | tau must be applied consistently; on the true reading delta* is 7.9 bp/PD | `results/solve/WP45_CREATIVE.md` |

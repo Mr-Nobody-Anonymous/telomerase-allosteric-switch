@@ -1,9 +1,9 @@
 {
-  "count": 22,
+  "count": 23,
   "by_state": {
     "RETRACTED": 11,
     "WITHDRAWN": 3,
-    "SUPERSEDED": 4,
+    "SUPERSEDED": 5,
     "CORRECTED": 4
   },
   "register": [
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "a96f6de4ff858cc2c9cd15ad9fcfe2f0804827a7c06dbb627c4c4948ef443b3d"
+      "sha256": "58de00ec3484b57688bc319863011392d657a81cb1972fe9c723ac0185e95e8d"
     },
     {
       "id": "C3",
@@ -151,6 +151,17 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R15",
+      "wp": "WP46",
+      "state": "SUPERSEDED",
+      "claim": "P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714",
+      "actual": "M5 was refuted outright (WP45, R12), so lifting its probability is no longer a live objective; and the target was the wrong quantity anyway (R14)",
+      "predicate": "the mechanism being optimised turns out not to exist",
+      "replaced_by": "P(any of M1-M6) with a labelled premise, tracked per option",
+      "document": "results/solve/WP40_DESIGN_TO_FIFTY.md",
+      "sha256": "069d448b8076c8566610361c61c8823498a53f4546320a67855892397248c068"
+    },
+    {
       "id": "R14",
       "wp": "WP46",
       "state": "RETRACTED",
@@ -159,7 +170,7 @@
       "predicate": "refuting one of six routes leaves the outcome probability substantially unchanged",
       "replaced_by": "P(any) with a labelled premise, plus a VOI ranking",
       "document": "results/solve/THE_PLAN.md",
-      "sha256": "403372b3cc5928f9c4e6edfb9fd5461966095b8e35ec5006315dce9266945ee3"
+      "sha256": "7c758ed0c50a6d5ceafb3cbba775e18a21ba3f1f05879f0da92334130c1d00a4"
     },
     {
       "id": "R12",
@@ -170,7 +181,7 @@
       "predicate": "the held-out prediction fails by more than a factor of 2",
       "replaced_by": "M5 refuted; the surviving question is whether s_true = phi",
       "document": "results/solve/STATUS_LEDGER.md",
-      "sha256": "043e53145de93b3b0cd7ba3aa92e335e3f1179a0e0d42f07c80f26d75648d105"
+      "sha256": "b85b1b8299608e070965d54515573033f99671463d18f4da2cbe78e1e07efea7"
     },
     {
       "id": "R13",
@@ -203,7 +214,7 @@
       "predicate": "recomputing R1/2 from measured s0 through n barely changes it",
       "replaced_by": "drop n from the ledger - it was never load-bearing",
       "document": "results/solve/STATUS_LEDGER.md",
-      "sha256": "043e53145de93b3b0cd7ba3aa92e335e3f1179a0e0d42f07c80f26d75648d105"
+      "sha256": "b85b1b8299608e070965d54515573033f99671463d18f4da2cbe78e1e07efea7"
     },
     {
       "id": "R9",
@@ -214,7 +225,7 @@
       "predicate": "the same file states both CLOSED and OPEN with no marker on one",
       "replaced_by": "section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "a96f6de4ff858cc2c9cd15ad9fcfe2f0804827a7c06dbb627c4c4948ef443b3d"
+      "sha256": "58de00ec3484b57688bc319863011392d657a81cb1972fe9c723ac0185e95e8d"
     },
     {
       "id": "R8",
@@ -266,7 +277,7 @@
     "results/solve/RETRACTIONS.md": {
       "RETRACTED": 13,
       "WITHDRAWN": 5,
-      "SUPERSEDED": 6,
+      "SUPERSEDED": 7,
       "CORRECTED": 7
     },
     "results/solve/STATUS_LEDGER.md": {
@@ -334,6 +345,12 @@
       "WITHDRAWN": 0,
       "SUPERSEDED": 1,
       "CORRECTED": 2
+    },
+    "results/solve/WP40_DESIGN_TO_FIFTY.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 1,
+      "CORRECTED": 0
     }
   }
 }

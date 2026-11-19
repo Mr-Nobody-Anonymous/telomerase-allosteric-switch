@@ -1575,7 +1575,9 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     led = {r["row"]: r for r in wp.ledger()}
     # WP45 refuted M5; the discriminator is "what could this have falsified",
     # not the string of the prior that used to sit here.
-    assert led["Mechanism"]["value"] == "M5 REFUTED"
+    # WP46 R14: the row must carry the OUTCOME quantity too, not a bare refutation
+    assert led["Mechanism"]["value"].startswith("M5 REFUTED")
+    assert "P(any)" in led["Mechanism"]["value"]
     assert led["Mechanism"]["source"] == "wp45"
     # WP44: n was never load-bearing
     assert led["n measured"]["value"] == "not load-bearing"
@@ -1871,3 +1873,111 @@ def test_wp46_the_plan_doc_names_the_unreachable_gaps():
 def test_wp46_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp46_the_plan.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# ------------------------------------------- WP46 step 1.6: framing guard
+def test_wp46_no_document_claims_the_pm5_framing_is_live():
+    """The R14 collision: P(M5) reported as P(a switch is achievable).
+
+    Step 1.6 of the plan. A prose-only fix leaves a stale summary, so this
+    scans the documents that talk about P(M5) and demands that any of them
+    stating the 'reachable / > 50 %' framing also carries the superseding
+    banner naming WP45 or WP46.
+    """
+    docs = ["results/solve/WP40_DESIGN_TO_FIFTY.md",
+            "results/solve/WP35_P2_IDENTIFIABILITY.md",
+            "results/solve/WP36_CIRCULARITY.md",
+            "results/solve/OPEN_GAPS.md"]
+    offenders = []
+    for rel in docs:
+        path = REPO / rel
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "P(M5)" not in text:
+            continue
+        head = "\n".join(text.splitlines()[:60])
+        # a live 'reachable' claim must be bannered in the document head
+        if "reachable" in text.lower() and not (
+                "SUPERSEDED" in head or "WP45" in head or "WP46" in head):
+            offenders.append(rel)
+    assert not offenders, (
+        "these documents still present the P(M5) target as live without a "
+        f"superseding banner: {offenders}")
+
+
+def test_wp46_the_ledger_no_longer_reports_a_live_pm5():
+    text = (REPO / "results" / "solve" / "STATUS_LEDGER.md").read_text(encoding="utf-8")
+    flat = " ".join(text.split())
+    assert "M5 REFUTED" in flat
+    # the outcome quantity must appear once the framing is fixed
+    assert "P(any" in flat or "0.541" in flat
+
+
+# --------------------------------------------- WP46 Track 1.5 / Track 3 docs
+def test_wp46_preregistrations_are_complete():
+    """A preregistration without a stopping rule is not a preregistration."""
+    for name in ("PREREG_A1.md", "PREREG_A2.md"):
+        doc = (REPO / "results" / "solve" / name).read_text(encoding="utf-8")
+        flat = " ".join(doc.split()).lower()
+        assert "stopping rule" in flat, name
+        assert "ambiguous" in flat, name
+        assert "replication" in flat, name
+        # the prediction must be numeric, not directional
+        assert "| 0." in doc, name
+        # the reversal must be stated, not softened
+        assert "withdrawn" in flat, name
+
+
+def test_wp46_prereg_a1_predicts_the_invariant():
+    """A1's discriminator is the constancy of tau, so it must say so."""
+    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "0.6506" in flat
+    assert "constant" in flat.lower()
+    assert "R12" in flat and "R13" in flat
+
+
+def test_wp46_prereg_a2_table_matches_the_renewal():
+    """The predicted s_obs values must actually be the renewal's values."""
+    import math
+    tau = 0.1833
+    for s_true, s_obs in ((0.600, 0.6475), (0.700, 0.7407), (0.800, 0.8304),
+                          (0.917, 0.9312), (0.950, 0.9588)):
+        assert abs(s_true / (1 - tau * (1 - s_true)) - s_obs) < 5e-5, s_true
+    doc = (REPO / "results" / "solve" / "PREREG_A2.md").read_text(encoding="utf-8")
+    for _, s_obs in ((0, 0.6475), (0, 0.7407), (0, 0.8304)):
+        assert f"{s_obs}" in doc
+
+
+def test_wp46_assay_design_keeps_the_positive_control_gate():
+    doc = (REPO / "results" / "solve" / "ASSAY_DESIGN_G1_G4.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "positive control" in flat.lower()
+    assert "void plate" in flat.lower()      # no results read from a failed control
+    assert "blinding" in flat.lower()
+    # it must not claim any of it was done
+    assert "zero exist" in flat.lower()
+
+
+def test_wp46_scoping_options_report_two_quantities():
+    wp = _wp46()
+    opts = {o["option"]: o for o in wp.scoping_options()}
+    assert abs(opts["C"]["p_allosteric"] - 0.3443) < 0.01
+    assert abs(opts["C"]["p_outcome"] - 0.541) < 0.01
+    assert abs(opts["B@premise0.30"]["p_allosteric"] - 0.1721) < 0.01
+    # the wrong numbers that were published must not reappear
+    assert opts["B@premise0.30"]["p_allosteric"] < 0.2
+
+
+def test_wp46_prereg_a1_table_is_computed_not_remembered():
+    """The first draft of this table was wrong by up to 0.1."""
+    tau = 0.6506
+    for phi, s_obs in ((0.300, 0.5509), (0.450, 0.7007), (0.570, 0.7914),
+                       (0.700, 0.8698), (0.850, 0.9419)):
+        assert abs(phi / (1 - tau * (1 - phi)) - s_obs) < 5e-4, phi
+    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
+    for _, s_obs in ((0, 0.5509), (0, 0.7007), (0, 0.9419)):
+        assert f"{s_obs}" in doc
+    # the wrong remembered values must not come back
+    assert "0.4476" not in doc and "0.6833" not in doc

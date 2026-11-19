@@ -143,16 +143,16 @@ expensive test should be.
 | 1.1 | replace `P(M5)` with `P(any)` everywhere; retract the label collision | **done, WP46** |
 | 1.2 | mechanism inventory M1–M6 with labelled priors, re-elicitable | **done, WP46** |
 | 1.3 | VOI ranking so effort goes where information is | **done, WP46** |
-| 1.4 | track every gap as a GitHub issue with an owner and a close condition | **this commit** |
-| 1.5 | preregistration template for A1 and A2: prediction, stopping rule, replication slot | planned |
-| 1.6 | extend the register's document-scan to catch any recurrence of the `P(M5)` framing | planned |
+| 1.4 | track every gap as a GitHub issue with an owner and a close condition | **done — issues #14–#18** |
+| 1.5 | preregistration for A1 and A2: prediction, stopping rule, replication slot | **done — `PREREG_A1.md`, `PREREG_A2.md`** |
+| 1.6 | document scan to catch any recurrence of the `P(M5)` framing | **done — caught two live offenders, both fixed** |
 
 ### Track 2 — close G2 (needs a bench; can be specified here)
 
 | step | experiment | falsifies |
 |---|---|---|
-| 2.1 | **A1**: separate translocation efficiency from extension efficiency (competitor titration or diffusive-access) | if `s_true ≠ φ`, R12 and R13 fall |
-| 2.2 | **A2**: chase under a stall-inducing lesion; does `s_obs` follow the renewal or saturate? | if saturating, the stall extension is wrong |
+| 2.1 | **A1**: separate translocation efficiency from extension efficiency (competitor titration or diffusive-access) | if `s_true ≠ φ`, R12 and R13 fall — **fully specified in `PREREG_A1.md`** |
+| 2.2 | **A2**: chase under a stall-inducing lesion; does `s_obs` follow the renewal or saturate? | if saturating, the stall extension is wrong — **fully specified in `PREREG_A2.md`** |
 | 2.3 | **B1**: SPR or ITC on TLN-amide, **with a known-answer ligand on the same plate** | if no binding, the drug branch closes |
 | 2.4 | **B2**: `k_off` on a second enzyme pair with kinetics, not fractions | separates M5 from M3 |
 
@@ -162,11 +162,15 @@ blocked items.
 
 ### Track 3 — close G1 and G4 (needs chemistry; the real bottleneck)
 
-| step | what | why it blocks everything |
-|---|---|---|
-| 3.1 | obtain **any** validated telomerase inhibitor as a positive control (e.g. a known catalytic inhibitor) | the first measured "yes" in the whole programme |
-| 3.2 | build a series, not a molecule: ≥10 analogues around one scaffold | G4 — no SAR without a series |
-| 3.3 | state the target product profile *before* synthesis | stops the goalposts moving |
+| step | what | why it blocks everything | status |
+|---|---|---|---|
+| 3.1 | obtain **any** validated telomerase inhibitor as a positive control | the first measured "yes" in the whole programme | **specified — `ASSAY_DESIGN_G1_G4.md` §2** |
+| 3.2 | build a series, not a molecule: ≥10 analogues around one scaffold | G4 — no SAR without a series | **specified — §3** |
+| 3.3 | state the target product profile *before* synthesis | stops the goalposts moving | **fixed — §4** |
+
+The assay design also fixes the **analysis pipeline and blinding rule** (§6) so
+the data cannot be analysed after the fact in a way that favours the hypothesis.
+None of §2–§4 can be executed here; that is the honest boundary.
 
 ### Track 4 — the scoping decision, revisited (the biggest lever)
 
@@ -175,14 +179,28 @@ non-allosteric catalytic inhibition as "not a switch." That is a *definitional*
 exclusion, not an evidential one, and it is the single most expensive choice made
 here.
 
-| step | question |
-|---|---|
-| 4.1 | does the deliverable require an *allosteric* mechanism, or a *maintenance-lowering* outcome? |
-| 4.2 | if the outcome is what matters, M6 re-enters at high prior and `P(any)` moves most |
-| 4.3 | if the mechanism matters, say so explicitly and accept the lower `P(any)` |
+Simulated rather than waited for (`scoping_options()` in the script). Both numbers
+are reported for every option, because conflating them is R14 over again:
 
-**This is a decision only you can make.** It is not a technical question and no
-amount of computation settles it.
+| option | P(allosteric) | P(outcome) |
+|---|---|---|
+| **A** — outcome matters, M6 prior → 0.45 | 0.3443 | **0.6393** |
+| **B** — mechanism matters, M6 out | **0.3443** | 0.3443 |
+| **B** at premise 0.30 | 0.1721 | 0.1721 |
+| **C** — both, tracked separately | 0.3443 | **0.5410** |
+
+**Recommended: C.** At premise 0.60, choosing B costs 0.54 → 0.34. That cost
+should be visible in advance rather than discovered in a ledger row later — and
+if the premise is only 0.30, option B is 0.1721.
+
+**The choice is still yours** — but it is now priced, so it can be made on the
+numbers instead of on a definition.
+
+> **Correction, logged.** The first version of this section quoted 0.36 for the
+> allosteric figure and 0.420 for "option B". Both were wrong: 0.3443 is the
+> allosteric value, and 0.420 is the *outcome* figure including M6 — so it was
+> not option B at all. The error was R14 re-committed inside the document that
+> named R14. Corrected on issue #18 and pinned in the self-test.
 
 ---
 

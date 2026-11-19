@@ -166,6 +166,53 @@ def lever_sensitivity(step: float = 0.1) -> list[dict]:
     return sorted(rows, key=lambda r: -r["delta"])
 
 
+def scoping_options() -> list[dict]:
+    """Track 4: the three ways to resolve the M6 scoping decision.
+
+    Two distinct quantities are reported for every option, because conflating
+    them is R14 all over again:
+        p_allosteric  P(an allosteric switch exists) = premise x P(any allosteric)
+        p_outcome     P(maintenance is lowered)      = includes M6
+
+    A first draft of the plan quoted 0.36 for the allosteric figure (it is
+    0.3443) and quoted 0.420 for "option B" (0.420 is the OUTCOME figure at
+    premise 0.30; allosteric-only there is 0.1721). Both are pinned in the
+    self-test so they cannot come back.
+    """
+    import copy
+    saved = copy.deepcopy(MECHANISMS)
+    allost_given = p_any_allosteric_given_premise()
+
+    def outcome(premise, m6_prior):
+        for m in MECHANISMS:
+            if m["id"] == "M6":
+                m["p"] = m6_prior
+        val = p_any_with_premise(premise)
+        MECHANISMS[:] = copy.deepcopy(saved)
+        return val
+
+    out = [
+        dict(option="A", label="outcome matters; M6 re-enters",
+             p_allosteric=P_PREMISE * allost_given,
+             p_outcome=outcome(P_PREMISE, 0.45),
+             detail="M6 prior 0.30 -> 0.45"),
+        dict(option="B", label="mechanism matters; M6 stays out",
+             p_allosteric=P_PREMISE * allost_given,
+             p_outcome=P_PREMISE * allost_given,
+             detail="the allosteric number IS the deliverable"),
+        dict(option="B@premise0.30", label="B if the premise is weak",
+             p_allosteric=0.30 * allost_given,
+             p_outcome=0.30 * allost_given,
+             detail="premise 0.30"),
+        dict(option="C", label="both, tracked separately - recommended",
+             p_allosteric=P_PREMISE * allost_given,
+             p_outcome=p_any_with_premise(),
+             detail="two numbers, neither asked to mean the other"),
+    ]
+    MECHANISMS[:] = copy.deepcopy(saved)
+    return out
+
+
 def entropy(p: float) -> float:
     """Binary entropy in bits."""
     if p <= 0.0 or p >= 1.0:
@@ -341,7 +388,20 @@ def main() -> int:
     print("  order the programme has been following: it went after A1/A2 first.")
     print()
 
-    print("WP46.5  The honest read")
+    print("WP46.5  Track 4 - the scoping options, computed")
+    print()
+    print(f"    {'opt':18} {'P(allosteric)':>14} {'P(outcome)':>11}  detail")
+    print("    " + "-" * 78)
+    for o in scoping_options():
+        print(f"    {o['option']:18} {o['p_allosteric']:14.4f} "
+              f"{o['p_outcome']:11.4f}  {o['detail']}")
+    print()
+    print("  Option C is recommended: it is the only one that does not ask a")
+    print("  number to mean something it does not - which is exactly the failure")
+    print("  (R14) that cost this programme 45 work packages.")
+    print()
+
+    print("WP46.6  The honest read")
     print()
     print("  Nothing in G1, G2, G4 can be closed by computation. The repository")
     print("  can close G3 and G5 and nothing else. That is not a limitation of")
@@ -361,6 +421,10 @@ def main() -> int:
     for r in which_measurement_first(sim):
         rows.append(dict(item=f"VOI_{r['id']}", value=f"{r['eig_bits']:.4f}",
                          note=f"EIG bits; {r['cost']}"))
+    for o in scoping_options():
+        rows.append(dict(item=f"OPTION_{o['option']}",
+                         value=f"allost {o['p_allosteric']:.4f} / out {o['p_outcome']:.4f}",
+                         note=o["detail"]))
     for g in gap_inventory():
         rows.append(dict(item=f"GAP_{g['cls']}", value=g["kind"],
                          note=g["missing"][:90]))
@@ -445,6 +509,19 @@ def _self_test() -> int:
     chk("EIG is not degenerate at p ~ 0.5 (ranking has spread)",
         (lambda e: max(e) - min(e) > 0.02)(
             [expected_info_gain(0.54, m["sens"], m["fpr"]) for m in MEASUREMENTS]))
+
+    # the scoping options are computed, and the first draft's 0.36 was wrong
+    o = {x["option"]: x for x in scoping_options()}
+    chk("the allosteric figure is 0.3443, not the 0.36 first written",
+        abs(o["C"]["p_allosteric"] - 0.3443) < 0.01)
+    chk("option A's outcome exceeds option C's", o["A"]["p_outcome"] > o["C"]["p_outcome"])
+    chk("option B@0.30 allosteric is 0.1721, NOT 0.420 (that is the outcome)",
+        abs(o["B@premise0.30"]["p_allosteric"] - 0.1721) < 0.01)
+    chk("0.420 is the OUTCOME at premise 0.30", abs(p_any_with_premise(0.30) - 0.4205) < 0.01)
+    chk("the two quantities are never equal in option C",
+        abs(o["C"]["p_allosteric"] - o["C"]["p_outcome"]) > 0.1)
+    chk("scoping_options did not mutate the priors",
+        abs(p_any_with_premise() - 0.541) < 1e-4)   # 0.54098, not exactly 0.541
 
     # gaps
     g = gap_inventory()

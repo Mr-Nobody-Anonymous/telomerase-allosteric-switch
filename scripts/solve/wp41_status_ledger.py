@@ -143,10 +143,12 @@ def ledger() -> list[dict]:
     thr = w40.tau_gate_threshold()
 
     return [
-        dict(row="Mechanism", value="M5 REFUTED",
-             basis=("tau = 0.6506 from L&C's own published pair (s_obs, phi); M5 then "
+        dict(row="Mechanism", value="M5 REFUTED; P(any) = 0.541",
+             basis=("M5: tau = 0.6506 from L&C's published pair (s_obs, phi); M5 "
                     "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
-                    "under-prediction (WP45). Prior was 0.35."),
+                    "under-prediction (WP45). The OUTCOME quantity is P(any of "
+                    "M1-M6) = 0.541 at premise 0.60, not the old P(M5) = 0.35: "
+                    "refuting one of six routes does not remove the outcome (WP46)."),
              source="wp45", verdict="refuted on data the programme already had"),
         dict(row="Evidence",
              value="1 fit datum; 1 model-free check passed; 1 usable panel not yet testable",
@@ -409,6 +411,11 @@ def _self_test() -> int:
     chk("P(M5) is 0.35 in the model", abs(p_m5 - 0.35) < 1e-9)
     chk("the ledger records M5 as refuted",
         led["Mechanism"]["value"].startswith("M5 REFUTED"))
+    # R14: the row must carry the OUTCOME quantity, not just the refutation
+    chk("the ledger reports P(any), not a bare refutation",
+        "P(any)" in led["Mechanism"]["value"])
+    chk("the premise is stated alongside P(any)",
+        "premise 0.60" in led["Mechanism"]["basis"])
     chk("the refutation is sourced to wp45", led["Mechanism"]["source"] == "wp45")
     chk("the refutation is not a bare assertion",
         "2.4x" in led["Mechanism"]["basis"] and "0.6506" in led["Mechanism"]["basis"])

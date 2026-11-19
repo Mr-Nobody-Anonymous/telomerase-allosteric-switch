@@ -1,4 +1,10 @@
 # Open gaps — audited state
+> **Current statement: [`THE_PLAN.md`](THE_PLAN.md)** (WP46). This file is a
+> chronological gap log — §21 supersedes §19–§20, which superseded §1–§18.
+> The `P(M5)` target discussed in early sections is **withdrawn**: M5 was
+> refuted (WP45, R12) and the framing was replaced by `P(any of M1–M6)`
+> (WP46, R14). Not 'reachable' — the R14 row says why.
+
 
 Every item below was checked against the tree, not recalled. Each is either
 **closed**, **closed to a decision**, or **blocked with the blocker named**.
