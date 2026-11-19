@@ -1,0 +1,147 @@
+{
+  "item1": {
+    "r_half_n_free": 8.00011658719466,
+    "r_half_by_n": {
+      "1": 7.530161918140033,
+      "3": 7.902639456890326,
+      "6": 8.00011658719466,
+      "12": 8.049517018257315,
+      "24": 8.074383295649712,
+      "64": 8.089981038856681
+    },
+    "spread": 0.5598191207166483,
+    "spread_fraction": 0.06997637029599288,
+    "n_free_is_6": true,
+    "delta_n_free": 48.00069952316795,
+    "load_bearing": false
+  },
+  "item2": {
+    "sample_mutant": "K749E",
+    "processivity": 0.278989,
+    "activity": 0.567074,
+    "all_unitless": true,
+    "has_koff": false,
+    "has_kd": false,
+    "note": "readouts are fractions of signal; no rate and no affinity"
+  },
+  "mechanism": {
+    "mutant": "F776E",
+    "proc": 0.012643666666666664,
+    "proc_mean": 0.2283938148148148,
+    "act": 0.418433,
+    "act_mean": 0.41785737037037035,
+    "act_rank": 5,
+    "n_mutants": 9,
+    "activity_above_mutant_mean": true,
+    "processivity_below_mutant_mean": true,
+    "h762e_proc": 0.41550566666666666,
+    "h762e_act": 0.680224
+  },
+  "item3": {
+    "round_trip": [
+      {
+        "n": 6,
+        "tau_in": 0.1833,
+        "m": 3.195373237847851,
+        "c": 2.205409721414975,
+        "tau_out": 0.18330000000000007,
+        "error": 8.326672684688674e-17
+      },
+      {
+        "n": 6,
+        "tau_in": 0.35,
+        "m": 3.587510737461408,
+        "c": 1.7273199847036407,
+        "tau_out": 0.35000000000000003,
+        "error": 5.551115123125783e-17
+      }
+    ],
+    "max_error": 8.326672684688674e-17,
+    "kappa_independent": true,
+    "defects": 2,
+    "note": "the ratio determines tau whether or not stalling exists"
+  },
+  "item4": {
+    "amide_delta": -0.045806148451228546,
+    "threshold": -0.15,
+    "refuted": true,
+    "has_solvent": false,
+    "has_entropy": false,
+    "has_flexibility": false,
+    "calibration_ligands": 0,
+    "note": "a score cannot become a Kd without a calibration curve, and there are no ligands of known affinity here"
+  },
+  "item5": {
+    "target": 0.485,
+    "solutions": [
+      {
+        "convention": "chain",
+        "s": 0.9529046566034105,
+        "r_half": 2.394765966732912
+      },
+      {
+        "convention": "mass",
+        "s": 0.8944992090427691,
+        "r_half": 1.0361756590103581
+      }
+    ],
+    "spread": 0.4326834744624224,
+    "invertible": false
+  },
+  "item6": {
+    "method": "BrdU incorporation + CsCl density gradient",
+    "measures": "repeats added per end",
+    "does_not_measure": "attempts made per repeat",
+    "consequence": "a per-repeat stall is invisible to it",
+    "alternatives_in_tree": 0
+  },
+  "mode": {
+    "observations": [
+      {
+        "inhibition": 0.0,
+        "extended_fraction": 1.0,
+        "product_length": "~60 nt"
+      },
+      {
+        "inhibition": 0.5,
+        "extended_fraction": 0.5,
+        "product_length": "~60 nt"
+      },
+      {
+        "inhibition": 0.7,
+        "extended_fraction": 0.3,
+        "product_length": "~60 nt"
+      }
+    ],
+    "length_constant": true,
+    "fraction_falls": true,
+    "distributive_would_shorten": true,
+    "verdict": "PROCESSIVE"
+  },
+  "stall": {
+    "rows": [
+      {
+        "s_true": 0.7,
+        "s_obs": 0.7407329022973301,
+        "r_half": 0.3849339851688155
+      },
+      {
+        "s_true": 0.8,
+        "s_obs": 0.830444079971765,
+        "r_half": 0.6217859783920576
+      },
+      {
+        "s_true": 0.917,
+        "s_obs": 0.931166676702687,
+        "r_half": 1.6198739371442212
+      },
+      {
+        "s_true": 0.95,
+        "s_obs": 0.9587872854713448,
+        "r_half": 2.744960972022343
+      }
+    ],
+    "geometric_at_tau0": true,
+    "caveat": "holds only if the retry is memoryless; a history-dependent stall makes R1/2 ill-defined"
+  }
+}

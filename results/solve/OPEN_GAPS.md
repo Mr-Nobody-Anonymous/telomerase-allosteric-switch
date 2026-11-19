@@ -1,4 +1,10 @@
 # Open gaps — audited state
+> **Current statement: [`THE_PLAN.md`](THE_PLAN.md)** (WP46). This file is a
+> chronological gap log — §21 supersedes §19–§20, which superseded §1–§18.
+> The `P(M5)` target discussed in early sections is **withdrawn**: M5 was
+> refuted (WP45, R12) and the framing was replaced by `P(any of M1–M6)`
+> (WP46, R14). Not 'reachable' — the R14 row says why.
+
 
 Every item below was checked against the tree, not recalled. Each is either
 **closed**, **closed to a decision**, or **blocked with the blocker named**.
@@ -416,3 +422,104 @@ meant to rescue.
 
 **Unchanged:** the 90 bp/PD HUVEC ceiling still needs τ ≥ 0.88 or R½ ≥ 15.0, and
 nothing here supplies that. No affinity exists. TELIN-1 remains quarantined.
+
+
+
+## 19. All six blocked items were attempted (WP44)
+
+They were not all closable, but five changed status and **one was never a gap**.
+
+**Item 1 — "measure `n`" — never load-bearing.** `n` enters only through
+`a = s^(−1/n) − 1`, which *is* the identity C1 retracted. Recomputed from the
+measured `s₀`, `R½` runs 7.53 → 8.09 across `n = 1…64`: **7.4 % over a 64-fold
+range**. `R½`, `δ*` and the gate are `n`-free. Removed from the ledger.
+
+**Item 3 — "P2 as a two-chase" — the design was vacuous.** `m = κ(1+τ)` and
+`c = κ(1−τ)` are one relation written twice, so `m/c` returns τ by construction;
+the 1e-17 round trip proves algebra (C1 pattern). A real two-chase needs an
+**independent count** of the stalled population.
+
+**Item 5 — Gate 3 — unreachable, now shown.** Both conventions reproduce the
+reported fraction 0.485 at survivals implying R½ = 2.395 and 1.036 — a **2.3×
+spread from one number**.
+
+**Item 6 — the Y176A assay is blind to its own question.** BrdU/CsCl counts
+repeats added, not attempts made. But the same paper's partial-inhibition series
+is a model-free **mode** test: at 0 / 50 / 70 % inhibition the extended fraction
+falls 1.00 → 0.50 → 0.30 while **product length stays ~60 nt**. A distributive
+enzyme would shorten products. **Positive, published evidence for processive
+action**, with no assumption from this repository in it.
+
+**Item 2 — still blocked**, and now for a measured reason: the Tesmer readouts
+are unitless fractions with no rate and no affinity. It adds a constraint —
+**F776E** is mid-panel on activity (0.418, rank 5/9) while processivity is at the
+floor (0.013), so the two are separable inside one experiment.
+
+**Item 4 — still blocked, demonstrably**: the surrogate has no solvent, no
+entropy, no flexibility and **zero ligands of known affinity** to calibrate
+against. A score cannot become a `Kd`.
+
+**Bonus.** `s_obs = s_true/(1−τ(1−s_true))` is itself geometric with a rescaled
+probability, so the renewal does not break the `R½` framework — **provided the
+retry is memoryless**. Nobody had checked; if a stall raises the chance of
+stalling again, every `R½` here is an effective value.
+
+
+---
+
+## §20 — WP45: the creative route, and what it cost
+
+**Route taken.** Instead of chasing a seventh experiment, τ was recovered from
+two quantities L&C already published from the same preparation
+(`s_obs = 0.7914`, `φ = 0.570`). Both are functions of τ under the stall
+renewal, so the pair fixes it: **τ₀ = 0.6506**.
+
+**Result — the programme's leading mechanism is refuted.**
+With τ fixed, M5 predicts a +PT fold of **2.734** against **6.654** implied by
+L&C's own data — a **2.4× under-prediction**. Registered as **R12**.
+
+**Result — the gate number does not survive.** The stored `R½(+PT) = 8.0` is
+recovered only by assuming the +PT stall *vanishes*, while τ(−PT) is
+simultaneously large enough to move the fold. Those cannot both hold. Applying τ
+consistently gives **δ\* = 7.9 bp/PD**, six times lower. Registered as **R13**.
+
+**Load-bearing assumption: `s_true = φ`.** Everything above rests on reading φ as
+the un-retried per-repeat success. It is a modelling step, not a theorem, and it
+is the single item that decides whether R12 and R13 stand. Named as **A1**.
+
+**Does this close any gate?** No. It moves them further away. The 90 bp/PD
+ceiling is unchanged and is now further out on the true reading.
+
+**Status of the six blocked items:** unchanged from §19 — none converted.
+
+
+---
+
+## §21 — WP46: what was missing, and the plan
+
+**The gap nobody had named (G3, formal).** The programme tracked `P(M5)` — one
+mechanism — and reported it as `P(a switch is achievable)`. Different quantities,
+same label. Correct structure: `P(any of M1–M6) = 0.541` at premise 0.60, against
+`P(M5) = 0.35`. Refuting M5 removed one route of six, not the outcome. **R14.**
+
+**The unexpected result.** Per unit of input, the largest lever on `P(any)` is
+**M6 — the non-allosteric catalytic route the programme excluded as out of
+scope** (+0.0656 per +0.10, vs +0.0402 for the shared premise). It dominates
+because it does not pay the allosteric-premise tax. The scoping decision was worth
+more than any experiment since WP27. **Open issue #18 — needs a human answer.**
+
+**Five gap classes**, only two closeable here:
+
+| class | gap | here? |
+|---|---|---|
+| G1 | no positive control; every negative is ambiguous | no — #14 |
+| G2 | A1 (`s_true = φ`) and A2 (memoryless retry) | no — #16 |
+| G3 | the wrong quantity was tracked | **yes — closed** |
+| G4 | no compound series, racemic, no SAR | no — #17 |
+| G5 | no preregistration or stopping rule | partly |
+
+**VOI ranking** (expected information gain, not flip rate — the flip rate was
+degenerate at P ≈ 0.54 and is kept only as a record of a bad metric): A1 0.4547 >
+B1 0.3391 > A2 0.3295 > B2 0.1893 > C1 0.0661.
+
+**Plan document:** `results/solve/THE_PLAN.md`. Issues #14–#18 track every gap.

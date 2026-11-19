@@ -1573,8 +1573,14 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     """A hand-typed figure produced C1, C7 and R8. This one is generated."""
     wp = _wp41()
     led = {r["row"]: r for r in wp.ledger()}
-    assert led["Mechanism"]["value"] == "M5, P = 0.35"
-    assert led["n measured"]["value"] == "no"
+    # WP45 refuted M5; the discriminator is "what could this have falsified",
+    # not the string of the prior that used to sit here.
+    # WP46 R14: the row must carry the OUTCOME quantity too, not a bare refutation
+    assert led["Mechanism"]["value"].startswith("M5 REFUTED")
+    assert "P(any)" in led["Mechanism"]["value"]
+    assert led["Mechanism"]["source"] == "wp45"
+    # WP44: n was never load-bearing
+    assert led["n measured"]["value"] == "not load-bearing"
     assert led["Affinity"]["value"] == "none"
     assert led["Drug"]["value"] == "none"
     assert led["HUVEC (90 bp/PD)"]["value"] == "CLOSED"
@@ -1688,3 +1694,290 @@ def test_no_document_asserts_the_superseded_closed_gate_unmarked():
         if not marked:
             offenders.append(f.name)
     assert offenders == [], f"assert CLOSED gate with no correction marker: {offenders}"
+
+
+# --------------------------------------------------------------- WP44
+def _wp44():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp44_attempt_all")
+
+
+def test_wp44_n_was_never_load_bearing():
+    """R1/2 barely moves across a 64-fold range of the exponent."""
+    wp = _wp44()
+    i1 = wp.item1_n_is_not_load_bearing()
+    assert i1["load_bearing"] is False
+    assert i1["spread_fraction"] < 0.10
+    assert abs(i1["r_half_by_n"][6] - i1["r_half_n_free"]) < 1e-3
+    assert abs(i1["delta_n_free"] - 48.0) < 5e-2
+
+
+def test_wp44_the_two_chase_inversion_is_an_identity():
+    """m/c returns tau whether or not stalling exists - the C1 pattern."""
+    wp = _wp44()
+    i3 = wp.item3_two_chase_is_an_identity()
+    assert i3["max_error"] < 1e-15      # algebra, by construction
+    assert i3["kappa_independent"]      # any kappa gives the same tau
+    assert i3["defects"] == 2
+
+
+def test_wp44_gate3_is_not_invertible():
+    wp = _wp44()
+    i5 = wp.item5_gate3_is_not_invertible()
+    assert i5["invertible"] is False
+    assert max(i5["spread"], 1 / i5["spread"]) > 2.0
+
+
+def test_wp44_the_panel_constrains_the_mechanism_without_a_fold():
+    """F776E separates processivity from catalysis inside one experiment."""
+    wp = _wp44()
+    m2 = wp.item2_mechanism_constraint()
+    assert m2["mutant"] == "F776E"
+    assert m2["processivity_below_mutant_mean"]
+    assert m2["activity_above_mutant_mean"]
+    assert 1 < m2["act_rank"] < m2["n_mutants"]
+    i2 = wp.item2_panel_has_no_kinetics()
+    assert i2["has_koff"] is False and i2["has_kd"] is False
+
+
+def test_wp44_partial_inhibition_is_a_model_free_mode_test():
+    """Length constant + fraction falling = processive, from published data."""
+    wp = _wp44()
+    d6 = wp.item6_mode_discriminator()
+    assert d6["length_constant"] and d6["fraction_falls"]
+    assert d6["verdict"] == "PROCESSIVE"
+
+
+def test_wp44_no_affinity_is_derivable_here():
+    wp = _wp44()
+    i4 = wp.item4_no_affinity_is_derivable()
+    assert i4["calibration_ligands"] == 0
+    assert not i4["has_solvent"] and not i4["has_entropy"]
+    assert i4["refuted"]
+
+
+def test_wp44_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp44_attempt_all.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP45
+def _wp45():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp45_creative")
+
+
+def test_wp45_tau_comes_from_published_numbers():
+    """s_obs and phi are both functions of tau, so the pair fixes it."""
+    wp = _wp45()
+    e = wp.tau_pair_estimate()
+    assert abs(e["tau"] - 0.6506) < 5e-3
+    # the forward map must reproduce the input
+    fwd = wp.PHI_NO_PT / (1 - e["tau"] * (1 - wp.PHI_NO_PT))
+    assert abs(fwd - wp.S_OBS_NO_PT) < 1e-9
+    assert 0 < e["tau"] < 1
+
+
+def test_wp45_m5_is_refuted_by_the_held_out_prediction():
+    wp = _wp45()
+    h = wp.held_out_prediction()
+    assert abs(h["predicted_fold"] - 2.7335) < 0.02
+    assert abs(h["implied_fold_at_8x"] - 6.654) < 0.05
+    assert h["refuted"]
+    assert h["implied_fold_at_8x"] / h["predicted_fold"] > 2.0
+
+
+def test_wp45_the_stored_anchor_assumes_no_pt_stall():
+    """True and apparent agree; both sit 6x below the stored 8.0."""
+    wp = _wp45()
+    g = wp.gate_at_fit()
+    assert abs(g["ratio"] - 1.0) < 0.05          # tau_pt is tiny
+    assert abs(48.0 / g["delta_apparent"] - 6.09) < 0.2
+    assert not g["holds_50_true"] and not g["holds_50_apparent"]
+
+
+def test_wp45_the_90_bp_ceiling_does_not_move():
+    wp = _wp45()
+    c = wp.ceiling()
+    assert not c["holds_90"]
+    assert c["gap"] > 80
+
+
+def test_wp45_the_doc_states_the_load_bearing_assumption():
+    doc = (REPO / "results" / "solve" / "WP45_CREATIVE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "s_true = φ" in flat or "s_true = phi" in flat
+    assert "refuted" in flat.lower()
+    assert "quarantined" in flat
+    assert "modelling step" in flat           # the assumption is flagged
+
+
+def test_wp45_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp45_creative.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP46
+def _wp46():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp46_the_plan")
+
+
+def test_wp46_the_tracked_quantity_was_the_wrong_one():
+    """P(M5) is one mechanism; P(any) is the outcome. They shared a label."""
+    wp = _wp46()
+    assert wp.old_framing() < wp.p_any_with_premise() < 1.0
+    assert wp.p_any_with_premise() > 0.5          # crosses, at premise 0.60
+    assert wp.premise_at_half() < wp.P_PREMISE    # 0.498 < 0.60
+
+
+def test_wp46_independence_over_states_the_odds():
+    wp = _wp46()
+    assert wp.naive_independent() > wp.p_any_with_premise()
+
+
+def test_wp46_the_scoped_out_route_is_the_biggest_lever():
+    """The surprise: M6 dominates because it escapes the shared premise."""
+    wp = _wp46()
+    assert wp.lever_sensitivity()[0]["lever"] == "M6"
+
+
+def test_wp46_info_gain_is_not_degenerate():
+    """Ranking by flip rate was noise; EIG must spread the measurements."""
+    wp = _wp46()
+    p0 = wp.p_any_with_premise()
+    eigs = [wp.expected_info_gain(p0, m["sens"], m["fpr"]) for m in wp.MEASUREMENTS]
+    assert max(eigs) - min(eigs) > 0.02
+    assert wp.which_measurement_first()[0]["id"] == "A1"
+
+
+def test_wp46_only_two_gaps_are_closeable_here():
+    wp = _wp46()
+    g = wp.gap_inventory()
+    assert len(g) == 5
+    assert sum(1 for x in g if x["can_simulate_here"]) == 2
+
+
+def test_wp46_the_plan_doc_names_the_unreachable_gaps():
+    doc = (REPO / "results" / "solve" / "THE_PLAN.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "positive control" in flat
+    assert "cannot be done in this repository" in flat
+    assert "labelled assumption" in flat
+    assert "M6" in flat
+
+
+def test_wp46_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp46_the_plan.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# ------------------------------------------- WP46 step 1.6: framing guard
+def test_wp46_no_document_claims_the_pm5_framing_is_live():
+    """The R14 collision: P(M5) reported as P(a switch is achievable).
+
+    Step 1.6 of the plan. A prose-only fix leaves a stale summary, so this
+    scans the documents that talk about P(M5) and demands that any of them
+    stating the 'reachable / > 50 %' framing also carries the superseding
+    banner naming WP45 or WP46.
+    """
+    docs = ["results/solve/WP40_DESIGN_TO_FIFTY.md",
+            "results/solve/WP35_P2_IDENTIFIABILITY.md",
+            "results/solve/WP36_CIRCULARITY.md",
+            "results/solve/OPEN_GAPS.md"]
+    offenders = []
+    for rel in docs:
+        path = REPO / rel
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "P(M5)" not in text:
+            continue
+        head = "\n".join(text.splitlines()[:60])
+        # a live 'reachable' claim must be bannered in the document head
+        if "reachable" in text.lower() and not (
+                "SUPERSEDED" in head or "WP45" in head or "WP46" in head):
+            offenders.append(rel)
+    assert not offenders, (
+        "these documents still present the P(M5) target as live without a "
+        f"superseding banner: {offenders}")
+
+
+def test_wp46_the_ledger_no_longer_reports_a_live_pm5():
+    text = (REPO / "results" / "solve" / "STATUS_LEDGER.md").read_text(encoding="utf-8")
+    flat = " ".join(text.split())
+    assert "M5 REFUTED" in flat
+    # the outcome quantity must appear once the framing is fixed
+    assert "P(any" in flat or "0.541" in flat
+
+
+# --------------------------------------------- WP46 Track 1.5 / Track 3 docs
+def test_wp46_preregistrations_are_complete():
+    """A preregistration without a stopping rule is not a preregistration."""
+    for name in ("PREREG_A1.md", "PREREG_A2.md"):
+        doc = (REPO / "results" / "solve" / name).read_text(encoding="utf-8")
+        flat = " ".join(doc.split()).lower()
+        assert "stopping rule" in flat, name
+        assert "ambiguous" in flat, name
+        assert "replication" in flat, name
+        # the prediction must be numeric, not directional
+        assert "| 0." in doc, name
+        # the reversal must be stated, not softened
+        assert "withdrawn" in flat, name
+
+
+def test_wp46_prereg_a1_predicts_the_invariant():
+    """A1's discriminator is the constancy of tau, so it must say so."""
+    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "0.6506" in flat
+    assert "constant" in flat.lower()
+    assert "R12" in flat and "R13" in flat
+
+
+def test_wp46_prereg_a2_table_matches_the_renewal():
+    """The predicted s_obs values must actually be the renewal's values."""
+    import math
+    tau = 0.1833
+    for s_true, s_obs in ((0.600, 0.6475), (0.700, 0.7407), (0.800, 0.8304),
+                          (0.917, 0.9312), (0.950, 0.9588)):
+        assert abs(s_true / (1 - tau * (1 - s_true)) - s_obs) < 5e-5, s_true
+    doc = (REPO / "results" / "solve" / "PREREG_A2.md").read_text(encoding="utf-8")
+    for _, s_obs in ((0, 0.6475), (0, 0.7407), (0, 0.8304)):
+        assert f"{s_obs}" in doc
+
+
+def test_wp46_assay_design_keeps_the_positive_control_gate():
+    doc = (REPO / "results" / "solve" / "ASSAY_DESIGN_G1_G4.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "positive control" in flat.lower()
+    assert "void plate" in flat.lower()      # no results read from a failed control
+    assert "blinding" in flat.lower()
+    # it must not claim any of it was done
+    assert "zero exist" in flat.lower()
+
+
+def test_wp46_scoping_options_report_two_quantities():
+    wp = _wp46()
+    opts = {o["option"]: o for o in wp.scoping_options()}
+    assert abs(opts["C"]["p_allosteric"] - 0.3443) < 0.01
+    assert abs(opts["C"]["p_outcome"] - 0.541) < 0.01
+    assert abs(opts["B@premise0.30"]["p_allosteric"] - 0.1721) < 0.01
+    # the wrong numbers that were published must not reappear
+    assert opts["B@premise0.30"]["p_allosteric"] < 0.2
+
+
+def test_wp46_prereg_a1_table_is_computed_not_remembered():
+    """The first draft of this table was wrong by up to 0.1."""
+    tau = 0.6506
+    for phi, s_obs in ((0.300, 0.5509), (0.450, 0.7007), (0.570, 0.7914),
+                       (0.700, 0.8698), (0.850, 0.9419)):
+        assert abs(phi / (1 - tau * (1 - phi)) - s_obs) < 5e-4, phi
+    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
+    for _, s_obs in ((0, 0.5509), (0, 0.7007), (0, 0.9419)):
+        assert f"{s_obs}" in doc
+    # the wrong remembered values must not come back
+    assert "0.4476" not in doc and "0.6833" not in doc

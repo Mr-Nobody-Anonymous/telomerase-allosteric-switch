@@ -1,0 +1,8 @@
+item,status,evidence,closing
+1,NOT LOAD-BEARING,R1/2 n-free = 8.000117; spread over n=1..64 = 5.6e-01,nothing to measure - the gate never used n
+2,BLOCKED,"panel is unitless fractions; no rate, no affinity",needs a published k_off fold for a second system
+3,DESIGN IS VACUOUS,"m/c returns tau by construction, error 8e-17",needs an independent count of the stalled population
+4,BLOCKED,score -0.0458; 0 calibration ligands,needs SPR/ITC or FEP with solvent
+5,UNREACHABLE,0.4x spread in R1/2 from one fraction,needs the deposited per-band data
+6,BLOCKED,"assay reports repeats added, not attempts made",needs a single-molecule attempt-counting assay
+bonus,NEW PASS,"partial inhibition: length constant, fraction falls -> PROCESSIVE","published, model-free; removes the distributive alternative"

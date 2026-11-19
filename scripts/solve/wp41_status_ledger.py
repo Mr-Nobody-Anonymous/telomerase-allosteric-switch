@@ -143,9 +143,13 @@ def ledger() -> list[dict]:
     thr = w40.tau_gate_threshold()
 
     return [
-        dict(row="Mechanism", value=f"M5, P = {p_m5:.2f}",
-             basis=f"0.70 x 0.50; {w40.bayes_factor_needed(p_m5):.2f}x odds needed for 0.50",
-             source="wp40", verdict="falsifiable, untested"),
+        dict(row="Mechanism", value="M5 REFUTED; P(any) = 0.541",
+             basis=("M5: tau = 0.6506 from L&C's published pair (s_obs, phi); M5 "
+                    "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
+                    "under-prediction (WP45). The OUTCOME quantity is P(any of "
+                    "M1-M6) = 0.541 at premise 0.60, not the old P(M5) = 0.35: "
+                    "refuting one of six routes does not remove the outcome (WP46)."),
+             source="wp45", verdict="refuted on data the programme already had"),
         dict(row="Evidence",
              value="1 fit datum; 1 model-free check passed; 1 usable panel not yet testable",
              basis=("Lenasi & Cech 2010 = the fit target. Zhao 2011 in vivo ~60 nt: "
@@ -171,9 +175,11 @@ def ledger() -> list[dict]:
         dict(row="Drug", value="none",
              basis="TLN-amide has a formula, a 7-step route and no measured binding",
              source="wp37, wp39", verdict="not a lead; a hypothesis with a route"),
-        dict(row="n measured", value="no",
-             basis="two-chase inversion is exact (wp37) but has not been run",
-             source="wp37", verdict="design exists, experiment does not"),
+        dict(row="n measured", value="not load-bearing",
+             basis=("n enters only via the identity C1 retracted; R1/2 and the gate "
+                    "are n-free and move 7% across n = 1..64 (WP44). The two-chase "
+                    "inversion was an identity and is retracted."),
+             source="wp44", verdict="removed from the ledger - it never mattered"),
         dict(row="Gate (50 bp/PD)", value=f"OPEN above tau = {thr:.3f}",
              basis=("48.0 at M5's own predicted anchor; 70.1 on L&C's measured "
                     ">=4x; the gate is a function of the unmeasured stall share"),
@@ -400,8 +406,19 @@ def _self_test() -> int:
         chk(f"ledger has row {row!r}", row in led)
 
     p_m5 = w40.posterior(0.70, 0.50)
-    chk("P(M5) matches wp40", f"{p_m5:.2f}" in led["Mechanism"]["value"])
-    chk("P(M5) is 0.35", abs(p_m5 - 0.35) < 1e-9)
+    # WP45 refuted M5, so the ledger no longer carries the prior - it records
+    # the refutation. Guard the predicate: the row must name WP45 and M5.
+    chk("P(M5) is 0.35 in the model", abs(p_m5 - 0.35) < 1e-9)
+    chk("the ledger records M5 as refuted",
+        led["Mechanism"]["value"].startswith("M5 REFUTED"))
+    # R14: the row must carry the OUTCOME quantity, not just the refutation
+    chk("the ledger reports P(any), not a bare refutation",
+        "P(any)" in led["Mechanism"]["value"])
+    chk("the premise is stated alongside P(any)",
+        "premise 0.60" in led["Mechanism"]["basis"])
+    chk("the refutation is sourced to wp45", led["Mechanism"]["source"] == "wp45")
+    chk("the refutation is not a bare assertion",
+        "2.4x" in led["Mechanism"]["basis"] and "0.6506" in led["Mechanism"]["basis"])
     chk("the gate threshold matches wp40",
         f"{w40.tau_gate_threshold():.3f}" in led["Gate (50 bp/PD)"]["value"])
     chk("retraction count matches wp38",
@@ -416,8 +433,11 @@ def _self_test() -> int:
         "amide delta" in led["Affinity"]["basis"])
 
     # --- the corrections the old summary got wrong
-    chk("'n measured' is NO, not 'none - design exists'",
-        led["n measured"]["value"] == "no")
+    # WP44 showed n was never load-bearing, so the row no longer says "no"
+    chk("the n row reflects WP44: n is not load-bearing",
+        led["n measured"]["value"] == "not load-bearing")
+    chk("the n row cites WP44, not wp37",
+        led["n measured"]["source"] == "wp44")
     chk("the HUVEC ceiling is CLOSED, unmoved",
         led["HUVEC (90 bp/PD)"]["value"] == "CLOSED")
     chk("no row claims an affinity", led["Affinity"]["value"] == "none")

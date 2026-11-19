@@ -22,6 +22,14 @@ explicit about which are **closed** and which remain **impossible here**.
 
 ## 1. A measurement of `n` — the two-chase inversion
 
+> **SUPERSEDED BY WP44.** The inversion below is an **identity**: `m = κ(1+τ)` and
+> `c = κ(1−τ)` are one relation written twice, so `m/c` returns τ by
+> construction. The round-trip to 1e-9 demonstrates algebra, not biology — the C1
+> pattern. A real two-chase needs an **independent count** of the stalled
+> population. Separately, WP44 shows `n` was **never load-bearing**: `R½` and the
+> gate are `n`-free and vary by 7 % across a 64-fold range of `n`. See
+> `WP44_ATTEMPT_ALL.md`.
+
 WP35's P2 measured **one** chase and tried to infer τ *and* the fold. WP36 showed
 that is impossible: `n` and `τ` are confounded, and one fold cannot fix either.
 

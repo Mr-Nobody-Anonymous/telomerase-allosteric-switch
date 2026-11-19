@@ -1,0 +1,11 @@
+item,value,note
+tau0_from_published_pair,0.6506,(s_obs-phi)/(s_obs(1-phi)); no new experiment
+M5_predicted_fold,2.7335,held out; implied by L&C's anchor is 6.654
+M5_refuted,True,under-predicts by 2.43x
+delta_TRUE,7.88,"bp/PD, true survival"
+delta_APPARENT,8.00,"bp/PD, apparent; ratio 1.01"
+huvac90,7.88,bp/PD true; short by 82.1 - still closed
+sens_3.5x,61.36,tau0 0.245
+sens_4.0x,70.08,tau0 0.353
+sens_5.0x,87.51,tau0 0.504
+sens_6.0x,104.95,tau0 0.602
