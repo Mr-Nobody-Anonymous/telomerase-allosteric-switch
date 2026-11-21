@@ -97,3 +97,26 @@ that a reader who arrives by any route meets the correction rather than the orig
 single-turnover incorporation. Adding that measurement to the design adds rank **only** under the
 assumption *k*_chem ≡ *k*_ext; with a free coupling parameter the design gains one observable and
 one parameter and the rank gain is zero.
+
+---
+
+## Third pass — no-lab audit (2026-11-21)
+
+Four items from a consolidated audit of deposited coordinates, a deposited mutant panel,
+the variance in that panel, and our own mixture estimator. Code and numbers:
+[`results/audit/audit.py`](../audit/audit.py), [`results/audit/AUDIT.md`](../audit/AUDIT.md),
+guarded by `tests/test_audit_nolab.py` (14 tests).
+
+| # | claim as previously stated | what was wrong | correction |
+|---|---|---|---|
+| 16 | TPP1-bound runs compact the Tyr176–Gln794 cleft (3.82 vs 5.62 Å, *p* = 0.009) | the deposited 7TRE contact is **2.34 Å**, below hydrogen-bond distance at 3.5 Å resolution; the bound run was released from a randomised version of it and relaxed outward in 3 ps. Apo starts at 4.37 Å and relaxes from 5.34 | the "compaction" is the relaxation of a disturbed starting geometry, not a TPP1-induced change. The interface may still change on binding — this experiment cannot address it |
+| 17 | Lys757 couples to the Tyr176–Gln794 pair (README figure and the "allosteric lever") | Lys757 NZ is **9.9–11.9 Å** from both partners in 7TRE/7TRD/7TRF; its nearest atom is a backbone carbonyl at 4.1–4.4 Å | no contact exists in the deposited models; the lever premise is unsupported by the coordinates |
+| 18 | the IFD-TRAP mutant panel shows severe activity and processivity defects | paired re-analysis with Holm correction: **one of nine** mutants survives on processivity (K760E, *p* = 0.001); F776E has a negative replicate and is unusable; no activity interval excludes 1 | one strong processivity effect, four uncorrected, one unusable column, no activity effect demonstrable at n = 3. This is a statement about the deposited summary numbers, not about the authors, who hold the raw gels |
+| 19 | the full-distribution fit estimates the mixture | it recovers the majority *s* to ±0.02 but returns φ̂ between 0.19 and 0.31 at a true φ of 0.01 | the fit is robust to a mixture it cannot detect; it does not identify the mixture weight |
+
+Items 16 and 17 were the stated basis for the "allosteric switch" framing and are now
+withdrawn. Item 18 also closes a design gap left open since the preregistration:
+at the CVs measured in that panel, n = 3 can detect only a ≥2.75-fold processivity change,
+and an equivalence claim on activity needs 8–93 independent preparations depending on the
+margin ([`AUDIT.md`](../audit/AUDIT.md) §C). No mechanism claim was upgraded by any of this;
+the TPP1 question remains unresolved.
