@@ -5,7 +5,7 @@ Empirically challenges:
 1. `results/audit/evidence_ledger.csv`:
    - Valid CSV structure and parser robustness (no unquoted commas).
    - Compliance with required 8-column schema.
-   - Exact count of 24 claims (CLM-001 through CLM-024) with no duplicates.
+   - Exact count of 29 claims (CLM-001 through CLM-029) with no duplicates.
    - Valid parameters and justified evidence_status classifications.
    - Cross-check of status distribution against repository inventory documentation.
 2. `results/tables/residue_correspondence_tpp1.csv`:
@@ -48,7 +48,7 @@ class TestEvidenceLedgerAdversarial:
 
         # This will raise pandas.errors.ParserError if any row has unquoted commas
         df = pd.read_csv(ledger_path)
-        assert len(df) == 24, f"Expected 24 claims, found {len(df)}"
+        assert len(df) == 29, f"Expected 29 claims, found {len(df)}"
 
     def test_evidence_ledger_schema_and_columns(self, project_root: Path):
         """Verify column names match specification in PROJECT.md."""
@@ -77,19 +77,19 @@ class TestEvidenceLedgerAdversarial:
                 )
 
     def test_evidence_ledger_claim_ids_and_non_nulls(self, project_root: Path):
-        """Verify claim IDs CLM-001 to CLM-024 are unique, non-null, and complete."""
+        """Verify claim IDs CLM-001 to CLM-029 are unique, non-null, and complete."""
         ledger_path = project_root / "results" / "audit" / "evidence_ledger.csv"
 
         with open(ledger_path, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             rows = list(reader)
 
-        assert len(rows) == 24, f"Expected 24 claims, got {len(rows)}"
+        assert len(rows) == 29, f"Expected 29 claims, got {len(rows)}"
 
         claim_ids = [r["claim_id"] for r in rows]
         assert len(claim_ids) == len(set(claim_ids)), "Duplicate claim IDs detected"
 
-        expected_ids = [f"CLM-{i:03d}" for i in range(1, 25)]
+        expected_ids = [f"CLM-{i:03d}" for i in range(1, 30)]
         assert claim_ids == expected_ids, f"Mismatch in expected claim ID sequence: {claim_ids}"
 
         for r in rows:
@@ -149,20 +149,21 @@ class TestEvidenceLedgerAdversarial:
             st = r["evidence_status"]
             counts[st] = counts.get(st, 0) + 1
 
-        # Expected counts from 24 claims: 17 established, 4 uncertain, 1 contradicted, 2 untested
-        assert counts.get("established", 0) == 17, (
-            f"Expected 17 established claims, got {counts.get('established', 0)}"
+        # Expected counts from 29 claims: 19 established, 5 uncertain, 2 contradicted, 3 untested
+        # (CLM-025..029 added by the no-lab audit: +2 established, +1 uncertain, +1 contradicted, +1 untested)
+        assert counts.get("established", 0) == 19, (
+            f"Expected 19 established claims, got {counts.get('established', 0)}"
         )
-        assert counts.get("uncertain", 0) == 4, (
-            f"Expected 4 uncertain claims, got {counts.get('uncertain', 0)}"
+        assert counts.get("uncertain", 0) == 5, (
+            f"Expected 5 uncertain claims, got {counts.get('uncertain', 0)}"
         )
-        assert counts.get("contradicted", 0) == 1, (
-            f"Expected 1 contradicted claim, got {counts.get('contradicted', 0)}"
+        assert counts.get("contradicted", 0) == 2, (
+            f"Expected 2 contradicted claims, got {counts.get('contradicted', 0)}"
         )
-        assert counts.get("untested", 0) == 2, (
-            f"Expected 2 untested claims, got {counts.get('untested', 0)}"
+        assert counts.get("untested", 0) == 3, (
+            f"Expected 3 untested claims, got {counts.get('untested', 0)}"
         )
-        assert sum(counts.values()) == 24
+        assert sum(counts.values()) == 29
 
         # Check repository_inventory.md text consistency
         if inv_path.is_file():

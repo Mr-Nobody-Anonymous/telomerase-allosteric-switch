@@ -164,7 +164,11 @@ The test suite covers unit logic, boundary limits, adversarial stress, and end-t
 
 ## 8. Headline Claims Evidence Ledger Summary
 
-Across `report.md` and `results/tables/`, exactly 24 discrete headline metrics and mechanistic claims were cataloged and audited.
+Across `report.md` and `results/tables/`, 24 discrete headline metrics and mechanistic claims were
+cataloged and audited at baseline. **Five further claims (CLM-025 to CLM-029) were added by the
+no-lab audit of 2026-11-21**, taking the ledger to 29 entries; see [`AUDIT.md`](AUDIT.md) and
+[`../verification/ERRATA.md`](../verification/ERRATA.md) items 16-19. The distribution below
+covers the original 24 and is retained unedited as a historical record.
 
 ### Evidence Status Distribution:
 - **Established (17 claims, 70.8%)**: Computationally and mathematically confirmed against primary structural coordinates in `7TRE.cif` and `2I46.cif`. Includes BSA (856.82 Å²), contact counts (9, 46, 123), Leu183 rigidity (0.512 Å), Cα displacements across domain subsets, sequence alignments, and the corrected TPP1 residue correspondence table (`CLM-024`).
@@ -178,6 +182,20 @@ Across `report.md` and `results/tables/`, exactly 24 discrete headline metrics a
 - **Untested (2 claims, 8.3%)**:
   1. `CLM-021`: Two-step sequential induced-fit recruitment mechanism (Leu183 first, DE-loop second) — cannot be established from static crystal and cryo-EM endpoints.
   2. `CLM-023`: Candidate inhibitor TELIN-1 efficacy, binding affinity, and selectivity — zero wet-lab, literature, or patent evidence exists.
+
+### Status distribution after the no-lab audit (all 29 claims)
+
+- **Established (19)**: the original 17, plus `CLM-027` (one of nine panel mutants survives Holm
+  correction on processivity) and `CLM-029` (the estimator's window bias is real but bounded to
+  phi >= 2%, established within the model only).
+- **Uncertain (5)**: the original 4, plus `CLM-026` — the 2.34 A Tyr176-Gln794 contact is below
+  hydrogen-bond distance at 3.5 A resolution, so it is a property of the deposited model rather than
+  a measurement of the protein.
+- **Contradicted (2)**: the original 1, plus `CLM-025` — Lys757 is 9.9-11.9 A from both Tyr176 OH and
+  Gln794 OE1 in 7TRE/7TRD/7TRF, so the allosteric-lever premise is not supported by the coordinates.
+- **Untested (3)**: the original 2, plus `CLM-028` — an equivalence claim on activity needs 8-93
+  independent preparations and cannot be made from n = 3.
+
 
 ---
 
