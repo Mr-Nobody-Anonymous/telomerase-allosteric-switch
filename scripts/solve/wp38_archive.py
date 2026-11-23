@@ -236,6 +236,21 @@ REGISTER = [
         file="results/solve/CORRECTIONS.md",
         must_contain="WITHDRAWN",
     ),
+    dict(
+        id="X2", wp="45", state="CORRECTED",
+        claim="the TEL patch triad E168/E169/E171 lies on an alpha-helix, so a helical "
+              "register lattice describes it",
+        actual="psi(E169) is +24.4 deg and CA168-CA171 is 7.68 A in 7TRE and 7.70 A in "
+               "2I46, against 5.05 A for an alpha-helix at that offset; the segment is a "
+               "kinked turn",
+        predicate="an ideal alpha-helix reproduces CA168-CA171 for the deposited "
+                  "coordinates",
+        replaced_by="backbone grafting of the native segments, verbatim (WP45); the "
+                    "CONCLUSION that a helix cannot present the triad still stands, only "
+                    "the reason changes",
+        file="results/solve/WP44_MODULAR.md",
+        must_contain="CORRECTED BY WP45",
+    ),
 ]
 
 

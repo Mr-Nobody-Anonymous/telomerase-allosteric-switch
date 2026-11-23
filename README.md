@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-687%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-696%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -99,6 +99,22 @@ Four of five modules pass. The three things that did not are the result:
   `EAAAK` linker and **COLLAPSE-RISK at −6.04 kcal/mol** with a flexible `GSGSG`
   one. A merge asking one groove to be simultaneously blocked and repaired is
   **refused**. Threshold-sensitive verdicts are swept over 12 settings and named.
+
+## Correcting my own error, and solving the site (WP45)
+
+WP44 reported the TEL triad "not helix-solvable". The conclusion was right and the
+premise was wrong: ψ(E169) is **+24.4°** and CA168–CA171 is **7.68 Å** in 7TRE and
+**7.70 Å** in 2I46, against 5.05 Å for an α-helix. The segment is a **kinked
+turn**, not a helix, so an ideal helix was being fitted to something that is not
+one. See [`WP45`](results/solve/WP45_GRAFT.md).
+
+The fix is the literature's method — backbone grafting of a discontinuous motif
+(Azoitei 2011). Keep the native segments verbatim, solve what connects them:
+`DWEEKEF-GGGGG-FSLLPTE`, **3 of 3 contacts**, E215 at 4.10 Å from K78, 21 %
+payload. But the graft is a **granter, not a molecule**: no disulfide fits
+(closest Cβ–Cβ 6.21 Å), head-to-tail closure is 14.28 Å, and an unconstrained
+linker costs 12–20 kcal/mol against 5.4 kcal/mol of contact energy. **A
+presenting scaffold is required and cannot be built offline here.**
 
 ## Manuscript
 

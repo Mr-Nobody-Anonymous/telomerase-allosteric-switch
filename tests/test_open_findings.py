@@ -1999,3 +1999,90 @@ def test_wp44_doc_keeps_the_quarantine_and_the_findings():
     assert "not helix-solvable at all" in flat
     assert "screened-Coulomb heuristics" in flat
     assert "7.31" in flat
+
+
+# --------------------------------------------------------------- WP45
+def _wp45():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp45_graft")
+
+
+def test_wp45_the_helix_premise_was_wrong():
+    """psi(E169) is positive and CA168-CA171 is 7.68 A - not any helix."""
+    wp = _wp45()
+    d = wp.diagnose_premise()
+    assert d["psi_E169_deg"] > 0
+    assert d["psi_is_alpha_like"] is False
+    assert d["consistent_with_alpha"] is False
+    assert d["consistent_with_3_10"] is False
+
+
+def test_wp45_two_independent_crystals_agree_on_the_anomaly():
+    wp = _wp45()
+    d = wp.diagnose_premise()
+    assert abs(d["CA168_CA171_7TRE"] - d["CA168_CA171_2I46"]) < 0.3
+    assert d["CA168_CA171_7TRE"] > 7.0
+
+
+def test_wp45_the_graft_preserves_the_deposited_segments():
+    wp = _wp45()
+    k = wp.build()["construct"]
+    assert k["segment_A"] == "DWEEKEF"
+    assert k["segment_B"] == "FSLLPTE"
+    assert k["sequence"] == k["segment_A"] + k["linker"] + k["segment_B"]
+    # all three glutamates of the triad survive
+    assert k["segment_A"][2] == "E" and k["segment_A"][3] == "E" and k["segment_A"][5] == "E"
+    assert k["segment_B"][6] == "E"
+
+
+def test_wp45_the_triad_triangle_is_reproduced_not_fitted():
+    wp = _wp45()
+    a = wp.build()["assembly"]
+    for key, measured in wp.MEASURED_TRIANGLE.items():
+        assert abs(a["triangle_native"][key] - measured) < 0.2
+
+
+def test_wp45_three_of_three_contacts_and_the_groove():
+    wp = _wp45()
+    res = wp.build()
+    assert res["summary"]["wp45_status"].startswith("SOLVED")
+    assert res["assembly"]["e215_to_K78"] < 4.5
+    assert res["comparison"]["wp45_graft"]["covers_triad"].startswith("3 of 3")
+
+
+def test_wp45_the_constraint_is_not_solved_and_says_so():
+    """The geometry is solved; holding it is not. Both must stay on the record."""
+    wp = _wp45()
+    res = wp.build()
+    cl, en = res["closure"], res["entropic_cost"]
+    assert cl["either_covalent_route_available"] is False
+    assert cl["disulfide_ok"] is False
+    assert cl["head_to_tail_ok"] is False
+    assert en["payable"] is False
+    assert en["entropic_penalty_low"] > abs(en["contact_energy_total"])
+    assert "scaffold" in res["summary"]["remaining_gap"]
+
+
+def test_wp45_the_linker_spans_and_is_inert():
+    wp = _wp45()
+    res = wp.build()
+    k, a = res["construct"], res["assembly"]
+    assert 3.5 * len(k["linker"]) >= a["best_junction"]["span"]
+    assert k["linker_charge"] == 0
+    assert all(c in wp.LINKER_ALPHABET for c in k["linker"])
+
+
+def test_wp45_wp44_doc_is_marked_corrected():
+    doc = (REPO / "results" / "solve" / "WP44_MODULAR.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "CORRECTED BY WP45" in flat
+    # the markdown bolds the phrase, so match on the stem rather than the words
+    assert "kinked" in flat and "not a helix" in flat
+    # the correction must appear before the unsolvable claim, not after it
+    assert flat.index("CORRECTED BY WP45") < flat.index("not helix-solvable at all")
+
+
+def test_wp45_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp45_graft.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

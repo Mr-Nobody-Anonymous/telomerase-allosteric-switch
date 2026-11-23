@@ -1,5 +1,14 @@
 # WP44 — One module per sub-problem, merged, and the merge stress-tested
 
+> **CORRECTED BY WP45.** One premise below is wrong. WP44 modelled the TEL triad
+> as an ideal α-helix and reported E169–E171 unreachable. The *conclusion* stands
+> — a helix cannot do it — but the *reason* was a property of the model, not the
+> protein: ψ(E169) is **+24.4°** and CA168–CA171 is **7.68 Å** in 7TRE and
+> **7.70 Å** in 2I46, against 5.05 Å for an α-helix. The segment is a **kinked
+> turn**, not a helix. The site is solvable and WP45 solves it.
+> See [`WP45_GRAFT.md`](WP45_GRAFT.md). The module results below are retained as
+> computed but should be read with that substitution in mind.
+
     python scripts/solve/wp44_modular_designs.py
       -> results/solve/wp44_modular_designs.json
       -> results/solve/wp44_modular_designs.csv

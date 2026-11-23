@@ -3,8 +3,8 @@
     python scripts/solve/wp38_archive.py
     python scripts/solve/wp38_archive.py --self-test
 
-**17 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 4 corrected.**
-Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, pre-WP22 ×1.
+**18 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 5 corrected.**
+Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP45 ×1, pre-WP22 ×1.
 
 This file is **generated** from `scripts/solve/wp38_archive.py`. `--self-test`
 re-derives it and compares; if a marker is deleted from a source document, or a
@@ -45,6 +45,7 @@ different, but they are now **fixed** and all four are enumerated:
 | **R8** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD | 48 is M5's own PREDICTION (8.0/2.963 = 2.70x) fed back in as if it were L&C's measurement; on the measured >=4x it is 70.1 bp/PD, and the gate moves with the unmeasured stall share (open above 0.042) | substituting the measured anchor changes CLOSED to OPEN | gate OPEN on the measurement; the closed gate is evidence against M5, not against the target (WP40) | `results/solve/WP37_MISSING.md` |
 | **R7** | CORRECTED | two of the six gaps listed in WP37 section 5 cannot be closed here | both were misclassified before the literature and the code on disk were checked: c is measured (H1299 = 1.00) and the docking criterion was runnable but never run | running the criterion refutes the proposal it was written for | gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39) | `results/solve/WP37_MISSING.md` |
 | **X1** | WITHDRAWN | a no-primer incorporation assay is the decisive experiment | the assay cannot separate retention from allostery; retention has no route to act with no primer | the proposed readout is unchanged between the two hypotheses | the pulse-chase +/- trap design (WP25, revised by WP37) | `results/solve/CORRECTIONS.md` |
+| **X2** | CORRECTED | the TEL patch triad E168/E169/E171 lies on an alpha-helix, so a helical register lattice describes it | psi(E169) is +24.4 deg and CA168-CA171 is 7.68 A in 7TRE and 7.70 A in 2I46, against 5.05 A for an alpha-helix at that offset; the segment is a kinked turn | an ideal alpha-helix reproduces CA168-CA171 for the deposited coordinates | backbone grafting of the native segments, verbatim (WP45); the CONCLUSION that a helix cannot present the triad still stands, only the reason changes | `results/solve/WP44_MODULAR.md` |
 
 ---
 
