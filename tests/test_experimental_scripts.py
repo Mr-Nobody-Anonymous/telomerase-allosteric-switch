@@ -214,7 +214,17 @@ def test_rap_independent_benchmark_dataset():
 
 
 def test_raw_md_trajectory_recalculation():
-    """Verify replica-level statistical recalculation directly from raw trajectory files."""
+    """Verify replica-level statistical recalculation directly from raw trajectory files.
+
+    NOTE: this test used to assert that the bound-vs-apo distance difference was
+    significant ("Distance compaction is statistically significant (p < 0.01)").
+    That claim was withdrawn (ERRATA item 16; evidence ledger CLM-025/CLM-026):
+    the two states start from different deposited contacts (2.34 A in 7TRE vs
+    4.37 A in 7TRD/7TRF), the bound run is released from a randomised version of
+    an over-short contact, and three seed replicates of one starting structure
+    are not independent observations of a state. The arithmetic below is still
+    checked; the causal reading of it is not.
+    """
     traj_dir = BASE_DIR / "data" / "trajectories"
     assert traj_dir.is_dir()
 
@@ -223,7 +233,9 @@ def test_raw_md_trajectory_recalculation():
     assert stats_res["n_apo"] == 3
     assert stats_res["df"] == 4
 
-    # Distance compaction is statistically significant (p < 0.01)
+    # The arithmetic reproduces: the bound mean is lower and the pooled t-test p
+    # is below 0.01. This is asserted as a property of the numbers, NOT as
+    # evidence of TPP1-induced compaction.
     assert stats_res["p_dist"] < 0.01
     assert stats_res["bound_dist_mean"] < stats_res["apo_dist_mean"]
 

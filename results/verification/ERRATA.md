@@ -97,3 +97,39 @@ that a reader who arrives by any route meets the correction rather than the orig
 single-turnover incorporation. Adding that measurement to the design adds rank **only** under the
 assumption *k*_chem ≡ *k*_ext; with a free coupling parameter the design gains one observable and
 one parameter and the rank gain is zero.
+
+---
+
+## Third pass — no-lab audit (2026-11-21)
+
+Four items from a consolidated audit of deposited coordinates, a deposited mutant panel,
+the variance in that panel, and our own mixture estimator. Code and numbers:
+[`results/audit/audit.py`](../audit/audit.py), [`results/audit/AUDIT.md`](../audit/AUDIT.md),
+guarded by `tests/test_audit_nolab.py` (14 tests).
+
+| # | claim as previously stated | what was wrong | correction |
+|---|---|---|---|
+| 16 | TPP1-bound runs compact the Tyr176–Gln794 cleft (3.82 vs 5.62 Å, *p* = 0.009) | the deposited 7TRE contact is **2.34 Å**, below hydrogen-bond distance at 3.5 Å resolution; the bound run was released from a randomised version of it and relaxed outward in 3 ps. Apo starts at 4.37 Å and relaxes from 5.34 | the "compaction" is the relaxation of a disturbed starting geometry, not a TPP1-induced change. The interface may still change on binding — this experiment cannot address it |
+| 17 | Lys757 couples to the Tyr176–Gln794 pair (README figure and the "allosteric lever") | Lys757 NZ is **9.9–11.9 Å** from both partners in 7TRE/7TRD/7TRF; its nearest atom is a backbone carbonyl at 4.1–4.4 Å | no contact exists in the deposited models; the lever premise is unsupported by the coordinates |
+| 18 | the IFD-TRAP mutant panel shows severe activity and processivity defects | paired re-analysis with Holm correction: **one of nine** mutants survives on processivity (K760E, *p* = 0.001); F776E has a negative replicate and is unusable; no activity interval excludes 1 | one strong processivity effect, four uncorrected, one unusable column, no activity effect demonstrable at n = 3. This is a statement about the deposited summary numbers, not about the authors, who hold the raw gels |
+| 19 | the full-distribution fit estimates the mixture | it recovers the majority *s* to ±0.02 but returns φ̂ between 0.19 and 0.31 at a true φ of 0.01 | the fit is robust to a mixture it cannot detect; it does not identify the mixture weight |
+
+Items 16 and 17 were the stated basis for the "allosteric switch" framing and are now
+withdrawn. Item 18 also closes a design gap left open since the preregistration:
+at the CVs measured in that panel, n = 3 can detect only a ≥2.75-fold processivity change,
+and an equivalence claim on activity needs 8–93 independent preparations depending on the
+margin ([`AUDIT.md`](../audit/AUDIT.md) §C). No mechanism claim was upgraded by any of this;
+the TPP1 question remains unresolved.
+
+**Fourth pass — resolving the uncertain claims (2026-11-21).** Four items were investigated
+rather than left as hand-waves. Two resolved, two remain open but now for a stated reason.
+
+| # | item | what was found | status |
+|---|---|---|---|
+| 20 | `CLM-005` Arg774–Glu168 salt bridge, carried as "uncertain" | of six pairings of Arg774 NH1/NH2/NE with Glu168 OE1/OE2, one is 2.32 Å and the rest are **3.85–5.95 Å**; the TPP1 partner is modelled only in 7TRE (7TRD has no TPP1 chain, 7TRF uses chains E/F) | **reclassified uncertain → untested.** A single 3.5 Å deposit cannot establish a specific salt bridge |
+| 21 | `CLM-026` Tyr176–Gln794 contact | the deposits disagree with *each other*: Y176 OH–Q794 OE1 is 2.34 Å in 7TRE vs 4.37 Å in 7TRD/7TRF, while Y176 OH–Q794 NE2 is 3.40 vs 3.80 Å; Y176:OH B-factors are 40.3 vs 130.2 Å² | **remains uncertain, mechanism named.** The variable is the Gln794 rotamer, not the interface geometry |
+| 22 | `CLM-014` catalytic-core RMSD 0.338 Å | at 3.5 Å a Cα carries ~0.3–0.5 Å uncertainty, so this supports neither "identical" nor "different" | **remains uncertain, with an operational rule:** reportable only if RMSD exceeds twice the depositor-stated coordinate error for both models |
+| 23 | `tests/test_experimental_scripts.py` asserted "Distance compaction is statistically significant (p < 0.01)" | the suite was enforcing a claim that ERRATA item 16 and `CLM-026` withdraw — a test that contradicted the repository's own evidence | **test now asserts the arithmetic and states the retraction.** The p-value is still checked; the causal reading is documented as withdrawn |
+
+Item 23 is the only one of these that was an internal contradiction rather than an open
+question: the test suite required a conclusion the documentation had already retracted.

@@ -164,7 +164,11 @@ The test suite covers unit logic, boundary limits, adversarial stress, and end-t
 
 ## 8. Headline Claims Evidence Ledger Summary
 
-Across `report.md` and `results/tables/`, exactly 24 discrete headline metrics and mechanistic claims were cataloged and audited.
+Across `report.md` and `results/tables/`, 24 discrete headline metrics and mechanistic claims were
+cataloged and audited at baseline. **Five further claims (CLM-025 to CLM-029) were added by the
+no-lab audit of 2026-11-21**, taking the ledger to 29 entries; see [`AUDIT.md`](AUDIT.md) and
+[`../verification/ERRATA.md`](../verification/ERRATA.md) items 16-19. The distribution below
+covers the original 24 and is retained unedited as a historical record.
 
 ### Evidence Status Distribution:
 - **Established (17 claims, 70.8%)**: Computationally and mathematically confirmed against primary structural coordinates in `7TRE.cif` and `2I46.cif`. Includes BSA (856.82 Å²), contact counts (9, 46, 123), Leu183 rigidity (0.512 Å), Cα displacements across domain subsets, sequence alignments, and the corrected TPP1 residue correspondence table (`CLM-024`).
@@ -178,6 +182,24 @@ Across `report.md` and `results/tables/`, exactly 24 discrete headline metrics a
 - **Untested (2 claims, 8.3%)**:
   1. `CLM-021`: Two-step sequential induced-fit recruitment mechanism (Leu183 first, DE-loop second) — cannot be established from static crystal and cryo-EM endpoints.
   2. `CLM-023`: Candidate inhibitor TELIN-1 efficacy, binding affinity, and selectivity — zero wet-lab, literature, or patent evidence exists.
+
+### Status distribution after the no-lab audit (all 29 claims)
+
+- **Established (19)**: the original 17 (17 of 24 was 70.8% at baseline), plus `CLM-027` (one of nine panel mutants survives Holm
+  correction on processivity) and `CLM-029` (the estimator's window bias is real but bounded to
+  phi >= 2%, established within the model only).
+- **Uncertain (4)**: the original four uncertainty items (`CLM-005`, `CLM-010`, `CLM-014`,
+  `CLM-017`), plus notes now naming the mechanism for each. `CLM-026` is listed here too:
+  the 2.34 A Tyr176-Gln794 contact is below hydrogen-bond distance at 3.5 A resolution, and the two
+  deposits disagree with each other (2.34 vs 4.37 A, with Y176:OH B-factors of 40.3 vs 130.2 A^2).
+  `CLM-005` was **reclassified uncertain -> untested** on 2026-11-21.
+- **Contradicted (2)**: the original 1, plus `CLM-025` — Lys757 is 9.9-11.9 A from both Tyr176 OH and
+  Gln794 OE1 in 7TRE/7TRD/7TRF, so the allosteric-lever premise is not supported by the coordinates.
+- **Untested (4)**: the original 2, plus `CLM-028` (an equivalence claim on activity needs 8-93
+  independent preparations and cannot be made from n = 3) and `CLM-005` (the Arg774-Glu168 salt
+  bridge is unresolvable from a single 3.5 A deposit: five of six pairings are 3.85-5.95 A and the
+  TPP1 partner is modelled only in 7TRE).
+
 
 ---
 
