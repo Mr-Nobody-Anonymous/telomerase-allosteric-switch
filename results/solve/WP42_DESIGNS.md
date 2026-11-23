@@ -208,6 +208,13 @@ the K78/R132 groove and the R774 site are basic, and basic surfaces are common,
 so off-target binding to other basic patches is the first thing an experiment will
 find.
 
+## 6b. These designs have since been tested — see WP43
+
+Every design here was run through a computed battery in
+[`WP43_BATTERY.md`](WP43_BATTERY.md): 6 of 10 clear all gates, all four spanning
+ligands fail on **geometry alone**, and the experimental success rate is
+*not measurable* because N = 0 designs exist. The quarantine below is unchanged.
+
 ## 7. The falsifiable tests, in the order they should be run
 
 | # | test | refuted if |

@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-669%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-678%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -70,6 +70,15 @@ proteins, none containing a TPP1 fragment, from a 28-residue SPPS reagent
 (**TELM-2**) to a groove-repair helix for the K78E/R132E recruitment alleles
 (**TENB-2**) — the inverse of blocking the patch, and the one proposal in the set
 that nobody has made before.
+
+All ten designs were then run through a computed test battery
+([`WP43`](results/solve/WP43_BATTERY.md)). **6/10 clear every gate = 60 % — and
+that is a filter pass rate, not a success rate.** No design has been synthesised,
+so the experimental rate is *not measurable*, and the honest number with the
+control set in the denominator is **6/15 = 40 %**. The battery had to be fixed
+twice before it could be trusted: imatinib scores QED 0.389, so QED cannot be a
+gate, and the two alert catalogs disagree on aspirin. Every ligand is drug-like;
+the four failures fail **only** on geometry.
 
 **Quarantined: unchanged.** Nothing here has been synthesised or measured.
 

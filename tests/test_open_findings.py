@@ -1813,3 +1813,96 @@ def test_wp42_doc_keeps_the_quarantine_and_the_failures():
 def test_wp42_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp42_designs.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP43
+def _wp43():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp43_test_battery")
+
+
+def test_wp43_the_battery_can_say_no_in_both_configurations():
+    """A filter that passes everything has a 100% pass rate and predicts nothing."""
+    wp = _wp43()
+    res = wp.run()
+    ctl = {c["id"]: c for c in res["controls"]}
+    assert ctl["CTRL-BAD-2"]["permissive"]["tier"] == "REJECT"
+    assert ctl["CTRL-BAD-2"]["strict"]["tier"] == "REJECT"
+    assert all(ctl[c]["strict"]["tier"] == "REJECT"
+               for c in ("CTRL-BAD-1", "CTRL-BAD-2", "CTRL-BAD-3"))
+
+
+def test_wp43_the_two_alert_configurations_genuinely_differ():
+    """They were identical in the first implementation, making the matrix vacuous."""
+    wp = _wp43()
+    res = wp.run()
+    ctl = {c["id"]: c for c in res["controls"]}
+    assert ctl["CTRL-OK-2"]["permissive"]["tier"] == "MODEL-PASS"   # aspirin accepted
+    assert ctl["CTRL-OK-2"]["strict"]["tier"] == "REJECT"           # aspirin rejected
+    assert ctl["CTRL-BAD-1"]["permissive"]["tier"] != ctl["CTRL-BAD-1"]["strict"]["tier"]
+    m = res["summary"]["confusion"]
+    assert m["strict"] != m["permissive"]
+
+
+def test_wp43_qed_is_reported_not_gated():
+    """Imatinib scores 0.389; a 0.50 QED gate would reject an approved drug."""
+    wp = _wp43()
+    ctl = {c["id"]: c for c in wp.run()["controls"]}
+    assert ctl["CTRL-OK-1"]["permissive"]["qed"] < 0.50
+    assert ctl["CTRL-OK-1"]["strict"]["tier"] == "MODEL-PASS"
+
+
+def test_wp43_the_experimental_rate_is_absent_not_zero():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    assert s["experimental_success_rate"] is None
+    assert "N = 0" in s["reason_no_experimental_rate"]
+
+
+def test_wp43_chemistry_and_geometry_are_separate_axes():
+    """Conflating them let a denominator change flip FAIL to CONDITIONAL."""
+    wp = _wp43()
+    res = wp.run()
+    for l in res["ligands"]:
+        for cfg in wp.CONFIGS:
+            assert l[cfg]["chemistry"] in ("PASS", "ONE-VIOLATION", "FAIL", "REJECT")
+            assert l[cfg]["geometry"] in ("REACHES", "CANNOT-SPAN", "n/a")
+
+
+def test_wp43_the_spanning_failures_are_geometry_failures_not_chemistry():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    res = wp.run()
+    hl = s["headline_config"]
+    cannot = [l for l in res["ligands"] if l[hl]["geometry"] == "CANNOT-SPAN"]
+    assert len(cannot) == 4
+    for l in cannot:
+        assert l[hl]["tier"] == "GEOMETRY-FAIL"
+        assert l[hl]["chemistry"] in ("PASS", "ONE-VIOLATION")
+
+
+def test_wp43_every_design_is_scored_and_ranked():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    assert s["n_designs"] == 10
+    assert s["best_ligand"] == "TEL-3"
+    assert len(s["ranking_ligands"]) == 5
+    assert len(s["ranking_proteins"]) == 5
+    assert all(r["basis"] for r in s["ranking_ligands"] + s["ranking_proteins"])
+
+
+def test_wp43_doc_separates_the_three_rates():
+    doc = (REPO / "results" / "solve" / "WP43_BATTERY.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "not measurable" in flat
+    assert "6/15 = 40 %" in flat
+    assert "60 %" in flat
+    # the comparison must carry its own warning or it is a category error
+    assert "category error" in flat
+    assert "No OpenMM, no docking engine, no FEP" in flat
+
+
+def test_wp43_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp43_test_battery.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
