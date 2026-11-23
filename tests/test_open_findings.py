@@ -1906,3 +1906,96 @@ def test_wp43_doc_separates_the_three_rates():
 def test_wp43_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp43_test_battery.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP44
+def _wp44():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp44_modular_designs")
+
+
+def test_wp44_every_module_is_one_site_or_declared_unsolvable():
+    wp = _wp44()
+    res = wp.build()
+    assert all(m["site"] in wp.SITES for m in res["modules"])
+    assert all(m["fully_covers_own_site"] or m["verdict"] == "SITE-UNSOLVABLE"
+               for m in res["modules"])
+
+
+def test_wp44_the_tel_triad_is_not_helix_solvable():
+    """E169-E171 at 7.31 A falls between i+3 and i+4 and cannot be reached."""
+    wp = _wp44()
+    solv = wp.solvability()
+    assert solv["S3_TEL_TRIAD|E169 OE1|E171 OE1"]["reachable"] is False
+    assert solv["S3_TEL_TRIAD|E168 OE1|E169 OE1"]["reachable"] is True
+    # the closest achievable is i+4 at 6.20, an error of more than 1 A
+    assert abs(wp.helix_span(4) - 7.31) > wp.MATCH_TOL
+
+
+def test_wp44_a_module_can_be_forced_onto_a_second_site():
+    wp = _wp44()
+    mods = {m["id"]: m for m in wp.build()["modules"]}
+    md3 = mods["MD3-PATCH"]
+    assert md3["cross_site_warning"] is True
+    assert md3["cross_site_register_matches"][0]["site"] == "S1_K78_R132"
+    # and it is a warning, not a verdict of dual engagement
+    assert md3["verdict"] != "CONFLICT"
+
+
+def test_wp44_the_illegal_merge_is_refused_with_a_reason():
+    wp = _wp44()
+    merges = {r["id"]: r for r in wp.build()["merges"]}
+    assert merges["MRG-ILLEGAL"]["refused"] is True
+    assert merges["MRG-ILLEGAL"]["sequence"] is None
+    assert "one groove cannot be both blocked and repaired" in \
+        merges["MRG-ILLEGAL"]["refusal_reason"]
+
+
+def test_wp44_the_linker_decides_merge_stability():
+    """Same two modules, different linker, opposite verdict."""
+    wp = _wp44()
+    merges = {r["id"]: r for r in wp.build()["merges"]}
+    rigid, flex = merges["MRG-MIN"], merges["MRG-FLEX"]
+    assert [m["id"] for m in rigid["modules"]] == [m["id"] for m in flex["modules"]]
+    assert rigid["stability"]["n_collapse_pairs"] == 0
+    assert flex["stability"]["n_collapse_pairs"] == 1
+    assert flex["stability"]["inter_module"][0]["energy"] < 0
+    assert flex["stability"]["verdict"] == "COLLAPSE-RISK"
+
+
+def test_wp44_threshold_sensitive_verdicts_are_exposed():
+    """A verdict that flips inside a plausible threshold range is not a finding."""
+    wp = _wp44()
+    s = wp.build()["summary"]["threshold_sensitivity"]
+    assert len(s["sweep"]) >= 9
+    assert "MD4-ANCHOR" in s["threshold_sensitive"]
+    # the merges must NOT be threshold-sensitive
+    for mid in ("MRG-MIN", "MRG-BLOCK", "MRG-SAMESIGN", "MRG-REPAIR"):
+        assert mid in s["never_flagged"]
+
+
+def test_wp44_instability_index_is_advisory_not_a_verdict():
+    wp = _wp44()
+    res = wp.build()
+    for r in res["merges"]:
+        if r["refused"]:
+            continue
+        st = r["stability"]
+        if st["instability_index"] > 40:
+            assert st["instability_verdict"] == "predicted unstable"
+            assert any("advisory only" in a for a in st["advisory"])
+
+
+def test_wp44_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp44_modular_designs.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp44_doc_keeps_the_quarantine_and_the_findings():
+    doc = (REPO / "results" / "solve" / "WP44_MODULAR.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine" in flat and "Unchanged" in flat
+    assert "not helix-solvable at all" in flat
+    assert "screened-Coulomb heuristics" in flat
+    assert "7.31" in flat

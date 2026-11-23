@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-678%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-687%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -81,6 +81,24 @@ gate, and the two alert catalogs disagree on aspirin. Every ligand is drug-like;
 the four failures fail **only** on geometry.
 
 **Quarantined: unchanged.** Nothing here has been synthesised or measured.
+
+## Modular design: one module per problem (WP44)
+
+[`WP44`](results/solve/WP44_MODULAR.md) splits the interface into the four sites
+that were actually measured and builds **one module per site**, each machine-checked
+to solve its own site fully and no other. Then it merges them and tests the fusion.
+
+Four of five modules pass. The three things that did not are the result:
+
+- **One site cannot be solved by a helix at all.** TPP1's E168/E169/E171 triad has
+  spacings of 6.58, 10.22 and **7.31 Å**; a helix matches the first two and the
+  third falls between registers at any length. Two of three is the geometric maximum.
+- **Solving one site can force you onto another.** MD3's i+3 spacing (5.05 Å) also
+  fits the K78/R132 groove (4.35 Å) — flagged as a risk, not a pass.
+- **The linker decides the merge.** The same two modules are STABLE with a rigid
+  `EAAAK` linker and **COLLAPSE-RISK at −6.04 kcal/mol** with a flexible `GSGSG`
+  one. A merge asking one groove to be simultaneously blocked and repaired is
+  **refused**. Threshold-sensitive verdicts are swept over 12 settings and named.
 
 ## Manuscript
 
