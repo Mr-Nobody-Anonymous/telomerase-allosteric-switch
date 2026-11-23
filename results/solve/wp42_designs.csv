@@ -1,0 +1,11 @@
+id,kind,name,descriptor,mw,length,primary_metric,target,passes
+KP-1,ligand,kinked bipartite bridge,O=C(O)c1cccc(-c2cccc(-c3cccc(C(=O)O)c3)c2)c1,318.33,,14.26,25.5,False
+KP-2,ligand,"kinked bridge, extended arm",O=C(O)c1cccc(-c2cccc(-c3cccc(-c4cccc(C(=O)O)c4)c3)c2)c1,394.43,,17.95,25.5,False
+TEL-1,ligand,TEL-patch surface mimetic,O=C(O)Cc1ccc(-c2ccc(CC(=O)O)cc2)cc1,270.28,,14.27,20.2,False
+TEL-2,ligand,"TEL-patch mimetic, kinked",O=C(O)Cc1ccc(-c2cccc(CC(=O)O)c2)cc1,270.28,,12.81,20.2,False
+TEL-3,ligand,single-site K78/R132 occupant,NC(=O)c1ccc(CC(=O)O)cc1,179.17,,8.68,6.0,True
+TELM-1,protein,de novo TEL-patch proteomimetic,GSHMEALAEAQEALAQLAEALQALAQLAGSGSGLKAALEKKLEELKGS,4833.4,48,-3.41,,True
+TELM-2,protein,single-helix TEL-patch display,AcEALAEAQEALAQLAQALQALAQLANH,2861.2,28,-3.38,,True
+TELM-3,protein,"full-span helix, i+17 register",GSHMEALQEALEAQLAQLAQLEQALQALQAGSGSGLKAALEKKLEELKGS,5188.8,50,-3.41,,True
+TENB-1,protein,de novo binder to the TEL patch,GSHMKALAKAQKALAQLAKALQALAQLAGSGSGLKAALEKKLEELKGS,4829.7,48,4.58,,True
+TENB-2,protein,groove-repair helix for K78E / R132E,GSHMEALEALQALQALQALQALQALQALGSGSGLKAALGS,3917.4,40,-1.41,,True

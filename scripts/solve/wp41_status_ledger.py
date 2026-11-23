@@ -168,9 +168,12 @@ def ledger() -> list[dict]:
              basis=(f"the surrogate proposal was run and REFUTED "
                     f"(amide delta {w39.amide_control_verdict(w39.score_against_targets()[0])['amide_delta']:+.3f})"),
              source="wp39", verdict="no Kd, no IC50, no dG anywhere"),
-        dict(row="Drug", value="none",
-             basis="TLN-amide has a formula, a 7-step route and no measured binding",
-             source="wp37, wp39", verdict="not a lead; a hypothesis with a route"),
+        dict(row="Drug", value="none, and the small-molecule route is excluded",
+             basis=("TLN-amide has a formula, a 7-step route and no measured binding. "
+                    "WP42 measured the TEL patch as bipartite (E215->K78/R132, E168->R774 "
+                    "20.26 A apart) and showed no drug-like monomer spans it: 7.8 phenyls, "
+                    "MW ~683, logP ~11. The reachable site is the K78/R132 groove alone"),
+             source="wp37, wp39, wp42", verdict="design moved to proteins, not ligands"),
         dict(row="n measured", value="no",
              basis="two-chase inversion is exact (wp37) but has not been run",
              source="wp37", verdict="design exists, experiment does not"),
@@ -373,7 +376,12 @@ survival is not a test.
 ## What is still true
 
 - **No affinity.** No Kd, no IC₅₀, no ΔG for any compound.
-- **No drug.** TLN-amide has a formula, a route, and no measured binding.
+- **No drug, and now a reason.** TLN-amide has a formula, a route, and no
+  measured binding. WP42 excludes the small-molecule class for the bipartite
+  patch on measured grounds: the two TERT acceptors are 20.26 Å apart, the
+  shortest unobstructed path is 25.54 Å at a 119° bend, and spanning it needs
+  ~7.8 phenyls (MW ~683, logP ~11). The designed proteins in WP42 are unmeasured
+  too, so this moves the design, not the evidence.
 - **`n` is not measured.** The two-chase inversion is exact and unrun.
 - **The HUVEC 90 bp/PD ceiling is unmoved** — it needs τ ≥ {_tau90():.2f} or R½ ≥ 15.0.
 - **No therapeutic claim.** TELIN-1 remains quarantined.
@@ -421,7 +429,9 @@ def _self_test() -> int:
     chk("the HUVEC ceiling is CLOSED, unmoved",
         led["HUVEC (90 bp/PD)"]["value"] == "CLOSED")
     chk("no row claims an affinity", led["Affinity"]["value"] == "none")
-    chk("no row claims a drug", led["Drug"]["value"] == "none")
+    chk("no row claims a drug", led["Drug"]["value"].startswith("none"))
+    chk("the drug row records the class exclusion",
+        "bipartite" in led["Drug"]["basis"] and "wp42" in led["Drug"]["source"])
 
     # --- the panel, and what it can and cannot do
     s = panel_summary()

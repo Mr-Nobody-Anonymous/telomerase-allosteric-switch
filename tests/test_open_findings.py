@@ -1576,7 +1576,10 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     assert led["Mechanism"]["value"] == "M5, P = 0.35"
     assert led["n measured"]["value"] == "no"
     assert led["Affinity"]["value"] == "none"
-    assert led["Drug"]["value"] == "none"
+    # WP42 moved this row from a bare "none" to "none, and the small-molecule
+    # route is excluded", which is a stronger and narrower statement. It must
+    # still not claim a drug.
+    assert led["Drug"]["value"].startswith("none")
     assert led["HUVEC (90 bp/PD)"]["value"] == "CLOSED"
     assert all(r["source"] for r in led.values())
 
@@ -1688,3 +1691,125 @@ def test_no_document_asserts_the_superseded_closed_gate_unmarked():
         if not marked:
             offenders.append(f.name)
     assert offenders == [], f"assert CLOSED gate with no correction marker: {offenders}"
+
+
+# --------------------------------------------------------------- WP42
+def _wp42():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp42_designs")
+
+
+def test_wp42_the_tel_patch_is_bipartite():
+    """E215 grips K78/R132; E168 grips R774 20 A away. Two surfaces, not one."""
+    wp = _wp42()
+    g = wp.geometry()
+    assert g["patch_is_bipartite"] is True
+    assert g["k78_r132_sep"] < 5.0
+    assert g["mid_k78_r132_to_r774"] > 15.0
+    assert g["pairs"]["E215->K78"] < 6.0
+    assert g["pairs"]["E168->R774"] < 3.0
+
+
+def test_wp42_the_straight_path_is_obstructed_so_a_ligand_must_bend():
+    wp = _wp42()
+    assert wp.straight_line_blocked() > 10
+    p = wp.bent_path()
+    assert p["found"] is True
+    assert p["path_length"] > p["straight"]
+    assert 1.1 < p["tortuosity"] < 1.6
+    assert p["min_clearance"] >= 1.8
+
+
+def test_wp42_no_drug_like_molecule_can_span_the_gulf():
+    """The central negative result: this is a class exclusion, not a bad scaffold."""
+    wp = _wp42()
+    cost = wp.span_cost(25.5)
+    # per-phenyl cost measured from the homologous series
+    assert 2.0 < cost["per_phenyl_span"] < 3.5, cost["per_phenyl_span"]
+    assert cost["per_phenyl_logp"] > 1.0
+    # extrapolated to the required span it is far past any drug-like limit
+    assert cost["phenyls_needed"] > 6
+    assert cost["mw_needed"] > 600
+    assert cost["logp_needed"] > 8
+
+
+def test_wp42_the_spanning_ligands_are_recorded_as_failures():
+    """A design that does not reach must say so. Four of the five fail."""
+    wp = _wp42()
+    res = wp.build()
+    fails = res["summary"]["designs_that_fail_to_span"]
+    assert set(fails) == {"KP-1", "KP-2", "TEL-1", "TEL-2"}
+    assert res["summary"]["designs_that_span"] == ["TEL-3"]
+    for l in res["ligands"]:
+        assert l["spans"] == (l["max_span_3d"] >= l["target_span"])
+
+
+def test_wp42_the_one_reachable_site_is_the_k78_r132_groove():
+    wp = _wp42()
+    gv = wp.groove_geometry()
+    assert gv["k78_r132_nh1"] < 5.0
+    # a dicarboxylate has to match this, and it is drug-like
+    assert 4.0 < gv["ideal_diacid_span"] < 6.0
+
+
+def test_wp42_the_tel_patch_is_an_alpha_helical_register():
+    """i, i+4, i+7, i+14 reproduce the measured patch spacings to under 1 A."""
+    wp = _wp42()
+    g = wp.geometry()
+    assert abs(wp.helix_span(4) - (g["pairs"]["E168->R774"] and 6.58)) < 1.0
+    assert abs(wp.helix_span(7) - 10.22) < 1.0
+    assert abs(wp.helix_span(14) - g["e168_e215"]) < 1.0
+    # and i+17 is the register that matches the BENT path, i+18 overshoots
+    p = wp.bent_path()
+    assert abs(wp.helix_span(17) - p["path_length"]) < 1.0
+    assert abs(wp.helix_span(18) - p["path_length"]) > abs(wp.helix_span(17) - p["path_length"])
+
+
+def test_wp42_designed_proteins_match_their_claimed_registers():
+    wp = _wp42()
+    res = wp.build()
+    assert len(res["proteins"]) == 5
+    for pr in res["proteins"]:
+        assert pr["register_matches"] is True, (pr["id"], pr["display_offsets_realised"])
+        assert pr["all_targets_within_1A"] is True, (pr["id"], pr["target_checks"])
+
+
+def test_wp42_the_designs_are_opposite_in_sign_and_not_tpp1_fragments():
+    wp = _wp42()
+    res = {p["id"]: p for p in wp.build()["proteins"]}
+    mimic, binder = res["TELM-1"], res["TENB-1"]
+    assert mimic["charge_pH7_4"] < 0 < binder["charge_pH7_4"]
+    # same geometry, opposite charge: the sign is a design variable, not a gimmick
+    assert mimic["display_offsets_realised"] == binder["display_offsets_realised"]
+    # and none of them is a TPP1 fragment
+    for pr in res.values():
+        assert "ELLLQD" not in pr["sequence"]
+        assert "GFRGTEGR" not in pr["sequence"]
+
+
+def test_wp42_novelty_record_names_the_bibr1532_distinction():
+    wp = _wp42()
+    assert len(wp.NOVELTY) == 4
+    assert any("BIBR1532" in n["detail"] for n in wp.NOVELTY)
+    assert any("first TPP1 ligands" in n["detail"] for n in wp.NOVELTY)
+
+
+def test_wp42_doc_keeps_the_quarantine_and_the_failures():
+    doc = (REPO / "results" / "solve" / "WP42_DESIGNS.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine: unchanged" in flat
+    assert "No molecule or protein here has been synthesised" in flat
+    # the failures must stay in the document, not be quietly dropped
+    assert "FAILS" in flat
+    assert "class exclusion" in flat.lower() or "class is excluded" in flat.lower()
+    for lid in ("KP-1", "KP-2", "TEL-1", "TEL-2", "TEL-3"):
+        assert lid in flat
+    for pid in ("TELM-1", "TELM-2", "TELM-3", "TENB-1", "TENB-2"):
+        assert pid in flat
+    assert "25.54" in flat or "25.5" in flat
+
+
+def test_wp42_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp42_designs.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

@@ -30,10 +30,10 @@
     },
     {
       "row": "Drug",
-      "value": "none",
-      "basis": "TLN-amide has a formula, a 7-step route and no measured binding",
-      "source": "wp37, wp39",
-      "verdict": "not a lead; a hypothesis with a route"
+      "value": "none, and the small-molecule route is excluded",
+      "basis": "TLN-amide has a formula, a 7-step route and no measured binding. WP42 measured the TEL patch as bipartite (E215->K78/R132, E168->R774 20.26 A apart) and showed no drug-like monomer spans it: 7.8 phenyls, MW ~683, logP ~11. The reachable site is the K78/R132 groove alone",
+      "source": "wp37, wp39, wp42",
+      "verdict": "design moved to proteins, not ligands"
     },
     {
       "row": "n measured",

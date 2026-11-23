@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-658%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-669%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -48,6 +48,30 @@ Newly closed: the **TPP1-free matched series**. 7TRD is apo and matches 7TRE at
 934/934 residues; the largest domain displacement on TPP1 binding is **0.53 Å**,
 i.e. at the coordinate uncertainty — a *measured null*, not an untested
 assumption. See [`WP23`](results/solve/WP23_TPP1_FREE_SERIES.md).
+
+## New molecules and new proteins (WP42)
+
+The TEL patch has been named a drug target since 2012 and nothing has ever been
+designed against it. [`WP42`](results/solve/WP42_DESIGNS.md) does that, and the
+first result is that **the small-molecule route fails for a measured reason.**
+
+The patch is **bipartite**: E215 grips the K78/R132 pair, E168 grips R774, and
+those two TERT surfaces are **20.26 Å apart**. A straight ligand cannot cross —
+the TEN 129–132 loop lies across the line — and the shortest unobstructed route
+is **25.54 Å at a 119° bend**. Measured on a homologous series, span costs
++2.67 Å, +76 Da and +1.49 logP per phenyl, so a spanning monomer needs ~7.8
+phenyls: **MW ~683, logP ~11**. Four of the five ligands designed here are
+reported as failures.
+
+The proteins work, because the patch's own spacings are helical: ideal-helix
+i+4, i+7 and i+14 give 6.43, 10.75 and 21.13 Å against measured 6.58, 10.22 and
+20.18 Å, and **i+17 gives 25.60 Å against the 25.54 Å bent path**. Five de novo
+proteins, none containing a TPP1 fragment, from a 28-residue SPPS reagent
+(**TELM-2**) to a groove-repair helix for the K78E/R132E recruitment alleles
+(**TENB-2**) — the inverse of blocking the patch, and the one proposal in the set
+that nobody has made before.
+
+**Quarantined: unchanged.** Nothing here has been synthesised or measured.
 
 ## Manuscript
 

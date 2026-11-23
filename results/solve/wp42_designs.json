@@ -1,0 +1,644 @@
+{
+  "geometry": {
+    "tert_basic": {
+      "K78": [
+        120.66,
+        181.51,
+        135.96
+      ],
+      "R132": [
+        124.09,
+        180.05,
+        133.73
+      ],
+      "R774": [
+        121.19,
+        164.74,
+        147.16
+      ]
+    },
+    "tpp1_acid": {
+      "D166": [
+        113.44,
+        158.87,
+        138.28
+      ],
+      "E168": [
+        119.45,
+        166.05,
+        146.36
+      ],
+      "E169": [
+        115.73,
+        171.47,
+        146.56
+      ],
+      "E171": [
+        111.75,
+        169.24,
+        152.27
+      ],
+      "E215": [
+        118.58,
+        180.72,
+        132.53
+      ]
+    },
+    "pairs": {
+      "E168->R774": 2.32,
+      "E169->R774": 8.69,
+      "E215->K78": 4.1,
+      "E215->R132": 5.69
+    },
+    "k78_r132_sep": 4.35,
+    "mid_k78_r132_to_r774": 20.26,
+    "patch_is_bipartite": true,
+    "carboxylate_spacings": {
+      "D166-E168": 12.37,
+      "D166-E169": 15.25,
+      "D166-E171": 17.5,
+      "D166-E215": 23.16,
+      "E168-E169": 6.58,
+      "E168-E171": 10.22,
+      "E168-E215": 20.18,
+      "E169-E171": 7.31,
+      "E169-E215": 17.05,
+      "E171-E215": 23.84
+    },
+    "e168_e215": 20.18
+  },
+  "path": {
+    "found": true,
+    "clearance": 1.9,
+    "straight": 20.26,
+    "path_length": 25.54,
+    "tortuosity": 1.26,
+    "max_deviation": 5.67,
+    "bend_angle_deg": 119.0,
+    "min_clearance": 1.92
+  },
+  "straight_line_blocked_atoms": 17,
+  "span_cost": {
+    "rows": [
+      {
+        "n_phenyl": 1,
+        "smiles": "O=C(O)c1ccc(C(=O)O)cc1",
+        "mw": 166.1,
+        "logp": 1.08,
+        "max_span": 7.44
+      },
+      {
+        "n_phenyl": 2,
+        "smiles": "O=C(O)c1ccc(-c2ccc(C(=O)O)cc2)cc1",
+        "mw": 242.2,
+        "logp": 2.75,
+        "max_span": 11.61
+      },
+      {
+        "n_phenyl": 3,
+        "smiles": "O=C(O)C1=CC=C2C(=CC=C2c2ccc(C(=O)O)cc2)C=CC=C1",
+        "mw": 318.3,
+        "logp": 3.77,
+        "max_span": 12.31
+      },
+      {
+        "n_phenyl": 4,
+        "smiles": "O=C(O)c1ccc(C2=CC=C3C(=CC=C3c3ccc(C(=O)O)cc3)C=CC=C2)cc1",
+        "mw": 394.4,
+        "logp": 5.54,
+        "max_span": 15.44
+      }
+    ],
+    "per_phenyl_span": 2.67,
+    "per_phenyl_mw": 76.1,
+    "per_phenyl_logp": 1.49,
+    "phenyls_needed": 7.8,
+    "mw_needed": 683.0,
+    "logp_needed": 11.17,
+    "target": 25.54
+  },
+  "groove": {
+    "k78_r132_nh1": 4.35,
+    "k78_r132_nh2": 5.76,
+    "nh1_nh2": 2.29,
+    "ideal_diacid_span": 5.05,
+    "hydrophobic_wall": [
+      [
+        122.61,
+        170.73,
+        139.2
+      ],
+      [
+        127.37,
+        175.21,
+        142.98
+      ],
+      [
+        125.51,
+        176.84,
+        142.63
+      ],
+      [
+        122.66,
+        177.99,
+        138.25
+      ]
+    ]
+  },
+  "ligands": [
+    {
+      "id": "KP-1",
+      "name": "kinked bipartite bridge",
+      "class": "small molecule",
+      "concept": "Reaches both halves of the bipartite patch at once: a carboxylate in the K78/R132 groove and a second carboxylate at R774, with an m-terphenyl kink that matches the measured 25.5 A bent path.",
+      "smiles": "O=C(O)c1cccc(-c2cccc(-c3cccc(C(=O)O)c3)c2)c1",
+      "formula": "C20H14O4",
+      "mw": 318.33,
+      "logp": 4.42,
+      "tpsa": 74.6,
+      "hbd": 2,
+      "hba": 2,
+      "rotbonds": 4,
+      "heavy_atoms": 24,
+      "rings": 3,
+      "acid_groups": 2,
+      "max_span_3d": 14.26,
+      "n_conformers": 19,
+      "target_span": 25.5,
+      "spans": false,
+      "lipinski": true,
+      "anchor_a": "K78/R132 groove",
+      "anchor_b": "R774 guanidinium"
+    },
+    {
+      "id": "KP-2",
+      "name": "kinked bridge, extended arm",
+      "class": "small molecule",
+      "concept": "KP-1 with one extra phenyl so the far carboxylate can reach past R774 into the Q775/IFD groove the structures show at 4.4 A.",
+      "smiles": "O=C(O)c1cccc(-c2cccc(-c3cccc(-c4cccc(C(=O)O)c4)c3)c2)c1",
+      "formula": "C26H18O4",
+      "mw": 394.43,
+      "logp": 6.08,
+      "tpsa": 74.6,
+      "hbd": 2,
+      "hba": 2,
+      "rotbonds": 5,
+      "heavy_atoms": 30,
+      "rings": 4,
+      "acid_groups": 2,
+      "max_span_3d": 17.95,
+      "n_conformers": 46,
+      "target_span": 25.5,
+      "spans": false,
+      "lipinski": false,
+      "anchor_a": "K78/R132 groove",
+      "anchor_b": "R774 / Q775 groove"
+    },
+    {
+      "id": "TEL-1",
+      "name": "TEL-patch surface mimetic",
+      "class": "small molecule",
+      "concept": "Does not bridge: it sits where TPP1's patch sits and presents two carboxylates 20.2 A apart, matching the measured E168-E215 separation. Competes for the TERT surface by volume and charge rather than threading.",
+      "smiles": "O=C(O)Cc1ccc(-c2ccc(CC(=O)O)cc2)cc1",
+      "formula": "C16H14O4",
+      "mw": 270.28,
+      "logp": 2.61,
+      "tpsa": 74.6,
+      "hbd": 2,
+      "hba": 2,
+      "rotbonds": 5,
+      "heavy_atoms": 20,
+      "rings": 2,
+      "acid_groups": 2,
+      "max_span_3d": 14.27,
+      "n_conformers": 17,
+      "target_span": 20.2,
+      "spans": false,
+      "lipinski": true,
+      "anchor_a": "E168 site",
+      "anchor_b": "E215 site"
+    },
+    {
+      "id": "TEL-2",
+      "name": "TEL-patch mimetic, kinked",
+      "class": "small molecule",
+      "concept": "TEL-1 with an m-phenylene so the two acids wrap the TPP1 patch curvature instead of lying flat across it.",
+      "smiles": "O=C(O)Cc1ccc(-c2cccc(CC(=O)O)c2)cc1",
+      "formula": "C16H14O4",
+      "mw": 270.28,
+      "logp": 2.61,
+      "tpsa": 74.6,
+      "hbd": 2,
+      "hba": 2,
+      "rotbonds": 5,
+      "heavy_atoms": 20,
+      "rings": 2,
+      "acid_groups": 2,
+      "max_span_3d": 12.81,
+      "n_conformers": 35,
+      "target_span": 20.2,
+      "spans": false,
+      "lipinski": true,
+      "anchor_a": "E168 site",
+      "anchor_b": "E215 site"
+    },
+    {
+      "id": "TEL-3",
+      "name": "single-site K78/R132 occupant",
+      "class": "small molecule",
+      "concept": "Deliberately small: only occupies the K78/R132 groove where E215 binds, with no attempt to span. The control that tells us whether spanning is necessary at all - it is the molecule a fragment screen would find.",
+      "smiles": "NC(=O)c1ccc(CC(=O)O)cc1",
+      "formula": "C9H9NO3",
+      "mw": 179.17,
+      "logp": 0.41,
+      "tpsa": 80.39,
+      "hbd": 2,
+      "hba": 2,
+      "rotbonds": 3,
+      "heavy_atoms": 13,
+      "rings": 1,
+      "acid_groups": 1,
+      "max_span_3d": 8.68,
+      "n_conformers": 4,
+      "target_span": 6.0,
+      "spans": true,
+      "lipinski": true,
+      "anchor_a": "K78/R132 groove",
+      "anchor_b": "-"
+    }
+  ],
+  "proteins": [
+    {
+      "id": "TELM-1",
+      "name": "de novo TEL-patch proteomimetic",
+      "class": "designed protein (from scratch)",
+      "concept": "One continuous helix carrying the whole bipartite patch. Acidic residues at i, i+4, i+7 reproduce the measured E168/E169/E171 triad, and a fourth at i+14 reaches the K78/R132 groove 20.2 A away. Helix i->i+14 is 21.06 A, so the design reproduces the patch's own internal dimension to within 0.9 A. It contains no TPP1 residue run, so it is not a fragment that can be silenced the way an expressed TPP1-OB is.",
+      "sequence": "GSHMEALAEAQEALAQLAEALQALAQLAGSGSGLKAALEKKLEELKGS",
+      "length": 48,
+      "mw_da": 4833.4,
+      "pI": 4.84,
+      "charge_pH7_4": -3.41,
+      "gravy": -0.021,
+      "hydrophobic_moment": 0.136,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        4,
+        7,
+        14
+      ],
+      "display_offsets_realised": [
+        0,
+        4,
+        7,
+        14
+      ],
+      "n_display_total": 7,
+      "register_matches": true,
+      "helix_geometry": [
+        {
+          "offset": 4,
+          "ca_ca": 6.43
+        },
+        {
+          "offset": 7,
+          "ca_ca": 10.75
+        },
+        {
+          "offset": 14,
+          "ca_ca": 21.13
+        }
+      ],
+      "target_checks": [
+        {
+          "register": "i+4",
+          "design_ca_ca": 6.43,
+          "measured_target": 6.58,
+          "delta": -0.15,
+          "within_1A": true
+        },
+        {
+          "register": "i+7",
+          "design_ca_ca": 10.75,
+          "measured_target": 10.22,
+          "delta": 0.53,
+          "within_1A": true
+        },
+        {
+          "register": "i+14",
+          "design_ca_ca": 21.13,
+          "measured_target": 20.18,
+          "delta": 0.95,
+          "within_1A": true
+        }
+      ],
+      "all_targets_within_1A": true,
+      "helix_acid_or_base": 4,
+      "helix_hydrophobic": 16,
+      "amphipathic": true,
+      "target_contacts": [
+        "E168 site",
+        "E169 site",
+        "E171 site",
+        "K78/R132 groove"
+      ]
+    },
+    {
+      "id": "TELM-2",
+      "name": "single-helix TEL-patch display",
+      "class": "designed protein (from scratch)",
+      "concept": "The minimal reagent: one 24-residue amphipathic helix, the triad face acidic, the other face hydrophobic. It reproduces the measured i/i+4/i+7 spacings and nothing else. At this length it is an SPPS peptide, not a biologic - which is the difference between a hypothesis and something a lab can order.",
+      "sequence": "AcEALAEAQEALAQLAQALQALAQLANH",
+      "length": 28,
+      "mw_da": 2861.2,
+      "pI": 4.24,
+      "charge_pH7_4": -3.38,
+      "gravy": 0.371,
+      "hydrophobic_moment": 0.356,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        4,
+        7
+      ],
+      "display_offsets_realised": [
+        0,
+        4,
+        7
+      ],
+      "n_display_total": 3,
+      "register_matches": true,
+      "helix_geometry": [
+        {
+          "offset": 4,
+          "ca_ca": 6.43
+        },
+        {
+          "offset": 7,
+          "ca_ca": 10.75
+        }
+      ],
+      "target_checks": [
+        {
+          "register": "i+4",
+          "design_ca_ca": 6.43,
+          "measured_target": 6.58,
+          "delta": -0.15,
+          "within_1A": true
+        },
+        {
+          "register": "i+7",
+          "design_ca_ca": 10.75,
+          "measured_target": 10.22,
+          "delta": 0.53,
+          "within_1A": true
+        }
+      ],
+      "all_targets_within_1A": true,
+      "helix_acid_or_base": 3,
+      "helix_hydrophobic": 16,
+      "amphipathic": false,
+      "target_contacts": [
+        "E168 site",
+        "E169 site",
+        "E171 site"
+      ]
+    },
+    {
+      "id": "TELM-3",
+      "name": "full-span helix, i+17 register",
+      "class": "designed protein (from scratch)",
+      "concept": "Keeps going where TELM-1 stops. Helix i->i+17 is 25.60 A, which matches the measured 25.5 A bent path to 0.10 A - i.e. it covers the path a ligand must actually take rather than the 20.2 A straight distance it cannot take. This is the first design in the set that can wrap the TEN 129-132 loop instead of being stopped by it.",
+      "sequence": "GSHMEALQEALEAQLAQLAQLEQALQALQAGSGSGLKAALEKKLEELKGS",
+      "length": 50,
+      "mw_da": 5188.8,
+      "pI": 4.84,
+      "charge_pH7_4": -3.41,
+      "gravy": -0.226,
+      "hydrophobic_moment": 0.165,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        4,
+        7,
+        17
+      ],
+      "display_offsets_realised": [
+        0,
+        4,
+        7,
+        17
+      ],
+      "n_display_total": 7,
+      "register_matches": true,
+      "helix_geometry": [
+        {
+          "offset": 4,
+          "ca_ca": 6.43
+        },
+        {
+          "offset": 7,
+          "ca_ca": 10.75
+        },
+        {
+          "offset": 17,
+          "ca_ca": 25.6
+        }
+      ],
+      "target_checks": [
+        {
+          "register": "i+4",
+          "design_ca_ca": 6.43,
+          "measured_target": 6.58,
+          "delta": -0.15,
+          "within_1A": true
+        },
+        {
+          "register": "i+7",
+          "design_ca_ca": 10.75,
+          "measured_target": 10.22,
+          "delta": 0.53,
+          "within_1A": true
+        },
+        {
+          "register": "i+17",
+          "design_ca_ca": 25.6,
+          "measured_target": 25.5,
+          "delta": 0.1,
+          "within_1A": true
+        }
+      ],
+      "all_targets_within_1A": true,
+      "helix_acid_or_base": 4,
+      "helix_hydrophobic": 15,
+      "amphipathic": true,
+      "target_contacts": [
+        "E168 site",
+        "E169 site",
+        "E171 site",
+        "R774 around the loop"
+      ]
+    },
+    {
+      "id": "TENB-1",
+      "name": "de novo binder to the TEL patch",
+      "class": "designed protein (from scratch)",
+      "concept": "The antagonist route, which needs no spanning. Complementary charge at the same i/i+4/i+7/i+14 registers, so it reads the patch's carboxylate triad and occludes it by occupying it - exactly what a TEL-patch mutation achieves genetically, but reversible and dose-controlled.",
+      "sequence": "GSHMKALAKAQKALAQLAKALQALAQLAGSGSGLKAALEKKLEELKGS",
+      "length": 48,
+      "mw_da": 4829.7,
+      "pI": 10.0,
+      "charge_pH7_4": 4.58,
+      "gravy": -0.054,
+      "hydrophobic_moment": 0.172,
+      "display_residue": "K",
+      "display_offsets_claimed": [
+        0,
+        4,
+        7,
+        14
+      ],
+      "display_offsets_realised": [
+        0,
+        4,
+        7,
+        14
+      ],
+      "n_display_total": 8,
+      "register_matches": true,
+      "helix_geometry": [
+        {
+          "offset": 4,
+          "ca_ca": 6.43
+        },
+        {
+          "offset": 7,
+          "ca_ca": 10.75
+        },
+        {
+          "offset": 14,
+          "ca_ca": 21.13
+        }
+      ],
+      "target_checks": [
+        {
+          "register": "i+4",
+          "design_ca_ca": 6.43,
+          "measured_target": 6.58,
+          "delta": -0.15,
+          "within_1A": true
+        },
+        {
+          "register": "i+7",
+          "design_ca_ca": 10.75,
+          "measured_target": 10.22,
+          "delta": 0.53,
+          "within_1A": true
+        },
+        {
+          "register": "i+14",
+          "design_ca_ca": 21.13,
+          "measured_target": 20.18,
+          "delta": 0.95,
+          "within_1A": true
+        }
+      ],
+      "all_targets_within_1A": true,
+      "helix_acid_or_base": 4,
+      "helix_hydrophobic": 16,
+      "amphipathic": true,
+      "target_contacts": [
+        "E168 side chain",
+        "E169 side chain",
+        "E171 side chain"
+      ]
+    },
+    {
+      "id": "TENB-2",
+      "name": "groove-repair helix for K78E / R132E",
+      "class": "designed protein (from scratch)",
+      "concept": "The inverse use, and the one nobody has proposed. Instead of blocking the patch, hold it: K78E and R132E are recruitment-loss alleles whose defect is a single missing positive charge, and the charge-swap rescue (E215K) is established. This helix does not span - it sits in the groove, with acids at i and i+3 (5.05 A) matching the measured K78-R132 separation of 4.35 A and a hydrophobic face against the TEN 129-132 loop. It supplies in trans what the mutation removed, and it is the exact complement of TELM-1.",
+      "sequence": "GSHMEALEALQALQALQALQALQALQALGSGSGLKAALGS",
+      "length": 40,
+      "mw_da": 3917.4,
+      "pI": 5.4,
+      "charge_pH7_4": -1.41,
+      "gravy": 0.44,
+      "hydrophobic_moment": 0.006,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        3
+      ],
+      "display_offsets_realised": [
+        0,
+        3
+      ],
+      "n_display_total": 2,
+      "register_matches": true,
+      "helix_geometry": [
+        {
+          "offset": 3,
+          "ca_ca": 5.05
+        }
+      ],
+      "target_checks": [
+        {
+          "register": "i+3",
+          "design_ca_ca": 5.05,
+          "measured_target": 4.35,
+          "delta": 0.7,
+          "within_1A": true
+        }
+      ],
+      "all_targets_within_1A": true,
+      "helix_acid_or_base": 2,
+      "helix_hydrophobic": 16,
+      "amphipathic": false,
+      "target_contacts": [
+        "K78 groove",
+        "R132 groove",
+        "TEN 129-132 loop (hydrophobic)"
+      ]
+    }
+  ],
+  "novelty": [
+    {
+      "found": "no small molecule against the TEL patch",
+      "detail": "Nandakumar 2012 proposed the patch as 'a new target for anticancer drug development'; Sekne 2022 restated it as 'a rational basis for drug design'; Lim 2023 (Commun Chem) stated 'we have recently discovered the first TPP1 ligands with anticancer activity whose pharmacological characterization is underway'. No structure, series or affinity was ever published. BIBR1532 is a TERT/TER pseudoknot-site inhibitor, not a patch ligand.",
+      "verdict": "genuine gap, still open as of this search"
+    },
+    {
+      "found": "TPP1-OB expressed as a dominant-negative",
+      "detail": "Yang 2019 (J Cancer Res Clin Oncol) overexpressed the TPP1 OB domain to sequester telomerase. That is the whole protein, not a designed mimetic, and it is not a molecule.",
+      "verdict": "precedent for the mechanism, not for the design"
+    },
+    {
+      "found": "de novo binders exist for other targets, none for telomerase",
+      "detail": "RFdiffusion, BindCraft and AlphaProteo reach 10-88 % experimental success on their benchmark targets. None has been applied to TERT or TPP1 in the published record.",
+      "verdict": "method is available; the target is untouched"
+    },
+    {
+      "found": "allosteric-network analysis of TPP1 proposes exactly these ligands",
+      "detail": "Lim 2023 (Commun Chem 6:230) closes by proposing 'allosteric enhancers of the TPP1-TERT binding interaction ... to contrast telomeropathies' and 'allosteric inhibitors ... as a novel class of anticancer agents'. They name the idea and stop at the proposal. TENB-2 is that enhancer made concrete.",
+      "verdict": "the concept is on record; no molecule was designed from it"
+    }
+  ],
+  "summary": {
+    "patch_is_bipartite": true,
+    "straight_distance": 20.26,
+    "bent_path_length": 25.54,
+    "tortuosity": 1.26,
+    "designs_that_span": [
+      "TEL-3"
+    ],
+    "designs_that_fail_to_span": [
+      "KP-1",
+      "KP-2",
+      "TEL-1",
+      "TEL-2"
+    ],
+    "n_ligands": 5,
+    "n_proteins": 5
+  }
+}
