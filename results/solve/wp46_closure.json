@@ -1,0 +1,288 @@
+{
+  "items": [
+    {
+      "id": "P1",
+      "area": "Interface",
+      "problem": "Is the TPP1 TEL patch one binding surface?",
+      "status": "SOLVED",
+      "answer": "No - bipartite. E215 grips K78/R132, E168 grips R774, 20.26 A apart.",
+      "decided_by": "wp42",
+      "evidence": "geometry.patch_is_bipartite and mid_k78_r132_to_r774",
+      "kind": "geometric"
+    },
+    {
+      "id": "P2",
+      "area": "Interface",
+      "problem": "Can a drug-like small molecule span both halves?",
+      "status": "SOLVED",
+      "answer": "No - and it is a class exclusion. 7.8 phenyls needed: MW ~683, logP ~11.",
+      "decided_by": "wp42",
+      "evidence": "span_cost.phenyls_needed / mw_needed / logp_needed",
+      "kind": "geometric"
+    },
+    {
+      "id": "P3",
+      "area": "Interface",
+      "problem": "What is the shortest path across the gulf?",
+      "status": "SOLVED",
+      "answer": "25.54 A with a 119 deg bend and tortuosity 1.26; a straight line is blocked.",
+      "decided_by": "wp42",
+      "evidence": "path.path_length, path.bend_angle_deg",
+      "kind": "geometric"
+    },
+    {
+      "id": "P4",
+      "area": "Triad",
+      "problem": "Can an alpha-helix present the E168/E169/E171 triad?",
+      "status": "SOLVED",
+      "answer": "No - 2 of 3 at best. The segment is a kinked turn (psi +24.4 deg, CA168-CA171 7.68 A), not a helix.",
+      "decided_by": "wp45",
+      "evidence": "diagnosis.psi_E169_deg, CA168_CA171_7TRE",
+      "kind": "geometric"
+    },
+    {
+      "id": "P5",
+      "area": "Triad",
+      "problem": "Can the triad be presented at all, in the native geometry?",
+      "status": "SOLVED",
+      "answer": "Yes - graft the two native segments. 3 of 3 to 0.02 A: DWEEKEF-GGGGG-FSLLPTE, E215 at 4.10 A from K78.",
+      "decided_by": "wp45",
+      "evidence": "summary.wp45_status, assembly.e215_to_K78",
+      "kind": "geometric"
+    },
+    {
+      "id": "P6",
+      "area": "Triad",
+      "problem": "Does a 19-mer peptide HOLD that geometry?",
+      "status": "NOT SOLVED",
+      "answer": "No covalent route exists: closest disulfide Cb-Cb 6.21 A (needs 3.5-5.0), head-to-tail 14.28 A CA-CA (needs ~6), and freezing the linker costs 12-20 kcal/mol against 5.4 kcal/mol of contact energy.",
+      "decided_by": "wp45",
+      "evidence": "closure.either_covalent_route_available is False",
+      "kind": "design-level",
+      "blocker": "a rigid presenting scaffold, which needs PDB scaffold screening + loop modelling (no Rosetta, no loop engine, no offline scaffold set here)"
+    },
+    {
+      "id": "P7",
+      "area": "Modularity",
+      "problem": "Can each module solve only its own site, fully?",
+      "status": "PARTIAL",
+      "answer": "4 of 5 do. One site (S3) was declared unsolvable on a helix model that was wrong - corrected by P4/P5 - so the module result is retained but its premise is superseded.",
+      "decided_by": "wp44",
+      "evidence": "summary.n_one_site_full == 4 of 5",
+      "kind": "geometric",
+      "blocker": "the MD3 module needs rebuilding on the graft (P5), not on a helix"
+    },
+    {
+      "id": "P8",
+      "area": "Modularity",
+      "problem": "Do merged modules stay stable together?",
+      "status": "SOLVED",
+      "answer": "4 of 5 merges STABLE, 1 COLLAPSE-RISK, 1 REFUSED. The linker alone decides it: same two modules, -6.04 kcal/mol attraction when flexible.",
+      "decided_by": "wp44",
+      "evidence": "summary.n_merges_stable, unstable_merges",
+      "kind": "design-level"
+    },
+    {
+      "id": "P9",
+      "area": "Modularity",
+      "problem": "Can one groove be blocked and repaired at once?",
+      "status": "SOLVED",
+      "answer": "No - the merge engine refuses it by construction, with a stated reason.",
+      "decided_by": "wp44",
+      "evidence": "merges[MRG-ILLEGAL].refused",
+      "kind": "logical"
+    },
+    {
+      "id": "P10",
+      "area": "Screening",
+      "problem": "Do the designs pass computed filters?",
+      "status": "PARTIAL",
+      "answer": "6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. The battery does NOT fully validate on its controls: no single alert configuration accepts both approved drugs and rejects all three bad ones.",
+      "decided_by": "wp43",
+      "evidence": "summary.in_silico_pass_rate_with_controls",
+      "kind": "computed",
+      "blocker": "no alert configuration is both sensitive and specific on the control set"
+    },
+    {
+      "id": "P11",
+      "area": "Screening",
+      "problem": "What is the experimental success rate?",
+      "status": "UNMEASURABLE",
+      "answer": "Unknown. N = 0 designs have been made, so the rate has no denominator.",
+      "decided_by": "wp43",
+      "evidence": "summary.experimental_success_rate is None",
+      "kind": "wet-lab",
+      "blocker": "synthesis and assay; no amount of computation supplies this"
+    },
+    {
+      "id": "P12",
+      "area": "Screening",
+      "problem": "Do any of these designs bind telomerase?",
+      "status": "UNMEASURABLE",
+      "answer": "Unknown - and it is reported as unknown rather than scored.",
+      "decided_by": "wp43",
+      "evidence": "cannot_be_run_here lists docking, MD, FEP, affinity",
+      "kind": "wet-lab",
+      "blocker": "no docking engine, no OpenMM, no FEP; WP39 already refuted the in-repo rigid-body scorer, so a score would be a fabricated number"
+    },
+    {
+      "id": "P13",
+      "area": "Mechanism",
+      "problem": "What does TPP1 change mechanically (M5)?",
+      "status": "NOT SOLVED",
+      "answer": "M5 carries P = 0.35. Two branches separated by one DNA-trap experiment.",
+      "decided_by": "wp41",
+      "evidence": "STATUS_LEDGER row 'Mechanism'",
+      "kind": "wet-lab",
+      "blocker": "the P2 two-chase experiment has not been run"
+    },
+    {
+      "id": "P14",
+      "area": "Mechanism",
+      "problem": "Is n measured?",
+      "status": "NOT SOLVED",
+      "answer": "No. The two-chase inversion is exact and unrun.",
+      "decided_by": "wp41",
+      "evidence": "STATUS_LEDGER row 'n measured'",
+      "kind": "wet-lab",
+      "blocker": "wet lab"
+    },
+    {
+      "id": "P15",
+      "area": "Drug",
+      "problem": "Is there a drug?",
+      "status": "NOT SOLVED",
+      "answer": "No, and the small-molecule route for the bipartite patch is excluded (P2). The protein route is unmeasured (P11, P12).",
+      "decided_by": "wp41",
+      "evidence": "STATUS_LEDGER row 'Drug'",
+      "kind": "design-level",
+      "blocker": "P6 for the graft; P11/P12 for everything else"
+    }
+  ],
+  "consistency": [
+    {
+      "id": "P1",
+      "consistent": true,
+      "note": "wp42 bipartite flag"
+    },
+    {
+      "id": "P2",
+      "consistent": true,
+      "note": "phenyls_needed = 7.8"
+    },
+    {
+      "id": "P3",
+      "consistent": true,
+      "note": "path 25.54 A"
+    },
+    {
+      "id": "P7",
+      "consistent": true,
+      "note": "4 of 5 modules"
+    },
+    {
+      "id": "P8",
+      "consistent": true,
+      "note": "stable merges"
+    },
+    {
+      "id": "P9",
+      "consistent": true,
+      "note": "MRG-ILLEGAL refused"
+    },
+    {
+      "id": "P4",
+      "consistent": true,
+      "note": "psi = 24.4"
+    },
+    {
+      "id": "P5",
+      "consistent": true,
+      "note": "3 of 3 contacts"
+    },
+    {
+      "id": "P6",
+      "consistent": true,
+      "note": "no covalent route"
+    },
+    {
+      "id": "P10",
+      "consistent": true,
+      "note": "in-silico only, controls included"
+    },
+    {
+      "id": "P11",
+      "consistent": true,
+      "note": "None, not 0"
+    }
+  ],
+  "all_consistent": true,
+  "summary": {
+    "n_items": 15,
+    "tally": {
+      "SOLVED": 7,
+      "PARTIAL": 2,
+      "NOT SOLVED": 4,
+      "UNMEASURABLE": 2
+    },
+    "by_kind": {
+      "geometric": {
+        "SOLVED": 5,
+        "PARTIAL": 1,
+        "NOT SOLVED": 0,
+        "UNMEASURABLE": 0
+      },
+      "design-level": {
+        "SOLVED": 1,
+        "PARTIAL": 0,
+        "NOT SOLVED": 2,
+        "UNMEASURABLE": 0
+      },
+      "logical": {
+        "SOLVED": 1,
+        "PARTIAL": 0,
+        "NOT SOLVED": 0,
+        "UNMEASURABLE": 0
+      },
+      "computed": {
+        "SOLVED": 0,
+        "PARTIAL": 1,
+        "NOT SOLVED": 0,
+        "UNMEASURABLE": 0
+      },
+      "wet-lab": {
+        "SOLVED": 0,
+        "PARTIAL": 0,
+        "NOT SOLVED": 2,
+        "UNMEASURABLE": 2
+      }
+    },
+    "solved": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P8",
+      "P9"
+    ],
+    "not_fully_solved": [
+      "P6",
+      "P7",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15"
+    ],
+    "solved_fraction": 0.467,
+    "answer_to_the_question": "No. 7 of 15 sub-problems are solved, and all 7 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 4 are not solved, 2 are partial, and 2 cannot be answered by any computation here. The single largest open item is P6 - the presenting scaffold - which blocks the only route that reached the full triad.",
+    "what_would_change_it": [
+      "P6: a scaffold search (needs PDB screening + loop modelling, not available here)",
+      "P10: an alert configuration that is sensitive AND specific on the controls",
+      "P11/P12: synthesis, then one binding and one activity measurement",
+      "P13/P14: the P2 two-chase experiment"
+    ]
+  }
+}

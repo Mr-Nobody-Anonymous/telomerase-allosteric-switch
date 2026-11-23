@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-696%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-703%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,14 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## Have we solved all of it? No.
+
+A single generated answer to that question, derived from the artefacts rather than
+from memory: [`results/solve/CLOSURE.md`](results/solve/CLOSURE.md) — **7 of 15
+sub-problems solved, and all 7 solved as *calculations*; 0 solved as *evidence*.**
+4 not solved, 2 partial, 2 unmeasurable without wet lab. The largest open item is
+the presenting scaffold that the grafted triad needs.
 
 ## Where the open questions stand
 

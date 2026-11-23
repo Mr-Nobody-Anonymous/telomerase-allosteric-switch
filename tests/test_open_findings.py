@@ -2086,3 +2086,66 @@ def test_wp45_wp44_doc_is_marked_corrected():
 def test_wp45_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp45_graft.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP46
+def _wp46():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp46_closure")
+
+
+def test_wp46_the_ledger_answers_no():
+    wp = _wp46()
+    s = wp.closure()["summary"]
+    assert s["answer_to_the_question"].startswith("No.")
+    assert 0 < s["solved_fraction"] < 1
+    assert s["not_fully_solved"]
+
+
+def test_wp46_every_status_is_backed_by_its_artefact():
+    wp = _wp46()
+    res = wp.closure()
+    assert res["all_consistent"] is True, [c for c in res["consistency"]
+                                           if not c["consistent"]]
+    assert len(res["consistency"]) >= 10
+
+
+def test_wp46_the_open_items_cannot_be_marked_solved():
+    """The five that must stay open, asserted individually."""
+    wp = _wp46()
+    by_id = {i["id"]: i for i in wp.ITEMS}
+    assert by_id["P6"]["status"] == "NOT SOLVED"      # presenting scaffold
+    assert by_id["P11"]["status"] == "UNMEASURABLE"   # experimental rate
+    assert by_id["P12"]["status"] == "UNMEASURABLE"   # binding
+    assert by_id["P13"]["status"] == "NOT SOLVED"     # mechanism / M5
+    assert by_id["P15"]["status"] == "NOT SOLVED"     # drug
+
+
+def test_wp46_nothing_wet_lab_is_ever_solved():
+    """A calculation cannot close a question that needs a measurement."""
+    wp = _wp46()
+    assert not any(i["kind"] == "wet-lab" and i["status"] == "SOLVED"
+                   for i in wp.ITEMS)
+
+
+def test_wp46_the_count_in_the_prose_is_derived_not_typed():
+    """The first draft hardcoded '6 of 15' while the tally said 7."""
+    wp = _wp46()
+    s = wp.closure()["summary"]
+    assert f"{s['tally']['SOLVED']} of {s['n_items']}" in s["answer_to_the_question"]
+    assert sum(s["tally"].values()) == s["n_items"]
+
+
+def test_wp46_closure_md_is_generated_and_current():
+    doc = (REPO / "results" / "solve" / "CLOSURE.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Generated from the artefacts, not from memory" in flat
+    assert "Zero are closed as evidence" in flat or "solved as evidence" in flat
+    for st in ("SOLVED", "PARTIAL", "NOT SOLVED", "UNMEASURABLE"):
+        assert st in flat
+
+
+def test_wp46_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp46_closure.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
