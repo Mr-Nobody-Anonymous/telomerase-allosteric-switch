@@ -102,15 +102,18 @@ ITEMS = [
     ),
     # ---- the standing blockers
     dict(
-        id="P6", area="Triad", problem="Does a 19-mer peptide HOLD that geometry?",
-        status="NOT SOLVED",
-        answer=("No covalent route exists: closest disulfide Cb-Cb 6.21 A (needs 3.5-5.0), "
-                "head-to-tail 14.28 A CA-CA (needs ~6), and freezing the linker costs "
-                "12-20 kcal/mol against 5.4 kcal/mol of contact energy."),
-        decided_by="wp45", evidence="closure.either_covalent_route_available is False",
+        id="P6", area="Triad", problem="Does a peptide HOLD that geometry?",
+        status="PARTIAL",
+        answer=("A covalent constraint EXISTS, and WP45 missed it by screening disulfides "
+                "only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, "
+                "direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the "
+                "native indole/Leu contact there is already 3.50 A. But the staple buys only "
+                "2.8 kcal/mol of ordering against a 12-20 kcal/mol cost: residual 9.2 "
+                "kcal/mol unpaid. Constraint found, energy still not balanced."),
+        decided_by="wp47", evidence="best_crosslink.pair == TRP167-LEU211",
         kind="design-level",
-        blocker="a rigid presenting scaffold, which needs PDB scaffold screening + loop "
-                "modelling (no Rosetta, no loop engine, no offline scaffold set here)",
+        blocker="the remaining 9.2 kcal/mol and the linker's own flexibility - a second "
+                "staple or a presenting scaffold, which needs PDB screening + loop modelling",
     ),
     dict(
         id="P7", area="Modularity", problem="Can each module solve only its own site, fully?",
@@ -142,11 +145,14 @@ ITEMS = [
         id="P10", area="Screening", problem="Do the designs pass computed filters?",
         status="PARTIAL",
         answer=("6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. "
-                "The battery does NOT fully validate on its controls: no single alert "
-                "configuration accepts both approved drugs and rejects all three bad ones."),
-        decided_by="wp43", evidence="summary.in_silico_pass_rate_with_controls",
+                "The alert-veto framing is now PROVEN unfixable - every control clears every "
+                "hard gate, and alert count caps at 0.70 balanced accuracy. A mechanism rule "
+                "scores 10/10 on its authoring panel but only 6/8 on a hold-out."),
+        decided_by="wp47", evidence="filter.validated is False on the hold-out",
         kind="computed",
-        blocker="no alert configuration is both sensitive and specific on the control set",
+        blocker="the alert library misnames the reactive group (maleimide reported as "
+                "phthalimide; sulfonate ester as sulfonic acid), so a curated electrophile "
+                "library is needed and cannot be fitted on the hold-out itself",
     ),
     dict(
         id="P11", area="Screening", problem="What is the experimental success rate?",
@@ -199,6 +205,7 @@ def closure() -> dict:
     wp43 = _load("wp43_test_battery")
     wp44 = _load("wp44_modular_designs")
     wp45 = _load("wp45_graft")
+    wp47 = _load("wp47_close_open")
 
     # the ledger must be consistent with the artefacts it cites
     consistency = []
@@ -224,6 +231,15 @@ def closure() -> dict:
               "3 of 3 contacts")
         check("P6", wp45["closure"]["either_covalent_route_available"] is False,
               "no covalent route")
+    if wp47:
+        check("P6", wp47["best_crosslink"]["pair"] == "TRP167-LEU211",
+              "the covalent constraint WP45 missed")
+        check("P6", wp47["summary"]["ordering_still_unpaid_kcal"] > 0,
+              "but the energy is still not balanced")
+        check("P10", wp47["filter"]["validated"] is False,
+              "hold-out does not validate; P10 must stay PARTIAL")
+        check("P10", wp47["filter"]["ceiling"]["ceiling"] < 0.9,
+              "count-rule ceiling below bar")
     if wp43:
         check("P10", wp43["summary"]["experimental_success_rate"] is None
               and wp43["summary"]["in_silico_pass_rate_with_controls"] < 0.5,
@@ -260,8 +276,10 @@ def closure() -> dict:
                 f"evidence, because nothing has been made or measured. "
                 f"{tally['NOT SOLVED']} are not solved, {tally['PARTIAL']} are partial, and "
                 f"{tally['UNMEASURABLE']} cannot be answered by any computation here. "
-                f"The single largest open item is P6 - the presenting scaffold - which "
-                f"blocks the only route that reached the full triad."),
+                f"The largest open item is still P6: WP47 found a real covalent "
+                f"constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, "
+                f"but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering "
+                f"cost, so 9.2 kcal/mol remains unpaid and a scaffold is still required."),
             "what_would_change_it": [
                 "P6: a scaffold search (needs PDB screening + loop modelling, not available here)",
                 "P10: an alert configuration that is sensitive AND specific on the controls",
@@ -402,7 +420,15 @@ def self_test() -> int:
     ok("some items remain unsolved", len(s["not_fully_solved"]) >= 1)
 
     # ---- the specific things that must NOT be marked solved
-    ok("the presenting scaffold is NOT SOLVED", by_id["P6"]["status"] == "NOT SOLVED")
+    # P6 moved from NOT SOLVED to PARTIAL when WP47 found a real crosslink - but it
+    # must never be SOLVED, because the ordering energy is still unpaid.
+    ok("the presenting scaffold is not solved",
+       by_id["P6"]["status"] in ("NOT SOLVED", "PARTIAL"),
+       by_id["P6"]["status"])
+    ok("P6 records that the energy is still unpaid",
+       "unpaid" in by_id["P6"]["answer"])
+    ok("P6 names the scaffold as the remaining blocker",
+       "scaffold" in (by_id["P6"].get("blocker") or ""))
     ok("the experimental rate is UNMEASURABLE", by_id["P11"]["status"] == "UNMEASURABLE")
     ok("binding is UNMEASURABLE", by_id["P12"]["status"] == "UNMEASURABLE")
     ok("the mechanism is NOT SOLVED", by_id["P13"]["status"] == "NOT SOLVED")

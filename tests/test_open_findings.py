@@ -2115,7 +2115,10 @@ def test_wp46_the_open_items_cannot_be_marked_solved():
     """The five that must stay open, asserted individually."""
     wp = _wp46()
     by_id = {i["id"]: i for i in wp.ITEMS}
-    assert by_id["P6"]["status"] == "NOT SOLVED"      # presenting scaffold
+    # P6 moved NOT SOLVED -> PARTIAL in WP47 (a real crosslink exists), but it
+    # must not be SOLVED while 9.2 kcal/mol of ordering is unpaid.
+    assert by_id["P6"]["status"] in ("NOT SOLVED", "PARTIAL")
+    assert "unpaid" in by_id["P6"]["answer"]
     assert by_id["P11"]["status"] == "UNMEASURABLE"   # experimental rate
     assert by_id["P12"]["status"] == "UNMEASURABLE"   # binding
     assert by_id["P13"]["status"] == "NOT SOLVED"     # mechanism / M5
@@ -2149,3 +2152,110 @@ def test_wp46_closure_md_is_generated_and_current():
 def test_wp46_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp46_closure.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP47
+def _wp47():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp47_close_open")
+
+
+def test_wp47_wp45s_no_covalent_route_claim_is_refuted():
+    """WP45 screened disulfides only and generalised from them."""
+    wp = _wp47()
+    rows = wp.crosslink_screen()
+    feasible = [r for r in rows if r["feasible"]]
+    assert len(rows) == 49
+    assert feasible, "a covalent constraint exists"
+    best = wp.pick_crosslink(rows)
+    assert best["pair"] == "TRP167-LEU211"
+    assert 6.0 <= best["cb_distance"] <= 7.5      # hydrocarbon i,i+4 window
+    assert "hydrocarbon" in best["chemistries"]
+
+
+def test_wp47_the_winning_span_has_real_geometry_behind_it():
+    """Not a distance coincidence: both vectors align AND a native contact spans it."""
+    wp = _wp47()
+    best = wp.pick_crosslink(wp.crosslink_screen())
+    assert best["cos_a"] > 0 and best["cos_b"] > 0
+    assert best["worst_clearance"] >= 3.0
+    assert best["native_sidechain_contact"] < 4.0   # already a vdW contact
+
+
+def test_wp47_the_payload_is_never_stapled():
+    """Stapling E168/E169/E171/E215 would destroy the contacts the graft exists for."""
+    wp = _wp47()
+    rows = wp.crosslink_screen()
+    assert not any(r["feasible"] for r in rows if r["consumes_payload"])
+
+
+def test_wp47_one_staple_does_not_pay_for_itself():
+    """The honest half: the constraint is necessary, not sufficient."""
+    res = _wp47().build()
+    e = res["energy_balance"]
+    assert res["summary"]["ordering_still_unpaid_kcal"] > 0
+    assert e["net_gain_kcal"] < e["residual_ordering_cost_kcal"]
+
+
+def test_wp47_no_alert_count_rule_can_fix_the_battery():
+    """Every control clears every gate, so count is the only feature - and it caps low."""
+    f = _wp47().calibrate()
+    assert f["all_controls_pass_every_gate"] is True
+    assert f["ceiling"]["ceiling"] < f["ceiling"]["bar"]
+    assert f["ceiling"]["verdict"].startswith("UNFIXABLE")
+
+
+def test_wp47_the_mechanism_rule_separates_the_non_monotone_pair():
+    """metformin must pass with 2 alerts; nitrogen mustard must fail with 1."""
+    f = _wp47().calibrate()
+    assert f["detail"]["OK-metformin"]["accept"] is True
+    assert f["detail"]["BAD-nitrogen-mustard"]["accept"] is False
+    assert f["detail"]["OK-aspirin"]["accept"] is True
+
+
+def test_wp47_validation_is_defined_on_the_holdout_not_the_authoring_panel():
+    f = _wp47().calibrate()
+    assert not (set(f["detail"]) & set(f["holdout_detail"]))
+    assert f["validated"] == (f["holdout_panel"]["balanced_accuracy"] >= 0.9
+                              and f["holdout_panel"]["sensitivity"] >= 0.8
+                              and f["holdout_panel"]["specificity"] >= 0.8)
+
+
+def test_wp47_p10_is_not_claimed_solved():
+    """The hold-out does not validate, so P10 stays PARTIAL in the ledger."""
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    p10 = [i for i in led["items"] if i["id"] == "P10"][0]
+    assert p10["status"] == "PARTIAL"
+    assert _wp47().calibrate()["validated"] is False
+
+
+def test_wp47_every_holdout_failure_is_named_with_a_reason():
+    f = _wp47().calibrate()
+    assert f["holdout_failures"]
+    for x in f["holdout_failures"]:
+        assert x["why"]
+        assert "name" in x["why"] or "scaffold" in x["why"]
+
+
+def test_wp47_both_unmeasurable_items_got_a_protocol_not_a_score():
+    p = _wp47().experimental_plan()
+    assert "no denominator" in p["P11_experimental_success_rate"]["why_unmeasurable_here"]
+    assert "fabricated" in p["P12_binding"]["why_unmeasurable_here"]
+    assert p["P11_experimental_success_rate"]["power"]["n_per_arm_at_20pct_effect"] > 0
+    assert len(p["P12_binding"]["recommended_assay"]["negative_controls"]) >= 2
+
+
+def test_wp47_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp47_close_open.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp47_doc_records_the_correction_and_keeps_p10_partial():
+    doc = (REPO / "results" / "solve" / "WP47_CLOSE_OPEN.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "UNFIXABLE with alert count alone" in flat
+    assert "demonstration, not evidence" in flat
+    assert "Validated: False" in flat
+    assert "P10 stays" in flat and "PARTIAL" in flat

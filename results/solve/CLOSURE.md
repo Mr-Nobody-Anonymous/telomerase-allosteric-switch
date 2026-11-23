@@ -9,13 +9,13 @@ against the JSON of the work package that produced the number.
 
 ## The answer
 
-**No. 7 of 15 sub-problems are solved, and all 7 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 4 are not solved, 2 are partial, and 2 cannot be answered by any computation here. The single largest open item is P6 - the presenting scaffold - which blocks the only route that reached the full triad.**
+**No. 7 of 15 sub-problems are solved, and all 7 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 3 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost, so 9.2 kcal/mol remains unpaid and a scaffold is still required.**
 
 | status | count |
 |---|---|
 | SOLVED | **7** |
-| PARTIAL | **2** |
-| NOT SOLVED | **4** |
+| PARTIAL | **3** |
+| NOT SOLVED | **3** |
 | UNMEASURABLE | **2** |
 
 ## Every sub-problem
@@ -27,7 +27,7 @@ against the JSON of the work package that produced the number.
 | P3 | Interface | What is the shortest path across the gulf? | **SOLVED** | geometric |
 | P4 | Triad | Can an alpha-helix present the E168/E169/E171 triad? | **SOLVED** | geometric |
 | P5 | Triad | Can the triad be presented at all, in the native geometry? | **SOLVED** | geometric |
-| P6 | Triad | Does a 19-mer peptide HOLD that geometry? | **NOT SOLVED** | design-level |
+| P6 | Triad | Does a peptide HOLD that geometry? | **PARTIAL** | design-level |
 | P7 | Modularity | Can each module solve only its own site, fully? | **PARTIAL** | geometric |
 | P8 | Modularity | Do merged modules stay stable together? | **SOLVED** | design-level |
 | P9 | Modularity | Can one groove be blocked and repaired at once? | **SOLVED** | logical |
@@ -60,11 +60,11 @@ No - 2 of 3 at best. The segment is a kinked turn (psi +24.4 deg, CA168-CA171 7.
 
 Yes - graft the two native segments. 3 of 3 to 0.02 A: DWEEKEF-GGGGG-FSLLPTE, E215 at 4.10 A from K78.
 
-**P6 — Does a 19-mer peptide HOLD that geometry?** — *NOT SOLVED*
+**P6 — Does a peptide HOLD that geometry?** — *PARTIAL*
 
-No covalent route exists: closest disulfide Cb-Cb 6.21 A (needs 3.5-5.0), head-to-tail 14.28 A CA-CA (needs ~6), and freezing the linker costs 12-20 kcal/mol against 5.4 kcal/mol of contact energy.
+A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. But the staple buys only 2.8 kcal/mol of ordering against a 12-20 kcal/mol cost: residual 9.2 kcal/mol unpaid. Constraint found, energy still not balanced.
 
-Blocker: a rigid presenting scaffold, which needs PDB scaffold screening + loop modelling (no Rosetta, no loop engine, no offline scaffold set here).
+Blocker: the remaining 9.2 kcal/mol and the linker's own flexibility - a second staple or a presenting scaffold, which needs PDB screening + loop modelling.
 
 **P7 — Can each module solve only its own site, fully?** — *PARTIAL*
 
@@ -82,9 +82,9 @@ No - the merge engine refuses it by construction, with a stated reason.
 
 **P10 — Do the designs pass computed filters?** — *PARTIAL*
 
-6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. The battery does NOT fully validate on its controls: no single alert configuration accepts both approved drugs and rejects all three bad ones.
+6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. The alert-veto framing is now PROVEN unfixable - every control clears every hard gate, and alert count caps at 0.70 balanced accuracy. A mechanism rule scores 10/10 on its authoring panel but only 6/8 on a hold-out.
 
-Blocker: no alert configuration is both sensitive and specific on the control set.
+Blocker: the alert library misnames the reactive group (maleimide reported as phthalimide; sulfonate ester as sulfonic acid), so a curated electrophile library is needed and cannot be fitted on the hold-out itself.
 
 **P11 — What is the experimental success rate?** — *UNMEASURABLE*
 

@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-703%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-715%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,27 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## WP47 — the open items, attacked
+
+**P6** (no covalent constraint) is **half-closed**. WP45 concluded "no covalent
+route exists" after screening **disulfides only** — the same defect class as its
+own helix error. Over six chemistries spanning 3.5–12.5 Å, **W167–L211 is feasible
+at 6.34 Å** (hydrocarbon i,i+4; side-chain cosines 0.98/0.09; clears TERT by
+3.75 Å; no payload consumed) and the native indole–Leu contact there is already
+**3.50 Å**. But one staple buys 2.8 kcal/mol against 12–20 kcal/mol of ordering
+cost: **9.2 kcal/mol remains unpaid**.
+
+**P10** is now **proven unfixable as framed**. All 10/10 controls clear every hard
+gate, so alert count is the only separating feature, and the panel is
+non-monotone (metformin passes with 2 alerts; nitrogen mustard fails with 1).
+Every `n_alerts ≤ k` rule caps at **0.70** balanced accuracy. Changing the rule to
+*mechanism* scores 10/10 on its authoring panel but **6/8 on a hold-out** — the two
+misses are the alert library misnaming the reactive group. **P10 stays PARTIAL.**
+
+**P11/P12** are converted from unmeasurable to executable: a powered protocol
+(93 replicates per arm at a 20 % effect) and an MST/SPR + ITC design with a
+K78E/E215K mutant specificity panel.
 
 ## Have we solved all of it? No.
 

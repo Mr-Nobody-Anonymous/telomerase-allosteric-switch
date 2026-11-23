@@ -1,10 +1,10 @@
 {
-  "count": 18,
+  "count": 19,
   "by_state": {
     "RETRACTED": 6,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
-    "CORRECTED": 5
+    "CORRECTED": 6
   },
   "register": [
     {
@@ -204,6 +204,17 @@
       "replaced_by": "backbone grafting of the native segments, verbatim (WP45); the CONCLUSION that a helix cannot present the triad still stands, only the reason changes",
       "document": "results/solve/WP44_MODULAR.md",
       "sha256": "3f5e8817134564af84cb35f20a1c6d687735bc91619180478e9bb622f80d621a"
+    },
+    {
+      "id": "X3",
+      "wp": "WP47",
+      "state": "CORRECTED",
+      "claim": "no covalent route exists to constrain the grafted TEL segments (WP45, route b)",
+      "actual": "WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, direction, clash and payload tests at 6.34 A with side-chain cosines 0.98 and 0.09; the native indole-to-Leu contact across that gap is already 3.50 A",
+      "predicate": "a crosslink chemistry other than disulfide can span the segment gap without clashing into TERT or consuming a payload residue",
+      "replaced_by": "the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own ordering still stands - one staple buys 2.8 kcal/mol against a 12-20 kcal/mol cost",
+      "document": "results/solve/WP45_GRAFT.md",
+      "sha256": "145afa662b185212a8fb037d659453cee10b9ad84d9a8ad1e98b96389fcca73a"
     }
   ],
   "marker_files": {
@@ -223,7 +234,7 @@
       "RETRACTED": 8,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
-      "CORRECTED": 8
+      "CORRECTED": 9
     },
     "results/solve/STATUS_LEDGER.md": {
       "RETRACTED": 1,
@@ -292,6 +303,12 @@
       "CORRECTED": 2
     },
     "results/solve/WP44_MODULAR.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 1
+    },
+    "results/solve/WP45_GRAFT.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 0,
       "SUPERSEDED": 0,

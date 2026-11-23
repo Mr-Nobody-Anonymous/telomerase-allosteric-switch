@@ -1,3 +1,14 @@
+> **CORRECTED BY WP47 — route (b) below.** This document concluded that *no
+> covalent route exists*. It had screened **disulfides only** (3.5–5.0 Å Cβ–Cβ)
+> and stated the result as a property of the protein — the same defect class as
+> the helix error WP45 itself corrects above. Re-screened against six chemistries
+> spanning 3.5–12.5 Å (WP47), **W167–L211 is feasible at 6.34 Å** (hydrocarbon
+> i,i+4; side-chain cosines 0.98 / 0.09; clears TERT by 3.75 Å; consumes no
+> payload), and the native indole–Leu contact across that gap is already
+> **3.50 Å**. The *entropy* conclusion stands: one staple buys 2.8 kcal/mol
+> against 12–20 kcal/mol, leaving **9.2 kcal/mol unpaid**. See
+> `WP47_CLOSE_OPEN.md` and retraction **X3**.
+
 # WP45 — Solving the site WP44 could not, and the mistake that made it look unsolvable
 
     python scripts/solve/wp45_graft.py

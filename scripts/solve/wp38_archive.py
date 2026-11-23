@@ -251,6 +251,22 @@ REGISTER = [
         file="results/solve/WP44_MODULAR.md",
         must_contain="CORRECTED BY WP45",
     ),
+    dict(
+        id="X3", wp="47", state="CORRECTED",
+        claim="no covalent route exists to constrain the grafted TEL segments "
+              "(WP45, route b)",
+        actual="WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six "
+               "chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, direction, "
+               "clash and payload tests at 6.34 A with side-chain cosines 0.98 and 0.09; "
+               "the native indole-to-Leu contact across that gap is already 3.50 A",
+        predicate="a crosslink chemistry other than disulfide can span the segment gap "
+                  "without clashing into TERT or consuming a payload residue",
+        replaced_by="the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion "
+                    "that the construct cannot pay for its own ordering still stands - "
+                    "one staple buys 2.8 kcal/mol against a 12-20 kcal/mol cost",
+        file="results/solve/WP45_GRAFT.md",
+        must_contain="CORRECTED BY WP47",
+    ),
 ]
 
 
