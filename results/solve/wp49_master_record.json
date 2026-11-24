@@ -69,7 +69,7 @@
     {
       "script": "wp38_archive",
       "passed": true,
-      "result": "WP38 self-test: 61 passed, 0 failed",
+      "result": "WP38 self-test: 63 passed, 0 failed",
       "exit": 0
     },
     {
@@ -117,7 +117,7 @@
     {
       "script": "wp46_closure",
       "passed": true,
-      "result": "WP46 self-test: 26 checks, 0 failed",
+      "result": "WP46 self-test: 29 checks, 0 failed",
       "exit": 0
     },
     {
@@ -131,11 +131,22 @@
       "passed": true,
       "result": "WP48 self-test: 25 checks, 0 failed",
       "exit": 0
+    },
+    {
+      "script": "wp50_partials",
+      "passed": true,
+      "result": "WP50 self-test: 31 checks, 0 failed",
+      "exit": 0
     }
   ],
-  "n_self_tests": 21,
-  "n_self_tests_passing": 21,
+  "n_self_tests": 22,
+  "n_self_tests_passing": 22,
   "git_log": [
+    [
+      "5b4166c",
+      "2026-11-24",
+      "WP49: write it all down - four generated master documents"
+    ],
     [
       "c63548d",
       "2026-11-24",
@@ -208,17 +219,17 @@
     ]
   ],
   "ledger_tally": {
-    "SOLVED": 8,
-    "PARTIAL": 3,
+    "SOLVED": 10,
+    "PARTIAL": 1,
     "NOT SOLVED": 3,
     "UNMEASURABLE": 2
   },
-  "n_retractions": 20,
+  "n_retractions": 21,
   "summary": {
     "n_documents": 4,
-    "n_scripts_with_self_test": 21,
+    "n_scripts_with_self_test": 22,
     "all_self_tests_pass": true,
-    "n_retractions": 20,
+    "n_retractions": 21,
     "nothing_synthesised": true
   }
 }

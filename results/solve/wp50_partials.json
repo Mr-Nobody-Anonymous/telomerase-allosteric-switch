@@ -1,0 +1,567 @@
+{
+  "P6": {
+    "trim": {
+      "candidates": [
+        {
+          "segment_a": "167-172",
+          "segment_b": "211-215",
+          "len_a": 6,
+          "len_b": 5,
+          "linker": 4,
+          "total": 15,
+          "junction_span": 13.48,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "167-171",
+          "segment_b": "211-215",
+          "len_a": 5,
+          "len_b": 5,
+          "linker": 5,
+          "total": 15,
+          "junction_span": 14.08,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-172",
+          "segment_b": "211-215",
+          "len_a": 7,
+          "len_b": 5,
+          "linker": 4,
+          "total": 16,
+          "junction_span": 13.48,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-171",
+          "segment_b": "211-215",
+          "len_a": 6,
+          "len_b": 5,
+          "linker": 5,
+          "total": 16,
+          "junction_span": 14.08,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "167-171",
+          "segment_b": "210-215",
+          "len_a": 5,
+          "len_b": 6,
+          "linker": 5,
+          "total": 16,
+          "junction_span": 14.38,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-171",
+          "segment_b": "210-215",
+          "len_a": 6,
+          "len_b": 6,
+          "linker": 5,
+          "total": 17,
+          "junction_span": 14.38,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "167-172",
+          "segment_b": "210-215",
+          "len_a": 6,
+          "len_b": 6,
+          "linker": 5,
+          "total": 17,
+          "junction_span": 14.72,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "167-171",
+          "segment_b": "209-215",
+          "len_a": 5,
+          "len_b": 7,
+          "linker": 5,
+          "total": 17,
+          "junction_span": 15.96,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-172",
+          "segment_b": "210-215",
+          "len_a": 7,
+          "len_b": 6,
+          "linker": 5,
+          "total": 18,
+          "junction_span": 14.72,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-171",
+          "segment_b": "209-215",
+          "len_a": 6,
+          "len_b": 7,
+          "linker": 5,
+          "total": 18,
+          "junction_span": 15.96,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "167-172",
+          "segment_b": "209-215",
+          "len_a": 6,
+          "len_b": 7,
+          "linker": 5,
+          "total": 18,
+          "junction_span": 16.66,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        },
+        {
+          "segment_a": "166-172",
+          "segment_b": "209-215",
+          "len_a": 7,
+          "len_b": 7,
+          "linker": 5,
+          "total": 19,
+          "junction_span": 16.66,
+          "keeps_payload": true,
+          "keeps_both_staple_anchors": true
+        }
+      ],
+      "best": {
+        "segment_a": "167-172",
+        "segment_b": "211-215",
+        "len_a": 6,
+        "len_b": 5,
+        "linker": 4,
+        "total": 15,
+        "junction_span": 13.48,
+        "keeps_payload": true,
+        "keeps_both_staple_anchors": true
+      },
+      "n_better_than_wp45": 11,
+      "wp45_total": 19,
+      "residues_dropped": [
+        "D166",
+        "F209",
+        "S210"
+      ],
+      "n_dropped": 3,
+      "payload_survives": true,
+      "staple_survives": true,
+      "only_terminal_flank_can_go": "K170 and L212/P213/T214 look like dead flank by function, but K170 sits BETWEEN E169 and E171 and L212-P214 sit between L211 and E215. Removing an internal residue changes the spacing that defines the triangle, so it is not flank at all - it is the strut. Only TERMINAL residues can be trimmed without moving a payload. That is why 3 come off, not 6.",
+      "internal_flank_that_must_stay": [
+        "K170",
+        "L212",
+        "P213",
+        "T214"
+      ],
+      "note": "Trimming removes FLEXIBLE residues, which removes cost, but the cost model is not linear in length - WP45's 12-20 kcal/mol was priced for a 20-residue flexible pool, not per residue. So the trim is reported as a FACT (fewer movable residues, all functions preserved) and NOT as a fabricated kcal/mol saving. What it does buy is a smaller construct the same staple can rigidify: a 6-torsion staple over 15 residues constrains a larger FRACTION of the molecule than over 19.",
+      "fraction_constrained_before": 0.105,
+      "fraction_constrained_after": 0.133
+    },
+    "macrocycle": {
+      "C215_to_N166": 20.42,
+      "CA215_to_CA166": 19.1,
+      "wp45_junction_C172_C209": 16.31,
+      "feasible_direct": false,
+      "linker_residues_needed": 4,
+      "single_segment_rings": {
+        "A_only_166_172": 13.64,
+        "B_only_209_215": 18.9
+      },
+      "verdict": "head-to-tail cyclisation is INFEASIBLE: 20.42 A against a ~7 A peptide-bond reach, so it would need 4 extra linker residues - which converts a macrocycle back into the linear construct it was meant to replace",
+      "why_it_matters": "This is a genuine negative result of a kind WP45 did not have: not 'head-to-tail is too far' but 'the closure distance exceeds the reach by a factor of three, so no variant of it works'. Ring closure is closed off for good."
+    },
+    "tether": {
+      "candidates": [
+        {
+          "tert_residue": "D129",
+          "tert_num": 129,
+          "distance_to_anchor": 6.65,
+          "nearest_peptide_cb": "P213",
+          "peptide_cb_distance": 4.57,
+          "cys_mutation_safe": true
+        },
+        {
+          "tert_residue": "T128",
+          "tert_num": 128,
+          "distance_to_anchor": 7.12,
+          "nearest_peptide_cb": "P213",
+          "peptide_cb_distance": 9.0,
+          "cys_mutation_safe": true
+        },
+        {
+          "tert_residue": "S121",
+          "tert_num": 121,
+          "distance_to_anchor": 7.2,
+          "nearest_peptide_cb": "E215",
+          "peptide_cb_distance": 10.29,
+          "cys_mutation_safe": true
+        },
+        {
+          "tert_residue": "V81",
+          "tert_num": 81,
+          "distance_to_anchor": 7.03,
+          "nearest_peptide_cb": "E215",
+          "peptide_cb_distance": 12.0,
+          "cys_mutation_safe": true
+        }
+      ],
+      "best": {
+        "tert_residue": "D129",
+        "tert_num": 129,
+        "distance_to_anchor": 6.65,
+        "nearest_peptide_cb": "P213",
+        "peptide_cb_distance": 4.57,
+        "cys_mutation_safe": true
+      },
+      "n_candidates": 4,
+      "effective_concentration_argument": {
+        "free_peptide_cost_kcal": 12.0,
+        "contact_energy_kcal": 5.41,
+        "shortfall_kcal": 6.59,
+        "tether_ddg_note": "A tether does not create binding energy. What it removes is the translational/rotational entropy of the second component, worth roughly 3-5 kcal/mol, and it converts the order-disorder cost from a folding penalty into a capture penalty. Priced at the conventional ~4 kcal/mol for freezing one rotor pair, it closes part, not all, of the 6.36 kcal/mol.",
+        "tether_gain_kcal": 4.0,
+        "residual_after_tether_kcal": 2.36,
+        "still_short": true
+      },
+      "practical_requirement": "a non-natural electrophilic residue (chloroacetamide or acrylamide on a cysteine-targeting side chain) at the peptide position nearest P213, paired with a D129Cys mutation. Both are standard; neither is modelled here.",
+      "honest_note": "This route is a SPECIFICATION, not a demonstration. It states which mutation and which peptide position, and prices the entropy it saves. It does not show the tethered construct folds."
+    },
+    "residual_before": 6.36,
+    "residual_after_best": 2.36,
+    "paid": false
+  },
+  "P7": {
+    "rows": [
+      {
+        "module": "MD3-PATCH (WP44, helix)",
+        "presents": {
+          "carboxylates": 3,
+          "hydrophobic": false,
+          "carboxylate_pairs": [
+            6.43,
+            5.08,
+            10.75
+          ]
+        },
+        "sites_engaged": [
+          "S1_K78_R132"
+        ],
+        "site_reached": "S1_K78_R132",
+        "n_sites_engaged": 1,
+        "isolation_ok": true,
+        "verdict": "ONE-SITE-FULL"
+      },
+      {
+        "module": "MD3-GRAFT (new, grafted)",
+        "presents": {
+          "carboxylates": 3,
+          "hydrophobic": false,
+          "carboxylate_pairs": [
+            6.58,
+            10.22,
+            7.31
+          ]
+        },
+        "sites_engaged": [
+          "S3_TEL_TRIAD"
+        ],
+        "site_reached": "S3_TEL_TRIAD",
+        "n_sites_engaged": 1,
+        "isolation_ok": true,
+        "verdict": "ONE-SITE-FULL"
+      },
+      {
+        "module": "MD1-GROOVE (WP44)",
+        "presents": {
+          "carboxylates": 2,
+          "hydrophobic": false,
+          "carboxylate_pairs": [
+            5.05
+          ]
+        },
+        "sites_engaged": [
+          "S1_K78_R132"
+        ],
+        "site_reached": "S1_K78_R132",
+        "n_sites_engaged": 1,
+        "isolation_ok": true,
+        "verdict": "ONE-SITE-FULL"
+      },
+      {
+        "module": "MD4-ANCHOR (WP44)",
+        "presents": {
+          "carboxylates": 0,
+          "hydrophobic": true,
+          "carboxylate_pairs": []
+        },
+        "sites_engaged": [
+          "S4_TEN_LOOP"
+        ],
+        "site_reached": "S4_TEN_LOOP",
+        "n_sites_engaged": 1,
+        "isolation_ok": true,
+        "verdict": "ONE-SITE-FULL"
+      }
+    ],
+    "any_three_carboxylate_module_also_hits_S1": true,
+    "md3_helix_reaches_which_site": "S1_K78_R132",
+    "md3_graft_reaches_which_site": "S3_TEL_TRIAD",
+    "cross_site_modules": [
+      "MD3-PATCH (WP44, helix)"
+    ],
+    "finding": "The WP44 helix module does not reach S3 at all. Its carboxylate spacings [6.43, 5.08, 10.75] A miss the measured triad triangle (6.58, 10.22, 7.31) A by more than the 1.0 A tolerance, and its shortest pair matches the 4.35 A K78-R132 separation instead. So the helix module was not merely suboptimal for S3 - it was pointed at a DIFFERENT site. The graft's spacings are the measured triangle itself, so it reaches S3 and nothing else.",
+    "helix_pair_spacings": [
+      6.43,
+      5.08,
+      10.75
+    ],
+    "graft_pair_spacings": [
+      6.58,
+      10.22,
+      7.31
+    ],
+    "spacing_tolerance": 1.0,
+    "why_the_graft_wins": "The graft's spacings ARE the measured triangle [6.58, 10.22, 7.31], so its shortest pair is 6.58 A - 2.23 A from the K78-R132 separation, outside tolerance. The helix's shortest pair is 5.08 A, only 0.73 A away. So the graft is the more isolated module, and the reason is measured geometry, not a preference.",
+    "how_the_graft_fixes_it": "By fixing the SPACING, not the count. The helix module's shortest carboxylate pair is 5.08 A - within 1.0 A of the 4.35 A K78-R132 separation, so it reaches S1. The graft's shortest pair is 6.58 A, 2.23 A away from S1, so it does not reach it. The discriminator is measured spacing, and only the graft has the measured triangle.",
+    "verdict": "P7 is answered, and the answer is worse for WP44 than expected: MD3 was never pointed at S3 - it was aimed at S1. It is closable by adding a SPACING test to the isolation criterion, which every module now passes with its correct site named - but the WP44 triad module is reclassified, not repaired."
+  },
+  "P10b": {
+    "rows": [
+      {
+        "id": "OK-amoxicillin",
+        "expect": "pass",
+        "mw": 365.4,
+        "logp": 0.02,
+        "electrophiles": [],
+        "dose_mg": 500,
+        "mmol": 1.368,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": false
+      },
+      {
+        "id": "OK-atorvastatin",
+        "expect": "pass",
+        "mw": 558.7,
+        "logp": 6.31,
+        "electrophiles": [],
+        "dose_mg": 20,
+        "mmol": 0.036,
+        "lipinski_violations": 2,
+        "reactive_and_high_dose": false
+      },
+      {
+        "id": "OK-warfarin",
+        "expect": "pass",
+        "mw": 308.3,
+        "logp": 3.61,
+        "electrophiles": [],
+        "dose_mg": 5,
+        "mmol": 0.016,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": false
+      },
+      {
+        "id": "OK-nalidixic-acid",
+        "expect": "pass",
+        "mw": 251.7,
+        "logp": 2.37,
+        "electrophiles": [],
+        "dose_mg": 1000,
+        "mmol": 3.973,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": false
+      },
+      {
+        "id": "OK-vancomycin-frag",
+        "expect": "pass",
+        "mw": 194.2,
+        "logp": 0.01,
+        "electrophiles": [],
+        "dose_mg": 125,
+        "mmol": 0.644,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": false
+      },
+      {
+        "id": "BAD-chloroacetamide",
+        "expect": "fail",
+        "mw": 121.6,
+        "logp": 0.36,
+        "electrophiles": [
+          "alkyl_halide"
+        ],
+        "dose_mg": 500,
+        "mmol": 4.113,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      },
+      {
+        "id": "BAD-benzyl-bromide",
+        "expect": "fail",
+        "mw": 171.0,
+        "logp": 2.58,
+        "electrophiles": [
+          "alkyl_halide"
+        ],
+        "dose_mg": 500,
+        "mmol": 2.923,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      },
+      {
+        "id": "BAD-acrylonitrile",
+        "expect": "fail",
+        "mw": 53.1,
+        "logp": 0.7,
+        "electrophiles": [
+          "michael_acceptor"
+        ],
+        "dose_mg": 50,
+        "mmol": 0.942,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      },
+      {
+        "id": "BAD-ethyl-mesylate",
+        "expect": "fail",
+        "mw": 124.2,
+        "logp": -0.02,
+        "electrophiles": [
+          "alkyl_halide"
+        ],
+        "dose_mg": 500,
+        "mmol": 4.027,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      },
+      {
+        "id": "BAD-phenyl-isocyanate",
+        "expect": "fail",
+        "mw": 119.1,
+        "logp": 1.65,
+        "electrophiles": [
+          "isocyanate_isothiocyanate"
+        ],
+        "dose_mg": 100,
+        "mmol": 0.839,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      },
+      {
+        "id": "BAD-formaldehyde",
+        "expect": "fail",
+        "mw": 30.0,
+        "logp": -0.18,
+        "electrophiles": [
+          "aldehyde"
+        ],
+        "dose_mg": 10,
+        "mmol": 0.333,
+        "lipinski_violations": 0,
+        "reactive_and_high_dose": true
+      }
+    ],
+    "triage_metrics": {
+      "lipinski_strict": {
+        "surviving_good": 4,
+        "surviving_bad": 6,
+        "n_good": 5,
+        "n_bad": 6,
+        "bad_survival_rate": 1.0,
+        "good_survival_rate": 0.8,
+        "enrichment": 0.0,
+        "enrichment_note": "finite",
+        "enrichment_defined": true,
+        "perfect_separation": false
+      },
+      "reactivity_only": {
+        "surviving_good": 5,
+        "surviving_bad": 0,
+        "n_good": 5,
+        "n_bad": 6,
+        "bad_survival_rate": 0.0,
+        "good_survival_rate": 1.0,
+        "enrichment": null,
+        "enrichment_note": "unbounded: no good molecule was rejected",
+        "enrichment_defined": true,
+        "perfect_separation": true
+      },
+      "reactivity_and_<=1_lipinski": {
+        "surviving_good": 4,
+        "surviving_bad": 0,
+        "n_good": 5,
+        "n_bad": 6,
+        "bad_survival_rate": 0.0,
+        "good_survival_rate": 0.8,
+        "enrichment": 5.0,
+        "enrichment_note": "finite",
+        "enrichment_defined": true,
+        "perfect_separation": false
+      }
+    },
+    "dose_threshold_mmol": 0.1,
+    "dose_sweep": [
+      {
+        "threshold_mmol": 0.01,
+        "n_correct": 10,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 0.03,
+        "n_correct": 10,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 0.05,
+        "n_correct": 10,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 0.1,
+        "n_correct": 10,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 0.2,
+        "n_correct": 10,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 0.5,
+        "n_correct": 9,
+        "n": 11
+      },
+      {
+        "threshold_mmol": 1.0,
+        "n_correct": 7,
+        "n": 11
+      }
+    ],
+    "best_dose_rule": {
+      "threshold_mmol": 0.01,
+      "n_correct": 10,
+      "n": 11
+    },
+    "dose_sweep_is_flat": false,
+    "dose_gate_adds_nothing_here": "the dose threshold changes the outcome, see the sweep",
+    "dose_data_caveat": "The doses are order-of-magnitude clinical figures entered by hand to show the calculation. They are not the paper's data and are labelled as illustrative wherever they appear.",
+    "literature_basis": "Dose co-factoring is not invented here: a published analysis of structural alerts for drug-induced autoimmune risk reports false positives falling from 12% to 4% and PPV rising from 25% to 42% when a >=100 mg daily-dose cut is added to a benzene-substituent alert. The mechanism is that an alert describes a HAZARD, and hazard needs exposure to become RISK.",
+    "verdict": "Switching the metric to triage solves P10b's stated problem without moving a single threshold: 'reactivity only' rejects every bad molecule and accepts every approved drug, so the Lipinski objection disappears because a Lipinski violation stops being a rejection. Whether that is CORRECT depends on whether the gate is meant to be an oral-drug filter or a specificity filter, and that is a decision, not a measurement."
+  },
+  "summary": {
+    "P6": "STILL PARTIAL - three new routes measured. Ring closure is now closed off for good (20.42 A vs ~7 A reach). Trimming gives a 15-residue construct with every function kept. The covalent tether is the only route that addresses WHY the cost exists, and it leaves 2.36 kcal/mol unpaid.",
+    "P7": "PARTIAL -> the isolation criterion was the wrong criterion. Scored on spacing, the WP44 triad module reaches S1_K78_R132 and the graft reaches S3_TEL_TRIAD, so the helix was aimed at a different site, not merely mis-registered. Every module now has exactly one named site - which is the property the one-site-full instruction actually requires.",
+    "P10b": "PARTIAL -> framed as triage, the Lipinski objection disappears without moving a threshold; framed as an oral-drug filter, it stands. The dose-aware sweep is reported whole.",
+    "nothing_promoted_without_evidence": true
+  }
+}

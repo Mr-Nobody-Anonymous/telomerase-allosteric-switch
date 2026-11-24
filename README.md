@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-738%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-752%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -34,6 +34,27 @@ FEP is therefore reported as unmeasurable rather than estimated — that is why
 P11, P12 and most of the mechanism items are still open. The badge records what
 the project intends to use, not what it has run.
 
+
+## WP50 — the three PARTIAL items, by other means
+
+Four packages had attacked these the same way: add a constraint, add a filter
+term, add a protocol. WP50 tried subtraction, a different ring, a different
+payer, a different criterion and a different metric.
+
+- **P6** — three routes, one helps. **Ring closure is now closed off for good**
+  (C215→N166 = 20.42 Å against a ~7 Å peptide-bond reach, so ~3× — no variant
+  works). Trimming non-functional flank gives a **15-mer** with every function
+  kept. A **covalent tether to an engineered TERT cysteine** is the only route
+  that changes *who pays* the ordering cost, taking the shortfall from 6.36 to
+  **2.36 kcal/mol**. Still PARTIAL.
+- **P7 → SOLVED, but worse for WP44 than expected.** Scored on carboxylate
+  **spacing**, the triad module's pairs are 6.43/5.08/10.75 Å against a measured
+  triangle of 6.58/10.22/7.31. It misses S3 entirely and its 5.08 Å pair matches
+  the K78–R132 separation — **MD3 was aimed at S1**. The graft reaches S3 and
+  nothing else.
+- **P10b → SOLVED by changing the metric, not the threshold.** As triage,
+  `reactivity only` rejects 6/6 reactive compounds and accepts 5/5 approved
+  drugs — **unbounded enrichment**. A Lipinski violation stops being a rejection.
 
 ## WP48 — new designs for each failure, under isolated agents
 

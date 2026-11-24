@@ -177,7 +177,7 @@ test a document it is still writing. Its check lives in `tests/`.
 | `wp35_p2_identifiability` | **pass** — WP35 self-test: 54 passed, 0 failed |
 | `wp36_circularity` | **pass** — WP36 self-test: 34 passed, 0 failed |
 | `wp37_missing` | **pass** — WP37 self-test: 28 passed, 0 failed |
-| `wp38_archive` | **pass** — WP38 self-test: 61 passed, 0 failed |
+| `wp38_archive` | **pass** — WP38 self-test: 63 passed, 0 failed |
 | `wp39_executable` | **pass** — WP39 self-test: 39 passed, 0 failed |
 | `wp40_design_to_fifty` | **pass** — WP40 self-test: 45 passed, 0 failed |
 | `wp41_status_ledger` | **pass** — WP41 self-test: 42 passed, 0 failed |
@@ -185,14 +185,16 @@ test a document it is still writing. Its check lives in `tests/`.
 | `wp43_test_battery` | **pass** — WP43 self-test: 48 checks, 0 failed |
 | `wp44_modular_designs` | **pass** — WP44 self-test: 39 checks, 0 failed |
 | `wp45_graft` | **pass** — WP45 self-test: 30 checks, 0 failed |
-| `wp46_closure` | **pass** — WP46 self-test: 26 checks, 0 failed |
+| `wp46_closure` | **pass** — WP46 self-test: 29 checks, 0 failed |
 | `wp47_close_open` | **pass** — WP47 self-test: 33 checks, 0 failed |
 | `wp48_new_designs` | **pass** — WP48 self-test: 25 checks, 0 failed |
+| `wp50_partials` | **pass** — WP50 self-test: 31 checks, 0 failed |
 
 ## 10. Commit history of this branch
 
 | commit | date | subject |
 |---|---|---|
+| `5b4166c` | 2026-11-24 | WP49: write it all down - four generated master documents |
 | `c63548d` | 2026-11-24 | WP48: a new design per failure, four isolated agents, and a critic |
 | `9916cb2` | 2026-11-23 | WP47: P6 gets a real crosslink, P10 is proven unfixable as framed |
 | `7e4af73` | 2026-11-23 | WP46: closure ledger - no, and here is exactly what is left |

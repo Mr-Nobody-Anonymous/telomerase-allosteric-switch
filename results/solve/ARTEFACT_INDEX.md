@@ -51,6 +51,7 @@
 | `wp48_new_designs` | wp48_new_designs.json/.csv, WP48_NEW_DESIGNS.md | yes |
 | `wp49_master_record` | MASTER_RECORD.md, METHODS.md, ARTEFACT_INDEX.md, NEXT_STEPS.md | yes |
 | `wp4_coupling_paths` | — | no |
+| `wp50_partials` | wp50_partials.json/.csv, WP50_PARTIALS.md | yes |
 | `wp5_decisive_experiment` | — | no |
 | `wp6_mutant_panel` | — | no |
 | `wp7_entry_independence` | — | no |
@@ -74,6 +75,7 @@
 | `WP45_GRAFT.md` | the S3 graft (carries CORRECTED BY WP47) | by its script |
 | `WP47_CLOSE_OPEN.md` | crosslink screen, filter ceiling, assay protocols | by its script |
 | `WP48_NEW_DESIGNS.md` | four agents, four new designs, the critic | by its script |
+| `WP50_PARTIALS.md` | the three PARTIAL items attacked by other means | by its script |
 
 ## Machine-readable
 
@@ -94,6 +96,7 @@
 | `wp47_close_open.json` | machine-readable output of its generator |
 | `wp48_new_designs.json` | machine-readable output of its generator |
 | `wp49_master_record.json` | machine-readable output of its generator |
+| `wp50_partials.json` | machine-readable output of its generator |
 
 ## Infrastructure
 

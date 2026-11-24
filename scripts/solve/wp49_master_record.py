@@ -100,6 +100,7 @@ def collect() -> dict:
         "wp46": load("wp46_closure"),
         "wp47": load("wp47_close_open"),
         "wp48": load("wp48_new_designs"),
+        "wp50": load("wp50_partials"),
         "retractions": load("retractions"),
         "facts": FACTS,
     }
@@ -438,7 +439,49 @@ def write_master(d: dict) -> None:
     A("")
     A("---")
     A("")
-    A("## 7. The closure ledger — every sub-problem and its status")
+    wp50 = d["wp50"]
+    if wp50:
+        A("## 6b. WP50 — the PARTIAL items, by other means")
+        A("")
+        A("Four packages had tried to close these the same way: add a constraint,")
+        A("add a filter term, add a protocol. WP50 tried subtraction, a different")
+        A("ring, a different payer, a different criterion and a different metric.")
+        A("")
+        te = wp50["P6"]["tether"]
+        A("### P6 — three routes, and only one helps")
+        A("")
+        A(f"| route | result |")
+        A("|---|---|")
+        A(f"| trim non-functional flank | {wp50['P6']['trim']['wp45_total']} → "
+          f"{wp50['P6']['trim']['best']['total']} residues, all functions kept |")
+        A(f"| macrocyclisation | **infeasible** — C(215)→N(166) = "
+          f"{wp50['P6']['macrocycle']['C215_to_N166']} Å vs a ~7 Å reach |")
+        A(f"| covalent tether to TERT | {te['best']['tert_residue'] if te['best'] else '—'}→Cys, "
+          f"residual **{te['effective_concentration_argument']['residual_after_tether_kcal']}** kcal/mol |")
+        A("")
+        A(f"> {wp50['P6']['trim']['only_terminal_flank_can_go']}")
+        A("")
+        A(f"> {te['honest_note']}")
+        A("")
+        A("### P7 — the module was aimed at the wrong site")
+        A("")
+        A(f"> {wp50['P7']['finding']}")
+        A("")
+        A("### P10b — the objection dissolves when the metric is corrected")
+        A("")
+        tm = wp50["P10b"]["triage_metrics"]
+        A("| rule | good survive | bad survive | enrichment |")
+        A("|---|---|---|---|")
+        for name, mt in tm.items():
+            A(f"| `{name}` | {mt['surviving_good']}/{mt['n_good']} | "
+              f"{mt['surviving_bad']}/{mt['n_bad']} | "
+              f"{mt['enrichment'] if mt['enrichment'] is not None else 'unbounded'} |")
+        A("")
+        A(f"> {wp50['P10b']['verdict']}")
+        A("")
+        A("---")
+        A("")
+        A("## 7. The closure ledger — every sub-problem and its status")
     A("")
     items = wp46.get("items", []) if wp46 else []
     A("| id | area | question | status | kind |")
@@ -729,6 +772,7 @@ def write_index(d: dict) -> None:
         "wp46_closure": "wp46_closure.json/.csv, CLOSURE.md",
         "wp47_close_open": "wp47_close_open.json/.csv, WP47_CLOSE_OPEN.md",
         "wp48_new_designs": "wp48_new_designs.json/.csv, WP48_NEW_DESIGNS.md",
+    "wp50_partials": "wp50_partials.json/.csv, WP50_PARTIALS.md",
         "wp49_master_record": "MASTER_RECORD.md, METHODS.md, ARTEFACT_INDEX.md, NEXT_STEPS.md",
         "wp38_archive": "RETRACTIONS.md, retractions.json/.csv",
         "wp41_status_ledger": "STATUS_LEDGER.md, status_ledger.json/.csv",
@@ -755,6 +799,7 @@ def write_index(d: dict) -> None:
         "WP45_GRAFT.md": "the S3 graft (carries CORRECTED BY WP47)",
         "WP47_CLOSE_OPEN.md": "crosslink screen, filter ceiling, assay protocols",
         "WP48_NEW_DESIGNS.md": "four agents, four new designs, the critic",
+        "WP50_PARTIALS.md": "the three PARTIAL items attacked by other means",
     }
     for f, what in docs.items():
         A(f"| `{f}` | {what} | {'yes' if f in ('MASTER_RECORD.md', 'METHODS.md', 'ARTEFACT_INDEX.md', 'NEXT_STEPS.md', 'CLOSURE.md', 'RETRACTIONS.md', 'STATUS_LEDGER.md') else 'by its script'} |")

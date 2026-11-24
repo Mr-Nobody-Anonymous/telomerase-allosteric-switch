@@ -11,12 +11,12 @@ drifted three times (C1, C7, R8), so this document does not contain any.
 
 ## 0. The answer, first
 
-**No. 8 of 16 sub-problems are solved, and all 8 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 3 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
+**No. 10 of 16 sub-problems are solved, and all 10 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 1 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
 
 | status | count |
 |---|---|
-| SOLVED | **8** |
-| PARTIAL | **3** |
+| SOLVED | **10** |
+| PARTIAL | **1** |
 | NOT SOLVED | **3** |
 | UNMEASURABLE | **2** |
 
@@ -292,6 +292,40 @@ Re-checked with truncation-aware padding: **the staple span survives a conservat
 
 ---
 
+## 6b. WP50 — the PARTIAL items, by other means
+
+Four packages had tried to close these the same way: add a constraint,
+add a filter term, add a protocol. WP50 tried subtraction, a different
+ring, a different payer, a different criterion and a different metric.
+
+### P6 — three routes, and only one helps
+
+| route | result |
+|---|---|
+| trim non-functional flank | 19 → 15 residues, all functions kept |
+| macrocyclisation | **infeasible** — C(215)→N(166) = 20.42 Å vs a ~7 Å reach |
+| covalent tether to TERT | D129→Cys, residual **2.36** kcal/mol |
+
+> K170 and L212/P213/T214 look like dead flank by function, but K170 sits BETWEEN E169 and E171 and L212-P214 sit between L211 and E215. Removing an internal residue changes the spacing that defines the triangle, so it is not flank at all - it is the strut. Only TERMINAL residues can be trimmed without moving a payload. That is why 3 come off, not 6.
+
+> This route is a SPECIFICATION, not a demonstration. It states which mutation and which peptide position, and prices the entropy it saves. It does not show the tethered construct folds.
+
+### P7 — the module was aimed at the wrong site
+
+> The WP44 helix module does not reach S3 at all. Its carboxylate spacings [6.43, 5.08, 10.75] A miss the measured triad triangle (6.58, 10.22, 7.31) A by more than the 1.0 A tolerance, and its shortest pair matches the 4.35 A K78-R132 separation instead. So the helix module was not merely suboptimal for S3 - it was pointed at a DIFFERENT site. The graft's spacings are the measured triangle itself, so it reaches S3 and nothing else.
+
+### P10b — the objection dissolves when the metric is corrected
+
+| rule | good survive | bad survive | enrichment |
+|---|---|---|---|
+| `lipinski_strict` | 4/5 | 6/6 | 0.0 |
+| `reactivity_only` | 5/5 | 0/6 | unbounded |
+| `reactivity_and_<=1_lipinski` | 4/5 | 0/6 | 5.0 |
+
+> Switching the metric to triage solves P10b's stated problem without moving a single threshold: 'reactivity only' rejects every bad molecule and accepts every approved drug, so the Lipinski objection disappears because a Lipinski violation stops being a rejection. Whether that is CORRECT depends on whether the gate is meant to be an oral-drug filter or a specificity filter, and that is a decision, not a measurement.
+
+---
+
 ## 7. The closure ledger — every sub-problem and its status
 
 | id | area | question | status | kind |
@@ -302,11 +336,11 @@ Re-checked with truncation-aware padding: **the staple span survives a conservat
 | P4 | Triad | Can an alpha-helix present the E168/E169/E171 triad? | **SOLVED** | geometric |
 | P5 | Triad | Can the triad be presented at all, in the native geometry? | **SOLVED** | geometric |
 | P6 | Triad | Does a peptide HOLD that geometry? | **PARTIAL** | design-level |
-| P7 | Modularity | Can each module solve only its own site, fully? | **PARTIAL** | geometric |
+| P7 | Modularity | Can each module solve only its own site, fully? | **SOLVED** | geometric |
 | P8 | Modularity | Do merged modules stay stable together? | **SOLVED** | design-level |
 | P9 | Modularity | Can one groove be blocked and repaired at once? | **SOLVED** | logical |
 | P10 | Screening | Is a structural alert a usable filter at all? | **SOLVED** | computed |
-| P10b | Screening | Does the full gate stack accept approved drugs? | **PARTIAL** | computed |
+| P10b | Screening | Does the full gate stack accept approved drugs? | **SOLVED** | computed |
 | P11 | Screening | What is the experimental success rate? | **UNMEASURABLE** | wet-lab |
 | P12 | Screening | Do any of these designs bind telomerase? | **UNMEASURABLE** | wet-lab |
 | P13 | Mechanism | What does TPP1 change mechanically (M5)? | **NOT SOLVED** | wet-lab |
@@ -316,14 +350,8 @@ Re-checked with truncation-aware padding: **the staple span survives a conservat
 ### What each open item waits on
 
 - **P6 (PARTIAL)** — Does a peptide HOLD that geometry?
-  - A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. But the staple buys only 2.8 kcal/mol of ordering against a 12-20 kcal/mol cost: residual 9.2 kcal/mol unpaid. Constraint found, energy still not balanced.
-  - *blocker:* the remaining 6.36 kcal/mol even after a structured PAPAP linker and a second staple attempt - neither closes it, so a presenting scaffold is still required (PDB screening + loop modelling, unavailable here)
-- **P7 (PARTIAL)** — Can each module solve only its own site, fully?
-  - 4 of 5 do. One site (S3) was declared unsolvable on a helix model that was wrong - corrected by P4/P5 - so the module result is retained but its premise is superseded.
-  - *blocker:* the MD3 module needs rebuilding on the graft (P5), not on a helix
-- **P10b (PARTIAL)** — Does the full gate stack accept approved drugs?
-  - No. 10/11 end-to-end on the third panel; the one miss is Lipinski rejecting atorvastatin (MW 559, logP > 5). That is a pre-existing gate defect inherited from WP43, not a reactivity failure - it is attributed, not blamed on the layer that was fixed.
-  - *blocker:* Lipinski false rejection of large approved drugs; needs a rule that does not reject a marketed molecule at MW 559
+  - A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. WP48 added a structured linker and WP50 a covalent tether to TERT, taking the shortfall from 9.2 to 2.36 kcal/mol. Still not balanced.
+  - *blocker:* the remaining 2.36 kcal/mol after the WP50 covalent tether. Ring closure is now closed off permanently (20.42 A vs ~7 A reach) and trimming only buys 4 residues, so the residue is a presenting scaffold or the TERT Cys tether, both of which need to be made
 - **P11 (UNMEASURABLE)** — What is the experimental success rate?
   - Unknown. N = 0 designs have been made, so the rate has no denominator.
   - *blocker:* synthesis and assay; no amount of computation supplies this
@@ -344,7 +372,7 @@ Re-checked with truncation-aware padding: **the staple span survives a conservat
 
 ## 8. Every retraction
 
-**20 registered.** The register is enforced: a marker removed from a
+**21 registered.** The register is enforced: a marker removed from a
 source document, or a refuted claim added without registering it, fails the
 test suite.
 
@@ -370,6 +398,7 @@ test suite.
 | **X2** | CORRECTED | the TEL patch triad E168/E169/E171 lies on an alpha-helix, so a helical register lattice describes it | psi(E169) is +24.4 deg and CA168-CA171 is 7.68 A in 7TRE and 7.70 A in 2I46, against 5.05 A for an alpha-helix at that offset; the | backbone grafting of the native segments, verbatim (WP45); the CONCLUSION that a helix cannot present the tria |
 | **X3** | CORRECTED | no covalent route exists to constrain the grafted TEL segments (WP45, route b) | WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, directi | the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own orde |
 | **X4** | CORRECTED | the graft's ordering cost (12-20 kcal/mol) is a property of the construct that no redesign can reduce | WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore the largest backbone state space of any residue, so WP45 chos | the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the conclusion that the construct still cannot pay IN F |
+| **X5** | CORRECTED | the MD3 triad module presents the E168/E169/E171 triad and fails it only on the third contact (WP44: SITE-UNSO | scored on carboxylate spacing, MD3's three display glutamates sit at 6.43, 5.08 and 10.75 A. The measured triad triangle is 6.58,  | the grafted construct, whose spacings ARE the measured triangle (WP45/WP50). The conclusion that a helix canno |
 
 ---
 

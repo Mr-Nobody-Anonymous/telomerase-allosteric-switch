@@ -292,6 +292,24 @@ REGISTER = [
         file="results/solve/WP48_NEW_DESIGNS.md",
         must_contain="most expensive possible",
     ),
+    dict(
+        id="X5", wp="50", state="CORRECTED",
+        claim="the MD3 triad module presents the E168/E169/E171 triad and fails it "
+              "only on the third contact (WP44: SITE-UNSOLVABLE, 2 of 3)",
+        actual="scored on carboxylate spacing, MD3's three display glutamates sit at "
+               "6.43, 5.08 and 10.75 A. The measured triad triangle is 6.58, 10.22 "
+               "and 7.31 A, so even the closest matching pair is 2.23 A out; the "
+               "5.08 A pair instead matches the 4.35 A K78-R132 separation. The "
+               "module was aimed at S1, not S3",
+        predicate="the module's own display spacings reproduce the measured triad "
+                  "triangle within tolerance",
+        replaced_by="the grafted construct, whose spacings ARE the measured triangle "
+                    "(WP45/WP50). The conclusion that a helix cannot present the "
+                    "triad stands and is now over-determined: it fails on spacing, "
+                    "not only on the third contact",
+        file="results/solve/WP50_PARTIALS.md",
+        must_contain="aimed at S1",
+    ),
 ]
 
 

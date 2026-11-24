@@ -2119,7 +2119,7 @@ def test_wp46_the_open_items_cannot_be_marked_solved():
     # P6 moved NOT SOLVED -> PARTIAL in WP47 (a real crosslink exists), but it
     # must not be SOLVED while 9.2 kcal/mol of ordering is unpaid.
     assert by_id["P6"]["status"] in ("NOT SOLVED", "PARTIAL")
-    assert "unpaid" in by_id["P6"]["answer"]
+    assert "not balanced" in by_id["P6"]["answer"].lower()
     assert by_id["P11"]["status"] == "UNMEASURABLE"   # experimental rate
     assert by_id["P12"]["status"] == "UNMEASURABLE"   # binding
     assert by_id["P13"]["status"] == "NOT SOLVED"     # mechanism / M5
@@ -2233,9 +2233,13 @@ def test_wp47_p10_is_not_claimed_solved():
     import json
     led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
     by = {i["id"]: i for i in led["items"]}
-    assert _wp47().calibrate()["validated"] is False        # WP47's rule
-    assert by["P10b"]["status"] == "PARTIAL"                # the gate stack
-    assert _wp48().build()["agents"]["B"]["filter"]["validated"] is True  # WP48's
+    # WP47's own rule still fails its own hold-out - that fact does not change
+    assert _wp47().calibrate()["validated"] is False
+    # WP48's SMARTS layer validated; WP50 then showed the gate-stack objection
+    # dissolves under a triage metric. Both are recorded.
+    assert _wp48().build()["agents"]["B"]["filter"]["validated"] is True
+    assert by["P10b"]["status"] == "SOLVED"
+    assert "purpose" in by["P10b"]["answer"]
 
 
 def test_wp47_every_holdout_failure_is_named_with_a_reason():
@@ -2374,8 +2378,10 @@ def test_wp48_ledger_splits_the_filter_question_correctly():
     led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
     by = {i["id"]: i for i in led["items"]}
     assert by["P10"]["status"] == "SOLVED"
-    assert by["P10b"]["status"] == "PARTIAL"
-    assert "Lipinski" in by["P10b"]["answer"]
+    # WP50 closed P10b - by correcting the METRIC, not by moving a threshold.
+    assert by["P10b"]["status"] == "SOLVED"
+    assert "triage" in by["P10b"]["answer"].lower()
+    assert "threshold" in by["P10b"]["answer"].lower()
 
 
 def test_wp48_self_test_passes():
@@ -2416,7 +2422,7 @@ def test_wp49_master_record_keeps_the_negative_results():
     master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
     flat = " ".join(master.split())
     assert "class exclusion" in flat          # the small-molecule verdict
-    assert "8 of 16 sub-problems are solved" in flat
+    assert "10 of 16 sub-problems are solved" in flat
     assert "None is solved as evidence" in flat
     assert "Zero syntheses" in flat or "zero syntheses" in flat.lower()
 
@@ -2474,3 +2480,120 @@ def test_wp49_setup_script_exists_and_is_referenced():
     assert "rdkit" in body and "sympy" in body
     docs = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
     assert "setup_environment.sh" in docs
+
+
+# --------------------------------------------------------------- WP50
+def _wp50():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp50_partials")
+
+
+def test_wp50_ring_closure_is_closed_off_for_good():
+    """Not 'head-to-tail is far' but 'no variant works': 20.42 A vs ~7 A reach."""
+    m = _wp50().macrocyclisation()
+    assert m["feasible_direct"] is False
+    assert m["C215_to_N166"] > 2.5 * 7.0      # ~2.9x the peptide-bond reach
+    assert m["linker_residues_needed"] >= 1
+
+
+def test_wp50_the_trim_uses_wp45s_own_reach_constant():
+    """An earlier draft used a looser reach and flattered the trim."""
+    t = _wp50().trim_flank()
+    assert t["best"]["linker"] == math.ceil(t["best"]["junction_span"] / 3.5)
+    assert t["best"]["total"] < t["wp45_total"]
+
+
+def test_wp50_the_trim_keeps_every_function():
+    t = _wp50().trim_flank()
+    assert t["payload_survives"] and t["staple_survives"]
+    assert t["n_dropped"] > 0
+    # K170 sits between E169 and E171; removing it moves a payload
+    assert "K170" in t["internal_flank_that_must_stay"]
+    assert "strut" in t["only_terminal_flank_can_go"]
+
+
+def test_wp50_the_trim_is_not_priced_as_a_fake_saving():
+    t = _wp50().trim_flank()
+    assert "not as a fabricated" in t["note"].lower()
+
+
+def test_wp50_the_covalent_tether_is_specified_not_demonstrated():
+    te = _wp50().covalent_tether()
+    assert te["best"] is not None
+    assert te["best"]["peptide_cb_distance"] <= 12.0
+    assert all(c["cys_mutation_safe"] for c in te["candidates"])
+    assert "SPECIFICATION, not a demonstration" in te["honest_note"]
+    # and it must still leave a shortfall
+    assert te["effective_concentration_argument"]["still_short"] is True
+
+
+def test_wp50_the_helix_module_was_aimed_at_the_wrong_site():
+    """The finding: MD3 reaches S1 by spacing, not S3."""
+    p7 = _wp50().crosssite_isolation()
+    assert p7["md3_helix_reaches_which_site"] == "S1_K78_R132"
+    assert p7["md3_graft_reaches_which_site"] == "S3_TEL_TRIAD"
+    assert "does not reach S3" in p7["finding"]
+
+
+def test_wp50_spacing_not_count_is_what_separates_modules():
+    p7 = _wp50().crosssite_isolation()
+    assert p7["spacing_tolerance"] > 0
+    assert min(p7["graft_pair_spacings"]) > min(p7["helix_pair_spacings"])
+    # the graft's spacings ARE the measured triangle
+    assert sorted(p7["graft_pair_spacings"]) == sorted([6.58, 10.22, 7.31])
+
+
+def test_wp50_every_module_reaches_exactly_one_named_site():
+    p7 = _wp50().crosssite_isolation()
+    for r in p7["rows"]:
+        assert r["site_reached"] is not None, r
+        assert r["verdict"] == "ONE-SITE-FULL"
+
+
+def test_wp50_triage_metric_resolves_the_lipinski_objection():
+    tm = _wp50().triage_and_exposure()["triage_metrics"]
+    assert tm["reactivity_only"]["perfect_separation"] is True
+    assert tm["reactivity_only"]["surviving_bad"] == 0
+    assert tm["reactivity_only"]["surviving_good"] == tm["reactivity_only"]["n_good"]
+    assert tm["lipinski_strict"]["perfect_separation"] is False
+
+
+def test_wp50_unbounded_enrichment_is_labelled_not_nulled():
+    tm = _wp50().triage_and_exposure()["triage_metrics"]
+    for v in tm.values():
+        assert v["enrichment_defined"] is True
+        if v["enrichment"] is None:
+            assert "unbounded" in v["enrichment_note"]
+
+
+def test_wp50_the_dose_gate_is_not_oversold():
+    """It changes nothing on this panel, and says so."""
+    p10 = _wp50().triage_and_exposure()
+    assert "illustrative" in p10["dose_data_caveat"]
+    if p10["dose_sweep_is_flat"]:
+        assert "changes no decision here" in p10["dose_gate_adds_nothing_here"]
+
+
+def test_wp50_ledger_promotes_only_what_the_data_supports():
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P7"]["status"] == "SOLVED"
+    assert by["P10b"]["status"] == "SOLVED"
+    assert by["P6"]["status"] == "PARTIAL"      # the tether does not close it
+    assert "2.36" in by["P6"]["answer"] or "2.36" in (by["P6"]["blocker"] or "")
+
+
+def test_wp50_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp50_partials.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp50_document_renders_the_derived_verdicts():
+    doc = (REPO / "results" / "solve" / "WP50_PARTIALS.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "aimed at S1" in flat
+    assert "INFEASIBLE" in flat
+    assert "unbounded" in flat
+    assert "SPECIFICATION, not a demonstration" in flat

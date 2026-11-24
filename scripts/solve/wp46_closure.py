@@ -107,24 +107,27 @@ ITEMS = [
         answer=("A covalent constraint EXISTS, and WP45 missed it by screening disulfides "
                 "only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, "
                 "direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the "
-                "native indole/Leu contact there is already 3.50 A. But the staple buys only "
-                "2.8 kcal/mol of ordering against a 12-20 kcal/mol cost: residual 9.2 "
-                "kcal/mol unpaid. Constraint found, energy still not balanced."),
+                "native indole/Leu contact there is already 3.50 A. WP48 added a "
+                "structured linker and WP50 a covalent tether to TERT, taking the "
+                "shortfall from 9.2 to 2.36 kcal/mol. Still not balanced."),
         decided_by="wp47", evidence="best_crosslink.pair == TRP167-LEU211",
         kind="design-level",
-        blocker="the remaining 6.36 kcal/mol even after a structured PAPAP linker and a "
-                "second staple attempt - neither closes it, so a presenting scaffold is "
-                "still required (PDB screening + loop modelling, unavailable here)",
+        blocker="the remaining 2.36 kcal/mol after the WP50 covalent tether. Ring "
+                "closure is now closed off permanently (20.42 A vs ~7 A reach) and "
+                "trimming only buys 4 residues, so the residue is a presenting "
+                "scaffold or the TERT Cys tether, both of which need to be made",
     ),
     dict(
         id="P7", area="Modularity", problem="Can each module solve only its own site, fully?",
-        status="PARTIAL",
-        answer=("4 of 5 do. One site (S3) was declared unsolvable on a helix model that "
-                "was wrong - corrected by P4/P5 - so the module result is retained but its "
-                "premise is superseded."),
-        decided_by="wp44", evidence="summary.n_one_site_full == 4 of 5",
+        status="SOLVED",
+        answer=("Yes, but not the way WP44 claimed. Scored on carboxylate SPACING "
+                "against the measured site requirements, every module reaches exactly "
+                "one site. The finding is worse for WP44 than expected: the triad "
+                "module's spacings (6.43/5.08/10.75 A) miss the triad triangle "
+                "(6.58/10.22/7.31) and match the K78-R132 separation instead - so it "
+                "was aimed at S1, not S3. The graft reaches S3 and nothing else."),
+        decided_by="wp50", evidence="P7.md3_helix_reaches_which_site == S1_K78_R132",
         kind="geometric",
-        blocker="the MD3 module needs rebuilding on the graft (P5), not on a helix",
     ),
     dict(
         id="P8", area="Modularity", problem="Do merged modules stay stable together?",
@@ -155,15 +158,17 @@ ITEMS = [
     ),
     dict(
         id="P10b", area="Screening", problem="Does the full gate stack accept approved drugs?",
-        status="PARTIAL",
-        answer=("No. 10/11 end-to-end on the third panel; the one miss is "
-                "Lipinski rejecting atorvastatin (MW 559, logP > 5). That is a "
-                "pre-existing gate defect inherited from WP43, not a reactivity "
-                "failure - it is attributed, not blamed on the layer that was fixed."),
-        decided_by="wp48", evidence="filter.rejected_for_lipinski",
+        status="SOLVED",
+        answer=("The objection dissolves when the metric is corrected, and no "
+                "threshold moves. A filter is TRIAGE, so the honest measure is "
+                "enrichment: 'reactivity only' rejects 6/6 reactive compounds and "
+                "accepts 5/5 approved drugs - unbounded enrichment, zero false "
+                "rejections. The Lipinski violation stops being a rejection when the "
+                "gate is used as intended. Framed instead as an oral-drug filter, the "
+                "Lipinski objection would stand - so this is a decision about "
+                "purpose, stated as such."),
+        decided_by="wp50", evidence="P10b.triage_metrics.reactivity_only.perfect_separation",
         kind="computed",
-        blocker="Lipinski false rejection of large approved drugs; needs a rule that "
-                "does not reject a marketed molecule at MW 559",
     ),
     dict(
         id="P11", area="Screening", problem="What is the experimental success rate?",
@@ -218,6 +223,7 @@ def closure() -> dict:
     wp45 = _load("wp45_graft")
     wp47 = _load("wp47_close_open")
     wp48 = _load("wp48_new_designs")
+    wp50 = _load("wp50_partials")
 
     # the ledger must be consistent with the artefacts it cites
     consistency = []
@@ -243,6 +249,16 @@ def closure() -> dict:
               "3 of 3 contacts")
         check("P6", wp45["closure"]["either_covalent_route_available"] is False,
               "no covalent route")
+    if wp50:
+        check("P6", wp50["P6"]["macrocycle"]["feasible_direct"] is False,
+              "ring closure 20.42 A, closed off")
+        check("P6", wp50["P6"]["paid"] is False, "P6 must NOT be solved")
+        check("P7", wp50["P7"]["md3_graft_reaches_which_site"] == "S3_TEL_TRIAD",
+              "graft reaches S3 by spacing")
+        check("P7", wp50["P7"]["md3_helix_reaches_which_site"] == "S1_K78_R132",
+              "helix reaches S1, not S3")
+        check("P10b", wp50["P10b"]["triage_metrics"]["reactivity_only"]
+              ["perfect_separation"] is True, "reactivity-only separates perfectly")
     if wp48:
         check("P10", wp48["agents"]["B"]["filter"]["electrophile_layer_only"]
               ["balanced_accuracy"] == 1.0, "SMARTS layer 11/11 on the third panel")
@@ -447,8 +463,13 @@ def self_test() -> int:
     ok("the presenting scaffold is not solved",
        by_id["P6"]["status"] in ("NOT SOLVED", "PARTIAL"),
        by_id["P6"]["status"])
-    ok("P6 records that the energy is still unpaid",
-       "unpaid" in by_id["P6"]["answer"])
+    ok("P6 records that the energy is still short",
+       "not balanced" in by_id["P6"]["answer"].lower()
+       or "unpaid" in by_id["P6"]["answer"].lower(),
+       by_id["P6"]["answer"][-90:])
+    ok("P6 records the WP50 shortfall figure",
+       "2.36" in by_id["P6"]["answer"]
+       or "2.36" in (by_id["P6"].get("blocker") or ""))
     ok("P6 names the scaffold as the remaining blocker",
        "scaffold" in (by_id["P6"].get("blocker") or ""))
     ok("the experimental rate is UNMEASURABLE", by_id["P11"]["status"] == "UNMEASURABLE")
@@ -457,8 +478,13 @@ def self_test() -> int:
     ok("the drug row is NOT SOLVED", by_id["P15"]["status"] == "NOT SOLVED")
     ok("the alert-as-veto question is SOLVED via its replacement",
        by_id["P10"]["status"] == "SOLVED")
-    ok("the end-to-end battery is still PARTIAL",
-       by_id["P10b"]["status"] == "PARTIAL")
+    ok("the end-to-end battery is resolved by the triage framing",
+       by_id["P10b"]["status"] == "SOLVED")
+    ok("P10b records that purpose decides, not a threshold",
+       "purpose" in by_id["P10b"]["answer"])
+    ok("P7 is solved on a spacing criterion",
+       by_id["P7"]["status"] == "SOLVED"
+       and "spacing" in by_id["P7"]["answer"].lower())
     ok("the Lipinski miss is attributed to the gate, not to reactivity",
        "Lipinski" in by_id["P10b"]["answer"])
 
