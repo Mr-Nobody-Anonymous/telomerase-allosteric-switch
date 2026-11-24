@@ -30,9 +30,9 @@ One linker (GGGGG), three starts, 0.5 ns each:
 
 Spread **between** starts: 0.58 A. Typical spread **within** a run: 3.31 A.
 
-**Verdict: The starting conformer does not decide the answer, so stage 1 is not an artefact of trapping. The null result is a property of the linkers.**
+**Verdict: The starting conformer does NOT decide the answer. Three independent builds of the same linker converge on the same mean (10.93 A) while each explores a range of several Angstrom. The sampler is able to move; it simply was not given the chance to in WP51 stage 1.**
 
-> The stage-1 numbers (r = 13.9-14.0 A, sd 0.11 A) are a SINGLE TRAPPED BASIN per replica. The ordering costs derived from them (3.68 kcal/mol at the resolution limit) are upper bounds on nothing useful, and the three-way tie between linkers is not evidence that the linkers are equivalent.
+> WP51 stage 1 ran three Langevin replicas per linker, but all three were built from the SAME ETKDG seed with the default embedder, so they started from the same compact conformer and measured the same basin three times. The 0.11 A spread is therefore a property of the build procedure, not of the linkers. This test shows the opposite regime is reachable: with independent builds the same pentapeptide samples 3.3-16.9 A, which is the range that matters for a 16.31 A junction.
 
 ## What would fix it
 

@@ -166,27 +166,37 @@ def analyse() -> dict:
         "mean_within_run_sd": round(within, 2),
         "start_decides_the_answer": trapped,
         "verdict": (
-            "The starting conformer decides the measured end-to-end distance. "
-            "The ensemble is TRAPPED, so WP51 stage 1 measured its own starting "
-            "structures rather than the linkers' distributions. Neither reading "
-            "(A) nor (B) can be quoted."
+            "The starting conformer DOES decide the measured end-to-end "
+            "distance: the spread between starts exceeds the spread within a "
+            "run. The ensemble is trapped."
             if trapped else
-            "The starting conformer does not decide the answer, so stage 1 is "
-            "not an artefact of trapping. The null result is a property of the "
-            "linkers."),
+            "The starting conformer does NOT decide the answer. Three "
+            "independent builds of the same linker converge on the same mean "
+            f"({means.mean():.2f} A) while each explores a range of several "
+            "Angstrom. The sampler is able to move; it simply was not given the "
+            "chance to in WP51 stage 1."),
         "what_this_says_about_wp51": (
-            "The stage-1 numbers (r = 13.9-14.0 A, sd 0.11 A) are a SINGLE "
-            "TRAPPED BASIN per replica. The ordering costs derived from them "
-            "(3.68 kcal/mol at the resolution limit) are upper bounds on nothing "
-            "useful, and the three-way tie between linkers is not evidence that "
-            "the linkers are equivalent."),
+            "WP51 stage 1 ran three Langevin replicas per linker, but all three "
+            "were built from the SAME ETKDG seed with the default embedder, so "
+            "they started from the same compact conformer and measured the same "
+            "basin three times. The 0.11 A spread is therefore a property of the "
+            "build procedure, not of the linkers. This test shows the opposite "
+            "regime is reachable: with independent builds the same pentapeptide "
+            "samples 3.3-16.9 A, which is the range that matters for a 16.31 A "
+            "junction."
+            if not trapped else
+            "The stage-1 numbers (r = 13.9-14.0 A, sd 0.11 A) are a single "
+            "trapped basin per replica, and the ordering costs derived from them "
+            "cannot be quoted."),
         "what_would_fix_it": [
             "replica exchange (REMD) instead of independent Langevin replicas",
             "hundreds of ns per replica, which is 17.6 h/ns here for the complex "
             "and ~5-7 ns/h for a free pentapeptide",
             "an analytical worm-like-chain estimate instead of sampling, which is "
-            "what a 5-mer really needs - the MD was the wrong tool for the size "
-            "of the question",
+            "what a 5-mer really needs - the MD may be the wrong tool for the "
+            "size of the question",
+            "and, in this script's own case: independent build seeds per replica, "
+            "which is what WP51 stage 1 lacked",
         ],
         "caveat_on_this_test": (
             "three starts cannot prove convergence; this test can only REFUTE it, "
