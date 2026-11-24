@@ -554,8 +554,11 @@ def build(quick: bool | None = None) -> dict:
     # Checkpoint. The first production run of this script would have written
     # NOTHING if it had been interrupted during stage 2, losing 20 minutes of
     # sampling. Stage 1 is the measurement; it is written down immediately.
-    _checkpoint({"available": True, "stage": 1, "junction": junction,
-                 "stage1": stage1, "summary": {"status": "stage 1 only"}})
+    # "quick" MUST be in the payload: the guard in _checkpoint reads it, and the
+    # first version omitted it, so a toy run still overwrote the real JSON.
+    _checkpoint({"available": True, "quick": quick, "stage": 1,
+                 "junction": junction, "stage1": stage1,
+                 "summary": {"status": "stage 1 only"}})
 
     # stiffness DERIVED from the measurement: k = kT / sigma^2
     stage2 = []
@@ -947,6 +950,8 @@ def self_test() -> int:
 
     res = build(quick=True)
     ok("the build produced results", res.get("available") is True)
+    ok("the toy run is marked quick in its payload",
+       res.get("quick") is True)
     ok("the toy run is labelled not quotable",
        res["summary"]["status"].startswith("TOY RUN"))
     ok("stage 1 ran three linkers",
