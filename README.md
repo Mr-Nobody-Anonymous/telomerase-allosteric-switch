@@ -464,9 +464,10 @@ pytest tests/test_paper_manuscript.py -q            # 29 guards: fails if a numb
 > recruitment is a separate function. **What remains untested is whether any mechanical component
 > exists at all**, because no published perturbation separates it from DNA affinity.
 >
-> The **pytest badge (522 passed)** is verified on a clean clone with `pip install -e .`; the
-> previously advertised "342 passed" and then "357 passed" were both reachable only after fixing
-> fixtures, and are superseded.
+> The **pytest badge (772 passed)** is verified on a clean clone with `pip install -e .`; the
+> previously advertised "342 passed", "357 passed" and "522 passed" were each true of an earlier
+> tree and are superseded. Every one of these numbers is reported by the suite itself and checked
+> against this badge by `tests/test_mechanism_docs.py`, so the count cannot drift silently.
 >
 > **Historical record, retained deliberately:** the older banner below this section, and sections
 > 1–5, describe claims that have since been retracted (K757A "breakthrough", 25 Å allosteric
