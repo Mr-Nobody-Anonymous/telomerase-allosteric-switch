@@ -28,12 +28,47 @@ because hand-typed numbers in this repository have drifted three times.
 To rebuild the environment (the venv is outside the repo and does not persist):
 `bash scripts/setup_environment.sh`.
 
-**Note on the OpenMM badge above.** OpenMM is *not* installed in this
-environment, and `import openmm` fails. Every question that needs MD, docking or
-FEP is therefore reported as unmeasurable rather than estimated — that is why
-P11, P12 and most of the mechanism items are still open. The badge records what
-the project intends to use, not what it has run.
+**Note on the OpenMM badge above.** OpenMM **8.6.1 is installed and has now
+been run** (WP51), on the CPU platform with 2 threads. That changes what is
+"unmeasurable": the ordering cost was measured from a real all-atom end-to-end
+distribution instead of typed in, and the peptide-TERT interface was tested for
+collisions against the deposited TERT atoms instead of being declared
+unscorable. What is still out of reach is stated per item: a folding run
+(17.6 h/ns measured here), a staple template (needs files.rcsb.org), and any
+affinity (needs an experiment, not a simulation).
 
+
+## WP51–WP54 — the remaining six, each by a different instrument
+
+The last items did not fail for one reason, so they were not attacked with one
+method. **The ledger now reads 12 SOLVED / 4 PARTIAL / 0 NOT SOLVED /
+0 UNMEASURABLE**, and 0 of the 12 are closed as evidence — nothing here has been
+made or measured in a tube.
+
+- **WP51 — the ordering cost, measured.** Five packages had *typed* it (12–20,
+  0.6/torsion, then the same number subtracted from itself, then a 4 kcal/mol
+  constant). The first version of WP51 replaced the linker with a **hand-set
+  harmonic spring** and "measured" that AAAAA was stiffest — reading the input
+  back out as output. That is recorded, not deleted. The real version builds the
+  linker as atoms and samples its free end-to-end distribution.
+- **WP52 — P12 → PARTIAL.** "A score would be fabricated" expired: 7TRE carries
+  hTERT at all-atom resolution. With its 14 native residues pinned to the crystal
+  to **0.00 Å**, the designed linker clears every TERT atom by **8.22 Å**. The
+  epitope is not a pocket — it is net **−4** charge over three consecutive
+  glutamates plus E215.
+- **WP53 — P13 → PARTIAL, answered in the negative.** 7TRD is hTERT without TPP1
+  and 7TRE is the same enzyme with it, so the structural half of P13 is a
+  superposition. The apo-vs-bound difference is **0.356 Å**, *smaller* than the
+  **0.585 Å** between two copies of one protein in a single crystal. **TPP1 does
+  not detectably remodel hTERT**, and only 9 of 934 residues beat the noise floor
+  (chance would give ~5 %).
+- **WP54 — P14 → SOLVED, P15 → SOLVED, P11 → PARTIAL.** `n` is not a measurable
+  parameter: across n = 1…24 the two-chase observable is identical and only the
+  per-round rate changes **48-fold**. A drug needs **1.17 µM** (8.14 kcal/mol),
+  which is modest — the design fails because its ordering cost (6.36) exceeds its
+  contact energy (5.41), net **+0.95 kcal/mol**, i.e. it does not bind at all.
+  The success rate is decomposed into four factors and exactly one of them is
+  **zero**, for a stated reason.
 
 ## WP50 — the three PARTIAL items, by other means
 

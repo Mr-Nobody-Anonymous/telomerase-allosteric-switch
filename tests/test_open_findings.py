@@ -2597,3 +2597,210 @@ def test_wp50_document_renders_the_derived_verdicts():
     assert "INFEASIBLE" in flat
     assert "unbounded" in flat
     assert "SPECIFICATION, not a demonstration" in flat
+
+
+# ==========================================================================
+# WP51-WP54: the remaining items, each attacked with a different instrument
+# ==========================================================================
+
+def _wp51():
+    """Load wp51_ordering_md. Importing it does not start any simulation: the
+    module only runs a build inside build()/main()."""
+    spec = importlib.util.spec_from_file_location(
+        "wp51_md", REPO / "scripts" / "solve" / "wp51_ordering_md.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _wp52():
+    """Load wp52_interface without running its matplotlib-free top level twice."""
+    spec = importlib.util.spec_from_file_location(
+        "wp52_interface", REPO / "scripts" / "solve" / "wp52_interface.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _wp53():
+    spec = importlib.util.spec_from_file_location(
+        "wp53_cc", REPO / "scripts" / "solve" / "wp53_conformational_change.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _wp54():
+    spec = importlib.util.spec_from_file_location(
+        "wp54_remaining", REPO / "scripts" / "solve" / "wp54_remaining.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_wp51_does_not_assign_the_stiffness_it_claims_to_measure():
+    """The retraction this package is built on. The first version typed the
+    linker stiffness in (5/40/200) and then 'measured' that AAAAA was stiffest:
+    the ranking was installed, not measured."""
+    src = (REPO / "scripts" / "solve" / "wp51_ordering_md.py").read_text()
+    # the self-test quotes the banned string, so search for the assignment form
+    assert '"GGGGG": 5.0' not in src and "'GGGGG': 5.0" not in src, \
+        "a hand-set stiffness table came back"
+    assert "reading the input back out" in src, "the retraction must be recorded"
+    assert "k_bind = K_T / (sd ** 2)" in src, "stiffness must be derived from sigma"
+
+
+def test_wp51_measures_a_distribution_not_a_spring():
+    src = (REPO / "scripts" / "solve" / "wp51_ordering_md.py").read_text()
+    # the passive restraint must be flat-bottomed (zero force in a window),
+    # otherwise the sampler is measuring its own harmonic bias
+    assert "0.5*k*max(r-r_on,0)^2" in src and "0.5*k*max(r_off-r,0)^2" in src
+    assert "frac_at_boundary" in src, "boundary contact must be reported"
+
+
+def test_wp51_p_window_is_the_measurement():
+    w = _wp51()
+    assert w.p_window(np.array([16.0, 16.1, 16.2]), 16.1, 1.0) == 1.0
+    assert w.p_window(np.array([10.0, 10.1]), 16.1, 1.0) == 0.0
+    assert abs(-w.K_T * math.log(1.0)) < 1e-12
+
+
+def test_wp51_an_unobserved_window_is_a_bound_not_a_crash():
+    w = _wp51()
+    reps = [{"linker": "X", "design": "X", "_r": np.array([5.0, 6.0, 7.0]),
+             "frac_at_boundary": 0.0}]
+    out = w.analyse_stage1(reps, target=16.31)
+    win = out["constructs"][0]["windows"]["1.0A"]
+    assert win["p"] == 0.0
+    assert win["p_is_upper_bound"] is True
+    # p=0 is not dG=infinity; it is the resolution limit of the sample
+    assert win["dg_kcal"] == pytest.approx(-w.K_T * math.log(1 / 3), abs=1e-3)
+
+
+def test_wp52_the_linker_clears_the_tert_surface():
+    r = _wp52().analyse()
+    papap = r["collision"]["PAPAP"]
+    assert papap["clears"] is True
+    assert papap["linker_atoms_under_2.5A"] == 0
+    assert papap["linker_min_clearance"] > 5.0
+
+
+def test_wp52_the_crystal_anchors_are_honoured():
+    """useRandomCoords is required; the default embedder silently ignored the
+    coordinate map and put the anchors 265 A away."""
+    r = _wp52().analyse()
+    for g in r["grafts"].values():
+        assert g["anchor_max_deviation"] < 0.01
+    src = (REPO / "scripts" / "solve" / "wp52_interface.py").read_text()
+    assert "useRandomCoords = True" in src
+
+
+def test_wp52_claims_geometry_and_nothing_more():
+    r = _wp52().analyse()
+    assert r["verdict"]["affinity_measured"] is False
+    assert r["verdict"]["what_is_established"].startswith("geometric")
+    assert any("Rigid body" in c for c in r["caveats"])
+
+
+def test_wp52_the_junction_is_not_the_ring_closure():
+    r = _wp52().analyse()
+    assert abs(r["junction"]["c172_n209"] - 20.42) > 1.0
+
+
+def test_wp53_the_apo_vs_bound_difference_is_below_the_duplication_floor():
+    r = _wp53().analyse()
+    assert r["signal"]["global_rmsd"] < r["control_duplicate_copies"]["global_rmsd"]
+    assert r["verdict"]["detectable_change"] is False
+
+
+def test_wp53_the_apo_vs_apo_control_is_degenerate_and_says_so():
+    """7TRD and 7TRF carry identical hTERT coordinates, so that control carries
+    no information. It was found by running it, not by reading titles."""
+    r = _wp53().analyse()
+    assert r["control_no_tpp1"]["global_rmsd"] < 0.01
+    assert any("DEGENERATE" in c for c in r["caveats"])
+
+
+def test_wp53_the_hinge_threshold_is_measured_not_chosen():
+    r = _wp53().analyse()
+    assert r["rotation_threshold_deg"] == pytest.approx(
+        2 * r["duplication_max_window_rotation_deg"], abs=0.01)
+    assert r["verdict"]["no_hinge"] == (
+        r["max_window_rotation_deg"] <= r["rotation_threshold_deg"])
+
+
+def test_wp53_does_not_decide_the_kinetic_branch():
+    r = _wp53().analyse()
+    assert r["verdict"]["mechanism_branch_decided"] is False
+
+
+def test_wp54_p14_n_cancels_out_of_the_two_chase():
+    r = _wp54().p14_n_is_not_a_parameter()
+    assert r["m_over_c_identical_for_all_n"] is True
+    assert r["tau_recovered_at_every_n"] is True
+    assert r["kappa_recovered_at_every_n"] is True
+    # only the per-round rate moves, and it moves a lot
+    assert r["per_round_rate_spread"] > 5
+
+
+def test_wp54_p14_reproduces_wp37s_published_row():
+    """Anchoring the reframing to the table it replaces: n=6 must give the
+    numbers WP37 already published, or the reparameterisation is wrong."""
+    r = _wp54().p14_n_is_not_a_parameter()
+    row6 = next(x for x in r["rows"] if x["n"] == 6)
+    assert abs(row6["m"] - 3.1954) < 1e-3
+    assert abs(row6["c"] - 2.2054) < 1e-3
+
+
+def test_wp54_p14_still_admits_tau_is_unmeasured():
+    r = _wp54().p14()
+    assert "nothing here measures tau" in r["still_open"]
+
+
+def test_wp54_p15_gets_the_sign_convention_right():
+    """The first draft subtracted ordering from contact and labelled 6.36 as the
+    contact energy, which made the design look 1.8 kcal/mol short of a drug
+    instead of unable to bind."""
+    r = _wp54().p15()
+    assert r["net_binding_kcal"] > 0, "ordering cost must exceed contact energy"
+    assert r["binds"] is False
+    assert r["gap_kcal"] > 0
+    assert r["contact_energy_kcal"] == 5.41
+    assert r["ordering_cost_kcal"] == 6.36
+
+
+def test_wp54_p11_keeps_makeability_at_zero():
+    r = _wp54().p11()
+    assert r["factors"]["f2_stable_enough_to_make"] == 0.0
+    assert r["p_at_least_one"] == [0.0, 0.0]
+    assert "undefined" in r["answer"]
+    # and shows what paying it would be worth
+    assert r["p_at_least_one_if_ordering_paid"][1] > 0.1
+
+
+def test_wp54_self_tests_pass():
+    for script in ("wp52_interface", "wp53_conformational_change", "wp54_remaining"):
+        subprocess.run([sys.executable, f"scripts/solve/{script}.py", "--self-test"],
+                       cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp52_wp54_ledger_states_are_consistent():
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P14"]["status"] == "SOLVED"
+    assert by["P15"]["status"] == "SOLVED"
+    assert by["P12"]["status"] == "PARTIAL"
+    assert by["P13"]["status"] == "PARTIAL"
+    assert by["P11"]["status"] == "PARTIAL"
+    assert by["P6"]["status"] == "PARTIAL"      # still not bought
+    assert led["summary"]["tally"]["NOT SOLVED"] == 0
+    assert led["summary"]["tally"]["UNMEASURABLE"] == 0
+
+
+def test_wp53_document_reports_the_negative_plainly():
+    doc = (REPO / "results" / "solve" / "WP53_CONFORMATIONAL_CHANGE.md").read_text(
+        encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "does not detectably remodel hTERT" in flat
+    assert "0.585" in flat           # the duplication floor, in the document
+    assert "not detectable" in flat  # not overstated as 'no change'

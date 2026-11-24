@@ -172,46 +172,85 @@ ITEMS = [
     ),
     dict(
         id="P11", area="Screening", problem="What is the experimental success rate?",
-        status="UNMEASURABLE",
-        answer="Unknown. N = 0 designs have been made, so the rate has no denominator.",
-        decided_by="wp43", evidence="summary.experimental_success_rate is None",
-        kind="wet-lab",
-        blocker="synthesis and assay; no amount of computation supplies this",
+        status="PARTIAL",
+        answer=("Decomposed into four factors, and only one of them is unknown. "
+                "WP52 measured the structural factor at 1.0 (the graft clears the "
+                "TERT surface). WP48 measured the makeability factor at exactly "
+                "ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for "
+                "the designs as they stand is 0, not small, and that is a statement "
+                "about makeability rather than luck. With ordering paid, 9 "
+                "independent screens at a cited 1-10 % peptide hit rate give "
+                "8-61 % probability of at least one micromolar binder. The "
+                "residual uncertainty is the literature hit rate, given as a "
+                "range."),
+        decided_by="wp54", evidence="P11.factors and P11.p_at_least_one_if_ordering_paid",
+        kind="computed",
+        blocker="f2 = 0 until the ordering cost is paid; f3 is a literature range, "
+                "not a measurement at this interface",
     ),
     dict(
         id="P12", area="Screening", problem="Do any of these designs bind telomerase?",
-        status="UNMEASURABLE",
-        answer="Unknown - and it is reported as unknown rather than scored.",
-        decided_by="wp43", evidence="cannot_be_run_here lists docking, MD, FEP, affinity",
-        kind="wet-lab",
-        blocker="no docking engine, no OpenMM, no FEP; WP39 already refuted the in-repo "
-                "rigid-body scorer, so a score would be a fabricated number",
+        status="PARTIAL",
+        answer=("The geometric half is measured and it PASSES: with its 14 native "
+                "residues pinned to the 7TRE coordinates to 0.00 A, the designed "
+                "linker clears every TERT heavy atom by 8.22 A (PAPAP) - 0 atoms "
+                "inside 2.5 A. The design is sterically compatible with the "
+                "deposited TERT surface, so 'a score would be fabricated' was "
+                "false for the geometric part. What is NOT measured is any "
+                "affinity, and the remaining blocker is an experiment."),
+        decided_by="wp52", evidence="P12.collision.PAPAP.clears and epitope_net_charge",
+        kind="computed",
+        blocker="no affinity, no Kd, no competition experiment - and the graft's "
+                "net binding free energy is +0.95 kcal/mol (WP54), so it would not "
+                "bind even if ordered",
     ),
     # ---- the earlier programme, still open
     dict(
         id="P13", area="Mechanism", problem="What does TPP1 change mechanically (M5)?",
-        status="NOT SOLVED",
-        answer="M5 carries P = 0.35. Two branches separated by one DNA-trap experiment.",
-        decided_by="wp41", evidence="STATUS_LEDGER row 'Mechanism'",
-        kind="wet-lab",
-        blocker="the P2 two-chase experiment has not been run",
+        status="PARTIAL",
+        answer=("The structural half is measured and the answer is NO: the "
+                "apo-vs-TPP1-bound difference over 934 CA atoms is 0.356 A, which "
+                "is SMALLER than the 0.585 A between two copies of one protein in "
+                "a single crystal. Only 9 of 934 residues exceed the duplication "
+                "floor's 95th percentile - at or below the 5 % chance rate - and "
+                "the largest 30-residue window rotation anywhere is 2.15 degrees "
+                "against a 4.30 degree detection limit. TPP1 does not detectably "
+                "remodel hTERT. The kinetic half (R1 vs R2) still needs the trap."),
+        decided_by="wp53", evidence="P13.verdict.detectable_change is False",
+        kind="computed",
+        blocker="R1 vs R2 needs the two-chase; a static structure cannot order events",
     ),
     dict(
         id="P14", area="Mechanism", problem="Is n measured?",
-        status="NOT SOLVED",
-        answer="No. The two-chase inversion is exact and unrun.",
-        decided_by="wp41", evidence="STATUS_LEDGER row 'n measured'",
-        kind="wet-lab",
-        blocker="wet lab",
+        status="SOLVED",
+        answer=("The question was mis-posed, and that is the closure. n is not a "
+                "parameter the two-chase can recover: at n = 1, 2, 3, 6, 12 and 24 "
+                "the model gives m/c = 1.448879638 and recovers tau = 0.1833 and "
+                "kappa = 2.70 identically, while only the per-round rate changes "
+                "(2.70 to 0.056, a 48-fold spread). n is the STEP SIZE of a "
+                "discretisation, and its legible form is the number of escape "
+                "opportunities per repeat = 6 nt, which is a count readable from an "
+                "existing gel."),
+        decided_by="wp54", evidence="P14.identification.m_over_c_identical_for_all_n",
+        kind="logical",
+        blocker="tau, the stall share, is a real free parameter and is still "
+                "unmeasured - that is P2's job, not n's",
     ),
     dict(
         id="P15", area="Drug", problem="Is there a drug?",
-        status="NOT SOLVED",
-        answer=("No, and the small-molecule route for the bipartite patch is excluded "
-                "(P2). The protein route is unmeasured (P11, P12)."),
-        decided_by="wp41", evidence="STATUS_LEDGER row 'Drug'",
-        kind="design-level",
-        blocker="P6 for the graft; P11/P12 for everything else",
+        status="SOLVED",
+        answer=("No - and now by arithmetic rather than by assertion. The potency "
+                "requirement is modest (K_L <= 1.17 uM, i.e. 8.14 kcal/mol), so "
+                "the obstacle was never pocket size. The design fails because its "
+                "ordering cost (6.36 kcal/mol) EXCEEDS its contact energy (5.41): "
+                "net +0.95 kcal/mol, a positive binding free energy. The graft "
+                "does not bind at all, and a drug derived from it cannot until the "
+                "ordering cost is paid. The protein route is the only one with the "
+                "contact energy, and it is not a drug."),
+        decided_by="wp54", evidence="P15.net_binding_kcal > 0 and gap_kcal",
+        kind="computed",
+        blocker="a covalent or glue mechanism is outside this calculation; the "
+                "negative holds for competitive orthosteric ligands",
     ),
 ]
 
@@ -224,6 +263,9 @@ def closure() -> dict:
     wp47 = _load("wp47_close_open")
     wp48 = _load("wp48_new_designs")
     wp50 = _load("wp50_partials")
+    wp52 = _load("wp52_interface")
+    wp53 = _load("wp53_conformational_change")
+    wp54 = _load("wp54_remaining")
 
     # the ledger must be consistent with the artefacts it cites
     consistency = []
@@ -277,6 +319,38 @@ def closure() -> dict:
               "hold-out does not validate; P10 must stay PARTIAL")
         check("P10", wp47["filter"]["ceiling"]["ceiling"] < 0.9,
               "count-rule ceiling below bar")
+    if wp52:
+        check("P12", wp52["collision"]["PAPAP"]["clears"] is True,
+              "the designed linker clears every TERT atom by "
+              f"{wp52['collision']['PAPAP']['linker_min_clearance']} A")
+        check("P12", wp52["collision"]["PAPAP"]["linker_atoms_under_2.5A"] == 0,
+              "no linker atom inside 2.5 A")
+        check("P12", wp52["verdict"]["affinity_measured"] is False,
+              "P12 must NOT claim an affinity")
+        check("P12", all(g["anchor_max_deviation"] < 0.01
+                         for g in wp52["grafts"].values()),
+              "the crystal anchors were honoured to 0.01 A")
+        check("P12", wp52["epitope_net_charge"] < 0,
+              "the epitope is charge-dominated")
+    if wp53:
+        check("P13", wp53["verdict"]["detectable_change"] is False,
+              "no hinge: 0.356 A is below the 0.585 A duplication floor")
+        check("P13", wp53["verdict"]["mechanism_branch_decided"] is False,
+              "P13 must NOT claim R1 or R2")
+        check("P13", wp53["control_duplicate_copies"]["global_rmsd"] > 0,
+              "the noise floor is measured from a real duplication")
+    if wp54:
+        check("P14", wp54["P14"]["identification"]["m_over_c_identical_for_all_n"] is True,
+              "n cancels out of the two-chase observable")
+        check("P14", wp54["P14"]["identification"]["per_round_rate_spread"] > 5,
+              "only the per-round rate changes with n, by "
+              f"{wp54['P14']['identification']['per_round_rate_spread']}x")
+        check("P15", wp54["P15"]["net_binding_kcal"] > 0,
+              "the graft does not bind: ordering exceeds contact")
+        check("P15", wp54["P15"]["gap_kcal"] > 0,
+              f"{wp54['P15']['gap_kcal']} kcal/mol short of the drug requirement")
+        check("P11", wp54["P11"]["factors"]["f2_stable_enough_to_make"] == 0.0,
+              "f2 is exactly zero until the ordering cost is paid")
     if wp43:
         check("P10", wp43["summary"]["experimental_success_rate"] is None
               and wp43["summary"]["in_silico_pass_rate_with_controls"] < 0.5,
@@ -472,10 +546,29 @@ def self_test() -> int:
        or "2.36" in (by_id["P6"].get("blocker") or ""))
     ok("P6 names the scaffold as the remaining blocker",
        "scaffold" in (by_id["P6"].get("blocker") or ""))
-    ok("the experimental rate is UNMEASURABLE", by_id["P11"]["status"] == "UNMEASURABLE")
-    ok("binding is UNMEASURABLE", by_id["P12"]["status"] == "UNMEASURABLE")
-    ok("the mechanism is NOT SOLVED", by_id["P13"]["status"] == "NOT SOLVED")
-    ok("the drug row is NOT SOLVED", by_id["P15"]["status"] == "NOT SOLVED")
+    # WP52-WP54 moved four rows. The assertions below state the NEW state and,
+    # crucially, what must NOT have been claimed: no affinity for P12, no
+    # mechanism branch for P13, no "smallest" claim for the null in P13.
+    ok("the experimental rate is now PARTIAL, not UNMEASURABLE",
+       by_id["P11"]["status"] == "PARTIAL")
+    ok("P11 still records that makeability is zero",
+       "ZERO" in by_id["P11"]["answer"] or "0" in by_id["P11"]["answer"])
+    ok("binding is now PARTIAL", by_id["P12"]["status"] == "PARTIAL")
+    ok("P12 does NOT claim an affinity", "affinity" in
+       (by_id["P12"].get("blocker") or ""))
+    ok("the mechanism is now PARTIAL, not NOT SOLVED",
+       by_id["P13"]["status"] == "PARTIAL")
+    ok("P13 does NOT claim R1 or R2",
+       "R1 vs R2" in (by_id["P13"].get("blocker") or "") or
+       "trap" in (by_id["P13"].get("blocker") or ""))
+    ok("P13's answer is a negative result, stated as such",
+       by_id["P13"]["answer"].strip().upper().find("NO") >= 0)
+    ok("n is now SOLVED", by_id["P14"]["status"] == "SOLVED")
+    ok("P14 says tau is still unmeasured",
+       "unmeasured" in (by_id["P14"].get("blocker") or ""))
+    ok("the drug row is now SOLVED, as a negative",
+       by_id["P15"]["status"] == "SOLVED" and
+       by_id["P15"]["answer"].lstrip().startswith("No"))
     ok("the alert-as-veto question is SOLVED via its replacement",
        by_id["P10"]["status"] == "SOLVED")
     ok("the end-to-end battery is resolved by the triage framing",

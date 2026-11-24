@@ -101,6 +101,9 @@ def collect() -> dict:
         "wp47": load("wp47_close_open"),
         "wp48": load("wp48_new_designs"),
         "wp50": load("wp50_partials"),
+        "wp52": load("wp52_interface"),
+        "wp53": load("wp53_conformational_change"),
+        "wp54": load("wp54_remaining"),
         "retractions": load("retractions"),
         "facts": FACTS,
     }
@@ -481,6 +484,141 @@ def write_master(d: dict) -> None:
         A("")
         A("---")
         A("")
+        # ---- WP51-WP54
+        wp52, wp53, wp54 = d["wp52"], d["wp53"], d["wp54"]
+        A("## 6c. WP51-WP54 — the remaining six, each by a different instrument")
+        A("")
+        A("The last items did not fail for one reason, so they could not be "
+          "attacked with one method. Measurement, geometry, a natural experiment, "
+          "an algebraic reframing and an arithmetic decomposition each did one.")
+        A("")
+
+        wp51 = d.get("wp51")
+        A("### WP51 — the ordering cost, measured (the first MD in this repository)")
+        A("")
+        A("Five packages had **typed** the ordering price: WP45 12-20, WP47 0.6 per "
+          "torsion, WP48 the same number again, WP50 a 4 kcal/mol constant. WP51 "
+          "put atoms on it.")
+        A("")
+        A("> The first version of the script replaced the linker with a harmonic "
+          "spring whose stiffness it set by hand (5/40/200 kcal/mol/A^2) and then "
+          "reported that AAAAA was stiffest. That is reading the input back out as "
+          "if it were output. It is recorded, not deleted.")
+        A("")
+        if wp51 and wp51.get("available") and wp51.get("stage1"):
+            j = wp51["junction"]
+            A(f"The linker occupies the junction C(172)-N(209) = "
+              f"**{j['c172_n209']} A** (not WP50's 20.42 A ring closure, which is a "
+              f"different question). Free end-to-end distributions, all atoms, "
+              f"GB-Neck2, 300 K:")
+            A("")
+            A("| linker | mean r | sigma | p(+-1 A) | dG_order |")
+            A("|---|---|---|---|---|")
+            for r in wp51["stage1"]["constructs"]:
+                w = r["windows"]["1.0A"]
+                lb = " (bound)" if w.get("p_is_upper_bound") else ""
+                A(f"| {r['linker']} | {r['r_mean']} A | {r['r_sd']} A | "
+                  f"{w['p']:.3f} | {w['dg_kcal']} kcal/mol{lb} |")
+            A("")
+            A(f"> {wp51.get('summary', {}).get('what_is_measured', '')}")
+        else:
+            A("Stage 1 had not finished when this record was generated; the "
+              "measurement is in `WP51_ORDERING_MD.md` when it does.")
+        A("")
+
+        if wp52:
+            A("### WP52 — P12: the interface, measured instead of declared unknown")
+            A("")
+            A("P12 said a score would be fabricated. That premise expired: OpenMM "
+              "and RDKit are here, and 7TRE carries hTERT at all-atom resolution "
+              "for this interface. So the question became one a crystal can answer:")
+            A("")
+            A("| linker | min clearance to TERT | atoms inside 2.5 A | clears |")
+            A("|---|---|---|---|")
+            for k, v in wp52["collision"].items():
+                A(f"| {k} | **{v['linker_min_clearance']} A** | "
+                  f"{v['linker_atoms_under_2.5A']} | {'yes' if v['clears'] else 'NO'} |")
+            A("")
+            A(f"The epitope is charge-dominated, not a pocket: net "
+              f"**{wp52['epitope_net_charge']:+d}** over the 14 native residues, "
+              f"with E168/E169/E171 and E215 contributing carboxylates directly. "
+              f"> {wp52['verdict']['what_is_established']}; what remains: "
+              f"{wp52['verdict']['what_remains']}.")
+            A("")
+
+        if wp53:
+            A("### WP53 — P13: a natural experiment that was on disk all along")
+            A("")
+            A("7TRD is hTERT **without** TPP1; 7TRE is the same enzyme **with** it. "
+              "The structural half of P13 is therefore a superposition:")
+            A("")
+            A("| comparison | CA atoms | CA-RMSD |")
+            A("|---|---|---|")
+            A(f"| 7TRD (apo) vs 7TRE (bound) | {wp53['signal']['n_ca']} | "
+              f"**{wp53['signal']['global_rmsd']} A** |")
+            A(f"| 7TRD (apo) vs 7TRF (apo) — control | "
+              f"{wp53['control_no_tpp1']['n_ca']} | "
+              f"{wp53['control_no_tpp1']['global_rmsd']} A (degenerate) |")
+            A(f"| 7TRC chain E vs chain I — noise floor | "
+              f"{wp53['control_duplicate_copies']['n_ca']} | "
+              f"**{wp53['control_duplicate_copies']['global_rmsd']} A** |")
+            A("")
+            A(f"> {wp53['summary']['answer']}. The TPP1-associated difference is "
+              f"SMALLER than the difference between two copies of one protein in a "
+              f"single crystal, {wp53['n_residues_above_floor']} of "
+              f"{wp53['n_residues_compared']} residues beat the floor (chance would "
+              f"give ~5 %), and the largest window rotation is "
+              f"{wp53['max_window_rotation_deg']} deg against a "
+              f"{wp53['rotation_threshold_deg']} deg measured limit.")
+            A("")
+            A("This removes 'TPP1 remodels TERT' from the candidate mechanisms. It "
+              "does not choose between R1 and R2, and does not claim to.")
+            A("")
+
+        if wp54:
+            p15, p14, p11 = wp54["P15"], wp54["P14"], wp54["P11"]
+            A("### WP54 — P15, P14, P11: a drug, an exponent, and a rate")
+            A("")
+            A("**P15 — is there a drug?** The potency requirement is modest "
+              f"(K_L <= {p15['potency_requirement']['required_kl_um']} uM, i.e. "
+              f"{p15['potency_requirement']['required_dg_kcal']} kcal/mol). The "
+              f"design fails for a different reason:")
+            A("")
+            A("| term | value |")
+            A("|---|---|")
+            A(f"| contact energy (WP45/WP47) | {p15['contact_energy_kcal']} kcal/mol |")
+            A(f"| ordering cost, unpaid (WP48) | -{p15['ordering_cost_kcal']} kcal/mol |")
+            A(f"| **net binding free energy** | **{p15['net_binding_kcal']:+.2f} kcal/mol** |")
+            A(f"| shortfall against the drug requirement | {p15['gap_kcal']} kcal/mol |")
+            A("")
+            A("**P14 — is n measured?** It is not a measurable parameter. Across "
+              f"n = 1 to 24 the two-chase observable m/c is "
+              f"{p14['identification']['rows'][0]['m_over_c']} every time, and tau "
+              f"and kappa come back unchanged, while only the per-round rate moves "
+              f"({p14['identification']['per_round_rate_n1']} at n=1 to "
+              f"{p14['identification']['per_round_rate_n24']} at n=24, a "
+              f"{p14['identification']['per_round_rate_spread']}-fold spread that "
+              f"no observable sees).")
+            A("")
+            A(f"> {p14['answer']}")
+            A("")
+            A("**P11 — the success rate.** Decomposed into four factors; one is "
+              "exactly zero for a stated reason, not for luck:")
+            A("")
+            A("| factor | value |")
+            A("|---|---|")
+            A(f"| f1 structural compatibility (WP52) | {p11['factors']['f1_structurally_compatible']} |")
+            A(f"| f2 makeable (WP48) | **{p11['factors']['f2_stable_enough_to_make']}** |")
+            A(f"| f3 literature peptide hit rate | {p11['factors']['f3_literature_peptide_hit_rate'][0]:.0%}-{p11['factors']['f3_literature_peptide_hit_rate'][1]:.0%} |")
+            A(f"| f4 assay power (WP47) | {p11['factors']['f4_assay_detects_it']} |")
+            A(f"| p(>=1 binder), as designed | {p11['p_at_least_one'][0]:.0%} |")
+            A(f"| p(>=1 binder) with ordering paid, 9 screens | "
+              f"{p11['p_at_least_one_if_ordering_paid'][0]:.0%}-"
+              f"{p11['p_at_least_one_if_ordering_paid'][1]:.0%} |")
+            A("")
+
+        A("---")
+        A("")
         A("## 7. The closure ledger — every sub-problem and its status")
     A("")
     items = wp46.get("items", []) if wp46 else []
@@ -772,7 +910,11 @@ def write_index(d: dict) -> None:
         "wp46_closure": "wp46_closure.json/.csv, CLOSURE.md",
         "wp47_close_open": "wp47_close_open.json/.csv, WP47_CLOSE_OPEN.md",
         "wp48_new_designs": "wp48_new_designs.json/.csv, WP48_NEW_DESIGNS.md",
-    "wp50_partials": "wp50_partials.json/.csv, WP50_PARTIALS.md",
+        "wp50_partials": "wp50_partials.json/.csv, WP50_PARTIALS.md",
+        "wp51_ordering_md": "wp51_ordering_md.json/.csv, WP51_ORDERING_MD.md",
+        "wp52_interface": "wp52_interface.json/.csv, WP52_INTERFACE.md",
+        "wp53_conformational_change": "wp53_conformational_change.json/.csv, WP53_CONFORMATIONAL_CHANGE.md",
+        "wp54_remaining": "wp54_remaining.json/.csv, WP54_REMAINING.md",
         "wp49_master_record": "MASTER_RECORD.md, METHODS.md, ARTEFACT_INDEX.md, NEXT_STEPS.md",
         "wp38_archive": "RETRACTIONS.md, retractions.json/.csv",
         "wp41_status_ledger": "STATUS_LEDGER.md, status_ledger.json/.csv",

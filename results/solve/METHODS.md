@@ -185,15 +185,21 @@ test a document it is still writing. Its check lives in `tests/`.
 | `wp43_test_battery` | **pass** — WP43 self-test: 48 checks, 0 failed |
 | `wp44_modular_designs` | **pass** — WP44 self-test: 39 checks, 0 failed |
 | `wp45_graft` | **pass** — WP45 self-test: 30 checks, 0 failed |
-| `wp46_closure` | **pass** — WP46 self-test: 29 checks, 0 failed |
+| `wp46_closure` | **pass** — WP46 self-test: 35 checks, 0 failed |
 | `wp47_close_open` | **pass** — WP47 self-test: 33 checks, 0 failed |
 | `wp48_new_designs` | **pass** — WP48 self-test: 25 checks, 0 failed |
 | `wp50_partials` | **pass** — WP50 self-test: 31 checks, 0 failed |
+| `wp51_ordering_md` | **FAIL** — FAIL  no hand-set linker stiffness table remains  () |
+| `wp52_interface` | **pass** — WP52 self-test: 19 checks, 0 failed |
+| `wp53_conformational_change` | **pass** — WP53 self-test: 22 checks, 0 failed |
+| `wp54_remaining` | **pass** — WP54 self-test: 22 checks, 0 failed |
 
 ## 10. Commit history of this branch
 
 | commit | date | subject |
 |---|---|---|
+| `5b63101` | 2026-11-24 | probe: does GitHub Actions run for this repo |
+| `728737a` | 2026-11-24 | WP50: the three PARTIAL items, attacked by other means |
 | `5b4166c` | 2026-11-24 | WP49: write it all down - four generated master documents |
 | `c63548d` | 2026-11-24 | WP48: a new design per failure, four isolated agents, and a critic |
 | `9916cb2` | 2026-11-23 | WP47: P6 gets a real crosslink, P10 is proven unfixable as framed |

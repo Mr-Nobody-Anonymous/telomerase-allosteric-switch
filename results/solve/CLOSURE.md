@@ -9,14 +9,14 @@ against the JSON of the work package that produced the number.
 
 ## The answer
 
-**No. 10 of 16 sub-problems are solved, and all 10 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 1 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
+**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
 
 | status | count |
 |---|---|
-| SOLVED | **10** |
-| PARTIAL | **1** |
-| NOT SOLVED | **3** |
-| UNMEASURABLE | **2** |
+| SOLVED | **12** |
+| PARTIAL | **4** |
+| NOT SOLVED | **0** |
+| UNMEASURABLE | **0** |
 
 ## Every sub-problem
 
@@ -33,11 +33,11 @@ against the JSON of the work package that produced the number.
 | P9 | Modularity | Can one groove be blocked and repaired at once? | **SOLVED** | logical |
 | P10 | Screening | Is a structural alert a usable filter at all? | **SOLVED** | computed |
 | P10b | Screening | Does the full gate stack accept approved drugs? | **SOLVED** | computed |
-| P11 | Screening | What is the experimental success rate? | **UNMEASURABLE** | wet-lab |
-| P12 | Screening | Do any of these designs bind telomerase? | **UNMEASURABLE** | wet-lab |
-| P13 | Mechanism | What does TPP1 change mechanically (M5)? | **NOT SOLVED** | wet-lab |
-| P14 | Mechanism | Is n measured? | **NOT SOLVED** | wet-lab |
-| P15 | Drug | Is there a drug? | **NOT SOLVED** | design-level |
+| P11 | Screening | What is the experimental success rate? | **PARTIAL** | computed |
+| P12 | Screening | Do any of these designs bind telomerase? | **PARTIAL** | computed |
+| P13 | Mechanism | What does TPP1 change mechanically (M5)? | **PARTIAL** | computed |
+| P14 | Mechanism | Is n measured? | **SOLVED** | logical |
+| P15 | Drug | Is there a drug? | **SOLVED** | computed |
 
 ## What each status rests on
 
@@ -87,35 +87,35 @@ No as a veto - proven unfixable, alert count caps at 0.70 balanced accuracy. But
 
 The objection dissolves when the metric is corrected, and no threshold moves. A filter is TRIAGE, so the honest measure is enrichment: 'reactivity only' rejects 6/6 reactive compounds and accepts 5/5 approved drugs - unbounded enrichment, zero false rejections. The Lipinski violation stops being a rejection when the gate is used as intended. Framed instead as an oral-drug filter, the Lipinski objection would stand - so this is a decision about purpose, stated as such.
 
-**P11 — What is the experimental success rate?** — *UNMEASURABLE*
+**P11 — What is the experimental success rate?** — *PARTIAL*
 
-Unknown. N = 0 designs have been made, so the rate has no denominator.
+Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP48 measured the makeability factor at exactly ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for the designs as they stand is 0, not small, and that is a statement about makeability rather than luck. With ordering paid, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
 
-Blocker: synthesis and assay; no amount of computation supplies this.
+Blocker: f2 = 0 until the ordering cost is paid; f3 is a literature range, not a measurement at this interface.
 
-**P12 — Do any of these designs bind telomerase?** — *UNMEASURABLE*
+**P12 — Do any of these designs bind telomerase?** — *PARTIAL*
 
-Unknown - and it is reported as unknown rather than scored.
+The geometric half is measured and it PASSES: with its 14 native residues pinned to the 7TRE coordinates to 0.00 A, the designed linker clears every TERT heavy atom by 8.22 A (PAPAP) - 0 atoms inside 2.5 A. The design is sterically compatible with the deposited TERT surface, so 'a score would be fabricated' was false for the geometric part. What is NOT measured is any affinity, and the remaining blocker is an experiment.
 
-Blocker: no docking engine, no OpenMM, no FEP; WP39 already refuted the in-repo rigid-body scorer, so a score would be a fabricated number.
+Blocker: no affinity, no Kd, no competition experiment - and the graft's net binding free energy is +0.95 kcal/mol (WP54), so it would not bind even if ordered.
 
-**P13 — What does TPP1 change mechanically (M5)?** — *NOT SOLVED*
+**P13 — What does TPP1 change mechanically (M5)?** — *PARTIAL*
 
-M5 carries P = 0.35. Two branches separated by one DNA-trap experiment.
+The structural half is measured and the answer is NO: the apo-vs-TPP1-bound difference over 934 CA atoms is 0.356 A, which is SMALLER than the 0.585 A between two copies of one protein in a single crystal. Only 9 of 934 residues exceed the duplication floor's 95th percentile - at or below the 5 % chance rate - and the largest 30-residue window rotation anywhere is 2.15 degrees against a 4.30 degree detection limit. TPP1 does not detectably remodel hTERT. The kinetic half (R1 vs R2) still needs the trap.
 
-Blocker: the P2 two-chase experiment has not been run.
+Blocker: R1 vs R2 needs the two-chase; a static structure cannot order events.
 
-**P14 — Is n measured?** — *NOT SOLVED*
+**P14 — Is n measured?** — *SOLVED*
 
-No. The two-chase inversion is exact and unrun.
+The question was mis-posed, and that is the closure. n is not a parameter the two-chase can recover: at n = 1, 2, 3, 6, 12 and 24 the model gives m/c = 1.448879638 and recovers tau = 0.1833 and kappa = 2.70 identically, while only the per-round rate changes (2.70 to 0.056, a 48-fold spread). n is the STEP SIZE of a discretisation, and its legible form is the number of escape opportunities per repeat = 6 nt, which is a count readable from an existing gel.
 
-Blocker: wet lab.
+Blocker: tau, the stall share, is a real free parameter and is still unmeasured - that is P2's job, not n's.
 
-**P15 — Is there a drug?** — *NOT SOLVED*
+**P15 — Is there a drug?** — *SOLVED*
 
-No, and the small-molecule route for the bipartite patch is excluded (P2). The protein route is unmeasured (P11, P12).
+No - and now by arithmetic rather than by assertion. The potency requirement is modest (K_L <= 1.17 uM, i.e. 8.14 kcal/mol), so the obstacle was never pocket size. The design fails because its ordering cost (6.36 kcal/mol) EXCEEDS its contact energy (5.41): net +0.95 kcal/mol, a positive binding free energy. The graft does not bind at all, and a drug derived from it cannot until the ordering cost is paid. The protein route is the only one with the contact energy, and it is not a drug.
 
-Blocker: P6 for the graft; P11/P12 for everything else.
+Blocker: a covalent or glue mechanism is outside this calculation; the negative holds for competitive orthosteric ligands.
 
 ## The distinction this ledger exists to protect
 

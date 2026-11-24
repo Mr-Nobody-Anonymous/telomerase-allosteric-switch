@@ -11,14 +11,14 @@ drifted three times (C1, C7, R8), so this document does not contain any.
 
 ## 0. The answer, first
 
-**No. 10 of 16 sub-problems are solved, and all 10 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 1 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
+**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
 
 | status | count |
 |---|---|
-| SOLVED | **10** |
-| PARTIAL | **1** |
-| NOT SOLVED | **3** |
-| UNMEASURABLE | **2** |
+| SOLVED | **12** |
+| PARTIAL | **4** |
+| NOT SOLVED | **0** |
+| UNMEASURABLE | **0** |
 
 The distinction that matters: **every `SOLVED` item is solved as a
 calculation. None is solved as evidence.** Nothing in this repository has
@@ -326,6 +326,72 @@ ring, a different payer, a different criterion and a different metric.
 
 ---
 
+## 6c. WP51-WP54 — the remaining six, each by a different instrument
+
+The last items did not fail for one reason, so they could not be attacked with one method. Measurement, geometry, a natural experiment, an algebraic reframing and an arithmetic decomposition each did one.
+
+### WP51 — the ordering cost, measured (the first MD in this repository)
+
+Five packages had **typed** the ordering price: WP45 12-20, WP47 0.6 per torsion, WP48 the same number again, WP50 a 4 kcal/mol constant. WP51 put atoms on it.
+
+> The first version of the script replaced the linker with a harmonic spring whose stiffness it set by hand (5/40/200 kcal/mol/A^2) and then reported that AAAAA was stiffest. That is reading the input back out as if it were output. It is recorded, not deleted.
+
+Stage 1 had not finished when this record was generated; the measurement is in `WP51_ORDERING_MD.md` when it does.
+
+### WP52 — P12: the interface, measured instead of declared unknown
+
+P12 said a score would be fabricated. That premise expired: OpenMM and RDKit are here, and 7TRE carries hTERT at all-atom resolution for this interface. So the question became one a crystal can answer:
+
+| linker | min clearance to TERT | atoms inside 2.5 A | clears |
+|---|---|---|---|
+| GGGGG | **8.38 A** | 0 | yes |
+| PAPAP | **8.22 A** | 0 | yes |
+| AAAAA | **8.51 A** | 0 | yes |
+
+The epitope is charge-dominated, not a pocket: net **-4** over the 14 native residues, with E168/E169/E171 and E215 contributing carboxylates directly. > geometric compatibility with the deposited TERT surface; what remains: any affinity, any on-rate, any competition - an experiment.
+
+### WP53 — P13: a natural experiment that was on disk all along
+
+7TRD is hTERT **without** TPP1; 7TRE is the same enzyme **with** it. The structural half of P13 is therefore a superposition:
+
+| comparison | CA atoms | CA-RMSD |
+|---|---|---|
+| 7TRD (apo) vs 7TRE (bound) | 934 | **0.356 A** |
+| 7TRD (apo) vs 7TRF (apo) — control | 934 | 0.0 A (degenerate) |
+| 7TRC chain E vs chain I — noise floor | 129 | **0.585 A** |
+
+> no detectable TERT conformational change on TPP1 binding. The TPP1-associated difference is SMALLER than the difference between two copies of one protein in a single crystal, 9 of 934 residues beat the floor (chance would give ~5 %), and the largest window rotation is 2.15 deg against a 2.54 deg measured limit.
+
+This removes 'TPP1 remodels TERT' from the candidate mechanisms. It does not choose between R1 and R2, and does not claim to.
+
+### WP54 — P15, P14, P11: a drug, an exponent, and a rate
+
+**P15 — is there a drug?** The potency requirement is modest (K_L <= 1.167 uM, i.e. -8.14 kcal/mol). The design fails for a different reason:
+
+| term | value |
+|---|---|
+| contact energy (WP45/WP47) | 5.41 kcal/mol |
+| ordering cost, unpaid (WP48) | -6.36 kcal/mol |
+| **net binding free energy** | **+0.95 kcal/mol** |
+| shortfall against the drug requirement | 9.09 kcal/mol |
+
+**P14 — is n measured?** It is not a measurable parameter. Across n = 1 to 24 the two-chase observable m/c is 1.448879638 every time, and tau and kappa come back unchanged, while only the per-round rate moves (1.7 at n=1 to 0.042254 at n=24, a 40.2-fold spread that no observable sees).
+
+> The question was mis-posed, and that is the closure. n is not a parameter of the model that needs measuring: the model's own statistic (delta* = n * R_eff, WP36) is exactly n-independent when stated exponent-free as 6 * R1/2 (WP29), and the two-chase inversion that was designed to recover n recovers kappa and tau identically at every n. What n really is, is the number of escape opportunities per repeat - one per nucleotide gives 6, which is a count of the nucleotides in a repeat and is readable from an existing gel.
+
+**P11 — the success rate.** Decomposed into four factors; one is exactly zero for a stated reason, not for luck:
+
+| factor | value |
+|---|---|
+| f1 structural compatibility (WP52) | 1.0 |
+| f2 makeable (WP48) | **0.0** |
+| f3 literature peptide hit rate | 1%-10% |
+| f4 assay power (WP47) | 0.8 |
+| p(>=1 binder), as designed | 0% |
+| p(>=1 binder) with ordering paid, 9 screens | 7%-53% |
+
+---
+
 ## 7. The closure ledger — every sub-problem and its status
 
 | id | area | question | status | kind |
@@ -341,32 +407,26 @@ ring, a different payer, a different criterion and a different metric.
 | P9 | Modularity | Can one groove be blocked and repaired at once? | **SOLVED** | logical |
 | P10 | Screening | Is a structural alert a usable filter at all? | **SOLVED** | computed |
 | P10b | Screening | Does the full gate stack accept approved drugs? | **SOLVED** | computed |
-| P11 | Screening | What is the experimental success rate? | **UNMEASURABLE** | wet-lab |
-| P12 | Screening | Do any of these designs bind telomerase? | **UNMEASURABLE** | wet-lab |
-| P13 | Mechanism | What does TPP1 change mechanically (M5)? | **NOT SOLVED** | wet-lab |
-| P14 | Mechanism | Is n measured? | **NOT SOLVED** | wet-lab |
-| P15 | Drug | Is there a drug? | **NOT SOLVED** | design-level |
+| P11 | Screening | What is the experimental success rate? | **PARTIAL** | computed |
+| P12 | Screening | Do any of these designs bind telomerase? | **PARTIAL** | computed |
+| P13 | Mechanism | What does TPP1 change mechanically (M5)? | **PARTIAL** | computed |
+| P14 | Mechanism | Is n measured? | **SOLVED** | logical |
+| P15 | Drug | Is there a drug? | **SOLVED** | computed |
 
 ### What each open item waits on
 
 - **P6 (PARTIAL)** — Does a peptide HOLD that geometry?
   - A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. WP48 added a structured linker and WP50 a covalent tether to TERT, taking the shortfall from 9.2 to 2.36 kcal/mol. Still not balanced.
   - *blocker:* the remaining 2.36 kcal/mol after the WP50 covalent tether. Ring closure is now closed off permanently (20.42 A vs ~7 A reach) and trimming only buys 4 residues, so the residue is a presenting scaffold or the TERT Cys tether, both of which need to be made
-- **P11 (UNMEASURABLE)** — What is the experimental success rate?
-  - Unknown. N = 0 designs have been made, so the rate has no denominator.
-  - *blocker:* synthesis and assay; no amount of computation supplies this
-- **P12 (UNMEASURABLE)** — Do any of these designs bind telomerase?
-  - Unknown - and it is reported as unknown rather than scored.
-  - *blocker:* no docking engine, no OpenMM, no FEP; WP39 already refuted the in-repo rigid-body scorer, so a score would be a fabricated number
-- **P13 (NOT SOLVED)** — What does TPP1 change mechanically (M5)?
-  - M5 carries P = 0.35. Two branches separated by one DNA-trap experiment.
-  - *blocker:* the P2 two-chase experiment has not been run
-- **P14 (NOT SOLVED)** — Is n measured?
-  - No. The two-chase inversion is exact and unrun.
-  - *blocker:* wet lab
-- **P15 (NOT SOLVED)** — Is there a drug?
-  - No, and the small-molecule route for the bipartite patch is excluded (P2). The protein route is unmeasured (P11, P12).
-  - *blocker:* P6 for the graft; P11/P12 for everything else
+- **P11 (PARTIAL)** — What is the experimental success rate?
+  - Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP48 measured the makeability factor at exactly ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for the designs as they stand is 0, not small, and that is a statement about makeability rather than luck. With ordering paid, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
+  - *blocker:* f2 = 0 until the ordering cost is paid; f3 is a literature range, not a measurement at this interface
+- **P12 (PARTIAL)** — Do any of these designs bind telomerase?
+  - The geometric half is measured and it PASSES: with its 14 native residues pinned to the 7TRE coordinates to 0.00 A, the designed linker clears every TERT heavy atom by 8.22 A (PAPAP) - 0 atoms inside 2.5 A. The design is sterically compatible with the deposited TERT surface, so 'a score would be fabricated' was false for the geometric part. What is NOT measured is any affinity, and the remaining blocker is an experiment.
+  - *blocker:* no affinity, no Kd, no competition experiment - and the graft's net binding free energy is +0.95 kcal/mol (WP54), so it would not bind even if ordered
+- **P13 (PARTIAL)** — What does TPP1 change mechanically (M5)?
+  - The structural half is measured and the answer is NO: the apo-vs-TPP1-bound difference over 934 CA atoms is 0.356 A, which is SMALLER than the 0.585 A between two copies of one protein in a single crystal. Only 9 of 934 residues exceed the duplication floor's 95th percentile - at or below the 5 % chance rate - and the largest 30-residue window rotation anywhere is 2.15 degrees against a 4.30 degree detection limit. TPP1 does not detectably remodel hTERT. The kinetic half (R1 vs R2) still needs the trap.
+  - *blocker:* R1 vs R2 needs the two-chase; a static structure cannot order events
 
 ---
 

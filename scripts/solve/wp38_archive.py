@@ -310,6 +310,82 @@ REGISTER = [
         file="results/solve/WP50_PARTIALS.md",
         must_contain="aimed at S1",
     ),
+    dict(
+        id="X6", wp="51", state="RETRACTED",
+        claim="the ordering cost can be MEASURED by replacing the linker with a "
+              "harmonic restraint and reporting the spread of the pharmacophore "
+              "distances",
+        actual="the restraint's stiffness was ASSIGNED per linker (5 / 40 / 200 "
+               "kcal/mol/A^2 for GGGGG / PAPAP / AAAAA). The reported ranking - "
+               "AAAAA stiffest - is the input handed back as output. A restraint "
+               "whose stiffness you chose cannot measure the stiffness of anything",
+        predicate="the measured quantity must not be a function of a parameter the "
+                  "author set",
+        replaced_by="WP51 stage 1: the linker built as atoms (RDKit), free in "
+                    "implicit solvent, and its end-to-end distribution sampled. The "
+                    "stiffness used downstream is DERIVED as k = kT/sigma^2",
+        file="results/solve/WP51_ORDERING_MD.md",
+        must_contain="reading the input back out",
+    ),
+    dict(
+        id="Y1", wp="53", state="CORRECTED",
+        claim="7TRF is a second TPP1-BOUND telomerase structure, and therefore the "
+              "perfect crystal-form control for an apo-vs-bound comparison",
+        actual="by chain identity, 7TRF contains two histones (chains E and F) and NO "
+               "TPP1. Its hTERT CA coordinates are identical to 7TRD's to 0.000 A "
+               "over 934 residues, so the apo-vs-apo comparison is degenerate and "
+               "measures nothing. The deposit TITLE was trusted and the chains were "
+               "not checked",
+        predicate="a control must differ in exactly the variable under test, and "
+                  "must be verified by chain identity/sequence rather than by label",
+        replaced_by="the noise floor is taken from a true duplication instead: 7TRC "
+                    "chains E and I are two copies of the identical 129-residue "
+                    "protein in one crystal (0.585 A)",
+        file="results/solve/WP53_CONFORMATIONAL_CHANGE.md",
+        must_contain="DEGENERATE",
+    ),
+    dict(
+        id="Y2", wp="54", state="CORRECTED",
+        claim="the design is 1.78 kcal/mol short of the potency a drug requires, "
+              "with 6.36 kcal/mol of contact energy",
+        actual="6.36 kcal/mol is the ORDERING COST (WP48), not the contact energy "
+               "(5.41, WP45/WP47). Subtracting one from the other was also done with "
+               "the wrong sign: a favourable contact is negative and an unpaid "
+               "ordering cost is positive, so dG_net = -5.41 + 6.36 = +0.95. The "
+               "design does not bind at all; it is not nearly a drug",
+        predicate="the two energies must be the two different quantities named, with "
+                  "an explicit sign convention",
+        replaced_by="WP54 P15: net binding free energy +0.95 kcal/mol, shortfall "
+                    "9.09 kcal/mol against the 8.14 kcal/mol requirement",
+        file="results/solve/WP54_REMAINING.md",
+        must_contain="DOES NOT BIND",
+    ),
+    dict(
+        id="Y3", wp="52", state="CORRECTED",
+        claim="RDKit's coordinate map pins the modelled peptide onto the crystal "
+              "coordinates of its native residues",
+        actual="with the default embedder the map was silently IGNORED: the anchors "
+               "came out 265 A from their crystal positions while the call returned "
+               "success (rc=0). Only useRandomCoords=True honours the map (0.00 A)",
+        predicate="an anchoring claim must report the measured residual of the "
+                  "anchors, not the return code",
+        replaced_by="WP52 asserts anchor_max_deviation < 0.01 A before any clearance "
+                    "is computed",
+        file="results/solve/WP52_INTERFACE.md",
+        must_contain="useRandomCoords",
+    ),
+    dict(
+        id="Y4", wp="51", state="CORRECTED",
+        claim="a self-test is a safe way to exercise a generator",
+        actual="WP51's --self-test calls build(quick=True), and the checkpoint wrote "
+               "the JSON unconditionally - so running the self-test OVERWROTE a "
+               "20-minute production result with 4-picosecond numbers",
+        predicate="a toy run must not be able to write to a quotable artefact",
+        replaced_by="quick runs write *.quick.json; the checkpoint refuses to fire "
+                    "on a quick run",
+        file="results/solve/WP51_ORDERING_MD.md",
+        must_contain="TOY RUN",
+    ),
 ]
 
 

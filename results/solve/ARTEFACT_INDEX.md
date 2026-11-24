@@ -52,6 +52,10 @@
 | `wp49_master_record` | MASTER_RECORD.md, METHODS.md, ARTEFACT_INDEX.md, NEXT_STEPS.md | yes |
 | `wp4_coupling_paths` | — | no |
 | `wp50_partials` | wp50_partials.json/.csv, WP50_PARTIALS.md | yes |
+| `wp51_ordering_md` | wp51_ordering_md.json/.csv, WP51_ORDERING_MD.md | yes |
+| `wp52_interface` | wp52_interface.json/.csv, WP52_INTERFACE.md | yes |
+| `wp53_conformational_change` | wp53_conformational_change.json/.csv, WP53_CONFORMATIONAL_CHANGE.md | yes |
+| `wp54_remaining` | wp54_remaining.json/.csv, WP54_REMAINING.md | yes |
 | `wp5_decisive_experiment` | — | no |
 | `wp6_mutant_panel` | — | no |
 | `wp7_entry_independence` | — | no |
@@ -97,6 +101,10 @@
 | `wp48_new_designs.json` | machine-readable output of its generator |
 | `wp49_master_record.json` | machine-readable output of its generator |
 | `wp50_partials.json` | machine-readable output of its generator |
+| `wp51_ordering_md.json` | machine-readable output of its generator |
+| `wp52_interface.json` | machine-readable output of its generator |
+| `wp53_conformational_change.json` | machine-readable output of its generator |
+| `wp54_remaining.json` | machine-readable output of its generator |
 
 ## Infrastructure
 

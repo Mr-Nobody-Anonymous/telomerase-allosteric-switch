@@ -1,0 +1,174 @@
+{
+  "signal": {
+    "comparison": "7TRD(A) vs 7TRE(A)",
+    "n_ca": 934,
+    "global_rmsd": 0.356,
+    "median_displacement": 0.293,
+    "p90_displacement": 0.539,
+    "max_displacement": 1.226,
+    "max_at_resSeq": 612
+  },
+  "control_no_tpp1": {
+    "comparison": "7TRD(A) vs 7TRF(A)",
+    "n_ca": 934,
+    "global_rmsd": 0.0,
+    "median_displacement": 0.0,
+    "p90_displacement": 0.001,
+    "max_displacement": 0.001,
+    "max_at_resSeq": 796
+  },
+  "control_duplicate_copies": {
+    "comparison": "7TRC(E) vs 7TRC(I)",
+    "n_ca": 129,
+    "global_rmsd": 0.585,
+    "median_displacement": 0.365,
+    "p90_displacement": 0.608,
+    "max_displacement": 3.435,
+    "max_at_resSeq": 153
+  },
+  "noise_floor_p95": 0.824,
+  "noise_floor_global_rmsd": 0.585,
+  "spearman_displacement_vs_distance": -0.203,
+  "spearman_control": -0.024,
+  "n_residues_above_floor": 9,
+  "n_residues_compared": 934,
+  "frac_above_floor": 0.0096,
+  "expected_frac_above_a_p95": 0.05,
+  "top_displaced": [
+    {
+      "resSeq": 612,
+      "resName": "ALA",
+      "displacement": 1.23,
+      "dist_to_patch": 33.4
+    },
+    {
+      "resSeq": 322,
+      "resName": "PRO",
+      "displacement": 0.99,
+      "dist_to_patch": 45.3
+    },
+    {
+      "resSeq": 7,
+      "resName": "CYS",
+      "displacement": 0.98,
+      "dist_to_patch": 18.3
+    },
+    {
+      "resSeq": 639,
+      "resName": "VAL",
+      "displacement": 0.9,
+      "dist_to_patch": 33.4
+    },
+    {
+      "resSeq": 120,
+      "resName": "ARG",
+      "displacement": 0.85,
+      "dist_to_patch": 12.7
+    },
+    {
+      "resSeq": 771,
+      "resName": "PRO",
+      "displacement": 0.85,
+      "dist_to_patch": 4.8
+    },
+    {
+      "resSeq": 67,
+      "resName": "ALA",
+      "displacement": 0.84,
+      "dist_to_patch": 29.9
+    },
+    {
+      "resSeq": 801,
+      "resName": "ALA",
+      "displacement": 0.84,
+      "dist_to_patch": 15.6
+    },
+    {
+      "resSeq": 800,
+      "resName": "GLU",
+      "displacement": 0.83,
+      "dist_to_patch": 13.6
+    },
+    {
+      "resSeq": 1132,
+      "resName": "ASP",
+      "displacement": 0.81,
+      "dist_to_patch": 58.6
+    }
+  ],
+  "max_window_rotation_deg": 2.15,
+  "duplication_max_window_rotation_deg": 1.27,
+  "rotation_threshold_deg": 2.54,
+  "max_window": {
+    "residues": "82-123",
+    "internal_rmsd": 0.38,
+    "rotation_deg": 2.15,
+    "translation": 2.39
+  },
+  "windows": [
+    {
+      "residues": "7-36",
+      "internal_rmsd": 0.339,
+      "rotation_deg": 1.44,
+      "translation": 6.81
+    },
+    {
+      "residues": "22-51",
+      "internal_rmsd": 0.313,
+      "rotation_deg": 1.14,
+      "translation": 1.73
+    },
+    {
+      "residues": "37-66",
+      "internal_rmsd": 0.361,
+      "rotation_deg": 0.48,
+      "translation": 2.13
+    },
+    {
+      "residues": "52-81",
+      "internal_rmsd": 0.388,
+      "rotation_deg": 0.7,
+      "translation": 2.74
+    },
+    {
+      "residues": "67-96",
+      "internal_rmsd": 0.343,
+      "rotation_deg": 1.21,
+      "translation": 1.32
+    },
+    {
+      "residues": "82-123",
+      "internal_rmsd": 0.38,
+      "rotation_deg": 2.15,
+      "translation": 2.39
+    }
+  ],
+  "findings": [
+    "**No conformational change is detectable at this resolution.** The apo-vs-TPP1-bound difference is 0.356 A CA-RMSD over 934 residues. The only comparison with a known true answer - two copies of the identical protein in the 7TRC crystal - is 0.585 A over 129 residues. The TPP1-associated difference is SMALLER than the difference between two copies of one molecule. On this evidence TPP1 does not remodel hTERT.",
+    "**Nothing exceeds the noise.** 9 of 934 residues (1.0%) displace more than the duplication floor's 95th percentile (0.82 A). If the difference were pure noise about 5% would exceed a 95th percentile; 1.0% is at or below that. The largest single displacement is 1.226 A at residue 612.",
+    "**No hinge.** Sliding 30-residue windows over the whole TERT chain rotate at most 2.15 degrees relative to the global superposition (window 82-123), with an internal fit of 0.38 A. The same protocol on the duplication control rotates up to 1.27 degrees, so the detection limit is 2.54 degrees. The signal does not reach it.",
+    "**There is a weak local trend, in the right direction, and it is too small to rest anything on.** Displacement correlates with proximity to the TPP1 footprint at rho = -0.20 (control -0.02): the residues nearest the patch move slightly more. The trend is consistent with a contact-local adjustment and is not evidence of a propagated mechanical change.",
+    "**What this means for the mechanism question.** P13 asks what TPP1 changes mechanically. Measured against the only available noise floor, it changes no conformation. That is a result, not a null to be explained away: it removes 'TPP1 remodels TERT' from the candidate mechanisms and leaves the two branches this repository already carries - R1 (affinity) and R2 (retention during extension) - both of which act without requiring a conformational change in TERT."
+  ],
+  "verdict": {
+    "detectable_change": false,
+    "nothing_above_chance": true,
+    "no_hinge": true,
+    "local_trend": true,
+    "structural_answer": "TPP1 does not detectably remodel hTERT at 3.3-3.5 A",
+    "mechanism_branch_decided": false,
+    "note": "neither R1 (affinity) nor R2 (retention) is decided by two static structures, and this result does not decide them either - it removes a third possibility"
+  },
+  "caveats": [
+    "Two crystals at 3.3 and 3.5 A with different contents/packing, so the difference between them is not a controlled perturbation: TPP1 is one of several things that differ. The result survives that because the difference is below the duplication floor rather than above the noise, but a crystal is not an experiment.",
+    "The apo-vs-apo control (7TRD vs 7TRF) is DEGENERATE: their hTERT coordinates are identical to 0.000 A over 934 CA atoms, so it carries no information and was not used as a floor. This was found by running it, not by reading the deposit titles.",
+    "A true floor is only available from the 7TRC duplication (two copies of one 129-residue protein at 3.3 A). A duplication floor from a smaller protein is not guaranteed to transfer to a 934-residue one; it is the best available and it is stated.",
+    "Static structures cannot order events. A difference that exists in the crystals need not drive the kinetics.",
+    "Model building at 3.3-3.5 A is coarse. A sub-Angstrom difference is near the limit of what these maps support, which is exactly why the floor is measured rather than assumed - and why the result is 'not detectable', not 'no change'."
+  ],
+  "summary": {
+    "status": "MEASURED",
+    "answer": "no detectable TERT conformational change on TPP1 binding",
+    "changes_status": "P13: NOT SOLVED -> PARTIAL (structural half measured and answered in the negative; kinetic half still needs the trap experiment)"
+  }
+}

@@ -117,7 +117,7 @@
     {
       "script": "wp46_closure",
       "passed": true,
-      "result": "WP46 self-test: 29 checks, 0 failed",
+      "result": "WP46 self-test: 35 checks, 0 failed",
       "exit": 0
     },
     {
@@ -137,11 +137,45 @@
       "passed": true,
       "result": "WP50 self-test: 31 checks, 0 failed",
       "exit": 0
+    },
+    {
+      "script": "wp51_ordering_md",
+      "passed": false,
+      "result": "FAIL  no hand-set linker stiffness table remains  ()",
+      "exit": 1
+    },
+    {
+      "script": "wp52_interface",
+      "passed": true,
+      "result": "WP52 self-test: 19 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp53_conformational_change",
+      "passed": true,
+      "result": "WP53 self-test: 22 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp54_remaining",
+      "passed": true,
+      "result": "WP54 self-test: 22 checks, 0 failed",
+      "exit": 0
     }
   ],
-  "n_self_tests": 22,
-  "n_self_tests_passing": 22,
+  "n_self_tests": 26,
+  "n_self_tests_passing": 25,
   "git_log": [
+    [
+      "5b63101",
+      "2026-11-24",
+      "probe: does GitHub Actions run for this repo"
+    ],
+    [
+      "728737a",
+      "2026-11-24",
+      "WP50: the three PARTIAL items, attacked by other means"
+    ],
     [
       "5b4166c",
       "2026-11-24",
@@ -219,16 +253,16 @@
     ]
   ],
   "ledger_tally": {
-    "SOLVED": 10,
-    "PARTIAL": 1,
-    "NOT SOLVED": 3,
-    "UNMEASURABLE": 2
+    "SOLVED": 12,
+    "PARTIAL": 4,
+    "NOT SOLVED": 0,
+    "UNMEASURABLE": 0
   },
   "n_retractions": 21,
   "summary": {
     "n_documents": 4,
-    "n_scripts_with_self_test": 22,
-    "all_self_tests_pass": true,
+    "n_scripts_with_self_test": 26,
+    "all_self_tests_pass": false,
     "n_retractions": 21,
     "nothing_synthesised": true
   }
