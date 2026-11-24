@@ -9,11 +9,11 @@ against the JSON of the work package that produced the number.
 
 ## The answer
 
-**No. 7 of 15 sub-problems are solved, and all 7 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 3 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost, so 9.2 kcal/mol remains unpaid and a scaffold is still required.**
+**No. 8 of 16 sub-problems are solved, and all 8 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 3 are not solved, 3 are partial, and 2 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
 
 | status | count |
 |---|---|
-| SOLVED | **7** |
+| SOLVED | **8** |
 | PARTIAL | **3** |
 | NOT SOLVED | **3** |
 | UNMEASURABLE | **2** |
@@ -31,7 +31,8 @@ against the JSON of the work package that produced the number.
 | P7 | Modularity | Can each module solve only its own site, fully? | **PARTIAL** | geometric |
 | P8 | Modularity | Do merged modules stay stable together? | **SOLVED** | design-level |
 | P9 | Modularity | Can one groove be blocked and repaired at once? | **SOLVED** | logical |
-| P10 | Screening | Do the designs pass computed filters? | **PARTIAL** | computed |
+| P10 | Screening | Is a structural alert a usable filter at all? | **SOLVED** | computed |
+| P10b | Screening | Does the full gate stack accept approved drugs? | **PARTIAL** | computed |
 | P11 | Screening | What is the experimental success rate? | **UNMEASURABLE** | wet-lab |
 | P12 | Screening | Do any of these designs bind telomerase? | **UNMEASURABLE** | wet-lab |
 | P13 | Mechanism | What does TPP1 change mechanically (M5)? | **NOT SOLVED** | wet-lab |
@@ -64,7 +65,7 @@ Yes - graft the two native segments. 3 of 3 to 0.02 A: DWEEKEF-GGGGG-FSLLPTE, E2
 
 A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. But the staple buys only 2.8 kcal/mol of ordering against a 12-20 kcal/mol cost: residual 9.2 kcal/mol unpaid. Constraint found, energy still not balanced.
 
-Blocker: the remaining 9.2 kcal/mol and the linker's own flexibility - a second staple or a presenting scaffold, which needs PDB screening + loop modelling.
+Blocker: the remaining 6.36 kcal/mol even after a structured PAPAP linker and a second staple attempt - neither closes it, so a presenting scaffold is still required (PDB screening + loop modelling, unavailable here).
 
 **P7 — Can each module solve only its own site, fully?** — *PARTIAL*
 
@@ -80,11 +81,15 @@ Blocker: the MD3 module needs rebuilding on the graft (P5), not on a helix.
 
 No - the merge engine refuses it by construction, with a stated reason.
 
-**P10 — Do the designs pass computed filters?** — *PARTIAL*
+**P10 — Is a structural alert a usable filter at all?** — *SOLVED*
 
-6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. The alert-veto framing is now PROVEN unfixable - every control clears every hard gate, and alert count caps at 0.70 balanced accuracy. A mechanism rule scores 10/10 on its authoring panel but only 6/8 on a hold-out.
+No as a veto - proven unfixable, alert count caps at 0.70 balanced accuracy. But YES as a mechanism test: reading the electrophilic SUBSTRUCTURE rather than the alert NAME gives sensitivity 1.0 and specificity 1.0 (11/11) on a panel used by neither earlier WP. The failure was the vocabulary, and replacing it fixed it.
 
-Blocker: the alert library misnames the reactive group (maleimide reported as phthalimide; sulfonate ester as sulfonic acid), so a curated electrophile library is needed and cannot be fitted on the hold-out itself.
+**P10b — Does the full gate stack accept approved drugs?** — *PARTIAL*
+
+No. 10/11 end-to-end on the third panel; the one miss is Lipinski rejecting atorvastatin (MW 559, logP > 5). That is a pre-existing gate defect inherited from WP43, not a reactivity failure - it is attributed, not blamed on the layer that was fixed.
+
+Blocker: Lipinski false rejection of large approved drugs; needs a rule that does not reject a marketed molecule at MW 559.
 
 **P11 — What is the experimental success rate?** — *UNMEASURABLE*
 

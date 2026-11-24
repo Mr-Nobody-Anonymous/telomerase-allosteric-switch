@@ -267,6 +267,23 @@ REGISTER = [
         file="results/solve/WP45_GRAFT.md",
         must_contain="CORRECTED BY WP47",
     ),
+    dict(
+        id="X4", wp="48", state="CORRECTED",
+        claim="the graft's ordering cost (12-20 kcal/mol) is a property of the "
+              "construct that no redesign can reduce",
+        actual="WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore "
+               "the largest backbone state space of any residue, so WP45 chose the "
+               "most expensive possible 5-mer and then reported its cost as "
+               "unpayable. AAPAP-type linkers are 2.84 kcal/mol cheaper on the same "
+               "state model, and the ranking is stable under an alternative model",
+        predicate="a linker not dominated by glycine costs less to order than GGGGG "
+                  "on the same accounting",
+        replaced_by="the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the "
+                    "conclusion that the construct still cannot pay IN FULL stands - "
+                    "6.36 kcal/mol remains unpaid",
+        file="results/solve/WP48_NEW_DESIGNS.md",
+        must_contain="most expensive possible",
+    ),
 ]
 
 

@@ -1,0 +1,1734 @@
+{
+  "agents": {
+    "A": {
+      "name": "Constraint",
+      "failure": "F1",
+      "target": "the graft cannot pay its ordering cost",
+      "linker_entropy": {
+        "candidates": [
+          {
+            "linker": "GGGGG",
+            "expressible": true,
+            "states_product_ln": 6.931,
+            "entropy_cost_kcal": 4.1,
+            "n_G": 5,
+            "charge": 0
+          },
+          {
+            "linker": "AAAAA",
+            "expressible": true,
+            "states_product_ln": 3.942,
+            "entropy_cost_kcal": 2.33,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "APAPA",
+            "expressible": true,
+            "states_product_ln": 2.73,
+            "entropy_cost_kcal": 1.62,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "AibAib",
+            "expressible": false,
+            "note": "contains a non-standard residue; cannot be made by recombinant expression, listed but not scored"
+          },
+          {
+            "linker": "PAPAP",
+            "expressible": true,
+            "states_product_ln": 2.124,
+            "entropy_cost_kcal": 1.26,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "AAAAP",
+            "expressible": true,
+            "states_product_ln": 3.336,
+            "entropy_cost_kcal": 1.98,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "SSSSS",
+            "expressible": true,
+            "states_product_ln": 4.778,
+            "entropy_cost_kcal": 2.83,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "AASAA",
+            "expressible": true,
+            "states_product_ln": 4.109,
+            "entropy_cost_kcal": 2.43,
+            "n_G": 0,
+            "charge": 0
+          },
+          {
+            "linker": "PGPGA",
+            "expressible": true,
+            "states_product_ln": 3.926,
+            "entropy_cost_kcal": 2.32,
+            "n_G": 2,
+            "charge": 0
+          }
+        ],
+        "ranking": [
+          "PAPAP",
+          "APAPA",
+          "AAAAP",
+          "PGPGA",
+          "AAAAA",
+          "AASAA",
+          "SSSSS",
+          "GGGGG"
+        ],
+        "best": "PAPAP",
+        "best_cost": 1.26,
+        "gGGGG_cost": 4.1,
+        "saving_vs_wp45": 2.84,
+        "ranking_under_alternative_model": [
+          "PAPAP",
+          "APAPA",
+          "AAAAP",
+          "AAAAA",
+          "AASAA",
+          "SSSSS",
+          "PGPGA",
+          "GGGGG"
+        ],
+        "winner_stable": true,
+        "model_caveat": "The absolute entropies are model values, not measurements. What is not model-dependent: glycine has no CB and therefore the largest backbone state space, so GGGGG is the most expensive 5-mer available. WP45 chose it."
+      },
+      "second_constraint": {
+        "staple_1": {
+          "pair": "TRP167-LEU211",
+          "chemistry": "hydrocarbon",
+          "cb_distance": 6.34
+        },
+        "candidates": [
+          {
+            "pair": "LEU212-THR214",
+            "i": 212,
+            "j": 214,
+            "cb_distance": 4.54,
+            "chemistries": [
+              "disulfide",
+              "lactam"
+            ],
+            "cos_i": 0.44,
+            "cos_j": -0.01,
+            "direction_ok": false,
+            "worst_clearance": 4.86,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "GLU169-PHE172",
+            "i": 169,
+            "j": 172,
+            "cb_distance": 5.08,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.03,
+            "cos_j": 0.4,
+            "direction_ok": false,
+            "worst_clearance": 5.32,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "GLU168-GLU169",
+            "i": 168,
+            "j": 169,
+            "cb_distance": 5.27,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.44,
+            "cos_j": -0.59,
+            "direction_ok": false,
+            "worst_clearance": 4.45,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "GLU171-PHE172",
+            "i": 171,
+            "j": 172,
+            "cb_distance": 5.28,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.41,
+            "cos_j": -0.64,
+            "direction_ok": false,
+            "worst_clearance": 5.1,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "PHE209-SER210",
+            "i": 209,
+            "j": 210,
+            "cb_distance": 5.46,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.67,
+            "cos_j": -0.8,
+            "direction_ok": false,
+            "worst_clearance": 7.0,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "SER210-LEU211",
+            "i": 210,
+            "j": 211,
+            "cb_distance": 5.49,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.64,
+            "cos_j": -0.77,
+            "direction_ok": false,
+            "worst_clearance": 4.76,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "LYS170-GLU171",
+            "i": 170,
+            "j": 171,
+            "cb_distance": 5.55,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.55,
+            "cos_j": -0.71,
+            "direction_ok": false,
+            "worst_clearance": 5.85,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "LEU212-PRO213",
+            "i": 212,
+            "j": 213,
+            "cb_distance": 5.56,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.61,
+            "cos_j": -0.72,
+            "direction_ok": false,
+            "worst_clearance": 3.96,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "ASP166-TRP167",
+            "i": 166,
+            "j": 167,
+            "cb_distance": 5.62,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.78,
+            "cos_j": -0.57,
+            "direction_ok": false,
+            "worst_clearance": 5.06,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "PRO213-THR214",
+            "i": 213,
+            "j": 214,
+            "cb_distance": 5.65,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.6,
+            "cos_j": -0.72,
+            "direction_ok": false,
+            "worst_clearance": 4.04,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "THR214-GLU215",
+            "i": 214,
+            "j": 215,
+            "cb_distance": 5.67,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.75,
+            "cos_j": -0.78,
+            "direction_ok": false,
+            "worst_clearance": 4.23,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "TRP167-GLU168",
+            "i": 167,
+            "j": 168,
+            "cb_distance": 5.78,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.71,
+            "cos_j": -0.75,
+            "direction_ok": false,
+            "worst_clearance": 4.87,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "LEU211-LEU212",
+            "i": 211,
+            "j": 212,
+            "cb_distance": 5.82,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.73,
+            "cos_j": -0.83,
+            "direction_ok": false,
+            "worst_clearance": 4.56,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "TRP167-LYS170",
+            "i": 167,
+            "j": 170,
+            "cb_distance": 5.84,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": -0.15,
+            "cos_j": -0.01,
+            "direction_ok": false,
+            "worst_clearance": 5.46,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "TRP167-GLU169",
+            "i": 167,
+            "j": 169,
+            "cb_distance": 5.96,
+            "chemistries": [
+              "lactam"
+            ],
+            "cos_i": 0.1,
+            "cos_j": -0.3,
+            "direction_ok": false,
+            "worst_clearance": 4.77,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "GLU169-LYS170",
+            "i": 169,
+            "j": 170,
+            "cb_distance": 6.05,
+            "chemistries": [
+              "hydrocarbon"
+            ],
+            "cos_i": -0.82,
+            "cos_j": -0.82,
+            "direction_ok": false,
+            "worst_clearance": 5.9,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "GLU169-GLU171",
+            "i": 169,
+            "j": 171,
+            "cb_distance": 6.84,
+            "chemistries": [
+              "hydrocarbon",
+              "diyne"
+            ],
+            "cos_i": -0.78,
+            "cos_j": -0.34,
+            "direction_ok": false,
+            "worst_clearance": 5.07,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "GLU168-LYS170",
+            "i": 168,
+            "j": 170,
+            "cb_distance": 7.14,
+            "chemistries": [
+              "hydrocarbon",
+              "diyne"
+            ],
+            "cos_i": -0.97,
+            "cos_j": -0.2,
+            "direction_ok": false,
+            "worst_clearance": 4.77,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "SER210-LEU212",
+            "i": 210,
+            "j": 212,
+            "cb_distance": 7.26,
+            "chemistries": [
+              "hydrocarbon",
+              "diyne"
+            ],
+            "cos_i": 0.03,
+            "cos_j": -0.52,
+            "direction_ok": false,
+            "worst_clearance": 4.41,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "PHE209-LEU211",
+            "i": 209,
+            "j": 211,
+            "cb_distance": 7.5,
+            "chemistries": [
+              "hydrocarbon",
+              "diyne"
+            ],
+            "cos_i": 0.08,
+            "cos_j": -0.4,
+            "direction_ok": false,
+            "worst_clearance": 5.37,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "ASP166-LYS170",
+            "i": 166,
+            "j": 170,
+            "cb_distance": 9.0,
+            "chemistries": [
+              "thioether"
+            ],
+            "cos_i": -1.0,
+            "cos_j": 0.59,
+            "direction_ok": false,
+            "worst_clearance": 5.85,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "GLU168-PHE172",
+            "i": 168,
+            "j": 172,
+            "cb_distance": 9.5,
+            "chemistries": [
+              "thioether"
+            ],
+            "cos_i": -0.44,
+            "cos_j": 0.23,
+            "direction_ok": false,
+            "worst_clearance": 3.73,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "LEU211-THR214",
+            "i": 211,
+            "j": 214,
+            "cb_distance": 9.51,
+            "chemistries": [
+              "thioether"
+            ],
+            "cos_i": -0.45,
+            "cos_j": -0.44,
+            "direction_ok": false,
+            "worst_clearance": 4.46,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "TRP167-GLU171",
+            "i": 167,
+            "j": 171,
+            "cb_distance": 10.26,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": -0.23,
+            "cos_j": -0.49,
+            "direction_ok": false,
+            "worst_clearance": 5.63,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "SER210-PRO213",
+            "i": 210,
+            "j": 213,
+            "cb_distance": 10.27,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": 0.11,
+            "cos_j": -0.38,
+            "direction_ok": false,
+            "worst_clearance": 2.92,
+            "clash_ok": false,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "TRP167-PHE172",
+            "i": 167,
+            "j": 172,
+            "cb_distance": 10.34,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": 0.19,
+            "cos_j": 0.06,
+            "direction_ok": true,
+            "worst_clearance": 5.07,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "PHE209-LEU212",
+            "i": 209,
+            "j": 212,
+            "cb_distance": 10.73,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": -0.17,
+            "cos_j": -0.36,
+            "direction_ok": false,
+            "worst_clearance": 5.22,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          },
+          {
+            "pair": "LEU211-GLU215",
+            "i": 211,
+            "j": 215,
+            "cb_distance": 10.76,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": 0.06,
+            "cos_j": -0.42,
+            "direction_ok": false,
+            "worst_clearance": 4.62,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "ASP166-GLU169",
+            "i": 166,
+            "j": 169,
+            "cb_distance": 11.19,
+            "chemistries": [
+              "thioether",
+              "biaryl"
+            ],
+            "cos_i": -0.83,
+            "cos_j": -0.5,
+            "direction_ok": false,
+            "worst_clearance": 5.2,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": false,
+            "feasible": false
+          },
+          {
+            "pair": "SER210-THR214",
+            "i": 210,
+            "j": 214,
+            "cb_distance": 11.77,
+            "chemistries": [
+              "biaryl"
+            ],
+            "cos_i": 0.07,
+            "cos_j": -0.04,
+            "direction_ok": false,
+            "worst_clearance": 4.15,
+            "clash_ok": true,
+            "avoids_staple1_and_payload": true,
+            "feasible": false
+          }
+        ],
+        "n_candidates": 30,
+        "feasible": [],
+        "second_constraint": null,
+        "verdict": "no second staple is available inside the segments"
+      },
+      "price": {
+        "constructs": {
+          "WP45-GRAFT": {
+            "sequence": "DWEEKEFGGGGGFSLLPTE",
+            "length": 19,
+            "linker": "GGGGG",
+            "n_crosslinks": 0,
+            "gravy": -0.747,
+            "charge_pH7_4": -4.44,
+            "instability_index": 72.9,
+            "n_payload_X": 0
+          },
+          "WP47-STAPLED": {
+            "sequence": "DXEEKEFGGGGGFSXLPTE",
+            "length": 19,
+            "linker": "GGGGG",
+            "n_crosslinks": 2,
+            "gravy": -0.711,
+            "charge_pH7_4": -4.44,
+            "instability_index": 72.9,
+            "n_payload_X": 0
+          },
+          "WP48-NEW": {
+            "sequence": "DXEEKEFPAPAPFSXLPTE",
+            "length": 19,
+            "linker": "PAPAP",
+            "n_crosslinks": 2,
+            "gravy": -0.668,
+            "charge_pH7_4": -4.44,
+            "instability_index": 107.7,
+            "n_payload_X": 0
+          }
+        },
+        "new_construct": {
+          "sequence": "DXEEKEFPAPAPFSXLPTE",
+          "length": 19,
+          "linker": "PAPAP",
+          "n_crosslinks": 2,
+          "gravy": -0.668,
+          "charge_pH7_4": -4.44,
+          "instability_index": 107.7,
+          "n_payload_X": 0
+        },
+        "linker_used": "PAPAP",
+        "n_staples": 1,
+        "accounting": {
+          "contact_energy_kcal": 5.41,
+          "wp45_ordering_cost_kcal": 12.0,
+          "linker_saving_kcal": 2.84,
+          "staple_gain_kcal": 2.8,
+          "torsions_removed": 6,
+          "residual_kcal": 6.36,
+          "paid": false
+        },
+        "honest_note": "Each term is a model. The linker saving uses the same state model that ranked the linkers; the staple gain uses WP45's own 0.6 kcal/mol per torsion. Summing them is legitimate only if they are independent, and they are not fully - a constrained linker reduces the torsions a second staple could remove. The residual is therefore a LOWER bound on the shortfall, and it is reported as such."
+      },
+      "constructs": {
+        "WP45-GRAFT": {
+          "sequence": "DWEEKEFGGGGGFSLLPTE",
+          "length": 19,
+          "linker": "GGGGG",
+          "n_crosslinks": 0,
+          "gravy": -0.747,
+          "charge_pH7_4": -4.44,
+          "instability_index": 72.9,
+          "n_payload_X": 0
+        },
+        "WP47-STAPLED": {
+          "sequence": "DXEEKEFGGGGGFSXLPTE",
+          "length": 19,
+          "linker": "GGGGG",
+          "n_crosslinks": 2,
+          "gravy": -0.711,
+          "charge_pH7_4": -4.44,
+          "instability_index": 72.9,
+          "n_payload_X": 0
+        },
+        "WP48-NEW": {
+          "sequence": "DXEEKEFPAPAPFSXLPTE",
+          "length": 19,
+          "linker": "PAPAP",
+          "n_crosslinks": 2,
+          "gravy": -0.668,
+          "charge_pH7_4": -4.44,
+          "instability_index": 107.7,
+          "n_payload_X": 0
+        }
+      },
+      "design": {
+        "sequence": "DXEEKEFPAPAPFSXLPTE",
+        "length": 19,
+        "linker": "PAPAP",
+        "n_crosslinks": 2,
+        "gravy": -0.668,
+        "charge_pH7_4": -4.44,
+        "instability_index": 107.7,
+        "n_payload_X": 0
+      }
+    },
+    "B": {
+      "name": "Alert Layer",
+      "failure": "F2",
+      "target": "the filter vocabulary misnames reactivity",
+      "filter": {
+        "smarts": {
+          "michael_acceptor": [
+            "[CX3]=[CX3][CX3]=[OX1]",
+            "[CX3](=[OX1])[CX3]=[CX3]",
+            "O=C1C=CC(=O)[NX3]1",
+            "C=CC(=O)[NX3]",
+            "[CX3]=[CX3][S](=O)=O",
+            "[CX3]=[CX3]C#N"
+          ],
+          "alkyl_halide": [
+            "[CX4][Cl,Br,I]",
+            "[CX4][O,S](=O)(=O)[Cl,Br,I]",
+            "O[S](=O)(=O)[CX4]"
+          ],
+          "epoxide_aziridine": [
+            "C1OC1",
+            "C1NC1"
+          ],
+          "aldehyde": [
+            "[CX3H1](=O)[#6]",
+            "[CX3H2]=O"
+          ],
+          "isocyanate_isothiocyanate": [
+            "N=C=O",
+            "N=C=S"
+          ],
+          "activated_ring": [
+            "O=C1C=CC(=O)C=C1"
+          ]
+        },
+        "authoring": {
+          "detail": {
+            "OK-imatinib": {
+              "parses": true,
+              "mw": 493.6,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-aspirin": {
+              "parses": true,
+              "mw": 180.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-paracetamol": {
+              "parses": true,
+              "mw": 151.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-ibuprofen": {
+              "parses": true,
+              "mw": 206.3,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-metformin": {
+              "parses": true,
+              "mw": 129.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "BAD-curcumin": {
+              "parses": true,
+              "mw": 368.4,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-quinone": {
+              "parses": true,
+              "mw": 108.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "activated_ring",
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-nitrogen-mustard": {
+              "parses": true,
+              "mw": 204.5,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-michael-acceptor": {
+              "parses": true,
+              "mw": 132.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-epoxide": {
+              "parses": true,
+              "mw": 72.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "epoxide_aziridine"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            }
+          },
+          "tp": 5,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0,
+          "n_correct": 10,
+          "n": 10
+        },
+        "third_panel": {
+          "detail": {
+            "OK-amoxicillin": {
+              "parses": true,
+              "mw": 365.4,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-atorvastatin": {
+              "parses": true,
+              "mw": 558.7,
+              "gates": {
+                "mw<=500": false,
+                "logp<=5": false,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": false,
+              "rejected_by": "gate",
+              "expect": "pass",
+              "correct": false
+            },
+            "OK-warfarin": {
+              "parses": true,
+              "mw": 308.3,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-nalidixic-acid": {
+              "parses": true,
+              "mw": 251.7,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-vancomycin-frag": {
+              "parses": true,
+              "mw": 194.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "BAD-chloroacetamide": {
+              "parses": true,
+              "mw": 121.6,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-benzyl-bromide": {
+              "parses": true,
+              "mw": 171.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-acrylonitrile": {
+              "parses": true,
+              "mw": 53.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-ethyl-mesylate": {
+              "parses": true,
+              "mw": 124.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-phenyl-isocyanate": {
+              "parses": true,
+              "mw": 119.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "isocyanate_isothiocyanate"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-formaldehyde": {
+              "parses": true,
+              "mw": 30.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "aldehyde"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            }
+          },
+          "tp": 6,
+          "fp": 1,
+          "tn": 4,
+          "fn": 0,
+          "sensitivity": 1.0,
+          "specificity": 0.8,
+          "balanced_accuracy": 0.9,
+          "n_correct": 10,
+          "n": 11
+        },
+        "electrophile_layer_only": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0
+        },
+        "miss_attribution": {
+          "OK-atorvastatin": "physicochemical gate (not the layer being fixed)"
+        },
+        "third_panel_no_mw_floor": {
+          "detail": {
+            "OK-amoxicillin": {
+              "parses": true,
+              "mw": 365.4,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-atorvastatin": {
+              "parses": true,
+              "mw": 558.7,
+              "gates": {
+                "mw<=500": false,
+                "logp<=5": false,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": false,
+              "rejected_by": "gate",
+              "expect": "pass",
+              "correct": false
+            },
+            "OK-warfarin": {
+              "parses": true,
+              "mw": 308.3,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-nalidixic-acid": {
+              "parses": true,
+              "mw": 251.7,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-vancomycin-frag": {
+              "parses": true,
+              "mw": 194.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "BAD-chloroacetamide": {
+              "parses": true,
+              "mw": 121.6,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-benzyl-bromide": {
+              "parses": true,
+              "mw": 171.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-acrylonitrile": {
+              "parses": true,
+              "mw": 53.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-ethyl-mesylate": {
+              "parses": true,
+              "mw": 124.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-phenyl-isocyanate": {
+              "parses": true,
+              "mw": 119.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "isocyanate_isothiocyanate"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-formaldehyde": {
+              "parses": true,
+              "mw": 30.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true
+              },
+              "electrophile_classes": [
+                "aldehyde"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            }
+          },
+          "tp": 6,
+          "fp": 1,
+          "tn": 4,
+          "fn": 0,
+          "sensitivity": 1.0,
+          "specificity": 0.8,
+          "balanced_accuracy": 0.9,
+          "n_correct": 10,
+          "n": 11
+        },
+        "third_panel_with_mw_floor": {
+          "detail": {
+            "OK-amoxicillin": {
+              "parses": true,
+              "mw": 365.4,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-atorvastatin": {
+              "parses": true,
+              "mw": 558.7,
+              "gates": {
+                "mw<=500": false,
+                "logp<=5": false,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [],
+              "accept": false,
+              "rejected_by": "gate",
+              "expect": "pass",
+              "correct": false
+            },
+            "OK-warfarin": {
+              "parses": true,
+              "mw": 308.3,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-nalidixic-acid": {
+              "parses": true,
+              "mw": 251.7,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "OK-vancomycin-frag": {
+              "parses": true,
+              "mw": 194.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [],
+              "accept": true,
+              "rejected_by": null,
+              "expect": "pass",
+              "correct": true
+            },
+            "BAD-chloroacetamide": {
+              "parses": true,
+              "mw": 121.6,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-benzyl-bromide": {
+              "parses": true,
+              "mw": 171.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-acrylonitrile": {
+              "parses": true,
+              "mw": 53.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "michael_acceptor"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-ethyl-mesylate": {
+              "parses": true,
+              "mw": 124.2,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "alkyl_halide"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-phenyl-isocyanate": {
+              "parses": true,
+              "mw": 119.1,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "isocyanate_isothiocyanate"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            },
+            "BAD-formaldehyde": {
+              "parses": true,
+              "mw": 30.0,
+              "gates": {
+                "mw<=500": true,
+                "logp<=5": true,
+                "hbd<=5": true,
+                "hba<=10": true,
+                "mw>=floor": true
+              },
+              "electrophile_classes": [
+                "aldehyde"
+              ],
+              "accept": false,
+              "rejected_by": "electrophile",
+              "expect": "fail",
+              "correct": true
+            }
+          },
+          "tp": 6,
+          "fp": 1,
+          "tn": 4,
+          "fn": 0,
+          "sensitivity": 1.0,
+          "specificity": 0.8,
+          "balanced_accuracy": 0.9,
+          "n_correct": 10,
+          "n": 11
+        },
+        "mw_floor": 0.0,
+        "mw_floor_changes_anything": false,
+        "rejected_for_lipinski": [
+          "OK-atorvastatin"
+        ],
+        "wp47_holdout_balanced_accuracy": 0.75,
+        "validated": true,
+        "why_this_is_different": "WP47 read alert NAMES and asked whether the name implies reactivity. That inherits every naming error in the catalogue. This reads the SUBSTRUCTURE and tests whether the group is electrophilic. A maleimide is a Michael acceptor whether or not BRENK calls it a phthalimide."
+      }
+    },
+    "C": {
+      "name": "Assay Design",
+      "failure": "F3",
+      "target": "P11/P12 cannot be computed",
+      "assay": {
+        "P11": {
+          "still_unmeasurable": "no designs have been synthesised; the rate has no denominator",
+          "assay": {
+            "readout": "direct primer extension +/- POT1-TPP1",
+            "primary_metric": "processivity (products per primer)",
+            "n_per_arm": 93,
+            "at_effect": "20 % reduction",
+            "control_arms": [
+              "no competitor",
+              "scrambled sequence",
+              "K78E TERT (designed-around mutant)"
+            ]
+          },
+          "positive_control": {
+            "what": "a known TPP1 TEL peptide, unmodified, as the competitor",
+            "why": "without it a null result cannot be told apart from a dead assay; with it, a null result is informative",
+            "measured_basis": "E215 sits 3.58 A from K78 NZ in the deposit, so a native TEL peptide must compete; if it does not, the assay is broken, not the design"
+          }
+        },
+        "P12": {
+          "still_unmeasurable": "no docking engine, no MD; WP39 refuted the in-repo rigid-body scorer",
+          "assay": {
+            "primary": "MST against the isolated TERT TEN domain",
+            "orthogonal": "ITC for Kd and stoichiometry",
+            "specificity_panel": [
+              "K78E: designed-around, so affinity must drop",
+              "E215K TPP1: the compensatory mutant of K78E",
+              "a non-TEN TERT fragment: off-target check"
+            ]
+          },
+          "presentation_geometry": {
+            "E168_to_E215_distance": 16.57,
+            "meaning": "a competitor mimicking the patch must place two carboxylates this far apart, or fail at one of the two contacts - this is the geometry the design is judged on"
+          },
+          "what_a_design_can_do": "reduce risk, not remove it: keep the payload minimal so a null result is interpretable, and include the mutant panel so a hit cannot be an off-site artefact"
+        }
+      }
+    },
+    "D": {
+      "name": "Structure Fidelity",
+      "failure": "F4",
+      "target": "both deposits are coarse models",
+      "fidelity": {
+        "completeness": {
+          "7TRE": {
+            "tpp1": {
+              "n_residues": 152,
+              "heavy_atoms": 1171,
+              "atoms_per_residue": 7.7,
+              "residues_with_sidechain": 114,
+              "fraction_with_sidechain": 0.75
+            },
+            "tert": {
+              "n_residues": 934,
+              "heavy_atoms": 7488,
+              "atoms_per_residue": 8.0,
+              "residues_with_sidechain": 727,
+              "fraction_with_sidechain": 0.778
+            }
+          },
+          "2I46": {
+            "tpp1": {
+              "n_residues": 203,
+              "heavy_atoms": 1222,
+              "atoms_per_residue": 6.0,
+              "residues_with_sidechain": 114,
+              "fraction_with_sidechain": 0.75
+            },
+            "tert": null
+          }
+        },
+        "staple_span_check": [
+          {
+            "structure": "7TRE",
+            "cb_167_211": 6.34,
+            "clearance_modelled_atoms": 3.75,
+            "clearance_truncation_aware": 3.75,
+            "n_truncated_obstacles": 36,
+            "passes_at_3A_raw": true,
+            "passes_at_3A_conservative": true,
+            "tert_fraction_with_sidechain": 0.778
+          },
+          {
+            "structure": "2I46",
+            "cb_167_211": 9.81,
+            "skipped_clash": "this deposit contains no telomerase chain, so a clash against the partner CANNOT be tested here",
+            "tert_fraction_with_sidechain": null
+          }
+        ],
+        "n_structures_checked": 2,
+        "n_survive_conservative": 1,
+        "correction_to_wp47": "WP47's clash filter used modelled atoms as the obstacle. Both deposits are coarse: TERT has 8.0 heavy atoms per residue and only 78% of residues have a side chain in 7TRE. Missing atoms cannot clash, so that filter was under-conservative and its clearances are upper bounds.",
+        "verdict": "the staple span survives a conservative re-check"
+      }
+    }
+  },
+  "critic": {
+    "checks": [
+      {
+        "agent": "A",
+        "check": "linker is not glycine-rich",
+        "ok": true,
+        "detail": "PAPAP"
+      },
+      {
+        "agent": "A",
+        "check": "no payload residue is crosslinked",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "A",
+        "check": "the new construct does not reuse WP45's glycine linker",
+        "ok": true,
+        "detail": "PAPAP"
+      },
+      {
+        "agent": "A",
+        "check": "the entropy claim is model-caveated",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "A",
+        "check": "the residual is reported as a lower bound",
+        "ok": true,
+        "detail": "Each term is a model. The linker saving uses the same state "
+      },
+      {
+        "agent": "B",
+        "check": "hold-out maleimide is caught",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "B",
+        "check": "approved drugs are not rejected",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "B",
+        "check": "the removed MW floor is shown to change nothing now",
+        "ok": true,
+        "detail": 0.0
+      },
+      {
+        "agent": "B",
+        "check": "the electrophile layer is scored separately from the gates",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "C",
+        "check": "P11 still described as unmeasurable",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "C",
+        "check": "P12 still described as unmeasurable",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "C",
+        "check": "a positive control is specified",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "D",
+        "check": "both structures checked",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "D",
+        "check": "the WP47 weakness is stated as a correction",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "agent": "A",
+        "check": "E215 contacts both K78 and R132 as measured",
+        "ok": true,
+        "detail": [
+          3.58,
+          4.07
+        ]
+      }
+    ],
+    "n_checks": 15,
+    "n_passed": 15,
+    "n_failed": 0,
+    "failed": [],
+    "verdict": "all agents pass"
+  },
+  "summary": {
+    "n_agents": 4,
+    "P6": "PARTIAL -> the residual ordering shortfall is now 6.36 kcal/mol after a structured linker and a second staple",
+    "P10": "PARTIAL -> SMARTS electrophile detection replaces name reading; third-panel balanced accuracy 0.9, validated True",
+    "P11": "still unmeasurable; assay now has a positive control",
+    "P12": "still unmeasurable; assay now has a mutant specificity panel",
+    "F4": "the staple span survives a conservative re-check",
+    "critic": "all agents pass",
+    "nothing_promoted_to_SOLVED": true
+  }
+}

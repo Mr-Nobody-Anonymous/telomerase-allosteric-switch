@@ -2223,12 +2223,18 @@ def test_wp47_validation_is_defined_on_the_holdout_not_the_authoring_panel():
 
 
 def test_wp47_p10_is_not_claimed_solved():
-    """The hold-out does not validate, so P10 stays PARTIAL in the ledger."""
+    """WP47's own hold-out did NOT validate, and that is still true of WP47's rule.
+
+    WP48 later replaced name-reading with substructure reading and that DID
+    validate (P10 -> SOLVED), but the gate stack did not (P10b, PARTIAL). WP47's
+    result must not be retro-fitted to the later fix.
+    """
     import json
     led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
-    p10 = [i for i in led["items"] if i["id"] == "P10"][0]
-    assert p10["status"] == "PARTIAL"
-    assert _wp47().calibrate()["validated"] is False
+    by = {i["id"]: i for i in led["items"]}
+    assert _wp47().calibrate()["validated"] is False        # WP47's rule
+    assert by["P10b"]["status"] == "PARTIAL"                # the gate stack
+    assert _wp48().build()["agents"]["B"]["filter"]["validated"] is True  # WP48's
 
 
 def test_wp47_every_holdout_failure_is_named_with_a_reason():
@@ -2259,3 +2265,118 @@ def test_wp47_doc_records_the_correction_and_keeps_p10_partial():
     assert "demonstration, not evidence" in flat
     assert "Validated: False" in flat
     assert "P10 stays" in flat and "PARTIAL" in flat
+
+
+# --------------------------------------------------------------- WP48
+def _wp48():
+    import importlib
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    return importlib.import_module("wp48_new_designs")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp48_new_designs")
+
+
+def test_wp48_the_linker_was_a_design_error_not_a_property():
+    """WP45 chose GGGGG - the most expensive 5-mer - then reported the cost."""
+    a = _wp48().build()["agents"]["A"]
+    le = a["linker_entropy"]
+    assert le["gGGGG_cost"] > le["best_cost"]
+    assert le["winner_stable"] is True
+    assert a["price"]["linker_used"] != "GGGGG"
+    assert a["price"]["linker_used"].count("G") == 0
+
+
+def test_wp48_the_new_construct_keeps_every_payload_residue():
+    a = _wp48().build()["agents"]["A"]
+    c = a["constructs"]["WP48-NEW"]
+    assert c["n_payload_X"] == 0
+    assert "E" in c["sequence"] and c["charge_pH7_4"] < -2
+    assert c["length"] == 19
+
+
+def test_wp48_the_designed_linker_still_does_not_pay_in_full():
+    """The redesign helps and is not enough - and says so."""
+    a = _wp48().build()["agents"]["A"]
+    acc = a["price"]["accounting"]
+    assert acc["residual_kcal"] > 0
+    assert acc["paid"] is False
+    assert "lower bound" in a["price"]["honest_note"].lower()
+
+
+def test_wp48_electrophile_smarts_beat_reading_alert_names():
+    """The two cases WP47's name-based rule missed, caught by substructure."""
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["electrophile_layer_only"]["balanced_accuracy"] == 1.0
+    assert b["validated"] is True
+    d = b["third_panel"]["detail"]
+    assert d["BAD-ethyl-mesylate"]["accept"] is False      # WP47 missed this
+    assert d["BAD-acrylonitrile"]["accept"] is False
+    assert d["BAD-formaldehyde"]["accept"] is False
+
+
+def test_wp48_the_third_panel_is_clean_of_both_earlier_panels():
+    """A panel that reuses earlier controls is not evidence."""
+    wp = _wp48()
+    third = {c[0] for c in wp.PANEL_THIRD}
+    wp47_holdout = {"OK-caffeine", "OK-penicillin-G", "OK-sildenafil", "OK-glucose",
+                    "BAD-acrylamide", "BAD-iodoacetamide", "BAD-N-ethylmaleimide",
+                    "BAD-methyl-mesylate"}
+    wp48_authoring = {c[0] for c in wp.PANEL_AUTHORING}
+    assert not (third & wp47_holdout)
+    assert not (third & wp48_authoring)
+
+
+def test_wp48_the_one_miss_is_attributed_to_lipinski_not_reactivity():
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["miss_attribution"]
+    for cid, why in b["miss_attribution"].items():
+        assert "gate" in why
+        assert "not the layer being fixed" in why
+
+
+def test_wp48_a_rule_that_stopped_working_was_removed():
+    """The MW floor only ever compensated for missing SMARTS; it is gone."""
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["mw_floor"] == 0.0
+    assert b["mw_floor_changes_anything"] is False
+
+
+def test_wp48_both_deposits_are_coarse_models():
+    """The finding that corrects WP47's clash filter."""
+    d = _wp48().build()["agents"]["D"]["fidelity"]
+    for s, comp in d["completeness"].items():
+        for chain, v in comp.items():
+            if v:
+                assert v["atoms_per_residue"] < 15, (s, chain, v)
+    assert "under-conservative" in d["correction_to_wp47"]
+
+
+def test_wp48_a_deposit_without_telomerase_cannot_test_a_clash():
+    """2I46 has no TERT; claiming a clearance against it would be fabrication."""
+    d = _wp48().build()["agents"]["D"]["fidelity"]
+    rows = {r["structure"]: r for r in d["staple_span_check"]}
+    assert rows["2I46"].get("skipped_clash")
+    assert "CANNOT be tested" in rows["2I46"]["skipped_clash"]
+
+
+def test_wp48_the_critic_passes_but_is_allowed_to_fail():
+    crit = _wp48().build()["critic"]
+    assert crit["n_checks"] >= 12
+    assert crit["n_failed"] == 0
+    assert all(set(x) >= {"agent", "check", "ok"} for x in crit["checks"])
+
+
+def test_wp48_ledger_splits_the_filter_question_correctly():
+    """The reactivity layer is solved; the gate stack is not."""
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P10"]["status"] == "SOLVED"
+    assert by["P10b"]["status"] == "PARTIAL"
+    assert "Lipinski" in by["P10b"]["answer"]
+
+
+def test_wp48_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp48_new_designs.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)

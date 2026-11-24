@@ -3,8 +3,8 @@
     python scripts/solve/wp38_archive.py
     python scripts/solve/wp38_archive.py --self-test
 
-**19 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 6 corrected.**
-Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP45 ×1, WP47 ×1, pre-WP22 ×1.
+**20 registered retractions: 6 retracted, 3 withdrawn, 4 superseded, 7 corrected.**
+Raised by: WP22 ×1, WP32 ×1, WP33 ×2, WP34 ×1, WP35 ×2, WP36 ×6, WP39 ×1, WP40 ×2, WP45 ×1, WP47 ×1, WP48 ×1, pre-WP22 ×1.
 
 This file is **generated** from `scripts/solve/wp38_archive.py`. `--self-test`
 re-derives it and compares; if a marker is deleted from a source document, or a
@@ -47,6 +47,7 @@ different, but they are now **fixed** and all four are enumerated:
 | **X1** | WITHDRAWN | a no-primer incorporation assay is the decisive experiment | the assay cannot separate retention from allostery; retention has no route to act with no primer | the proposed readout is unchanged between the two hypotheses | the pulse-chase +/- trap design (WP25, revised by WP37) | `results/solve/CORRECTIONS.md` |
 | **X2** | CORRECTED | the TEL patch triad E168/E169/E171 lies on an alpha-helix, so a helical register lattice describes it | psi(E169) is +24.4 deg and CA168-CA171 is 7.68 A in 7TRE and 7.70 A in 2I46, against 5.05 A for an alpha-helix at that offset; the segment is a kinked turn | an ideal alpha-helix reproduces CA168-CA171 for the deposited coordinates | backbone grafting of the native segments, verbatim (WP45); the CONCLUSION that a helix cannot present the triad still stands, only the reason changes | `results/solve/WP44_MODULAR.md` |
 | **X3** | CORRECTED | no covalent route exists to constrain the grafted TEL segments (WP45, route b) | WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, direction, clash and payload tests at 6.34 A with side-chain cosines 0.98 and 0.09; the native indole-to-Leu contact across that gap is already 3.50 A | a crosslink chemistry other than disulfide can span the segment gap without clashing into TERT or consuming a payload residue | the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own ordering still stands - one staple buys 2.8 kcal/mol against a 12-20 kcal/mol cost | `results/solve/WP45_GRAFT.md` |
+| **X4** | CORRECTED | the graft's ordering cost (12-20 kcal/mol) is a property of the construct that no redesign can reduce | WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore the largest backbone state space of any residue, so WP45 chose the most expensive possible 5-mer and then reported its cost as unpayable. AAPAP-type linkers are 2.84 kcal/mol cheaper on the same state model, and the ranking is stable under an alternative model | a linker not dominated by glycine costs less to order than GGGGG on the same accounting | the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the conclusion that the construct still cannot pay IN FULL stands - 6.36 kcal/mol remains unpaid | `results/solve/WP48_NEW_DESIGNS.md` |
 
 ---
 

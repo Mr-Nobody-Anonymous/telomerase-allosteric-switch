@@ -1,10 +1,10 @@
 {
-  "count": 19,
+  "count": 20,
   "by_state": {
     "RETRACTED": 6,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
-    "CORRECTED": 6
+    "CORRECTED": 7
   },
   "register": [
     {
@@ -215,6 +215,17 @@
       "replaced_by": "the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own ordering still stands - one staple buys 2.8 kcal/mol against a 12-20 kcal/mol cost",
       "document": "results/solve/WP45_GRAFT.md",
       "sha256": "145afa662b185212a8fb037d659453cee10b9ad84d9a8ad1e98b96389fcca73a"
+    },
+    {
+      "id": "X4",
+      "wp": "WP48",
+      "state": "CORRECTED",
+      "claim": "the graft's ordering cost (12-20 kcal/mol) is a property of the construct that no redesign can reduce",
+      "actual": "WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore the largest backbone state space of any residue, so WP45 chose the most expensive possible 5-mer and then reported its cost as unpayable. AAPAP-type linkers are 2.84 kcal/mol cheaper on the same state model, and the ranking is stable under an alternative model",
+      "predicate": "a linker not dominated by glycine costs less to order than GGGGG on the same accounting",
+      "replaced_by": "the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the conclusion that the construct still cannot pay IN FULL stands - 6.36 kcal/mol remains unpaid",
+      "document": "results/solve/WP48_NEW_DESIGNS.md",
+      "sha256": "0aa079ee46bdfe5be380185cdc4a63e5fc1b1a06ee003a36be2c3114d71196fb"
     }
   ],
   "marker_files": {
@@ -234,7 +245,7 @@
       "RETRACTED": 8,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
-      "CORRECTED": 9
+      "CORRECTED": 10
     },
     "results/solve/STATUS_LEDGER.md": {
       "RETRACTED": 1,

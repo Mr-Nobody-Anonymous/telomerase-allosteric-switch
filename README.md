@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-715%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-727%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,30 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## WP48 — new designs for each failure, under isolated agents
+
+Each remaining failure got a new entity, tested against the gates that killed the
+old one. Four agents, no agent importing another, plus a critic allowed to fail
+them.
+
+- **F1 → a new construct.** WP45 built its linker from `GGGGG` — glycine has no Cβ
+  and therefore the largest backbone state space, so **WP45 chose the most
+  expensive 5-mer available and then reported its cost as unpayable**.
+  `PAPAP` is 2.84 kcal/mol cheaper on the same accounting, with a second staple
+  attempt. Still **6.36 kcal/mol unpaid** — a scaffold is still required.
+- **F2 → a new filter layer (SOLVED).** WP47 read alert *names*; WP48 reads
+  electrophilic *substructure*. On a panel used by neither earlier WP:
+  **sensitivity 1.0, specificity 1.0**. The one miss is **Lipinski rejecting
+  atorvastatin at MW 559** — attributed to the gate, not the layer. A `MW ≥ 60`
+  floor was added to paper over missing SMARTS, then **deleted** once it stopped
+  changing any decision.
+- **F3 → protocols only.** P11/P12 stay unmeasurable; they gain a positive control
+  and a mutant specificity panel.
+- **F4 → a new finding.** Both deposits are **coarse models** (TERT: 8.0 atoms per
+  residue, 78 % of residues with a side chain), so WP47's clash filter was
+  **under-conservative** and its clearances were upper bounds. Re-checked with
+  truncation-aware padding.
 
 ## WP47 — the open items, attacked
 

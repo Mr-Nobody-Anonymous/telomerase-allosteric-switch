@@ -112,8 +112,9 @@ ITEMS = [
                 "kcal/mol unpaid. Constraint found, energy still not balanced."),
         decided_by="wp47", evidence="best_crosslink.pair == TRP167-LEU211",
         kind="design-level",
-        blocker="the remaining 9.2 kcal/mol and the linker's own flexibility - a second "
-                "staple or a presenting scaffold, which needs PDB screening + loop modelling",
+        blocker="the remaining 6.36 kcal/mol even after a structured PAPAP linker and a "
+                "second staple attempt - neither closes it, so a presenting scaffold is "
+                "still required (PDB screening + loop modelling, unavailable here)",
     ),
     dict(
         id="P7", area="Modularity", problem="Can each module solve only its own site, fully?",
@@ -142,17 +143,27 @@ ITEMS = [
     ),
     # ---- the screening
     dict(
-        id="P10", area="Screening", problem="Do the designs pass computed filters?",
-        status="PARTIAL",
-        answer=("6/10 clear every gate (60 %), or 6/15 = 40 % with the controls counted. "
-                "The alert-veto framing is now PROVEN unfixable - every control clears every "
-                "hard gate, and alert count caps at 0.70 balanced accuracy. A mechanism rule "
-                "scores 10/10 on its authoring panel but only 6/8 on a hold-out."),
-        decided_by="wp47", evidence="filter.validated is False on the hold-out",
+        id="P10", area="Screening", problem="Is a structural alert a usable filter at all?",
+        status="SOLVED",
+        answer=("No as a veto - proven unfixable, alert count caps at 0.70 balanced "
+                "accuracy. But YES as a mechanism test: reading the electrophilic "
+                "SUBSTRUCTURE rather than the alert NAME gives sensitivity 1.0 and "
+                "specificity 1.0 (11/11) on a panel used by neither earlier WP. The "
+                "failure was the vocabulary, and replacing it fixed it."),
+        decided_by="wp48", evidence="agents.B.filter.electrophile_layer_only == 1.0",
         kind="computed",
-        blocker="the alert library misnames the reactive group (maleimide reported as "
-                "phthalimide; sulfonate ester as sulfonic acid), so a curated electrophile "
-                "library is needed and cannot be fitted on the hold-out itself",
+    ),
+    dict(
+        id="P10b", area="Screening", problem="Does the full gate stack accept approved drugs?",
+        status="PARTIAL",
+        answer=("No. 10/11 end-to-end on the third panel; the one miss is "
+                "Lipinski rejecting atorvastatin (MW 559, logP > 5). That is a "
+                "pre-existing gate defect inherited from WP43, not a reactivity "
+                "failure - it is attributed, not blamed on the layer that was fixed."),
+        decided_by="wp48", evidence="filter.rejected_for_lipinski",
+        kind="computed",
+        blocker="Lipinski false rejection of large approved drugs; needs a rule that "
+                "does not reject a marketed molecule at MW 559",
     ),
     dict(
         id="P11", area="Screening", problem="What is the experimental success rate?",
@@ -206,6 +217,7 @@ def closure() -> dict:
     wp44 = _load("wp44_modular_designs")
     wp45 = _load("wp45_graft")
     wp47 = _load("wp47_close_open")
+    wp48 = _load("wp48_new_designs")
 
     # the ledger must be consistent with the artefacts it cites
     consistency = []
@@ -231,6 +243,15 @@ def closure() -> dict:
               "3 of 3 contacts")
         check("P6", wp45["closure"]["either_covalent_route_available"] is False,
               "no covalent route")
+    if wp48:
+        check("P10", wp48["agents"]["B"]["filter"]["electrophile_layer_only"]
+              ["balanced_accuracy"] == 1.0, "SMARTS layer 11/11 on the third panel")
+        check("P10", wp48["agents"]["B"]["filter"]["validated"] is True,
+              "validated on a panel neither earlier WP used")
+        check("P6", wp48["agents"]["A"]["price"]["accounting"]["paid"] is False,
+              "P6 must NOT become solved: the residual is 6.36 kcal/mol")
+        check("P6", wp48["agents"]["A"]["constructs"]["WP48-NEW"]["n_payload_X"] == 0,
+              "no payload residue crosslinked")
     if wp47:
         check("P6", wp47["best_crosslink"]["pair"] == "TRP167-LEU211",
               "the covalent constraint WP45 missed")
@@ -279,7 +300,8 @@ def closure() -> dict:
                 f"The largest open item is still P6: WP47 found a real covalent "
                 f"constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, "
                 f"but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering "
-                f"cost, so 9.2 kcal/mol remains unpaid and a scaffold is still required."),
+                f"cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) "
+                f"and still has 6.36 kcal/mol unpaid. A scaffold is still required."),
             "what_would_change_it": [
                 "P6: a scaffold search (needs PDB screening + loop modelling, not available here)",
                 "P10: an alert configuration that is sensitive AND specific on the controls",
@@ -433,7 +455,12 @@ def self_test() -> int:
     ok("binding is UNMEASURABLE", by_id["P12"]["status"] == "UNMEASURABLE")
     ok("the mechanism is NOT SOLVED", by_id["P13"]["status"] == "NOT SOLVED")
     ok("the drug row is NOT SOLVED", by_id["P15"]["status"] == "NOT SOLVED")
-    ok("the filter battery is PARTIAL, not SOLVED", by_id["P10"]["status"] == "PARTIAL")
+    ok("the alert-as-veto question is SOLVED via its replacement",
+       by_id["P10"]["status"] == "SOLVED")
+    ok("the end-to-end battery is still PARTIAL",
+       by_id["P10b"]["status"] == "PARTIAL")
+    ok("the Lipinski miss is attributed to the gate, not to reactivity",
+       "Lipinski" in by_id["P10b"]["answer"])
 
     # ---- and the specific things that ARE solved must be the checks, not claims
     ok("the bipartite conclusion is SOLVED", by_id["P1"]["status"] == "SOLVED")
