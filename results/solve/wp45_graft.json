@@ -1,0 +1,519 @@
+{
+  "diagnosis": {
+    "psi_E169_deg": 24.4,
+    "alpha_helix_psi_range": "-60 to -45",
+    "psi_is_alpha_like": false,
+    "CA168_CA171_7TRE": 7.68,
+    "CA168_CA171_2I46": 7.7,
+    "alpha_i3": 5.05,
+    "three_ten_i3": 6.1,
+    "consistent_with_alpha": false,
+    "consistent_with_3_10": false,
+    "two_deposits_agree": true,
+    "conclusion": "the segment is a kinked turn, not a helix: psi(E169) is positive and CA168-CA171 is 7.68/7.70 A in two independent crystals against 5.05 A for an alpha-helix at that offset"
+  },
+  "assembly": {
+    "segment_A": {
+      "range": [
+        166,
+        172
+      ],
+      "role": "presents the E168/E169/E171 triad"
+    },
+    "segment_B": {
+      "range": [
+        209,
+        215
+      ],
+      "role": "presents E215"
+    },
+    "junctions": [
+      {
+        "from": 171,
+        "to": 210,
+        "span": 14.38,
+        "min_linker_residues": 5
+      },
+      {
+        "from": 172,
+        "to": 210,
+        "span": 14.72,
+        "min_linker_residues": 5
+      },
+      {
+        "from": 171,
+        "to": 209,
+        "span": 15.96,
+        "min_linker_residues": 5
+      },
+      {
+        "from": 172,
+        "to": 209,
+        "span": 16.66,
+        "min_linker_residues": 5
+      }
+    ],
+    "best_junction": {
+      "from": 171,
+      "to": 210,
+      "span": 14.38,
+      "min_linker_residues": 5
+    },
+    "triangle_native": {
+      "E168-E169": 6.58,
+      "E168-E171": 10.22,
+      "E169-E171": 7.31
+    },
+    "triangle_measured_wp44": {
+      "E168-E169": 6.58,
+      "E168-E171": 10.22,
+      "E169-E171": 7.31
+    },
+    "e215_to_K78": 4.1,
+    "e215_to_R132": 5.69
+  },
+  "linkers": [
+    {
+      "linker": "GGGGG",
+      "length": 5,
+      "reach": 17.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSG",
+      "length": 5,
+      "reach": 17.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "SSSSS",
+      "length": 5,
+      "reach": 17.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "TTTTT",
+      "length": 5,
+      "reach": 17.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "AAAAA",
+      "length": 5,
+      "reach": 17.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 1.0,
+      "aggregation_risk": true,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GGGGGG",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGS",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGG",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "SSSSSS",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "TTTTTT",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "AAAAAA",
+      "length": 6,
+      "reach": 21.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 1.0,
+      "aggregation_risk": true,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GGGGGGG",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGSG",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGGG",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "SSSSSSS",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "TTTTTTT",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "AAAAAAA",
+      "length": 7,
+      "reach": 24.5,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 1.0,
+      "aggregation_risk": true,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GGGGGGGG",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGSGS",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGSGGGG",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "SSSSSSSS",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "TTTTTTTT",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "AAAAAAAA",
+      "length": 8,
+      "reach": 28.0,
+      "required": 14.38,
+      "spans": true,
+      "charge": 0,
+      "hydrophobic_fraction": 1.0,
+      "aggregation_risk": true,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GGGG",
+      "length": 4,
+      "reach": 14.0,
+      "required": 14.38,
+      "spans": false,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "GSGS",
+      "length": 4,
+      "reach": 14.0,
+      "required": 14.38,
+      "spans": false,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "SSSS",
+      "length": 4,
+      "reach": 14.0,
+      "required": 14.38,
+      "spans": false,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "TTTT",
+      "length": 4,
+      "reach": 14.0,
+      "required": 14.38,
+      "spans": false,
+      "charge": 0,
+      "hydrophobic_fraction": 0.0,
+      "aggregation_risk": false,
+      "flexible_residues_only": true
+    },
+    {
+      "linker": "AAAA",
+      "length": 4,
+      "reach": 14.0,
+      "required": 14.38,
+      "spans": false,
+      "charge": 0,
+      "hydrophobic_fraction": 1.0,
+      "aggregation_risk": true,
+      "flexible_residues_only": true
+    }
+  ],
+  "closure": {
+    "closest_CB_pair": {
+      "distance": 6.21,
+      "residues": "167/210"
+    },
+    "disulfide_ok": false,
+    "disulfide_requirement": "CB-CB 3.5-5.0 A",
+    "head_to_tail": [
+      {
+        "pair": "N166-C215",
+        "n_to_c": 20.42,
+        "ca_to_ca": 19.1
+      },
+      {
+        "pair": "N167-C215",
+        "n_to_c": 19.01,
+        "ca_to_ca": 16.61
+      },
+      {
+        "pair": "N166-C214",
+        "n_to_c": 17.28,
+        "ca_to_ca": 16.58
+      },
+      {
+        "pair": "N167-C214",
+        "n_to_c": 15.77,
+        "ca_to_ca": 14.28
+      }
+    ],
+    "head_to_tail_ok": false,
+    "head_to_tail_requirement": "CA-CA <= ~6 A",
+    "either_covalent_route_available": false,
+    "verdict": "NO covalent constraint available - the peptide needs a scaffold"
+  },
+  "entropic_cost": {
+    "n_flexible_residues": 20,
+    "entropic_penalty_low": 12.0,
+    "entropic_penalty_high": 20.0,
+    "contact_energy_total": -5.41,
+    "contacts": [
+      {
+        "contact": "E215-K78",
+        "distance": 4.1,
+        "energy": -1.34
+      },
+      {
+        "contact": "E215-R132",
+        "distance": 5.69,
+        "energy": -0.83
+      },
+      {
+        "contact": "E168-R774",
+        "distance": 2.32,
+        "energy": -2.84
+      },
+      {
+        "contact": "E169-R774",
+        "distance": 8.69,
+        "energy": -0.4
+      }
+    ],
+    "payable": false,
+    "conclusion": "freezing 20 flexible residues costs 12-20 kcal/mol; the measured contacts supply 5.4 kcal/mol; an unconstrained linear graft cannot pay for its own ordering",
+    "parameters": "screened Coulomb, eps=40, lambda_D=10 A; 0.6-1.0 kcal/mol per frozen residue. Both are heuristics, not free energies."
+  },
+  "construct": {
+    "id": "GRAFT-166-215-L5",
+    "sequence": "DWEEKEFGGGGGFSLLPTE",
+    "segment_A": "DWEEKEF",
+    "linker": "GGGGG",
+    "segment_B": "FSLLPTE",
+    "length": 19,
+    "mw_da": 2055.2,
+    "pI": 4.12,
+    "charge_pH7_4": -4.44,
+    "gravy": -0.747,
+    "instability_index": 72.9,
+    "triad_payload_positions": [
+      2,
+      3,
+      5
+    ],
+    "groove_payload_positions": [
+      18
+    ],
+    "n_payload_residues": 4,
+    "payload_fraction": 0.211,
+    "linker_charge": 0,
+    "aggregation_risk": false,
+    "hydrophobic_fraction": 0.263
+  },
+  "comparison": {
+    "criteria": [
+      "covers the triad in the deposited geometry",
+      "reaches the K78/R132 groove",
+      "no idealised scaffold assumed where the deposit has a kink",
+      "linker cannot compete with the payload",
+      "measured payload fraction"
+    ],
+    "wp42_helix": {
+      "covers_triad": "2 of 3 (i+4 and i+7 fit; 7.31 A does not)",
+      "reaches_groove": "no - 20 A away, needs a kink",
+      "idealised_scaffold": "yes - alpha-helix assumed",
+      "linker_competes": "n/a",
+      "payload_fraction": null
+    },
+    "wp44_resurrected": {
+      "covers_triad": "2 of 3 (same helix fit)",
+      "reaches_groove": "separate module, not fused",
+      "idealised_scaffold": "yes - same error",
+      "linker_competes": "yes - the flexible linker collapsed it",
+      "payload_fraction": null
+    },
+    "wp45_graft": {
+      "covers_triad": "3 of 3 - segments are the crystal coordinates",
+      "reaches_groove": "yes - segment B carries E215 at 4.10 A from K78",
+      "idealised_scaffold": "no - native segments kept verbatim",
+      "linker_competes": "no - linker is uncharged (0)",
+      "payload_fraction": 0.211
+    }
+  },
+  "summary": {
+    "wp44_conclusion": "S3 unsolvable in a helix",
+    "wp45_status": "SOLVED - three of three contacts preserved",
+    "why_wp44_failed": "wrong scaffold: the deposit has a kink, not a helix",
+    "n_linkers_spanning": 23,
+    "chosen_linker": "GGGGG",
+    "best_junction": "CA171-CA210",
+    "junction_span": 14.38,
+    "geometry_solved": true,
+    "constraint_solved": false,
+    "unconstrained_route_payable": false,
+    "remaining_gap": "the geometry is solved; the conformational constraint is not. A presenting scaffold is required and no candidate can be built offline in this repository"
+  }
+}

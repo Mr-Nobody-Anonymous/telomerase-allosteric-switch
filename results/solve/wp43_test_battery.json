@@ -1,0 +1,1299 @@
+{
+  "thresholds": {
+    "mw": 500.0,
+    "logp": 5.0,
+    "hbd": 5,
+    "hba": 10,
+    "sa_score": 4.0,
+    "gravy_max": 0.8,
+    "charge_abs_max": 8.0,
+    "min_length": 15,
+    "instability_max": 40.0
+  },
+  "controls": [
+    {
+      "id": "CTRL-OK-1",
+      "expect": "pass",
+      "note": "imatinib, an approved oral drug: the drug-likeness gates must accept it",
+      "permissive": {
+        "tier": "MODEL-PASS",
+        "score": 1.0,
+        "alerts": [],
+        "brenk": [],
+        "qed": 0.389,
+        "sa_score": 2.33
+      },
+      "strict": {
+        "tier": "MODEL-PASS",
+        "score": 1.0,
+        "alerts": [],
+        "brenk": [],
+        "qed": 0.389,
+        "sa_score": 2.33
+      },
+      "agree_permissive": true,
+      "agree_strict": true
+    },
+    {
+      "id": "CTRL-OK-2",
+      "expect": "pass",
+      "note": "aspirin, approved: BRENK's 'phenol_ester' alert is a FALSE POSITIVE here",
+      "permissive": {
+        "tier": "MODEL-PASS",
+        "score": 1.0,
+        "alerts": [],
+        "brenk": [
+          "phenol_ester"
+        ],
+        "qed": 0.55,
+        "sa_score": 1.58
+      },
+      "strict": {
+        "tier": "REJECT",
+        "score": 0.857,
+        "alerts": [],
+        "brenk": [
+          "phenol_ester"
+        ],
+        "qed": 0.55,
+        "sa_score": 1.58
+      },
+      "agree_permissive": true,
+      "agree_strict": false
+    },
+    {
+      "id": "CTRL-BAD-1",
+      "expect": "fail",
+      "note": "curcumin: the classic frequent hitter (PAINS misses it; BRENK catches it)",
+      "permissive": {
+        "tier": "MODEL-PASS",
+        "score": 1.0,
+        "alerts": [],
+        "brenk": [
+          "beta-keto/anhydride",
+          "Michael_acceptor_1"
+        ],
+        "qed": 0.548,
+        "sa_score": 2.43
+      },
+      "strict": {
+        "tier": "REJECT",
+        "score": 0.857,
+        "alerts": [],
+        "brenk": [
+          "beta-keto/anhydride",
+          "Michael_acceptor_1"
+        ],
+        "qed": 0.548,
+        "sa_score": 2.43
+      },
+      "agree_permissive": false,
+      "agree_strict": true
+    },
+    {
+      "id": "CTRL-BAD-2",
+      "expect": "fail",
+      "note": "a quinone, redox-cycling: must be caught",
+      "permissive": {
+        "tier": "REJECT",
+        "score": 0.833,
+        "alerts": [
+          "quinone_A(370)"
+        ],
+        "brenk": [
+          "chinone_1"
+        ],
+        "qed": 0.417,
+        "sa_score": 2.35
+      },
+      "strict": {
+        "tier": "REJECT",
+        "score": 0.714,
+        "alerts": [
+          "quinone_A(370)"
+        ],
+        "brenk": [
+          "chinone_1"
+        ],
+        "qed": 0.417,
+        "sa_score": 2.35
+      },
+      "agree_permissive": true,
+      "agree_strict": true
+    },
+    {
+      "id": "CTRL-BAD-3",
+      "expect": "fail",
+      "note": "an alkylating nitrogen mustard (BRENK catches it, PAINS does not)",
+      "permissive": {
+        "tier": "MODEL-PASS",
+        "score": 1.0,
+        "alerts": [],
+        "brenk": [
+          "alkyl_halide"
+        ],
+        "qed": 0.598,
+        "sa_score": 2.86
+      },
+      "strict": {
+        "tier": "REJECT",
+        "score": 0.857,
+        "alerts": [],
+        "brenk": [
+          "alkyl_halide"
+        ],
+        "qed": 0.598,
+        "sa_score": 2.86
+      },
+      "agree_permissive": false,
+      "agree_strict": true
+    }
+  ],
+  "ligands": [
+    {
+      "id": "KP-1",
+      "name": "kinked bipartite bridge",
+      "mw": 318.33,
+      "logp": 4.42,
+      "max_span_3d": 14.26,
+      "target_span": 25.5,
+      "permissive": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 318.33
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 4.42
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.62
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 14.26
+          }
+        },
+        "passed": 6,
+        "total": 7,
+        "score": 0.857,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.747,
+        "sa_score": 1.62,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "permissive",
+        "mw": 318.33,
+        "logp": 4.42
+      },
+      "strict": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 318.33
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 4.42
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.62
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "no_brenk": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 14.26
+          }
+        },
+        "passed": 7,
+        "total": 8,
+        "score": 0.875,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.747,
+        "sa_score": 1.62,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "strict",
+        "mw": 318.33,
+        "logp": 4.42
+      },
+      "tier": "GEOMETRY-FAIL",
+      "score": 0.857,
+      "passed": 6,
+      "total": 7,
+      "gates": {
+        "lipinski_mw": {
+          "pass": true,
+          "value": 318.33
+        },
+        "lipinski_logp": {
+          "pass": true,
+          "value": 4.42
+        },
+        "lipinski_hbd": {
+          "pass": true,
+          "value": 2
+        },
+        "lipinski_hba": {
+          "pass": true,
+          "value": 2
+        },
+        "sa_score": {
+          "pass": true,
+          "value": 1.62
+        },
+        "no_pains": {
+          "pass": true,
+          "value": []
+        },
+        "geometric_span": {
+          "pass": false,
+          "value": 14.26
+        }
+      },
+      "qed": 0.747,
+      "sa_score": 1.62,
+      "alerts": [],
+      "brenk_alerts": [],
+      "rank": 5,
+      "rank_basis": "GEOMETRY-FAIL, margin -11.24 A"
+    },
+    {
+      "id": "KP-2",
+      "name": "kinked bridge, extended arm",
+      "mw": 394.43,
+      "logp": 6.08,
+      "max_span_3d": 17.95,
+      "target_span": 25.5,
+      "permissive": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 394.43
+          },
+          "lipinski_logp": {
+            "pass": false,
+            "value": 6.08
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.64
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 17.95
+          }
+        },
+        "passed": 5,
+        "total": 7,
+        "score": 0.714,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "ONE-VIOLATION",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 1,
+        "qed": 0.43,
+        "sa_score": 1.64,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "permissive",
+        "mw": 394.43,
+        "logp": 6.08
+      },
+      "strict": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 394.43
+          },
+          "lipinski_logp": {
+            "pass": false,
+            "value": 6.08
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.64
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "no_brenk": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 17.95
+          }
+        },
+        "passed": 6,
+        "total": 8,
+        "score": 0.75,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "ONE-VIOLATION",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 1,
+        "qed": 0.43,
+        "sa_score": 1.64,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "strict",
+        "mw": 394.43,
+        "logp": 6.08
+      },
+      "tier": "GEOMETRY-FAIL",
+      "score": 0.714,
+      "passed": 5,
+      "total": 7,
+      "gates": {
+        "lipinski_mw": {
+          "pass": true,
+          "value": 394.43
+        },
+        "lipinski_logp": {
+          "pass": false,
+          "value": 6.08
+        },
+        "lipinski_hbd": {
+          "pass": true,
+          "value": 2
+        },
+        "lipinski_hba": {
+          "pass": true,
+          "value": 2
+        },
+        "sa_score": {
+          "pass": true,
+          "value": 1.64
+        },
+        "no_pains": {
+          "pass": true,
+          "value": []
+        },
+        "geometric_span": {
+          "pass": false,
+          "value": 17.95
+        }
+      },
+      "qed": 0.43,
+      "sa_score": 1.64,
+      "alerts": [],
+      "brenk_alerts": [],
+      "rank": 4,
+      "rank_basis": "GEOMETRY-FAIL, margin -7.55 A"
+    },
+    {
+      "id": "TEL-1",
+      "name": "TEL-patch surface mimetic",
+      "mw": 270.28,
+      "logp": 2.61,
+      "max_span_3d": 14.27,
+      "target_span": 20.2,
+      "permissive": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 270.28
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 2.61
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.58
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 14.27
+          }
+        },
+        "passed": 6,
+        "total": 7,
+        "score": 0.857,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.875,
+        "sa_score": 1.58,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "permissive",
+        "mw": 270.28,
+        "logp": 2.61
+      },
+      "strict": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 270.28
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 2.61
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.58
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "no_brenk": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 14.27
+          }
+        },
+        "passed": 7,
+        "total": 8,
+        "score": 0.875,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.875,
+        "sa_score": 1.58,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "strict",
+        "mw": 270.28,
+        "logp": 2.61
+      },
+      "tier": "GEOMETRY-FAIL",
+      "score": 0.857,
+      "passed": 6,
+      "total": 7,
+      "gates": {
+        "lipinski_mw": {
+          "pass": true,
+          "value": 270.28
+        },
+        "lipinski_logp": {
+          "pass": true,
+          "value": 2.61
+        },
+        "lipinski_hbd": {
+          "pass": true,
+          "value": 2
+        },
+        "lipinski_hba": {
+          "pass": true,
+          "value": 2
+        },
+        "sa_score": {
+          "pass": true,
+          "value": 1.58
+        },
+        "no_pains": {
+          "pass": true,
+          "value": []
+        },
+        "geometric_span": {
+          "pass": false,
+          "value": 14.27
+        }
+      },
+      "qed": 0.875,
+      "sa_score": 1.58,
+      "alerts": [],
+      "brenk_alerts": [],
+      "rank": 2,
+      "rank_basis": "GEOMETRY-FAIL, margin -5.93 A"
+    },
+    {
+      "id": "TEL-2",
+      "name": "TEL-patch mimetic, kinked",
+      "mw": 270.28,
+      "logp": 2.61,
+      "max_span_3d": 12.81,
+      "target_span": 20.2,
+      "permissive": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 270.28
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 2.61
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.68
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 12.81
+          }
+        },
+        "passed": 6,
+        "total": 7,
+        "score": 0.857,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.875,
+        "sa_score": 1.68,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "permissive",
+        "mw": 270.28,
+        "logp": 2.61
+      },
+      "strict": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 270.28
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 2.61
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.68
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "no_brenk": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": false,
+            "value": 12.81
+          }
+        },
+        "passed": 7,
+        "total": 8,
+        "score": 0.875,
+        "tier": "GEOMETRY-FAIL",
+        "chemistry": "PASS",
+        "geometry": "CANNOT-SPAN",
+        "lipinski_violations": 0,
+        "qed": 0.875,
+        "sa_score": 1.68,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "strict",
+        "mw": 270.28,
+        "logp": 2.61
+      },
+      "tier": "GEOMETRY-FAIL",
+      "score": 0.857,
+      "passed": 6,
+      "total": 7,
+      "gates": {
+        "lipinski_mw": {
+          "pass": true,
+          "value": 270.28
+        },
+        "lipinski_logp": {
+          "pass": true,
+          "value": 2.61
+        },
+        "lipinski_hbd": {
+          "pass": true,
+          "value": 2
+        },
+        "lipinski_hba": {
+          "pass": true,
+          "value": 2
+        },
+        "sa_score": {
+          "pass": true,
+          "value": 1.68
+        },
+        "no_pains": {
+          "pass": true,
+          "value": []
+        },
+        "geometric_span": {
+          "pass": false,
+          "value": 12.81
+        }
+      },
+      "qed": 0.875,
+      "sa_score": 1.68,
+      "alerts": [],
+      "brenk_alerts": [],
+      "rank": 3,
+      "rank_basis": "GEOMETRY-FAIL, margin -7.39 A"
+    },
+    {
+      "id": "TEL-3",
+      "name": "single-site K78/R132 occupant",
+      "mw": 179.17,
+      "logp": 0.41,
+      "max_span_3d": 8.68,
+      "target_span": 6.0,
+      "permissive": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 179.17
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 0.41
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.52
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": true,
+            "value": 8.68
+          }
+        },
+        "passed": 7,
+        "total": 7,
+        "score": 1.0,
+        "tier": "MODEL-PASS",
+        "chemistry": "PASS",
+        "geometry": "REACHES",
+        "lipinski_violations": 0,
+        "qed": 0.705,
+        "sa_score": 1.52,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "permissive",
+        "mw": 179.17,
+        "logp": 0.41
+      },
+      "strict": {
+        "parses": true,
+        "gates": {
+          "lipinski_mw": {
+            "pass": true,
+            "value": 179.17
+          },
+          "lipinski_logp": {
+            "pass": true,
+            "value": 0.41
+          },
+          "lipinski_hbd": {
+            "pass": true,
+            "value": 2
+          },
+          "lipinski_hba": {
+            "pass": true,
+            "value": 2
+          },
+          "sa_score": {
+            "pass": true,
+            "value": 1.52
+          },
+          "no_pains": {
+            "pass": true,
+            "value": []
+          },
+          "no_brenk": {
+            "pass": true,
+            "value": []
+          },
+          "geometric_span": {
+            "pass": true,
+            "value": 8.68
+          }
+        },
+        "passed": 8,
+        "total": 8,
+        "score": 1.0,
+        "tier": "MODEL-PASS",
+        "chemistry": "PASS",
+        "geometry": "REACHES",
+        "lipinski_violations": 0,
+        "qed": 0.705,
+        "sa_score": 1.52,
+        "alerts": [],
+        "brenk_alerts": [],
+        "config": "strict",
+        "mw": 179.17,
+        "logp": 0.41
+      },
+      "tier": "MODEL-PASS",
+      "score": 1.0,
+      "passed": 7,
+      "total": 7,
+      "gates": {
+        "lipinski_mw": {
+          "pass": true,
+          "value": 179.17
+        },
+        "lipinski_logp": {
+          "pass": true,
+          "value": 0.41
+        },
+        "lipinski_hbd": {
+          "pass": true,
+          "value": 2
+        },
+        "lipinski_hba": {
+          "pass": true,
+          "value": 2
+        },
+        "sa_score": {
+          "pass": true,
+          "value": 1.52
+        },
+        "no_pains": {
+          "pass": true,
+          "value": []
+        },
+        "geometric_span": {
+          "pass": true,
+          "value": 8.68
+        }
+      },
+      "qed": 0.705,
+      "sa_score": 1.52,
+      "alerts": [],
+      "brenk_alerts": [],
+      "rank": 1,
+      "rank_basis": "MODEL-PASS, margin +2.68 A"
+    }
+  ],
+  "proteins": [
+    {
+      "id": "TELM-1",
+      "name": "de novo TEL-patch proteomimetic",
+      "length": 48,
+      "mw_da": 4833.4,
+      "gates": {
+        "register_matches": {
+          "pass": true,
+          "value": [
+            0,
+            4,
+            7,
+            14
+          ]
+        },
+        "hits_measured_target": {
+          "pass": true,
+          "value": [
+            "i+4",
+            "i+7",
+            "i+14"
+          ]
+        },
+        "length_sufficient": {
+          "pass": true,
+          "value": 48
+        },
+        "gravy_not_aggregating": {
+          "pass": true,
+          "value": -0.021
+        },
+        "charge_within_bound": {
+          "pass": true,
+          "value": -3.41
+        },
+        "helical_propensity": {
+          "pass": true,
+          "value": 0.708
+        },
+        "not_tpp1_fragment": {
+          "pass": true,
+          "value": null
+        },
+        "no_cys_aggregation_risk": {
+          "pass": true,
+          "value": 0
+        }
+      },
+      "passed": 8,
+      "total": 8,
+      "score": 1.0,
+      "tier": "MODEL-PASS",
+      "gravy": -0.021,
+      "charge": -3.41,
+      "instability_index": 20.3,
+      "instability_advisory": "stable",
+      "helix_fraction": 0.708,
+      "rank": 1,
+      "rank_basis": "stable, 3 contacts, |GRAVY| 0.02"
+    },
+    {
+      "id": "TELM-2",
+      "name": "single-helix TEL-patch display",
+      "length": 28,
+      "mw_da": 2861.2,
+      "gates": {
+        "register_matches": {
+          "pass": true,
+          "value": [
+            0,
+            4,
+            7
+          ]
+        },
+        "hits_measured_target": {
+          "pass": true,
+          "value": [
+            "i+4",
+            "i+7"
+          ]
+        },
+        "length_sufficient": {
+          "pass": true,
+          "value": 28
+        },
+        "gravy_not_aggregating": {
+          "pass": true,
+          "value": 0.371
+        },
+        "charge_within_bound": {
+          "pass": true,
+          "value": -3.38
+        },
+        "helical_propensity": {
+          "pass": true,
+          "value": 0.714
+        },
+        "not_tpp1_fragment": {
+          "pass": true,
+          "value": null
+        },
+        "no_cys_aggregation_risk": {
+          "pass": true,
+          "value": 0
+        }
+      },
+      "passed": 8,
+      "total": 8,
+      "score": 1.0,
+      "tier": "MODEL-PASS",
+      "gravy": 0.371,
+      "charge": -3.38,
+      "instability_index": 43.9,
+      "instability_advisory": "predicted unstable",
+      "helix_fraction": 0.714,
+      "rank": 4,
+      "rank_basis": "predicted unstable, 2 contacts, |GRAVY| 0.37"
+    },
+    {
+      "id": "TELM-3",
+      "name": "full-span helix, i+17 register",
+      "length": 50,
+      "mw_da": 5188.8,
+      "gates": {
+        "register_matches": {
+          "pass": true,
+          "value": [
+            0,
+            4,
+            7,
+            17
+          ]
+        },
+        "hits_measured_target": {
+          "pass": true,
+          "value": [
+            "i+4",
+            "i+7",
+            "i+17"
+          ]
+        },
+        "length_sufficient": {
+          "pass": true,
+          "value": 50
+        },
+        "gravy_not_aggregating": {
+          "pass": true,
+          "value": -0.226
+        },
+        "charge_within_bound": {
+          "pass": true,
+          "value": -3.41
+        },
+        "helical_propensity": {
+          "pass": true,
+          "value": 0.66
+        },
+        "not_tpp1_fragment": {
+          "pass": true,
+          "value": null
+        },
+        "no_cys_aggregation_risk": {
+          "pass": true,
+          "value": 0
+        }
+      },
+      "passed": 8,
+      "total": 8,
+      "score": 1.0,
+      "tier": "MODEL-PASS",
+      "gravy": -0.226,
+      "charge": -3.41,
+      "instability_index": 36.8,
+      "instability_advisory": "stable",
+      "helix_fraction": 0.66,
+      "rank": 3,
+      "rank_basis": "stable, 3 contacts, |GRAVY| 0.23"
+    },
+    {
+      "id": "TENB-1",
+      "name": "de novo binder to the TEL patch",
+      "length": 48,
+      "mw_da": 4829.7,
+      "gates": {
+        "register_matches": {
+          "pass": true,
+          "value": [
+            0,
+            4,
+            7,
+            14
+          ]
+        },
+        "hits_measured_target": {
+          "pass": true,
+          "value": [
+            "i+4",
+            "i+7",
+            "i+14"
+          ]
+        },
+        "length_sufficient": {
+          "pass": true,
+          "value": 48
+        },
+        "gravy_not_aggregating": {
+          "pass": true,
+          "value": -0.054
+        },
+        "charge_within_bound": {
+          "pass": true,
+          "value": 4.58
+        },
+        "helical_propensity": {
+          "pass": true,
+          "value": 0.708
+        },
+        "not_tpp1_fragment": {
+          "pass": true,
+          "value": null
+        },
+        "no_cys_aggregation_risk": {
+          "pass": true,
+          "value": 0
+        }
+      },
+      "passed": 8,
+      "total": 8,
+      "score": 1.0,
+      "tier": "MODEL-PASS",
+      "gravy": -0.054,
+      "charge": 4.58,
+      "instability_index": 16.3,
+      "instability_advisory": "stable",
+      "helix_fraction": 0.708,
+      "rank": 2,
+      "rank_basis": "stable, 3 contacts, |GRAVY| 0.05"
+    },
+    {
+      "id": "TENB-2",
+      "name": "groove-repair helix for K78E / R132E",
+      "length": 40,
+      "mw_da": 3917.4,
+      "gates": {
+        "register_matches": {
+          "pass": true,
+          "value": [
+            0,
+            3
+          ]
+        },
+        "hits_measured_target": {
+          "pass": true,
+          "value": [
+            "i+3"
+          ]
+        },
+        "length_sufficient": {
+          "pass": true,
+          "value": 40
+        },
+        "gravy_not_aggregating": {
+          "pass": true,
+          "value": 0.44
+        },
+        "charge_within_bound": {
+          "pass": true,
+          "value": -1.41
+        },
+        "helical_propensity": {
+          "pass": true,
+          "value": 0.6
+        },
+        "not_tpp1_fragment": {
+          "pass": true,
+          "value": null
+        },
+        "no_cys_aggregation_risk": {
+          "pass": true,
+          "value": 0
+        }
+      },
+      "passed": 8,
+      "total": 8,
+      "score": 1.0,
+      "tier": "MODEL-PASS",
+      "gravy": 0.44,
+      "charge": -1.41,
+      "instability_index": 56.5,
+      "instability_advisory": "predicted unstable",
+      "helix_fraction": 0.6,
+      "rank": 5,
+      "rank_basis": "predicted unstable, 1 contacts, |GRAVY| 0.44"
+    }
+  ],
+  "summary": {
+    "n_designs": 10,
+    "n_controls": 5,
+    "control_agreement": "2/5",
+    "control_agreement_by_config": {
+      "permissive": "3/5",
+      "strict": "4/5"
+    },
+    "battery_validated": false,
+    "confusion": {
+      "permissive": {
+        "good_accepted": 2,
+        "bad_rejected": 1,
+        "bad_accepted": 2,
+        "good_rejected": 0,
+        "sensitivity": 0.333,
+        "specificity": 1.0,
+        "accuracy": 0.6
+      },
+      "strict": {
+        "good_accepted": 1,
+        "bad_rejected": 3,
+        "bad_accepted": 0,
+        "good_rejected": 1,
+        "sensitivity": 1.0,
+        "specificity": 0.5,
+        "accuracy": 0.8
+      }
+    },
+    "headline_config": "strict",
+    "ligand_pass": 1,
+    "ligand_geometry_fail": 4,
+    "ligand_total": 5,
+    "protein_pass": 5,
+    "protein_total": 5,
+    "by_config": {
+      "permissive": {
+        "ligand_pass": 1,
+        "ligand_geometry_fail": 4,
+        "ligand_reject": 0,
+        "protein_pass": 5
+      },
+      "strict": {
+        "ligand_pass": 1,
+        "ligand_geometry_fail": 4,
+        "ligand_reject": 0,
+        "protein_pass": 5
+      }
+    },
+    "in_silico_pass_rate_all": 0.6,
+    "in_silico_pass_rate_with_controls": 0.4,
+    "best_design": "TELM-1",
+    "best_score": 1.0,
+    "best_ligand": "TEL-3",
+    "best_protein": "TELM-1",
+    "ranking_ligands": [
+      {
+        "rank": 1,
+        "id": "TEL-3",
+        "basis": "MODEL-PASS, margin +2.68 A"
+      },
+      {
+        "rank": 2,
+        "id": "TEL-1",
+        "basis": "GEOMETRY-FAIL, margin -5.93 A"
+      },
+      {
+        "rank": 3,
+        "id": "TEL-2",
+        "basis": "GEOMETRY-FAIL, margin -7.39 A"
+      },
+      {
+        "rank": 4,
+        "id": "KP-2",
+        "basis": "GEOMETRY-FAIL, margin -7.55 A"
+      },
+      {
+        "rank": 5,
+        "id": "KP-1",
+        "basis": "GEOMETRY-FAIL, margin -11.24 A"
+      }
+    ],
+    "ranking_proteins": [
+      {
+        "rank": 1,
+        "id": "TELM-1",
+        "basis": "stable, 3 contacts, |GRAVY| 0.02"
+      },
+      {
+        "rank": 2,
+        "id": "TENB-1",
+        "basis": "stable, 3 contacts, |GRAVY| 0.05"
+      },
+      {
+        "rank": 3,
+        "id": "TELM-3",
+        "basis": "stable, 3 contacts, |GRAVY| 0.23"
+      },
+      {
+        "rank": 4,
+        "id": "TELM-2",
+        "basis": "predicted unstable, 2 contacts, |GRAVY| 0.37"
+      },
+      {
+        "rank": 5,
+        "id": "TENB-2",
+        "basis": "predicted unstable, 1 contacts, |GRAVY| 0.44"
+      }
+    ],
+    "experimental_success_rate": null,
+    "reason_no_experimental_rate": "none of these designs has been synthesised or expressed; an experimental success rate requires N >= 1 measured designs and N = 0 exist"
+  },
+  "cannot_be_run_here": [
+    "molecular docking (no engine installed)",
+    "MD / MM-GBSA / FEP (no OpenMM; and WP39 refuted this repo's rigid-body scorer)",
+    "binding affinity of any kind",
+    "cell permeability (no permeability model; the acid count is reported instead)",
+    "immunogenicity of the designed proteins"
+  ]
+}

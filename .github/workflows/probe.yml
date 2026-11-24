@@ -1,0 +1,10 @@
+name: probe
+on: [push, workflow_dispatch]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "runner ok"; nproc; python3 -V; free -g | head -2
+          pip install --quiet openmm && python3 -c "import openmm; print(openmm.version.version, openmm.Platform.getNumPlatforms())"

@@ -1,0 +1,15 @@
+item,quantity,value
+P15,required_KL_uM,1.167
+P15,required_dG_kcal,-8.14
+P15,contact_kcal,5.41
+P15,ordering_kcal,3.378
+P15,net_binding_kcal,-2.03
+P15,gap_kcal,6.11
+P14,n=1_m_over_c,1.448879638
+P14,n=2_m_over_c,1.448879638
+P14,n=3_m_over_c,1.448879638
+P14,n=6_m_over_c,1.448879638
+P14,n=12_m_over_c,1.448879638
+P14,n=24_m_over_c,1.448879638
+P11,p_at_least_one,0.0
+P11,p_at_least_one,0.0

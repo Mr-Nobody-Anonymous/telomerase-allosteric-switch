@@ -1,0 +1,24 @@
+comparison,n_ca,global_rmsd,median_disp,p90_disp,max_disp,max_at
+7TRD(A) vs 7TRE(A),934,0.356,0.293,0.539,1.226,612
+7TRD(A) vs 7TRF(A),934,0.0,0.0,0.001,0.001,796
+7TRC(E) vs 7TRC(I),129,0.585,0.365,0.608,3.435,153
+
+top_displaced,resSeq,resName,displacement_A,dist_to_patch_A
+signal,612,ALA,1.23,33.4
+signal,322,PRO,0.99,45.3
+signal,7,CYS,0.98,18.3
+signal,639,VAL,0.9,33.4
+signal,120,ARG,0.85,12.7
+signal,771,PRO,0.85,4.8
+signal,67,ALA,0.84,29.9
+signal,801,ALA,0.84,15.6
+signal,800,GLU,0.83,13.6
+signal,1132,ASP,0.81,58.6
+
+window,internal_rmsd_A,rotation_deg,translation_A
+7-36,0.339,1.44,6.81
+22-51,0.313,1.14,1.73
+37-66,0.361,0.48,2.13
+52-81,0.388,0.7,2.74
+67-96,0.343,1.21,1.32
+82-123,0.38,2.15,2.39

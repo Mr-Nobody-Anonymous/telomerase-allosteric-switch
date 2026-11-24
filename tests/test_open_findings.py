@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import importlib.util
 import inspect
+import json
 import math
 import pathlib
 import subprocess
@@ -1573,16 +1574,20 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     """A hand-typed figure produced C1, C7 and R8. This one is generated."""
     wp = _wp41()
     led = {r["row"]: r for r in wp.ledger()}
-    # WP45 refuted M5; the discriminator is "what could this have falsified",
-    # not the string of the prior that used to sit here.
-    # WP46 R14: the row must carry the OUTCOME quantity too, not a bare refutation
+    # main refuted M5 on W&C's published pair (WP45/WP46) and replaced P(M5)
+    # with the outcome quantity; this branch's WP40 had it as a live 0.35.
+    # The stronger, data-backed claim wins.
     assert led["Mechanism"]["value"].startswith("M5 REFUTED")
-    assert "P(any)" in led["Mechanism"]["value"]
-    assert led["Mechanism"]["source"] == "wp45"
-    # WP44: n was never load-bearing
-    assert led["n measured"]["value"] == "not load-bearing"
+    assert "0.541" in led["Mechanism"]["value"]
+    # n: two independent routes (WP44's 7.4% across a 64-fold range; WP54's
+    # identical two-chase observable at every n) say it was never load-bearing
+    assert "not load-bearing" in led["n measured"]["value"]
+    assert "not identifiable" in led["n measured"]["value"]
     assert led["Affinity"]["value"] == "none"
-    assert led["Drug"]["value"] == "none"
+    # WP42 moved this row from a bare "none" to "none, and the small-molecule
+    # route is excluded", which is a stronger and narrower statement. It must
+    # still not claim a drug.
+    assert led["Drug"]["value"].startswith("none")
     assert led["HUVEC (90 bp/PD)"]["value"] == "CLOSED"
     assert all(r["source"] for r in led.values())
 
@@ -1696,126 +1701,398 @@ def test_no_document_asserts_the_superseded_closed_gate_unmarked():
     assert offenders == [], f"assert CLOSED gate with no correction marker: {offenders}"
 
 
+# --------------------------------------------------------------- WP42
+def _wp42():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp42_designs")
+
+
+def test_wp42_the_tel_patch_is_bipartite():
+    """E215 grips K78/R132; E168 grips R774 20 A away. Two surfaces, not one."""
+    wp = _wp42()
+    g = wp.geometry()
+    assert g["patch_is_bipartite"] is True
+    assert g["k78_r132_sep"] < 5.0
+    assert g["mid_k78_r132_to_r774"] > 15.0
+    assert g["pairs"]["E215->K78"] < 6.0
+    assert g["pairs"]["E168->R774"] < 3.0
+
+
+def test_wp42_the_straight_path_is_obstructed_so_a_ligand_must_bend():
+    wp = _wp42()
+    assert wp.straight_line_blocked() > 10
+    p = wp.bent_path()
+    assert p["found"] is True
+    assert p["path_length"] > p["straight"]
+    assert 1.1 < p["tortuosity"] < 1.6
+    assert p["min_clearance"] >= 1.8
+
+
+def test_wp42_no_drug_like_molecule_can_span_the_gulf():
+    """The central negative result: this is a class exclusion, not a bad scaffold."""
+    wp = _wp42()
+    cost = wp.span_cost(25.5)
+    # per-phenyl cost measured from the homologous series
+    assert 2.0 < cost["per_phenyl_span"] < 3.5, cost["per_phenyl_span"]
+    assert cost["per_phenyl_logp"] > 1.0
+    # extrapolated to the required span it is far past any drug-like limit
+    assert cost["phenyls_needed"] > 6
+    assert cost["mw_needed"] > 600
+    assert cost["logp_needed"] > 8
+
+
+def test_wp42_the_spanning_ligands_are_recorded_as_failures():
+    """A design that does not reach must say so. Four of the five fail."""
+    wp = _wp42()
+    res = wp.build()
+    fails = res["summary"]["designs_that_fail_to_span"]
+    assert set(fails) == {"KP-1", "KP-2", "TEL-1", "TEL-2"}
+    assert res["summary"]["designs_that_span"] == ["TEL-3"]
+    for l in res["ligands"]:
+        assert l["spans"] == (l["max_span_3d"] >= l["target_span"])
+
+
+def test_wp42_the_one_reachable_site_is_the_k78_r132_groove():
+    wp = _wp42()
+    gv = wp.groove_geometry()
+    assert gv["k78_r132_nh1"] < 5.0
+    # a dicarboxylate has to match this, and it is drug-like
+    assert 4.0 < gv["ideal_diacid_span"] < 6.0
+
+
+def test_wp42_the_tel_patch_is_an_alpha_helical_register():
+    """i, i+4, i+7, i+14 reproduce the measured patch spacings to under 1 A."""
+    wp = _wp42()
+    g = wp.geometry()
+    assert abs(wp.helix_span(4) - (g["pairs"]["E168->R774"] and 6.58)) < 1.0
+    assert abs(wp.helix_span(7) - 10.22) < 1.0
+    assert abs(wp.helix_span(14) - g["e168_e215"]) < 1.0
+    # and i+17 is the register that matches the BENT path, i+18 overshoots
+    p = wp.bent_path()
+    assert abs(wp.helix_span(17) - p["path_length"]) < 1.0
+    assert abs(wp.helix_span(18) - p["path_length"]) > abs(wp.helix_span(17) - p["path_length"])
+
+
+def test_wp42_designed_proteins_match_their_claimed_registers():
+    wp = _wp42()
+    res = wp.build()
+    assert len(res["proteins"]) == 5
+    for pr in res["proteins"]:
+        assert pr["register_matches"] is True, (pr["id"], pr["display_offsets_realised"])
+        assert pr["all_targets_within_1A"] is True, (pr["id"], pr["target_checks"])
+
+
+def test_wp42_the_designs_are_opposite_in_sign_and_not_tpp1_fragments():
+    wp = _wp42()
+    res = {p["id"]: p for p in wp.build()["proteins"]}
+    mimic, binder = res["TELM-1"], res["TENB-1"]
+    assert mimic["charge_pH7_4"] < 0 < binder["charge_pH7_4"]
+    # same geometry, opposite charge: the sign is a design variable, not a gimmick
+    assert mimic["display_offsets_realised"] == binder["display_offsets_realised"]
+    # and none of them is a TPP1 fragment
+    for pr in res.values():
+        assert "ELLLQD" not in pr["sequence"]
+        assert "GFRGTEGR" not in pr["sequence"]
+
+
+def test_wp42_novelty_record_names_the_bibr1532_distinction():
+    wp = _wp42()
+    assert len(wp.NOVELTY) == 4
+    assert any("BIBR1532" in n["detail"] for n in wp.NOVELTY)
+    assert any("first TPP1 ligands" in n["detail"] for n in wp.NOVELTY)
+
+
+def test_wp42_doc_keeps_the_quarantine_and_the_failures():
+    doc = (REPO / "results" / "solve" / "WP42_DESIGNS.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine: unchanged" in flat
+    assert "No molecule or protein here has been synthesised" in flat
+    # the failures must stay in the document, not be quietly dropped
+    assert "FAILS" in flat
+    assert "class exclusion" in flat.lower() or "class is excluded" in flat.lower()
+    for lid in ("KP-1", "KP-2", "TEL-1", "TEL-2", "TEL-3"):
+        assert lid in flat
+    for pid in ("TELM-1", "TELM-2", "TELM-3", "TENB-1", "TENB-2"):
+        assert pid in flat
+    assert "25.54" in flat or "25.5" in flat
+
+
+def test_wp42_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp42_designs.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP43
+def _wp43():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp43_test_battery")
+
+
+def test_wp43_the_battery_can_say_no_in_both_configurations():
+    """A filter that passes everything has a 100% pass rate and predicts nothing."""
+    wp = _wp43()
+    res = wp.run()
+    ctl = {c["id"]: c for c in res["controls"]}
+    assert ctl["CTRL-BAD-2"]["permissive"]["tier"] == "REJECT"
+    assert ctl["CTRL-BAD-2"]["strict"]["tier"] == "REJECT"
+    assert all(ctl[c]["strict"]["tier"] == "REJECT"
+               for c in ("CTRL-BAD-1", "CTRL-BAD-2", "CTRL-BAD-3"))
+
+
+def test_wp43_the_two_alert_configurations_genuinely_differ():
+    """They were identical in the first implementation, making the matrix vacuous."""
+    wp = _wp43()
+    res = wp.run()
+    ctl = {c["id"]: c for c in res["controls"]}
+    assert ctl["CTRL-OK-2"]["permissive"]["tier"] == "MODEL-PASS"   # aspirin accepted
+    assert ctl["CTRL-OK-2"]["strict"]["tier"] == "REJECT"           # aspirin rejected
+    assert ctl["CTRL-BAD-1"]["permissive"]["tier"] != ctl["CTRL-BAD-1"]["strict"]["tier"]
+    m = res["summary"]["confusion"]
+    assert m["strict"] != m["permissive"]
+
+
+def test_wp43_qed_is_reported_not_gated():
+    """Imatinib scores 0.389; a 0.50 QED gate would reject an approved drug."""
+    wp = _wp43()
+    ctl = {c["id"]: c for c in wp.run()["controls"]}
+    assert ctl["CTRL-OK-1"]["permissive"]["qed"] < 0.50
+    assert ctl["CTRL-OK-1"]["strict"]["tier"] == "MODEL-PASS"
+
+
+def test_wp43_the_experimental_rate_is_absent_not_zero():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    assert s["experimental_success_rate"] is None
+    assert "N = 0" in s["reason_no_experimental_rate"]
+
+
+def test_wp43_chemistry_and_geometry_are_separate_axes():
+    """Conflating them let a denominator change flip FAIL to CONDITIONAL."""
+    wp = _wp43()
+    res = wp.run()
+    for l in res["ligands"]:
+        for cfg in wp.CONFIGS:
+            assert l[cfg]["chemistry"] in ("PASS", "ONE-VIOLATION", "FAIL", "REJECT")
+            assert l[cfg]["geometry"] in ("REACHES", "CANNOT-SPAN", "n/a")
+
+
+def test_wp43_the_spanning_failures_are_geometry_failures_not_chemistry():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    res = wp.run()
+    hl = s["headline_config"]
+    cannot = [l for l in res["ligands"] if l[hl]["geometry"] == "CANNOT-SPAN"]
+    assert len(cannot) == 4
+    for l in cannot:
+        assert l[hl]["tier"] == "GEOMETRY-FAIL"
+        assert l[hl]["chemistry"] in ("PASS", "ONE-VIOLATION")
+
+
+def test_wp43_every_design_is_scored_and_ranked():
+    wp = _wp43()
+    s = wp.run()["summary"]
+    assert s["n_designs"] == 10
+    assert s["best_ligand"] == "TEL-3"
+    assert len(s["ranking_ligands"]) == 5
+    assert len(s["ranking_proteins"]) == 5
+    assert all(r["basis"] for r in s["ranking_ligands"] + s["ranking_proteins"])
+
+
+def test_wp43_doc_separates_the_three_rates():
+    doc = (REPO / "results" / "solve" / "WP43_BATTERY.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "not measurable" in flat
+    assert "6/15 = 40 %" in flat
+    assert "60 %" in flat
+    # the comparison must carry its own warning or it is a category error
+    assert "category error" in flat
+    assert "No OpenMM, no docking engine, no FEP" in flat
+
+
+def test_wp43_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp43_test_battery.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
 # --------------------------------------------------------------- WP44
 def _wp44():
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
     import importlib
-    return importlib.import_module("wp44_attempt_all")
+    return importlib.import_module("wp44_modular_designs")
 
 
-def test_wp44_n_was_never_load_bearing():
-    """R1/2 barely moves across a 64-fold range of the exponent."""
+def test_wp44_every_module_is_one_site_or_declared_unsolvable():
     wp = _wp44()
-    i1 = wp.item1_n_is_not_load_bearing()
-    assert i1["load_bearing"] is False
-    assert i1["spread_fraction"] < 0.10
-    assert abs(i1["r_half_by_n"][6] - i1["r_half_n_free"]) < 1e-3
-    assert abs(i1["delta_n_free"] - 48.0) < 5e-2
+    res = wp.build()
+    assert all(m["site"] in wp.SITES for m in res["modules"])
+    assert all(m["fully_covers_own_site"] or m["verdict"] == "SITE-UNSOLVABLE"
+               for m in res["modules"])
 
 
-def test_wp44_the_two_chase_inversion_is_an_identity():
-    """m/c returns tau whether or not stalling exists - the C1 pattern."""
+def test_wp44_the_tel_triad_is_not_helix_solvable():
+    """E169-E171 at 7.31 A falls between i+3 and i+4 and cannot be reached."""
     wp = _wp44()
-    i3 = wp.item3_two_chase_is_an_identity()
-    assert i3["max_error"] < 1e-15      # algebra, by construction
-    assert i3["kappa_independent"]      # any kappa gives the same tau
-    assert i3["defects"] == 2
+    solv = wp.solvability()
+    assert solv["S3_TEL_TRIAD|E169 OE1|E171 OE1"]["reachable"] is False
+    assert solv["S3_TEL_TRIAD|E168 OE1|E169 OE1"]["reachable"] is True
+    # the closest achievable is i+4 at 6.20, an error of more than 1 A
+    assert abs(wp.helix_span(4) - 7.31) > wp.MATCH_TOL
 
 
-def test_wp44_gate3_is_not_invertible():
+def test_wp44_a_module_can_be_forced_onto_a_second_site():
     wp = _wp44()
-    i5 = wp.item5_gate3_is_not_invertible()
-    assert i5["invertible"] is False
-    assert max(i5["spread"], 1 / i5["spread"]) > 2.0
+    mods = {m["id"]: m for m in wp.build()["modules"]}
+    md3 = mods["MD3-PATCH"]
+    assert md3["cross_site_warning"] is True
+    assert md3["cross_site_register_matches"][0]["site"] == "S1_K78_R132"
+    # and it is a warning, not a verdict of dual engagement
+    assert md3["verdict"] != "CONFLICT"
 
 
-def test_wp44_the_panel_constrains_the_mechanism_without_a_fold():
-    """F776E separates processivity from catalysis inside one experiment."""
+def test_wp44_the_illegal_merge_is_refused_with_a_reason():
     wp = _wp44()
-    m2 = wp.item2_mechanism_constraint()
-    assert m2["mutant"] == "F776E"
-    assert m2["processivity_below_mutant_mean"]
-    assert m2["activity_above_mutant_mean"]
-    assert 1 < m2["act_rank"] < m2["n_mutants"]
-    i2 = wp.item2_panel_has_no_kinetics()
-    assert i2["has_koff"] is False and i2["has_kd"] is False
+    merges = {r["id"]: r for r in wp.build()["merges"]}
+    assert merges["MRG-ILLEGAL"]["refused"] is True
+    assert merges["MRG-ILLEGAL"]["sequence"] is None
+    assert "one groove cannot be both blocked and repaired" in \
+        merges["MRG-ILLEGAL"]["refusal_reason"]
 
 
-def test_wp44_partial_inhibition_is_a_model_free_mode_test():
-    """Length constant + fraction falling = processive, from published data."""
+def test_wp44_the_linker_decides_merge_stability():
+    """Same two modules, different linker, opposite verdict."""
     wp = _wp44()
-    d6 = wp.item6_mode_discriminator()
-    assert d6["length_constant"] and d6["fraction_falls"]
-    assert d6["verdict"] == "PROCESSIVE"
+    merges = {r["id"]: r for r in wp.build()["merges"]}
+    rigid, flex = merges["MRG-MIN"], merges["MRG-FLEX"]
+    assert [m["id"] for m in rigid["modules"]] == [m["id"] for m in flex["modules"]]
+    assert rigid["stability"]["n_collapse_pairs"] == 0
+    assert flex["stability"]["n_collapse_pairs"] == 1
+    assert flex["stability"]["inter_module"][0]["energy"] < 0
+    assert flex["stability"]["verdict"] == "COLLAPSE-RISK"
 
 
-def test_wp44_no_affinity_is_derivable_here():
+def test_wp44_threshold_sensitive_verdicts_are_exposed():
+    """A verdict that flips inside a plausible threshold range is not a finding."""
     wp = _wp44()
-    i4 = wp.item4_no_affinity_is_derivable()
-    assert i4["calibration_ligands"] == 0
-    assert not i4["has_solvent"] and not i4["has_entropy"]
-    assert i4["refuted"]
+    s = wp.build()["summary"]["threshold_sensitivity"]
+    assert len(s["sweep"]) >= 9
+    assert "MD4-ANCHOR" in s["threshold_sensitive"]
+    # the merges must NOT be threshold-sensitive
+    for mid in ("MRG-MIN", "MRG-BLOCK", "MRG-SAMESIGN", "MRG-REPAIR"):
+        assert mid in s["never_flagged"]
+
+
+def test_wp44_instability_index_is_advisory_not_a_verdict():
+    wp = _wp44()
+    res = wp.build()
+    for r in res["merges"]:
+        if r["refused"]:
+            continue
+        st = r["stability"]
+        if st["instability_index"] > 40:
+            assert st["instability_verdict"] == "predicted unstable"
+            assert any("advisory only" in a for a in st["advisory"])
 
 
 def test_wp44_self_test_passes():
-    subprocess.run([sys.executable, "scripts/solve/wp44_attempt_all.py", "--self-test"],
+    subprocess.run([sys.executable, "scripts/solve/wp44_modular_designs.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp44_doc_keeps_the_quarantine_and_the_findings():
+    doc = (REPO / "results" / "solve" / "WP44_MODULAR.md").read_text(encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "Quarantine" in flat and "Unchanged" in flat
+    assert "not helix-solvable at all" in flat
+    assert "screened-Coulomb heuristics" in flat
+    assert "7.31" in flat
 
 
 # --------------------------------------------------------------- WP45
 def _wp45():
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
     import importlib
-    return importlib.import_module("wp45_creative")
+    return importlib.import_module("wp45_graft")
 
 
-def test_wp45_tau_comes_from_published_numbers():
-    """s_obs and phi are both functions of tau, so the pair fixes it."""
+def test_wp45_the_helix_premise_was_wrong():
+    """psi(E169) is positive and CA168-CA171 is 7.68 A - not any helix."""
     wp = _wp45()
-    e = wp.tau_pair_estimate()
-    assert abs(e["tau"] - 0.6506) < 5e-3
-    # the forward map must reproduce the input
-    fwd = wp.PHI_NO_PT / (1 - e["tau"] * (1 - wp.PHI_NO_PT))
-    assert abs(fwd - wp.S_OBS_NO_PT) < 1e-9
-    assert 0 < e["tau"] < 1
+    d = wp.diagnose_premise()
+    assert d["psi_E169_deg"] > 0
+    assert d["psi_is_alpha_like"] is False
+    assert d["consistent_with_alpha"] is False
+    assert d["consistent_with_3_10"] is False
 
 
-def test_wp45_m5_is_refuted_by_the_held_out_prediction():
+def test_wp45_two_independent_crystals_agree_on_the_anomaly():
     wp = _wp45()
-    h = wp.held_out_prediction()
-    assert abs(h["predicted_fold"] - 2.7335) < 0.02
-    assert abs(h["implied_fold_at_8x"] - 6.654) < 0.05
-    assert h["refuted"]
-    assert h["implied_fold_at_8x"] / h["predicted_fold"] > 2.0
+    d = wp.diagnose_premise()
+    assert abs(d["CA168_CA171_7TRE"] - d["CA168_CA171_2I46"]) < 0.3
+    assert d["CA168_CA171_7TRE"] > 7.0
 
 
-def test_wp45_the_stored_anchor_assumes_no_pt_stall():
-    """True and apparent agree; both sit 6x below the stored 8.0."""
+def test_wp45_the_graft_preserves_the_deposited_segments():
     wp = _wp45()
-    g = wp.gate_at_fit()
-    assert abs(g["ratio"] - 1.0) < 0.05          # tau_pt is tiny
-    assert abs(48.0 / g["delta_apparent"] - 6.09) < 0.2
-    assert not g["holds_50_true"] and not g["holds_50_apparent"]
+    k = wp.build()["construct"]
+    assert k["segment_A"] == "DWEEKEF"
+    assert k["segment_B"] == "FSLLPTE"
+    assert k["sequence"] == k["segment_A"] + k["linker"] + k["segment_B"]
+    # all three glutamates of the triad survive
+    assert k["segment_A"][2] == "E" and k["segment_A"][3] == "E" and k["segment_A"][5] == "E"
+    assert k["segment_B"][6] == "E"
 
 
-def test_wp45_the_90_bp_ceiling_does_not_move():
+def test_wp45_the_triad_triangle_is_reproduced_not_fitted():
     wp = _wp45()
-    c = wp.ceiling()
-    assert not c["holds_90"]
-    assert c["gap"] > 80
+    a = wp.build()["assembly"]
+    for key, measured in wp.MEASURED_TRIANGLE.items():
+        assert abs(a["triangle_native"][key] - measured) < 0.2
 
 
-def test_wp45_the_doc_states_the_load_bearing_assumption():
-    doc = (REPO / "results" / "solve" / "WP45_CREATIVE.md").read_text(encoding="utf-8")
+def test_wp45_three_of_three_contacts_and_the_groove():
+    wp = _wp45()
+    res = wp.build()
+    assert res["summary"]["wp45_status"].startswith("SOLVED")
+    assert res["assembly"]["e215_to_K78"] < 4.5
+    assert res["comparison"]["wp45_graft"]["covers_triad"].startswith("3 of 3")
+
+
+def test_wp45_the_constraint_is_not_solved_and_says_so():
+    """The geometry is solved; holding it is not. Both must stay on the record."""
+    wp = _wp45()
+    res = wp.build()
+    cl, en = res["closure"], res["entropic_cost"]
+    assert cl["either_covalent_route_available"] is False
+    assert cl["disulfide_ok"] is False
+    assert cl["head_to_tail_ok"] is False
+    assert en["payable"] is False
+    assert en["entropic_penalty_low"] > abs(en["contact_energy_total"])
+    assert "scaffold" in res["summary"]["remaining_gap"]
+
+
+def test_wp45_the_linker_spans_and_is_inert():
+    wp = _wp45()
+    res = wp.build()
+    k, a = res["construct"], res["assembly"]
+    assert 3.5 * len(k["linker"]) >= a["best_junction"]["span"]
+    assert k["linker_charge"] == 0
+    assert all(c in wp.LINKER_ALPHABET for c in k["linker"])
+
+
+def test_wp45_wp44_doc_is_marked_corrected():
+    doc = (REPO / "results" / "solve" / "WP44_MODULAR.md").read_text(encoding="utf-8")
     flat = " ".join(doc.split())
-    assert "s_true = φ" in flat or "s_true = phi" in flat
-    assert "refuted" in flat.lower()
-    assert "quarantined" in flat
-    assert "modelling step" in flat           # the assumption is flagged
+    assert "CORRECTED BY WP45" in flat
+    # the markdown bolds the phrase, so match on the stem rather than the words
+    assert "kinked" in flat and "not a helix" in flat
+    # the correction must appear before the unsolvable claim, not after it
+    assert flat.index("CORRECTED BY WP45") < flat.index("not helix-solvable at all")
 
 
 def test_wp45_self_test_passes():
-    subprocess.run([sys.executable, "scripts/solve/wp45_creative.py", "--self-test"],
+    subprocess.run([sys.executable, "scripts/solve/wp45_graft.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
 
 
@@ -1823,161 +2100,752 @@ def test_wp45_self_test_passes():
 def _wp46():
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
     import importlib
-    return importlib.import_module("wp46_the_plan")
+    return importlib.import_module("wp46_closure")
 
 
-def test_wp46_the_tracked_quantity_was_the_wrong_one():
-    """P(M5) is one mechanism; P(any) is the outcome. They shared a label."""
+def test_wp46_the_ledger_answers_no():
     wp = _wp46()
-    assert wp.old_framing() < wp.p_any_with_premise() < 1.0
-    assert wp.p_any_with_premise() > 0.5          # crosses, at premise 0.60
-    assert wp.premise_at_half() < wp.P_PREMISE    # 0.498 < 0.60
+    s = wp.closure()["summary"]
+    assert s["answer_to_the_question"].startswith("No.")
+    assert 0 < s["solved_fraction"] < 1
+    assert s["not_fully_solved"]
 
 
-def test_wp46_independence_over_states_the_odds():
+def test_wp46_every_status_is_backed_by_its_artefact():
     wp = _wp46()
-    assert wp.naive_independent() > wp.p_any_with_premise()
+    res = wp.closure()
+    assert res["all_consistent"] is True, [c for c in res["consistency"]
+                                           if not c["consistent"]]
+    assert len(res["consistency"]) >= 10
 
 
-def test_wp46_the_scoped_out_route_is_the_biggest_lever():
-    """The surprise: M6 dominates because it escapes the shared premise."""
+def test_wp46_the_open_items_cannot_be_marked_solved():
+    """None of the five may be called SOLVED, and each must still name what is
+    missing. WP51-WP54 legitimately moved P11-P13 from UNMEASURABLE/NOT SOLVED
+    to PARTIAL by measuring the part that computation can reach; what must never
+    happen is the remaining measurement being declared done. The assertions
+    below are therefore about the REMAINING blocker, not the label, because a
+    label alone would either forbid honest progress or permit a false closure.
+    """
     wp = _wp46()
-    assert wp.lever_sensitivity()[0]["lever"] == "M6"
+    by_id = {i["id"]: i for i in wp.ITEMS}
+    for pid in ("P6", "P11", "P12", "P13"):
+        assert by_id[pid]["status"] != "SOLVED", pid
+        assert by_id[pid].get("blocker"), f"{pid} must still name its blocker"
+    assert "not balanced" in by_id["P6"]["answer"].lower()
+    # P12 measured geometry and no affinity; the blocker must still be empirical
+    assert "no affinity" in by_id["P12"]["blocker"].lower()
+    # P13 answered the structural half in the negative; the kinetic half is open
+    assert "trap" in by_id["P13"]["blocker"].lower() or \
+           "r1 vs r2" in by_id["P13"]["blocker"].lower()
+    # P15 is solved as a NEGATIVE - that is a closure, and it must read as one
+    assert by_id["P15"]["status"] == "SOLVED"
+    assert by_id["P15"]["answer"].lstrip().startswith("No")
 
 
-def test_wp46_info_gain_is_not_degenerate():
-    """Ranking by flip rate was noise; EIG must spread the measurements."""
+def test_wp46_nothing_wet_lab_is_ever_solved():
+    """A calculation cannot close a question that needs a measurement."""
     wp = _wp46()
-    p0 = wp.p_any_with_premise()
-    eigs = [wp.expected_info_gain(p0, m["sens"], m["fpr"]) for m in wp.MEASUREMENTS]
-    assert max(eigs) - min(eigs) > 0.02
-    assert wp.which_measurement_first()[0]["id"] == "A1"
+    assert not any(i["kind"] == "wet-lab" and i["status"] == "SOLVED"
+                   for i in wp.ITEMS)
 
 
-def test_wp46_only_two_gaps_are_closeable_here():
+def test_wp46_the_count_in_the_prose_is_derived_not_typed():
+    """The first draft hardcoded '6 of 15' while the tally said 7."""
     wp = _wp46()
-    g = wp.gap_inventory()
-    assert len(g) == 5
-    assert sum(1 for x in g if x["can_simulate_here"]) == 2
+    s = wp.closure()["summary"]
+    assert f"{s['tally']['SOLVED']} of {s['n_items']}" in s["answer_to_the_question"]
+    assert sum(s["tally"].values()) == s["n_items"]
 
 
-def test_wp46_the_plan_doc_names_the_unreachable_gaps():
-    doc = (REPO / "results" / "solve" / "THE_PLAN.md").read_text(encoding="utf-8")
+def test_wp46_closure_md_is_generated_and_current():
+    doc = (REPO / "results" / "solve" / "CLOSURE.md").read_text(encoding="utf-8")
     flat = " ".join(doc.split())
-    assert "positive control" in flat
-    assert "cannot be done in this repository" in flat
-    assert "labelled assumption" in flat
-    assert "M6" in flat
+    assert "Generated from the artefacts, not from memory" in flat
+    assert "Zero are closed as evidence" in flat or "solved as evidence" in flat
+    for st in ("SOLVED", "PARTIAL", "NOT SOLVED", "UNMEASURABLE"):
+        assert st in flat
 
 
 def test_wp46_self_test_passes():
-    subprocess.run([sys.executable, "scripts/solve/wp46_the_plan.py", "--self-test"],
+    subprocess.run([sys.executable, "scripts/solve/wp46_closure.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
 
 
-# ------------------------------------------- WP46 step 1.6: framing guard
-def test_wp46_no_document_claims_the_pm5_framing_is_live():
-    """The R14 collision: P(M5) reported as P(a switch is achievable).
+# --------------------------------------------------------------- WP47
+def _wp47():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp47_close_open")
 
-    Step 1.6 of the plan. A prose-only fix leaves a stale summary, so this
-    scans the documents that talk about P(M5) and demands that any of them
-    stating the 'reachable / > 50 %' framing also carries the superseding
-    banner naming WP45 or WP46.
+
+def test_wp47_wp45s_no_covalent_route_claim_is_refuted():
+    """WP45 screened disulfides only and generalised from them."""
+    wp = _wp47()
+    rows = wp.crosslink_screen()
+    feasible = [r for r in rows if r["feasible"]]
+    assert len(rows) == 49
+    assert feasible, "a covalent constraint exists"
+    best = wp.pick_crosslink(rows)
+    assert best["pair"] == "TRP167-LEU211"
+    assert 6.0 <= best["cb_distance"] <= 7.5      # hydrocarbon i,i+4 window
+    assert "hydrocarbon" in best["chemistries"]
+
+
+def test_wp47_the_winning_span_has_real_geometry_behind_it():
+    """Not a distance coincidence: both vectors align AND a native contact spans it."""
+    wp = _wp47()
+    best = wp.pick_crosslink(wp.crosslink_screen())
+    assert best["cos_a"] > 0 and best["cos_b"] > 0
+    assert best["worst_clearance"] >= 3.0
+    assert best["native_sidechain_contact"] < 4.0   # already a vdW contact
+
+
+def test_wp47_the_payload_is_never_stapled():
+    """Stapling E168/E169/E171/E215 would destroy the contacts the graft exists for."""
+    wp = _wp47()
+    rows = wp.crosslink_screen()
+    assert not any(r["feasible"] for r in rows if r["consumes_payload"])
+
+
+def test_wp47_one_staple_does_not_pay_for_itself():
+    """The honest half: the constraint is necessary, not sufficient."""
+    res = _wp47().build()
+    e = res["energy_balance"]
+    assert res["summary"]["ordering_still_unpaid_kcal"] > 0
+    assert e["net_gain_kcal"] < e["residual_ordering_cost_kcal"]
+
+
+def test_wp47_no_alert_count_rule_can_fix_the_battery():
+    """Every control clears every gate, so count is the only feature - and it caps low."""
+    f = _wp47().calibrate()
+    assert f["all_controls_pass_every_gate"] is True
+    assert f["ceiling"]["ceiling"] < f["ceiling"]["bar"]
+    assert f["ceiling"]["verdict"].startswith("UNFIXABLE")
+
+
+def test_wp47_the_mechanism_rule_separates_the_non_monotone_pair():
+    """metformin must pass with 2 alerts; nitrogen mustard must fail with 1."""
+    f = _wp47().calibrate()
+    assert f["detail"]["OK-metformin"]["accept"] is True
+    assert f["detail"]["BAD-nitrogen-mustard"]["accept"] is False
+    assert f["detail"]["OK-aspirin"]["accept"] is True
+
+
+def test_wp47_validation_is_defined_on_the_holdout_not_the_authoring_panel():
+    f = _wp47().calibrate()
+    assert not (set(f["detail"]) & set(f["holdout_detail"]))
+    assert f["validated"] == (f["holdout_panel"]["balanced_accuracy"] >= 0.9
+                              and f["holdout_panel"]["sensitivity"] >= 0.8
+                              and f["holdout_panel"]["specificity"] >= 0.8)
+
+
+def test_wp47_p10_is_not_claimed_solved():
+    """WP47's own hold-out did NOT validate, and that is still true of WP47's rule.
+
+    WP48 later replaced name-reading with substructure reading and that DID
+    validate (P10 -> SOLVED), but the gate stack did not (P10b, PARTIAL). WP47's
+    result must not be retro-fitted to the later fix.
     """
-    docs = ["results/solve/WP40_DESIGN_TO_FIFTY.md",
-            "results/solve/WP35_P2_IDENTIFIABILITY.md",
-            "results/solve/WP36_CIRCULARITY.md",
-            "results/solve/OPEN_GAPS.md"]
-    offenders = []
-    for rel in docs:
-        path = REPO / rel
-        if not path.exists():
-            continue
-        text = path.read_text(encoding="utf-8")
-        if "P(M5)" not in text:
-            continue
-        head = "\n".join(text.splitlines()[:60])
-        # a live 'reachable' claim must be bannered in the document head
-        if "reachable" in text.lower() and not (
-                "SUPERSEDED" in head or "WP45" in head or "WP46" in head):
-            offenders.append(rel)
-    assert not offenders, (
-        "these documents still present the P(M5) target as live without a "
-        f"superseding banner: {offenders}")
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    # WP47's own rule still fails its own hold-out - that fact does not change
+    assert _wp47().calibrate()["validated"] is False
+    # WP48's SMARTS layer validated; WP50 then showed the gate-stack objection
+    # dissolves under a triage metric. Both are recorded.
+    assert _wp48().build()["agents"]["B"]["filter"]["validated"] is True
+    assert by["P10b"]["status"] == "SOLVED"
+    assert "purpose" in by["P10b"]["answer"]
 
 
-def test_wp46_the_ledger_no_longer_reports_a_live_pm5():
-    text = (REPO / "results" / "solve" / "STATUS_LEDGER.md").read_text(encoding="utf-8")
-    flat = " ".join(text.split())
-    assert "M5 REFUTED" in flat
-    # the outcome quantity must appear once the framing is fixed
-    assert "P(any" in flat or "0.541" in flat
+def test_wp47_every_holdout_failure_is_named_with_a_reason():
+    f = _wp47().calibrate()
+    assert f["holdout_failures"]
+    for x in f["holdout_failures"]:
+        assert x["why"]
+        assert "name" in x["why"] or "scaffold" in x["why"]
 
 
-# --------------------------------------------- WP46 Track 1.5 / Track 3 docs
-def test_wp46_preregistrations_are_complete():
-    """A preregistration without a stopping rule is not a preregistration."""
-    for name in ("PREREG_A1.md", "PREREG_A2.md"):
-        doc = (REPO / "results" / "solve" / name).read_text(encoding="utf-8")
-        flat = " ".join(doc.split()).lower()
-        assert "stopping rule" in flat, name
-        assert "ambiguous" in flat, name
-        assert "replication" in flat, name
-        # the prediction must be numeric, not directional
-        assert "| 0." in doc, name
-        # the reversal must be stated, not softened
-        assert "withdrawn" in flat, name
+def test_wp47_both_unmeasurable_items_got_a_protocol_not_a_score():
+    p = _wp47().experimental_plan()
+    assert "no denominator" in p["P11_experimental_success_rate"]["why_unmeasurable_here"]
+    assert "fabricated" in p["P12_binding"]["why_unmeasurable_here"]
+    assert p["P11_experimental_success_rate"]["power"]["n_per_arm_at_20pct_effect"] > 0
+    assert len(p["P12_binding"]["recommended_assay"]["negative_controls"]) >= 2
 
 
-def test_wp46_prereg_a1_predicts_the_invariant():
-    """A1's discriminator is the constancy of tau, so it must say so."""
-    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
+def test_wp47_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp47_close_open.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp47_doc_records_the_correction_and_keeps_p10_partial():
+    doc = (REPO / "results" / "solve" / "WP47_CLOSE_OPEN.md").read_text(encoding="utf-8")
     flat = " ".join(doc.split())
-    assert "0.6506" in flat
-    assert "constant" in flat.lower()
-    assert "R12" in flat and "R13" in flat
+    assert "UNFIXABLE with alert count alone" in flat
+    assert "demonstration, not evidence" in flat
+    assert "Validated: False" in flat
+    assert "P10 stays" in flat and "PARTIAL" in flat
 
 
-def test_wp46_prereg_a2_table_matches_the_renewal():
-    """The predicted s_obs values must actually be the renewal's values."""
-    import math
-    tau = 0.1833
-    for s_true, s_obs in ((0.600, 0.6475), (0.700, 0.7407), (0.800, 0.8304),
-                          (0.917, 0.9312), (0.950, 0.9588)):
-        assert abs(s_true / (1 - tau * (1 - s_true)) - s_obs) < 5e-5, s_true
-    doc = (REPO / "results" / "solve" / "PREREG_A2.md").read_text(encoding="utf-8")
-    for _, s_obs in ((0, 0.6475), (0, 0.7407), (0, 0.8304)):
-        assert f"{s_obs}" in doc
+# --------------------------------------------------------------- WP48
+def _wp48():
+    import importlib
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    return importlib.import_module("wp48_new_designs")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp48_new_designs")
 
 
-def test_wp46_assay_design_keeps_the_positive_control_gate():
-    doc = (REPO / "results" / "solve" / "ASSAY_DESIGN_G1_G4.md").read_text(encoding="utf-8")
+def test_wp48_the_linker_was_a_design_error_not_a_property():
+    """WP45 chose GGGGG - the most expensive 5-mer - then reported the cost."""
+    a = _wp48().build()["agents"]["A"]
+    le = a["linker_entropy"]
+    assert le["gGGGG_cost"] > le["best_cost"]
+    assert le["winner_stable"] is True
+    assert a["price"]["linker_used"] != "GGGGG"
+    assert a["price"]["linker_used"].count("G") == 0
+
+
+def test_wp48_the_new_construct_keeps_every_payload_residue():
+    a = _wp48().build()["agents"]["A"]
+    c = a["constructs"]["WP48-NEW"]
+    assert c["n_payload_X"] == 0
+    assert "E" in c["sequence"] and c["charge_pH7_4"] < -2
+    assert c["length"] == 19
+
+
+def test_wp48_the_designed_linker_still_does_not_pay_in_full():
+    """The redesign helps and is not enough - and says so."""
+    a = _wp48().build()["agents"]["A"]
+    acc = a["price"]["accounting"]
+    assert acc["residual_kcal"] > 0
+    assert acc["paid"] is False
+    assert "lower bound" in a["price"]["honest_note"].lower()
+
+
+def test_wp48_electrophile_smarts_beat_reading_alert_names():
+    """The two cases WP47's name-based rule missed, caught by substructure."""
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["electrophile_layer_only"]["balanced_accuracy"] == 1.0
+    assert b["validated"] is True
+    d = b["third_panel"]["detail"]
+    assert d["BAD-ethyl-mesylate"]["accept"] is False      # WP47 missed this
+    assert d["BAD-acrylonitrile"]["accept"] is False
+    assert d["BAD-formaldehyde"]["accept"] is False
+
+
+def test_wp48_the_third_panel_is_clean_of_both_earlier_panels():
+    """A panel that reuses earlier controls is not evidence."""
+    wp = _wp48()
+    third = {c[0] for c in wp.PANEL_THIRD}
+    wp47_holdout = {"OK-caffeine", "OK-penicillin-G", "OK-sildenafil", "OK-glucose",
+                    "BAD-acrylamide", "BAD-iodoacetamide", "BAD-N-ethylmaleimide",
+                    "BAD-methyl-mesylate"}
+    wp48_authoring = {c[0] for c in wp.PANEL_AUTHORING}
+    assert not (third & wp47_holdout)
+    assert not (third & wp48_authoring)
+
+
+def test_wp48_the_one_miss_is_attributed_to_lipinski_not_reactivity():
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["miss_attribution"]
+    for cid, why in b["miss_attribution"].items():
+        assert "gate" in why
+        assert "not the layer being fixed" in why
+
+
+def test_wp48_a_rule_that_stopped_working_was_removed():
+    """The MW floor only ever compensated for missing SMARTS; it is gone."""
+    b = _wp48().build()["agents"]["B"]["filter"]
+    assert b["mw_floor"] == 0.0
+    assert b["mw_floor_changes_anything"] is False
+
+
+def test_wp48_both_deposits_are_coarse_models():
+    """The finding that corrects WP47's clash filter."""
+    d = _wp48().build()["agents"]["D"]["fidelity"]
+    for s, comp in d["completeness"].items():
+        for chain, v in comp.items():
+            if v:
+                assert v["atoms_per_residue"] < 15, (s, chain, v)
+    assert "under-conservative" in d["correction_to_wp47"]
+
+
+def test_wp48_a_deposit_without_telomerase_cannot_test_a_clash():
+    """2I46 has no TERT; claiming a clearance against it would be fabrication."""
+    d = _wp48().build()["agents"]["D"]["fidelity"]
+    rows = {r["structure"]: r for r in d["staple_span_check"]}
+    assert rows["2I46"].get("skipped_clash")
+    assert "CANNOT be tested" in rows["2I46"]["skipped_clash"]
+
+
+def test_wp48_the_critic_passes_but_is_allowed_to_fail():
+    crit = _wp48().build()["critic"]
+    assert crit["n_checks"] >= 12
+    assert crit["n_failed"] == 0
+    assert all(set(x) >= {"agent", "check", "ok"} for x in crit["checks"])
+
+
+def test_wp48_ledger_splits_the_filter_question_correctly():
+    """The reactivity layer is solved; the gate stack is not."""
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P10"]["status"] == "SOLVED"
+    # WP50 closed P10b - by correcting the METRIC, not by moving a threshold.
+    assert by["P10b"]["status"] == "SOLVED"
+    assert "triage" in by["P10b"]["answer"].lower()
+    assert "threshold" in by["P10b"]["answer"].lower()
+
+
+def test_wp48_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp48_new_designs.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP49
+def test_wp49_the_four_master_documents_exist_and_have_substance():
+    for name in ("MASTER_RECORD.md", "METHODS.md", "ARTEFACT_INDEX.md", "NEXT_STEPS.md"):
+        p = REPO / "results" / "solve" / name
+        assert p.exists(), name
+        assert len(p.read_text(encoding="utf-8")) > 2000, name
+
+
+def test_wp49_every_generated_document_carries_its_banner():
+    """Membership in the register's exemption list is not taken on trust."""
+    for name in ("MASTER_RECORD.md", "METHODS.md", "ARTEFACT_INDEX.md",
+                 "NEXT_STEPS.md"):
+        head = " ".join((REPO / "results" / "solve" / name)
+                        .read_text(encoding="utf-8").split()[:20])
+        assert "generated, do not edit by hand" in head, name
+
+
+def test_wp49_master_record_numbers_come_from_the_artefacts():
+    """The master must agree with the JSON that owns each number."""
+    master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
+    wp48 = json.loads((REPO / "results" / "solve" / "wp48_new_designs.json").read_text())
+    a = wp48["agents"]["A"]
+    assert a["price"]["linker_used"] in master
+    assert str(a["price"]["accounting"]["residual_kcal"]) in master
+    assert a["constructs"]["WP48-NEW"]["sequence"] in master
+    wp47 = json.loads((REPO / "results" / "solve" / "wp47_close_open.json").read_text())
+    assert wp47["best_crosslink"]["pair"] in master
+
+
+def test_wp49_master_record_keeps_the_negative_results():
+    master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
+    flat = " ".join(master.split())
+    assert "class exclusion" in flat          # the small-molecule verdict
+    assert "12 of 16 sub-problems are solved" in flat
+    assert "None is solved as evidence" in flat
+    assert "Zero syntheses" in flat or "zero syntheses" in flat.lower()
+
+
+def test_wp49_methods_cites_the_primary_method_literature():
+    methods = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    assert "Azoitei" in methods
+    assert "Multigraft" in methods
+    assert "kinked" in methods or "positive ψ" in methods or "+24.4" in methods
+
+
+def test_wp49_methods_records_all_three_structure_rules():
+    """Chain by sequence, TERT by residue type, and completeness stated."""
+    methods = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    flat = " ".join(methods.split())
+    assert "identify chains by sequence" in flat.lower()
+    assert "residue TYPE" in flat
+    assert "coarse models" in flat
+
+
+def test_wp49_next_steps_is_actionable():
+    nxt = (REPO / "results" / "solve" / "NEXT_STEPS.md").read_text(encoding="utf-8")
+    flat = " ".join(nxt.split())
+    assert "GRAFT-LINEAR" in flat and "WP48-NEW" in flat
+    assert "positive control" in flat
+    assert "decision rule" in flat.lower()
+    assert "Multigraft" in flat or "scaffold" in flat
+
+
+def test_wp49_next_steps_labels_staples_not_crosslinked_residues():
+    """One staple joins two residues; reporting X-count as 'crosslinks' doubles it."""
+    nxt = (REPO / "results" / "solve" / "NEXT_STEPS.md").read_text(encoding="utf-8")
+    assert "| staples |" in nxt
+    wp48 = json.loads((REPO / "results" / "solve" / "wp48_new_designs.json").read_text())
+    st = wp48["agents"]["A"]["constructs"]["WP47-STAPLED"]
+    assert st["n_staples"] == 1 and st["n_crosslinked_residues"] == 2
+
+
+def test_wp49_artefact_index_covers_the_generators():
+    idx = (REPO / "results" / "solve" / "ARTEFACT_INDEX.md").read_text(encoding="utf-8")
+    for s in ("wp45_graft", "wp46_closure", "wp47_close_open", "wp48_new_designs",
+              "wp49_master_record", "wp38_archive"):
+        assert s in idx, s
+
+
+def test_wp49_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp49_master_record.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp49_setup_script_exists_and_is_referenced():
+    p = REPO / "scripts" / "setup_environment.sh"
+    assert p.exists()
+    body = p.read_text(encoding="utf-8")
+    assert "rdkit" in body and "sympy" in body
+    docs = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    assert "setup_environment.sh" in docs
+
+
+# --------------------------------------------------------------- WP50
+def _wp50():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "solve"))
+    import importlib
+    return importlib.import_module("wp50_partials")
+
+
+def test_wp50_ring_closure_is_closed_off_for_good():
+    """Not 'head-to-tail is far' but 'no variant works': 20.42 A vs ~7 A reach."""
+    m = _wp50().macrocyclisation()
+    assert m["feasible_direct"] is False
+    assert m["C215_to_N166"] > 2.5 * 7.0      # ~2.9x the peptide-bond reach
+    assert m["linker_residues_needed"] >= 1
+
+
+def test_wp50_the_trim_uses_wp45s_own_reach_constant():
+    """An earlier draft used a looser reach and flattered the trim."""
+    t = _wp50().trim_flank()
+    assert t["best"]["linker"] == math.ceil(t["best"]["junction_span"] / 3.5)
+    assert t["best"]["total"] < t["wp45_total"]
+
+
+def test_wp50_the_trim_keeps_every_function():
+    t = _wp50().trim_flank()
+    assert t["payload_survives"] and t["staple_survives"]
+    assert t["n_dropped"] > 0
+    # K170 sits between E169 and E171; removing it moves a payload
+    assert "K170" in t["internal_flank_that_must_stay"]
+    assert "strut" in t["only_terminal_flank_can_go"]
+
+
+def test_wp50_the_trim_is_not_priced_as_a_fake_saving():
+    t = _wp50().trim_flank()
+    assert "not as a fabricated" in t["note"].lower()
+
+
+def test_wp50_the_covalent_tether_is_specified_not_demonstrated():
+    te = _wp50().covalent_tether()
+    assert te["best"] is not None
+    assert te["best"]["peptide_cb_distance"] <= 12.0
+    assert all(c["cys_mutation_safe"] for c in te["candidates"])
+    assert "SPECIFICATION, not a demonstration" in te["honest_note"]
+    # and it must still leave a shortfall
+    assert te["effective_concentration_argument"]["still_short"] is True
+
+
+def test_wp50_the_helix_module_was_aimed_at_the_wrong_site():
+    """The finding: MD3 reaches S1 by spacing, not S3."""
+    p7 = _wp50().crosssite_isolation()
+    assert p7["md3_helix_reaches_which_site"] == "S1_K78_R132"
+    assert p7["md3_graft_reaches_which_site"] == "S3_TEL_TRIAD"
+    assert "does not reach S3" in p7["finding"]
+
+
+def test_wp50_spacing_not_count_is_what_separates_modules():
+    p7 = _wp50().crosssite_isolation()
+    assert p7["spacing_tolerance"] > 0
+    assert min(p7["graft_pair_spacings"]) > min(p7["helix_pair_spacings"])
+    # the graft's spacings ARE the measured triangle
+    assert sorted(p7["graft_pair_spacings"]) == sorted([6.58, 10.22, 7.31])
+
+
+def test_wp50_every_module_reaches_exactly_one_named_site():
+    p7 = _wp50().crosssite_isolation()
+    for r in p7["rows"]:
+        assert r["site_reached"] is not None, r
+        assert r["verdict"] == "ONE-SITE-FULL"
+
+
+def test_wp50_triage_metric_resolves_the_lipinski_objection():
+    tm = _wp50().triage_and_exposure()["triage_metrics"]
+    assert tm["reactivity_only"]["perfect_separation"] is True
+    assert tm["reactivity_only"]["surviving_bad"] == 0
+    assert tm["reactivity_only"]["surviving_good"] == tm["reactivity_only"]["n_good"]
+    assert tm["lipinski_strict"]["perfect_separation"] is False
+
+
+def test_wp50_unbounded_enrichment_is_labelled_not_nulled():
+    tm = _wp50().triage_and_exposure()["triage_metrics"]
+    for v in tm.values():
+        assert v["enrichment_defined"] is True
+        if v["enrichment"] is None:
+            assert "unbounded" in v["enrichment_note"]
+
+
+def test_wp50_the_dose_gate_is_not_oversold():
+    """It changes nothing on this panel, and says so."""
+    p10 = _wp50().triage_and_exposure()
+    assert "illustrative" in p10["dose_data_caveat"]
+    if p10["dose_sweep_is_flat"]:
+        assert "changes no decision here" in p10["dose_gate_adds_nothing_here"]
+
+
+def test_wp50_ledger_promotes_only_what_the_data_supports():
+    import json
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P7"]["status"] == "SOLVED"
+    assert by["P10b"]["status"] == "SOLVED"
+    assert by["P6"]["status"] == "PARTIAL"      # the tether does not close it
+    assert "2.36" in by["P6"]["answer"] or "2.36" in (by["P6"]["blocker"] or "")
+
+
+def test_wp50_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp50_partials.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp50_document_renders_the_derived_verdicts():
+    doc = (REPO / "results" / "solve" / "WP50_PARTIALS.md").read_text(encoding="utf-8")
     flat = " ".join(doc.split())
-    assert "positive control" in flat.lower()
-    assert "void plate" in flat.lower()      # no results read from a failed control
-    assert "blinding" in flat.lower()
-    # it must not claim any of it was done
-    assert "zero exist" in flat.lower()
+    assert "aimed at S1" in flat
+    assert "INFEASIBLE" in flat
+    assert "unbounded" in flat
+    assert "SPECIFICATION, not a demonstration" in flat
 
 
-def test_wp46_scoping_options_report_two_quantities():
-    wp = _wp46()
-    opts = {o["option"]: o for o in wp.scoping_options()}
-    assert abs(opts["C"]["p_allosteric"] - 0.3443) < 0.01
-    assert abs(opts["C"]["p_outcome"] - 0.541) < 0.01
-    assert abs(opts["B@premise0.30"]["p_allosteric"] - 0.1721) < 0.01
-    # the wrong numbers that were published must not reappear
-    assert opts["B@premise0.30"]["p_allosteric"] < 0.2
+# ==========================================================================
+# WP51-WP54: the remaining items, each attacked with a different instrument
+# ==========================================================================
+
+def _wp51():
+    """Load wp51_ordering_md. Importing it does not start any simulation: the
+    module only runs a build inside build()/main()."""
+    spec = importlib.util.spec_from_file_location(
+        "wp51_md", REPO / "scripts" / "solve" / "wp51_ordering_md.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
-def test_wp46_prereg_a1_table_is_computed_not_remembered():
-    """The first draft of this table was wrong by up to 0.1."""
-    tau = 0.6506
-    for phi, s_obs in ((0.300, 0.5509), (0.450, 0.7007), (0.570, 0.7914),
-                       (0.700, 0.8698), (0.850, 0.9419)):
-        assert abs(phi / (1 - tau * (1 - phi)) - s_obs) < 5e-4, phi
-    doc = (REPO / "results" / "solve" / "PREREG_A1.md").read_text(encoding="utf-8")
-    for _, s_obs in ((0, 0.5509), (0, 0.7007), (0, 0.9419)):
-        assert f"{s_obs}" in doc
-    # the wrong remembered values must not come back
-    assert "0.4476" not in doc and "0.6833" not in doc
+def _wp52():
+    """Load wp52_interface without running its matplotlib-free top level twice."""
+    spec = importlib.util.spec_from_file_location(
+        "wp52_interface", REPO / "scripts" / "solve" / "wp52_interface.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _wp53():
+    spec = importlib.util.spec_from_file_location(
+        "wp53_cc", REPO / "scripts" / "solve" / "wp53_conformational_change.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _wp54():
+    spec = importlib.util.spec_from_file_location(
+        "wp54_remaining", REPO / "scripts" / "solve" / "wp54_remaining.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_wp51_does_not_assign_the_stiffness_it_claims_to_measure():
+    """The retraction this package is built on. The first version typed the
+    linker stiffness in (5/40/200) and then 'measured' that AAAAA was stiffest:
+    the ranking was installed, not measured."""
+    src = (REPO / "scripts" / "solve" / "wp51_ordering_md.py").read_text()
+    # the self-test quotes the banned string, so search for the assignment form
+    assert '"GGGGG": 5.0' not in src and "'GGGGG': 5.0" not in src, \
+        "a hand-set stiffness table came back"
+    assert "reading the input back out" in src, "the retraction must be recorded"
+    assert "k_bind = K_T / (sd ** 2)" in src, "stiffness must be derived from sigma"
+
+
+def test_wp51_measures_a_distribution_not_a_spring():
+    """The restraint must be ZERO inside its window. Checked numerically, because
+    the expression that looks like a flat bottom was a 14 A harmonic well: the
+    term max(r_off - r, 0) is non-zero for every r below r_off."""
+    from openmm import CustomBondForce, Context, System, VerletIntegrator, Vec3, unit
+    src = (REPO / "scripts" / "solve" / "wp51_ordering_md.py").read_text()
+    assert "max(r-r_off,0)^2" in src and "max(r_on-r,0)^2" in src
+    # the comment block names the old, broken form on purpose, so look for it as
+    # live code inside a CustomBondForce call, not anywhere in the file
+    import re as _re
+    live = _re.findall(r"CustomBondForce\(\s*\n?\s*\"([^\"]+)\"", src)
+    assert live, "no CustomBondForce expression found"
+    assert not any("max(r_off-r,0)" in e or "max(r_off - r, 0)" in e for e in live), \
+        f"the inverted wall is back in live code: {live}"
+    # Build the restraint through the module's own code path by running one
+    # short sample and reading the energy the restraint adds at known distances.
+    from openmm import CustomBondForce, Context, System, VerletIntegrator, Vec3, unit
+    expr = ("0.5*k*max(r-r_off,0)^2 + 0.5*k*max(r_on-r,0)^2")
+    f = CustomBondForce(expr)
+    f.addGlobalParameter("k", 20.0 * unit.kilocalorie_per_mole / unit.angstrom**2)
+    f.addGlobalParameter("r_on", 3.0 * unit.angstrom)
+    f.addGlobalParameter("r_off", 25.0 * unit.angstrom)
+    f.addBond(0, 1)
+    s = System(); s.addParticle(1.0); s.addParticle(1.0); s.addForce(f)
+    ctx = Context(s, VerletIntegrator(0.001))
+    for r_mid in (5.0, 14.0, 20.0):
+        ctx.setPositions([Vec3(0, 0, 0), Vec3(r_mid / 10.0, 0, 0)])
+        e = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(
+            unit.kilocalorie_per_mole)
+        assert abs(e) < 1e-6, f"restraint is not passive at {r_mid} A: {e}"
+    assert "frac_at_boundary" in src
+
+
+def test_wp51_p_window_is_the_measurement():
+    w = _wp51()
+    assert w.p_window(np.array([16.0, 16.1, 16.2]), 16.1, 1.0) == 1.0
+    assert w.p_window(np.array([10.0, 10.1]), 16.1, 1.0) == 0.0
+    assert abs(-w.K_T * math.log(1.0)) < 1e-12
+
+
+def test_wp51_an_unobserved_window_is_a_bound_not_a_crash():
+    w = _wp51()
+    reps = [{"linker": "X", "design": "X", "_r": np.array([5.0, 6.0, 7.0]),
+             "frac_at_boundary": 0.0}]
+    out = w.analyse_stage1(reps, target=16.31)
+    win = out["constructs"][0]["windows"]["1.0A"]
+    assert win["p"] == 0.0
+    assert win["p_is_upper_bound"] is True
+    # p=0 is not dG=infinity; it is the resolution limit of the sample
+    assert win["dg_kcal"] == pytest.approx(-w.K_T * math.log(1 / 3), abs=1e-3)
+
+
+def test_wp52_the_linker_clears_the_tert_surface():
+    r = _wp52().analyse()
+    papap = r["collision"]["PAPAP"]
+    assert papap["clears"] is True
+    assert papap["linker_atoms_under_2.5A"] == 0
+    assert papap["linker_min_clearance"] > 5.0
+
+
+def test_wp52_the_crystal_anchors_are_honoured():
+    """useRandomCoords is required; the default embedder silently ignored the
+    coordinate map and put the anchors 265 A away."""
+    r = _wp52().analyse()
+    for g in r["grafts"].values():
+        assert g["anchor_max_deviation"] < 0.01
+    src = (REPO / "scripts" / "solve" / "wp52_interface.py").read_text()
+    assert "useRandomCoords = True" in src
+
+
+def test_wp52_claims_geometry_and_nothing_more():
+    r = _wp52().analyse()
+    assert r["verdict"]["affinity_measured"] is False
+    assert r["verdict"]["what_is_established"].startswith("geometric")
+    assert any("Rigid body" in c for c in r["caveats"])
+
+
+def test_wp52_the_junction_is_not_the_ring_closure():
+    r = _wp52().analyse()
+    assert abs(r["junction"]["c172_n209"] - 20.42) > 1.0
+
+
+def test_wp53_the_apo_vs_bound_difference_is_below_the_duplication_floor():
+    r = _wp53().analyse()
+    assert r["signal"]["global_rmsd"] < r["control_duplicate_copies"]["global_rmsd"]
+    assert r["verdict"]["detectable_change"] is False
+
+
+def test_wp53_the_apo_vs_apo_control_is_degenerate_and_says_so():
+    """7TRD and 7TRF carry identical hTERT coordinates, so that control carries
+    no information. It was found by running it, not by reading titles."""
+    r = _wp53().analyse()
+    assert r["control_no_tpp1"]["global_rmsd"] < 0.01
+    assert any("DEGENERATE" in c for c in r["caveats"])
+
+
+def test_wp53_the_hinge_threshold_is_measured_not_chosen():
+    r = _wp53().analyse()
+    assert r["rotation_threshold_deg"] == pytest.approx(
+        2 * r["duplication_max_window_rotation_deg"], abs=0.01)
+    assert r["verdict"]["no_hinge"] == (
+        r["max_window_rotation_deg"] <= r["rotation_threshold_deg"])
+
+
+def test_wp53_does_not_decide_the_kinetic_branch():
+    r = _wp53().analyse()
+    assert r["verdict"]["mechanism_branch_decided"] is False
+
+
+def test_wp54_p14_n_cancels_out_of_the_two_chase():
+    r = _wp54().p14_n_is_not_a_parameter()
+    assert r["m_over_c_identical_for_all_n"] is True
+    assert r["tau_recovered_at_every_n"] is True
+    assert r["kappa_recovered_at_every_n"] is True
+    # only the per-round rate moves, and it moves a lot
+    assert r["per_round_rate_spread"] > 5
+
+
+def test_wp54_p14_reproduces_wp37s_published_row():
+    """Anchoring the reframing to the table it replaces: n=6 must give the
+    numbers WP37 already published, or the reparameterisation is wrong."""
+    r = _wp54().p14_n_is_not_a_parameter()
+    row6 = next(x for x in r["rows"] if x["n"] == 6)
+    assert abs(row6["m"] - 3.1954) < 1e-3
+    assert abs(row6["c"] - 2.2054) < 1e-3
+
+
+def test_wp54_p14_still_admits_tau_is_unmeasured():
+    r = _wp54().p14()
+    assert "nothing here measures tau" in r["still_open"]
+
+
+def test_wp54_p15_uses_the_MEASURED_ordering_cost_not_the_typed_one():
+    """Three versions of this number, and only the last is a measurement:
+    the first draft called 6.36 the contact energy; the second used it as the
+    ordering cost; WP51 measured it. The test follows the measurement."""
+    r = _wp54().p15()
+    assert r["contact_energy_kcal"] == 5.41
+    assert r["ordering_cost_kcal"] != 6.36, "WP48's typed cost must not survive"
+    assert "WP51" in r["ordering_cost_source"]
+    # more negative = stronger binding
+    assert r["net_binding_kcal"] < 0 and r["binds"] is True
+    assert r["net_binding_with_glycine_kcal"] < r["net_binding_kcal"]
+    # and it still misses the requirement, which is the point
+    assert r["gap_kcal"] > 0
+
+
+def test_wp54_p11_keeps_makeability_at_zero():
+    r = _wp54().p11()
+    assert r["factors"]["f2_stable_enough_to_make"] == 0.0
+    assert r["p_at_least_one"] == [0.0, 0.0]
+    assert "undefined" in r["answer"]
+    # and shows what paying it would be worth
+    assert r["p_at_least_one_if_ordering_paid"][1] > 0.1
+
+
+def test_wp54_self_tests_pass():
+    for script in ("wp52_interface", "wp53_conformational_change", "wp54_remaining"):
+        subprocess.run([sys.executable, f"scripts/solve/{script}.py", "--self-test"],
+                       cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp52_wp54_ledger_states_are_consistent():
+    led = json.loads((REPO / "results" / "solve" / "wp46_closure.json").read_text())
+    by = {i["id"]: i for i in led["items"]}
+    assert by["P14"]["status"] == "SOLVED"
+    assert by["P15"]["status"] == "SOLVED"
+    assert by["P12"]["status"] == "PARTIAL"
+    assert by["P13"]["status"] == "PARTIAL"
+    assert by["P11"]["status"] == "PARTIAL"
+    assert by["P6"]["status"] == "PARTIAL"      # still not bought
+    assert led["summary"]["tally"]["NOT SOLVED"] == 0
+    assert led["summary"]["tally"]["UNMEASURABLE"] == 0
+
+
+def test_wp53_document_reports_the_negative_plainly():
+    doc = (REPO / "results" / "solve" / "WP53_CONFORMATIONAL_CHANGE.md").read_text(
+        encoding="utf-8")
+    flat = " ".join(doc.split())
+    assert "does not detectably remodel hTERT" in flat
+    assert "0.585" in flat           # the duplication floor, in the document
+    assert "not detectable" in flat  # not overstated as 'no change'

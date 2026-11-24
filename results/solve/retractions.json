@@ -1,10 +1,10 @@
 {
-  "count": 23,
+  "count": 32,
   "by_state": {
-    "RETRACTED": 11,
+    "RETRACTED": 12,
     "WITHDRAWN": 3,
     "SUPERSEDED": 5,
-    "CORRECTED": 4
+    "CORRECTED": 12
   },
   "register": [
     {
@@ -181,7 +181,7 @@
       "predicate": "the held-out prediction fails by more than a factor of 2",
       "replaced_by": "M5 refuted; the surviving question is whether s_true = phi",
       "document": "results/solve/STATUS_LEDGER.md",
-      "sha256": "b85b1b8299608e070965d54515573033f99671463d18f4da2cbe78e1e07efea7"
+      "sha256": "425abba37778ca9646afffabd440c242eb1b1643dabeb65f808388fb7a46bd6c"
     },
     {
       "id": "R13",
@@ -214,7 +214,7 @@
       "predicate": "recomputing R1/2 from measured s0 through n barely changes it",
       "replaced_by": "drop n from the ledger - it was never load-bearing",
       "document": "results/solve/STATUS_LEDGER.md",
-      "sha256": "b85b1b8299608e070965d54515573033f99671463d18f4da2cbe78e1e07efea7"
+      "sha256": "425abba37778ca9646afffabd440c242eb1b1643dabeb65f808388fb7a46bd6c"
     },
     {
       "id": "R9",
@@ -259,14 +259,125 @@
       "replaced_by": "the pulse-chase +/- trap design (WP25, revised by WP37)",
       "document": "results/solve/CORRECTIONS.md",
       "sha256": "9d9fa00e9d3251ab31f604c9bea09fa299a099ec606201d14548d51ba1e28a18"
+    },
+    {
+      "id": "X2",
+      "wp": "WP45",
+      "state": "CORRECTED",
+      "claim": "the TEL patch triad E168/E169/E171 lies on an alpha-helix, so a helical register lattice describes it",
+      "actual": "psi(E169) is +24.4 deg and CA168-CA171 is 7.68 A in 7TRE and 7.70 A in 2I46, against 5.05 A for an alpha-helix at that offset; the segment is a kinked turn",
+      "predicate": "an ideal alpha-helix reproduces CA168-CA171 for the deposited coordinates",
+      "replaced_by": "backbone grafting of the native segments, verbatim (WP45); the CONCLUSION that a helix cannot present the triad still stands, only the reason changes",
+      "document": "results/solve/WP44_MODULAR.md",
+      "sha256": "3f5e8817134564af84cb35f20a1c6d687735bc91619180478e9bb622f80d621a"
+    },
+    {
+      "id": "X3",
+      "wp": "WP47",
+      "state": "CORRECTED",
+      "claim": "no covalent route exists to constrain the grafted TEL segments (WP45, route b)",
+      "actual": "WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, direction, clash and payload tests at 6.34 A with side-chain cosines 0.98 and 0.09; the native indole-to-Leu contact across that gap is already 3.50 A",
+      "predicate": "a crosslink chemistry other than disulfide can span the segment gap without clashing into TERT or consuming a payload residue",
+      "replaced_by": "the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own ordering still stands - one staple buys 2.8 kcal/mol against a 12-20 kcal/mol cost",
+      "document": "results/solve/WP45_GRAFT.md",
+      "sha256": "145afa662b185212a8fb037d659453cee10b9ad84d9a8ad1e98b96389fcca73a"
+    },
+    {
+      "id": "X4",
+      "wp": "WP48",
+      "state": "CORRECTED",
+      "claim": "the graft's ordering cost (12-20 kcal/mol) is a property of the construct that no redesign can reduce",
+      "actual": "WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore the largest backbone state space of any residue, so WP45 chose the most expensive possible 5-mer and then reported its cost as unpayable. AAPAP-type linkers are 2.84 kcal/mol cheaper on the same state model, and the ranking is stable under an alternative model",
+      "predicate": "a linker not dominated by glycine costs less to order than GGGGG on the same accounting",
+      "replaced_by": "the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the conclusion that the construct still cannot pay IN FULL stands - 6.36 kcal/mol remains unpaid",
+      "document": "results/solve/WP48_NEW_DESIGNS.md",
+      "sha256": "2dfe792fd0c56f764b3237674a6da5b805b847cfd39bca906ee382d55cbe60a2"
+    },
+    {
+      "id": "X5",
+      "wp": "WP50",
+      "state": "CORRECTED",
+      "claim": "the MD3 triad module presents the E168/E169/E171 triad and fails it only on the third contact (WP44: SITE-UNSOLVABLE, 2 of 3)",
+      "actual": "scored on carboxylate spacing, MD3's three display glutamates sit at 6.43, 5.08 and 10.75 A. The measured triad triangle is 6.58, 10.22 and 7.31 A, so even the closest matching pair is 2.23 A out; the 5.08 A pair instead matches the 4.35 A K78-R132 separation. The module was aimed at S1, not S3",
+      "predicate": "the module's own display spacings reproduce the measured triad triangle within tolerance",
+      "replaced_by": "the grafted construct, whose spacings ARE the measured triangle (WP45/WP50). The conclusion that a helix cannot present the triad stands and is now over-determined: it fails on spacing, not only on the third contact",
+      "document": "results/solve/WP50_PARTIALS.md",
+      "sha256": "1c6d442d4d8f103d4fd5dd357e8971a9ab333697590c159f6744ff4ab7ebadf8"
+    },
+    {
+      "id": "X6",
+      "wp": "WP51",
+      "state": "RETRACTED",
+      "claim": "the ordering cost can be MEASURED by replacing the linker with a harmonic restraint and reporting the spread of the pharmacophore distances",
+      "actual": "the restraint's stiffness was ASSIGNED per linker (5 / 40 / 200 kcal/mol/A^2 for GGGGG / PAPAP / AAAAA). The reported ranking - AAAAA stiffest - is the input handed back as output. A restraint whose stiffness you chose cannot measure the stiffness of anything",
+      "predicate": "the measured quantity must not be a function of a parameter the author set",
+      "replaced_by": "WP51 stage 1: the linker built as atoms (RDKit), free in implicit solvent, and its end-to-end distribution sampled. The stiffness used downstream is DERIVED as k = kT/sigma^2",
+      "document": "results/solve/WP51_ORDERING_MD.md",
+      "sha256": "6bfa267569ffd2736ec92be939b226d3ac25bb0c1985833017b4ea78bda6feef"
+    },
+    {
+      "id": "Y1",
+      "wp": "WP53",
+      "state": "CORRECTED",
+      "claim": "7TRF is a second TPP1-BOUND telomerase structure, and therefore the perfect crystal-form control for an apo-vs-bound comparison",
+      "actual": "by chain identity, 7TRF contains two histones (chains E and F) and NO TPP1. Its hTERT CA coordinates are identical to 7TRD's to 0.000 A over 934 residues, so the apo-vs-apo comparison is degenerate and measures nothing. The deposit TITLE was trusted and the chains were not checked",
+      "predicate": "a control must differ in exactly the variable under test, and must be verified by chain identity/sequence rather than by label",
+      "replaced_by": "the noise floor is taken from a true duplication instead: 7TRC chains E and I are two copies of the identical 129-residue protein in one crystal (0.585 A)",
+      "document": "results/solve/WP53_CONFORMATIONAL_CHANGE.md",
+      "sha256": "48cf761dae0e2ce463b0aa8ab3f06c1964a443aad4789bd787c809663740cad0"
+    },
+    {
+      "id": "Y2",
+      "wp": "WP54",
+      "state": "CORRECTED",
+      "claim": "the design is 1.78 kcal/mol short of the potency a drug requires, with 6.36 kcal/mol of contact energy",
+      "actual": "6.36 kcal/mol is the ORDERING COST (WP48), not the contact energy (5.41, WP45/WP47). Subtracting one from the other was also done with the wrong sign: a favourable contact is negative and an unpaid ordering cost is positive, so dG_net = -5.41 + 6.36 = +0.95. The design does not bind at all; it is not nearly a drug",
+      "predicate": "the two energies must be the two different quantities named, with an explicit sign convention",
+      "replaced_by": "WP54 P15 with WP51's MEASURED ordering cost: net binding free energy -2.03 kcal/mol (-4.01 with the glycine linker), shortfall 6.11 kcal/mol against the 8.14 kcal/mol requirement. The conclusion strengthened: it is not a drug",
+      "document": "results/solve/WP54_REMAINING.md",
+      "sha256": "b369519761be31343a122a9eaaf3aa114f7001c034e8a6e3937c4eb93cd935ea"
+    },
+    {
+      "id": "Y3",
+      "wp": "WP52",
+      "state": "CORRECTED",
+      "claim": "RDKit's coordinate map pins the modelled peptide onto the crystal coordinates of its native residues",
+      "actual": "with the default embedder the map was silently IGNORED: the anchors came out 265 A from their crystal positions while the call returned success (rc=0). Only useRandomCoords=True honours the map (0.00 A)",
+      "predicate": "an anchoring claim must report the measured residual of the anchors, not the return code",
+      "replaced_by": "WP52 asserts anchor_max_deviation < 0.01 A before any clearance is computed",
+      "document": "results/solve/WP52_INTERFACE.md",
+      "sha256": "0c158bd1ab1d716a7dea284f9b08d5d14b7e5e1ced96fd9716874c9dc95e83af"
+    },
+    {
+      "id": "Y4",
+      "wp": "WP51",
+      "state": "CORRECTED",
+      "claim": "a self-test is a safe way to exercise a generator, and a 'passive' flat-bottom restraint is passive",
+      "actual": "two separate faults, both silent. (1) --self-test calls build(quick=True) and the checkpoint wrote the JSON unconditionally, so running a self-test OVERWROTE a 20-minute production result with 4-picosecond numbers. (2) The restraint was written 0.5*k*max(r-r_on,0)^2 + 0.5*k*max(r_off-r,0)^2, whose second term is non-zero for EVERY r below r_off - so the 'flat bottom' was a harmonic well centred at 14 A and nine independent builds of three different linkers all returned 14.00 +/- 0.12 A. The run measured its own restraint",
+      "predicate": "a restraint intended to be non-perturbing must have ZERO energy at the midpoint of its window, checked numerically, not by reading the expression",
+      "replaced_by": "the checkpoint refuses to fire on a quick run (quick runs write *.quick.json), and the restraint is max(r-r_off,0)^2 + max(r_on-r,0)^2, unit-checked to be zero at 5, 14 and 20 A",
+      "document": "results/solve/WP51_ORDERING_MD.md",
+      "sha256": "6bfa267569ffd2736ec92be939b226d3ac25bb0c1985833017b4ea78bda6feef"
     }
   ],
   "marker_files": {
+    "results/solve/ARTEFACT_INDEX.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 2
+    },
     "results/solve/CORRECTIONS.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 1,
       "SUPERSEDED": 0,
       "CORRECTED": 0
+    },
+    "results/solve/MASTER_RECORD.md": {
+      "RETRACTED": 12,
+      "WITHDRAWN": 3,
+      "SUPERSEDED": 5,
+      "CORRECTED": 13
     },
     "results/solve/OPEN_GAPS.md": {
       "RETRACTED": 0,
@@ -275,10 +386,10 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 13,
+      "RETRACTED": 14,
       "WITHDRAWN": 5,
       "SUPERSEDED": 7,
-      "CORRECTED": 7
+      "CORRECTED": 15
     },
     "results/solve/STATUS_LEDGER.md": {
       "RETRACTED": 1,
@@ -351,6 +462,18 @@
       "WITHDRAWN": 0,
       "SUPERSEDED": 1,
       "CORRECTED": 0
+    },
+    "results/solve/WP44_MODULAR.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 1
+    },
+    "results/solve/WP45_GRAFT.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 0,
+      "CORRECTED": 1
     }
   }
 }

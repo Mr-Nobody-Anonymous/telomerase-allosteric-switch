@@ -1,0 +1,7 @@
+stage,construct,linker,r_mean,r_sd,p_1A,dg_order_kcal,mean_d_168_215,sd_d_168_215,mean_d_171_210,sd_d_171_210,wall_s
+1,GGGGG,GGGGG,10.91,3.61,0.0933,1.404,,,,,
+1,PAPAP,PAPAP,10.11,2.26,0.0,3.378,,,,,
+1,AAAAA,AAAAA,9.3,2.16,0.0,3.378,,,,,
+2,GGGGG,GGGGG,,,,,19.14,0.57,13.71,1.01,39.1
+2,PAPAP,PAPAP,,,,,17.96,0.98,14.33,0.98,40.7
+2,AAAAA,AAAAA,,,,,18.27,0.89,14.28,0.9,40.0

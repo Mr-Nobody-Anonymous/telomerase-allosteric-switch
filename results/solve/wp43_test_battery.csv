@@ -1,0 +1,16 @@
+group,id,tier_permissive,tier_strict,score,passed,total,note
+control,CTRL-OK-1,MODEL-PASS,MODEL-PASS,1.0,,,"imatinib, an approved oral drug: the drug-likeness gates must accept it"
+control,CTRL-OK-2,MODEL-PASS,REJECT,1.0,,,"aspirin, approved: BRENK's 'phenol_ester' alert is a FALSE POSITIVE here"
+control,CTRL-BAD-1,MODEL-PASS,REJECT,1.0,,,curcumin: the classic frequent hitter (PAINS misses it; BRENK catches it)
+control,CTRL-BAD-2,REJECT,REJECT,0.833,,,"a quinone, redox-cycling: must be caught"
+control,CTRL-BAD-3,MODEL-PASS,REJECT,1.0,,,"an alkylating nitrogen mustard (BRENK catches it, PAINS does not)"
+ligand,KP-1,GEOMETRY-FAIL,GEOMETRY-FAIL,0.857,6,7,kinked bipartite bridge
+ligand,KP-2,GEOMETRY-FAIL,GEOMETRY-FAIL,0.714,5,7,"kinked bridge, extended arm"
+ligand,TEL-1,GEOMETRY-FAIL,GEOMETRY-FAIL,0.857,6,7,TEL-patch surface mimetic
+ligand,TEL-2,GEOMETRY-FAIL,GEOMETRY-FAIL,0.857,6,7,"TEL-patch mimetic, kinked"
+ligand,TEL-3,MODEL-PASS,MODEL-PASS,1.0,7,7,single-site K78/R132 occupant
+protein,TELM-1,MODEL-PASS,MODEL-PASS,1.0,8,8,de novo TEL-patch proteomimetic
+protein,TELM-2,MODEL-PASS,MODEL-PASS,1.0,8,8,single-helix TEL-patch display
+protein,TELM-3,MODEL-PASS,MODEL-PASS,1.0,8,8,"full-span helix, i+17 register"
+protein,TENB-1,MODEL-PASS,MODEL-PASS,1.0,8,8,de novo binder to the TEL patch
+protein,TENB-2,MODEL-PASS,MODEL-PASS,1.0,8,8,groove-repair helix for K78E / R132E

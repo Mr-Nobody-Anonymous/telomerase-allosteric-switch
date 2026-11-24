@@ -1,0 +1,49 @@
+{
+  "linker": "GGGGG",
+  "runs": [
+    {
+      "seed": 11,
+      "start": "ETKDG",
+      "r_start": 9.57,
+      "r_mean": 11.25,
+      "r_sd": 3.06,
+      "r_min": 3.46,
+      "r_max": 16.27,
+      "ns": 0.5,
+      "n_frames": 250
+    },
+    {
+      "seed": 12,
+      "start": "ETKDG",
+      "r_start": 12.68,
+      "r_mean": 10.86,
+      "r_sd": 3.3,
+      "r_min": 3.46,
+      "r_max": 16.93,
+      "ns": 0.5,
+      "n_frames": 250
+    },
+    {
+      "seed": 13,
+      "start": "extended",
+      "r_start": 13.89,
+      "r_mean": 10.67,
+      "r_sd": 3.56,
+      "r_min": 3.3,
+      "r_max": 16.86,
+      "ns": 0.5,
+      "n_frames": 250
+    }
+  ],
+  "between_start_spread": 0.58,
+  "mean_within_run_sd": 3.31,
+  "start_decides_the_answer": false,
+  "verdict": "The starting conformer does NOT decide the answer. Three independent builds of the same linker converge on the same mean (10.93 A) while each explores a range of several Angstrom. The sampler is able to move; it simply was not given the chance to in WP51 stage 1.",
+  "what_this_says_about_wp51": "WP51 stage 1 ran three Langevin replicas per linker, but all three were built from the SAME ETKDG seed with the default embedder, so they started from the same compact conformer and measured the same basin three times. The 0.11 A spread is therefore a property of the build procedure, not of the linkers. This test shows the opposite regime is reachable: with independent builds the same pentapeptide samples 3.3-16.9 A, which is the range that matters for a 16.31 A junction.",
+  "what_would_fix_it": [
+    "replica exchange (REMD) instead of independent Langevin replicas",
+    "hundreds of ns per replica, which is 17.6 h/ns here for the complex and ~5-7 ns/h for a free pentapeptide",
+    "an analytical worm-like-chain estimate instead of sampling, which is what a 5-mer really needs - the MD was the wrong tool for the size of the question"
+  ],
+  "caveat_on_this_test": "three starts cannot prove convergence; this test can only REFUTE it, and it does"
+}

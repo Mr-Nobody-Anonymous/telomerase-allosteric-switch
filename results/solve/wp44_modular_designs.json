@@ -1,0 +1,1472 @@
+{
+  "sites": {
+    "S1_K78_R132": {
+      "label": "K78/R132 groove (the E215 contact, recruitment hot spot)",
+      "kind": "electrostatic",
+      "n_anchors": 2,
+      "resolved": 2,
+      "missing": [],
+      "pairs": {
+        "K78 NZ|R132 NH1": 4.35
+      },
+      "coords": {
+        "K78 NZ": [
+          120.66,
+          181.51,
+          135.96
+        ],
+        "R132 NH1": [
+          124.09,
+          180.05,
+          133.73
+        ]
+      }
+    },
+    "S2_R774": {
+      "label": "R774 (the E168 contact)",
+      "kind": "electrostatic",
+      "n_anchors": 1,
+      "resolved": 1,
+      "missing": [],
+      "pairs": {},
+      "coords": {
+        "R774 NH1": [
+          121.19,
+          164.74,
+          147.16
+        ]
+      }
+    },
+    "S3_TEL_TRIAD": {
+      "label": "TEL patch carboxylate triad E168/E169/E171",
+      "kind": "electrostatic",
+      "n_anchors": 3,
+      "resolved": 3,
+      "missing": [],
+      "pairs": {
+        "E168 OE1|E169 OE1": 6.58,
+        "E168 OE1|E171 OE1": 10.22,
+        "E169 OE1|E171 OE1": 7.31
+      },
+      "coords": {
+        "E168 OE1": [
+          119.45,
+          166.05,
+          146.36
+        ],
+        "E169 OE1": [
+          115.73,
+          171.47,
+          146.56
+        ],
+        "E171 OE1": [
+          111.75,
+          169.24,
+          152.27
+        ]
+      }
+    },
+    "S4_TEN_LOOP": {
+      "label": "TEN 129-132 hydrophobic loop / PLYQ anchor",
+      "kind": "hydrophobic",
+      "n_anchors": 3,
+      "resolved": 3,
+      "missing": [],
+      "pairs": {
+        "A130 CB|L131 CD1": 7.56,
+        "A130 CB|R132 CB": 7.33,
+        "L131 CD1|R132 CB": 7.23
+      },
+      "coords": {
+        "A130 CB": [
+          122.61,
+          170.73,
+          139.2
+        ],
+        "L131 CD1": [
+          127.37,
+          175.21,
+          142.98
+        ],
+        "R132 CB": [
+          122.66,
+          177.99,
+          138.25
+        ]
+      }
+    }
+  },
+  "solvability": {
+    "S1_K78_R132|K78 NZ|R132 NH1": {
+      "measured": 4.35,
+      "best_register": "i+1",
+      "design": 3.83,
+      "error": -0.52,
+      "reachable": true
+    },
+    "S3_TEL_TRIAD|E168 OE1|E169 OE1": {
+      "measured": 6.58,
+      "best_register": "i+4",
+      "design": 6.2,
+      "error": -0.38,
+      "reachable": true
+    },
+    "S3_TEL_TRIAD|E168 OE1|E171 OE1": {
+      "measured": 10.22,
+      "best_register": "i+7",
+      "design": 10.53,
+      "error": 0.31,
+      "reachable": true
+    },
+    "S3_TEL_TRIAD|E169 OE1|E171 OE1": {
+      "measured": 7.31,
+      "best_register": "i+4",
+      "design": 6.2,
+      "error": -1.11,
+      "reachable": false
+    }
+  },
+  "modules": [
+    {
+      "id": "MD1-GROOVE",
+      "site": "S1_K78_R132",
+      "site_label": "K78/R132 groove (the E215 contact, recruitment hot spot)",
+      "problem": "occupy the groove TPP1 uses, to block recruitment",
+      "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+      "helix": "EALEALQALQALQALQALQAL",
+      "length": 21,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        3
+      ],
+      "display_offsets_realised": [
+        0,
+        3
+      ],
+      "register_matches": true,
+      "coverage": [
+        {
+          "contact": "K78 NZ|R132 NH1",
+          "measured": 4.35,
+          "design": 5.05,
+          "register": "i+3",
+          "error": 0.7,
+          "covered": true
+        }
+      ],
+      "contacts_total": 1,
+      "contacts_covered": 1,
+      "fully_covers_own_site": true,
+      "site_solvable_in_helix": true,
+      "unsolvable_contacts": [],
+      "cross_site_register_matches": [],
+      "cross_site_warning": false,
+      "verdict": "ONE-SITE-FULL",
+      "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues.",
+      "sequence": "EALEALQALQALQALQALQAL",
+      "modules": [
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        }
+      ],
+      "linker_seq": "",
+      "construct_type": "module",
+      "stability": {
+        "id": "MD1-GROOVE",
+        "sequence": "EALEALQALQALQALQALQAL",
+        "length": 21,
+        "mw_da": 2206.5,
+        "pI": 4.05,
+        "charge_pH7_4": -2.33,
+        "gravy": 0.7,
+        "instability_index": 87.1,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 87.1 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.762,
+        "helix_propensity_cost": 0.201,
+        "intra_helix": [
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          }
+        ],
+        "intra_helix_total": 0.523,
+        "inter_module": [],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.667,
+          "face_concentration": 0.092,
+          "face_separation_deg": 150.0,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      }
+    },
+    {
+      "id": "MD2-R774",
+      "site": "S2_R774",
+      "site_label": "R774 (the E168 contact)",
+      "problem": "engage R774, the second half of the bipartite patch",
+      "intent": "antagonise: present a carboxylate to R774",
+      "helix": "EALQALQALQALQALQALQAL",
+      "length": 21,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0
+      ],
+      "display_offsets_realised": [
+        0
+      ],
+      "register_matches": true,
+      "coverage": [
+        {
+          "contact": "single anchor",
+          "measured": null,
+          "design": 1.0,
+          "register": "i+0",
+          "error": 0.0,
+          "covered": true
+        }
+      ],
+      "contacts_total": 1,
+      "contacts_covered": 1,
+      "fully_covers_own_site": true,
+      "site_solvable_in_helix": true,
+      "unsolvable_contacts": [],
+      "cross_site_register_matches": [],
+      "cross_site_warning": false,
+      "verdict": "ONE-SITE-FULL",
+      "note": "A single anchor, so a single carboxylate. Deliberately NOT registering a second display residue, because that would reach a second site.",
+      "sequence": "EALQALQALQALQALQALQAL",
+      "modules": [
+        {
+          "id": "MD2-R774",
+          "site": "S2_R774",
+          "intent": "antagonise: present a carboxylate to R774",
+          "display_residue": "E",
+          "display_offsets": [
+            0
+          ],
+          "helix": "EALQALQALQALQALQALQAL",
+          "note": "A single anchor, so a single carboxylate. Deliberately NOT registering a second display residue, because that would reach a second site."
+        }
+      ],
+      "linker_seq": "",
+      "construct_type": "module",
+      "stability": {
+        "id": "MD2-R774",
+        "sequence": "EALQALQALQALQALQALQAL",
+        "length": 21,
+        "mw_da": 2205.6,
+        "pI": 4.05,
+        "charge_pH7_4": -1.33,
+        "gravy": 0.7,
+        "instability_index": 102.7,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 102.7 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.714,
+        "helix_propensity_cost": 0.2,
+        "intra_helix": [
+          {
+            "net_charge": -1,
+            "n_charged": 1,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.048
+          }
+        ],
+        "intra_helix_total": 0.0,
+        "inter_module": [],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.667,
+          "face_concentration": 0.092,
+          "face_separation_deg": 150.0,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      }
+    },
+    {
+      "id": "MD3-PATCH",
+      "site": "S3_TEL_TRIAD",
+      "site_label": "TEL patch carboxylate triad E168/E169/E171",
+      "problem": "read the patch itself, to compete with TERT for it",
+      "intent": "antagonise: read the patch triad so TERT cannot",
+      "helix": "KALAKAQKALAQLAQALQALAQLA",
+      "length": 24,
+      "display_residue": "K",
+      "display_offsets_claimed": [
+        0,
+        4,
+        7
+      ],
+      "display_offsets_realised": [
+        0,
+        4,
+        7
+      ],
+      "register_matches": true,
+      "coverage": [
+        {
+          "contact": "E168 OE1|E169 OE1",
+          "measured": 6.58,
+          "design": 6.2,
+          "register": "i+4",
+          "error": -0.38,
+          "covered": true
+        },
+        {
+          "contact": "E168 OE1|E171 OE1",
+          "measured": 10.22,
+          "design": 10.53,
+          "register": "i+7",
+          "error": 0.31,
+          "covered": true
+        },
+        {
+          "contact": "E169 OE1|E171 OE1",
+          "measured": 7.31,
+          "design": 6.2,
+          "register": "i+4",
+          "error": -1.11,
+          "covered": false
+        }
+      ],
+      "contacts_total": 3,
+      "contacts_covered": 2,
+      "fully_covers_own_site": false,
+      "site_solvable_in_helix": false,
+      "unsolvable_contacts": [
+        "E169 OE1|E171 OE1"
+      ],
+      "cross_site_register_matches": [
+        {
+          "site": "S1_K78_R132",
+          "contact": "K78 NZ|R132 NH1",
+          "measured": 4.35,
+          "design": 5.05,
+          "register": "i+3"
+        }
+      ],
+      "cross_site_warning": true,
+      "verdict": "SITE-UNSOLVABLE",
+      "note": "K at i, i+4, i+7 -> 6.43 and 10.75 A, matching the measured E168-E169 6.58 A and E168-E171 10.22 A. Opposite sign to MD1/MD2.",
+      "sequence": "KALAKAQKALAQLAQALQALAQLA",
+      "modules": [
+        {
+          "id": "MD3-PATCH",
+          "site": "S3_TEL_TRIAD",
+          "intent": "antagonise: read the patch triad so TERT cannot",
+          "display_residue": "K",
+          "display_offsets": [
+            0,
+            4,
+            7
+          ],
+          "helix": "KALAKAQKALAQLAQALQALAQLA",
+          "note": "K at i, i+4, i+7 -> 6.43 and 10.75 A, matching the measured E168-E169 6.58 A and E168-E171 10.22 A. Opposite sign to MD1/MD2."
+        }
+      ],
+      "linker_seq": "",
+      "construct_type": "module",
+      "stability": {
+        "id": "MD3-PATCH",
+        "sequence": "KALAKAQKALAQLAQALQALAQLA",
+        "length": 24,
+        "mw_da": 2432.9,
+        "pI": 10.3,
+        "charge_pH7_4": 2.55,
+        "gravy": 0.483,
+        "instability_index": 23.2,
+        "instability_verdict": "stable",
+        "advisory": [],
+        "helix_fraction": 0.792,
+        "helix_propensity_cost": 0.166,
+        "intra_helix": [
+          {
+            "net_charge": 3,
+            "n_charged": 3,
+            "n_pairs": 3,
+            "energy": 1.34,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.125
+          }
+        ],
+        "intra_helix_total": 1.34,
+        "inter_module": [],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.667,
+          "face_concentration": 0.337,
+          "face_separation_deg": 168.2,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      }
+    },
+    {
+      "id": "MD4-ANCHOR",
+      "site": "S4_TEN_LOOP",
+      "site_label": "TEN 129-132 hydrophobic loop / PLYQ anchor",
+      "problem": "anchor on the hydrophobic wall beside the groove",
+      "intent": "anchor: sit on the hydrophobic TEN wall without touching either groove",
+      "helix": "LQQLLQQLLQQLLQQLLQQLLQQL",
+      "length": 24,
+      "display_residue": null,
+      "display_offsets_claimed": [],
+      "display_offsets_realised": [],
+      "register_matches": true,
+      "coverage": [
+        {
+          "contact": "hydrophobic wall",
+          "measured": null,
+          "design": 0.5,
+          "register": "bulk",
+          "error": 0.0,
+          "covered": true,
+          "face_concentration": 0.365,
+          "coverage_rule": "frac >= 0.40 and R >= 0.30, or frac >= 0.85"
+        }
+      ],
+      "contacts_total": 1,
+      "contacts_covered": 1,
+      "fully_covers_own_site": true,
+      "site_solvable_in_helix": true,
+      "unsolvable_contacts": [],
+      "cross_site_register_matches": [],
+      "cross_site_warning": false,
+      "verdict": "ONE-SITE-FULL",
+      "note": "A hydrophobic patch at i, i+3, i+4 and i+7 - one face greasy, the other polar. No charged display residue at all. This module exists to add affinity and nothing else, which is only safe if it touches no other site.",
+      "sequence": "LQQLLQQLLQQLLQQLLQQLLQQL",
+      "modules": [
+        {
+          "id": "MD4-ANCHOR",
+          "site": "S4_TEN_LOOP",
+          "intent": "anchor: sit on the hydrophobic TEN wall without touching either groove",
+          "display_residue": null,
+          "display_offsets": [],
+          "helix": "LQQLLQQLLQQLLQQLLQQLLQQL",
+          "note": "A hydrophobic patch at i, i+3, i+4 and i+7 - one face greasy, the other polar. No charged display residue at all. This module exists to add affinity and nothing else, which is only safe if it touches no other site."
+        }
+      ],
+      "linker_seq": "",
+      "construct_type": "module",
+      "stability": {
+        "id": "MD4-ANCHOR",
+        "sequence": "LQQLLQQLLQQLLQQLLQQLLQQL",
+        "length": 24,
+        "mw_da": 2913.5,
+        "pI": 5.53,
+        "charge_pH7_4": -0.44,
+        "gravy": 0.15,
+        "instability_index": 139.2,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 139.2 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.5,
+        "helix_propensity_cost": 0.3,
+        "intra_helix": [
+          {
+            "net_charge": 0,
+            "n_charged": 0,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.0
+          }
+        ],
+        "intra_helix_total": 0.0,
+        "inter_module": [],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.5,
+          "face_concentration": 0.365,
+          "face_separation_deg": 180.0,
+          "patch_risk": true,
+          "all_greasy_risk": false,
+          "aggregation_risk": true,
+          "amphipathic": true,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "AGGREGATION-RISK",
+        "reasons": [
+          "greasy helical face: 50% hydrophobic, face concentration R = 0.36 [risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85]"
+        ]
+      }
+    },
+    {
+      "id": "MD5-REPAIR",
+      "site": "S1_K78_R132",
+      "site_label": "K78/R132 groove (the E215 contact, recruitment hot spot)",
+      "problem": "occupy the groove TPP1 uses, to block recruitment",
+      "intent": "agonise: supply in trans the charge that K78E/R132E lost",
+      "helix": "EALEALQALQALQALQALQAL",
+      "length": 21,
+      "display_residue": "E",
+      "display_offsets_claimed": [
+        0,
+        3
+      ],
+      "display_offsets_realised": [
+        0,
+        3
+      ],
+      "register_matches": true,
+      "coverage": [
+        {
+          "contact": "K78 NZ|R132 NH1",
+          "measured": 4.35,
+          "design": 5.05,
+          "register": "i+3",
+          "error": 0.7,
+          "covered": true
+        }
+      ],
+      "contacts_total": 1,
+      "contacts_covered": 1,
+      "fully_covers_own_site": true,
+      "site_solvable_in_helix": true,
+      "unsolvable_contacts": [],
+      "cross_site_register_matches": [],
+      "cross_site_warning": false,
+      "verdict": "ONE-SITE-FULL",
+      "note": "Same site and same geometry as MD1, opposite intent. It cannot be merged with MD1 - both want the same groove.",
+      "sequence": "EALEALQALQALQALQALQAL",
+      "modules": [
+        {
+          "id": "MD5-REPAIR",
+          "site": "S1_K78_R132",
+          "intent": "agonise: supply in trans the charge that K78E/R132E lost",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "Same site and same geometry as MD1, opposite intent. It cannot be merged with MD1 - both want the same groove."
+        }
+      ],
+      "linker_seq": "",
+      "construct_type": "module",
+      "stability": {
+        "id": "MD5-REPAIR",
+        "sequence": "EALEALQALQALQALQALQAL",
+        "length": 21,
+        "mw_da": 2206.5,
+        "pI": 4.05,
+        "charge_pH7_4": -2.33,
+        "gravy": 0.7,
+        "instability_index": 87.1,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 87.1 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.762,
+        "helix_propensity_cost": 0.201,
+        "intra_helix": [
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          }
+        ],
+        "intra_helix_total": 0.523,
+        "inter_module": [],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.667,
+          "face_concentration": 0.092,
+          "face_separation_deg": 150.0,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      }
+    }
+  ],
+  "merges": [
+    {
+      "id": "MRG-MIN",
+      "goal": "block both halves of the patch interaction with two modules",
+      "modules": [
+        {
+          "id": "MD3-PATCH",
+          "site": "S3_TEL_TRIAD",
+          "intent": "antagonise: read the patch triad so TERT cannot",
+          "display_residue": "K",
+          "display_offsets": [
+            0,
+            4,
+            7
+          ],
+          "helix": "KALAKAQKALAQLAQALQALAQLA",
+          "note": "K at i, i+4, i+7 -> 6.43 and 10.75 A, matching the measured E168-E169 6.58 A and E168-E171 10.22 A. Opposite sign to MD1/MD2."
+        },
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        }
+      ],
+      "linker_type": "rigid",
+      "linker_seq": "EAAAK",
+      "construct_type": "merge",
+      "refused": false,
+      "sequence": "KALAKAQKALAQLAQALQALAQLAEAAAKEALEALQALQALQALQALQAL",
+      "stability": {
+        "id": "MRG-MIN",
+        "sequence": "KALAKAQKALAQLAQALQALAQLAEAAAKEALEALQALQALQALQALQAL",
+        "length": 50,
+        "mw_da": 5091.9,
+        "pI": 8.43,
+        "charge_pH7_4": 0.55,
+        "gravy": 0.486,
+        "instability_index": 48.9,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 48.9 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.8,
+        "helix_propensity_cost": 0.177,
+        "intra_helix": [
+          {
+            "net_charge": 3,
+            "n_charged": 3,
+            "n_pairs": 3,
+            "energy": 1.34,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.125
+          },
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          }
+        ],
+        "intra_helix_total": 1.863,
+        "inter_module": [
+          {
+            "pair": "MD3-PATCH|MD1-GROOVE",
+            "charge_a": 3,
+            "charge_b": -2,
+            "separation": 17.5,
+            "energy": -0.495,
+            "same_sign": false,
+            "collapse_risk": false
+          }
+        ],
+        "n_opposite_sign_pairs": 1,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.66,
+          "face_concentration": 0.207,
+          "face_separation_deg": 178.2,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      },
+      "module_integrity": [
+        {
+          "id": "MD3-PATCH",
+          "verdict": "SITE-UNSOLVABLE",
+          "covers": "2/3",
+          "cross": 1
+        },
+        {
+          "id": "MD1-GROOVE",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        }
+      ],
+      "all_modules_intact": false,
+      "merges_an_unsolvable_site": true
+    },
+    {
+      "id": "MRG-BLOCK",
+      "goal": "full blockade: patch reader + groove + R774",
+      "modules": [
+        {
+          "id": "MD3-PATCH",
+          "site": "S3_TEL_TRIAD",
+          "intent": "antagonise: read the patch triad so TERT cannot",
+          "display_residue": "K",
+          "display_offsets": [
+            0,
+            4,
+            7
+          ],
+          "helix": "KALAKAQKALAQLAQALQALAQLA",
+          "note": "K at i, i+4, i+7 -> 6.43 and 10.75 A, matching the measured E168-E169 6.58 A and E168-E171 10.22 A. Opposite sign to MD1/MD2."
+        },
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        },
+        {
+          "id": "MD2-R774",
+          "site": "S2_R774",
+          "intent": "antagonise: present a carboxylate to R774",
+          "display_residue": "E",
+          "display_offsets": [
+            0
+          ],
+          "helix": "EALQALQALQALQALQALQAL",
+          "note": "A single anchor, so a single carboxylate. Deliberately NOT registering a second display residue, because that would reach a second site."
+        }
+      ],
+      "linker_type": "rigid",
+      "linker_seq": "EAAAK",
+      "construct_type": "merge",
+      "refused": false,
+      "sequence": "KALAKAQKALAQLAQALQALAQLAEAAAKEALEALQALQALQALQALQALEAAAKEALQALQALQALQALQALQAL",
+      "stability": {
+        "id": "MRG-BLOCK",
+        "sequence": "KALAKAQKALAQLAQALQALAQLAEAAAKEALEALQALQALQALQALQALEAAAKEALQALQALQALQALQALQAL",
+        "length": 76,
+        "mw_da": 7750.0,
+        "pI": 6.34,
+        "charge_pH7_4": -0.45,
+        "gravy": 0.487,
+        "instability_index": 61.3,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 61.3 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.789,
+        "helix_propensity_cost": 0.181,
+        "intra_helix": [
+          {
+            "net_charge": 3,
+            "n_charged": 3,
+            "n_pairs": 3,
+            "energy": 1.34,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.125
+          },
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          },
+          {
+            "net_charge": -1,
+            "n_charged": 1,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.048
+          }
+        ],
+        "intra_helix_total": 1.863,
+        "inter_module": [
+          {
+            "pair": "MD3-PATCH|MD1-GROOVE",
+            "charge_a": 3,
+            "charge_b": -2,
+            "separation": 17.5,
+            "energy": -0.495,
+            "same_sign": false,
+            "collapse_risk": false
+          },
+          {
+            "pair": "MD3-PATCH|MD2-R774",
+            "charge_a": 3,
+            "charge_b": -1,
+            "separation": 17.5,
+            "energy": -0.247,
+            "same_sign": false,
+            "collapse_risk": false
+          },
+          {
+            "pair": "MD1-GROOVE|MD2-R774",
+            "charge_a": -2,
+            "charge_b": -1,
+            "separation": 17.5,
+            "energy": 0.165,
+            "same_sign": true,
+            "collapse_risk": false
+          }
+        ],
+        "n_opposite_sign_pairs": 2,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.658,
+          "face_concentration": 0.142,
+          "face_separation_deg": 179.9,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": false,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      },
+      "module_integrity": [
+        {
+          "id": "MD3-PATCH",
+          "verdict": "SITE-UNSOLVABLE",
+          "covers": "2/3",
+          "cross": 1
+        },
+        {
+          "id": "MD1-GROOVE",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        },
+        {
+          "id": "MD2-R774",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        }
+      ],
+      "all_modules_intact": false,
+      "merges_an_unsolvable_site": true
+    },
+    {
+      "id": "MRG-SAMESIGN",
+      "goal": "all-acidic blockade with no charge conflict (the control merge)",
+      "modules": [
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        },
+        {
+          "id": "MD2-R774",
+          "site": "S2_R774",
+          "intent": "antagonise: present a carboxylate to R774",
+          "display_residue": "E",
+          "display_offsets": [
+            0
+          ],
+          "helix": "EALQALQALQALQALQALQAL",
+          "note": "A single anchor, so a single carboxylate. Deliberately NOT registering a second display residue, because that would reach a second site."
+        },
+        {
+          "id": "MD4-ANCHOR",
+          "site": "S4_TEN_LOOP",
+          "intent": "anchor: sit on the hydrophobic TEN wall without touching either groove",
+          "display_residue": null,
+          "display_offsets": [],
+          "helix": "LQQLLQQLLQQLLQQLLQQLLQQL",
+          "note": "A hydrophobic patch at i, i+3, i+4 and i+7 - one face greasy, the other polar. No charged display residue at all. This module exists to add affinity and nothing else, which is only safe if it touches no other site."
+        }
+      ],
+      "linker_type": "rigid",
+      "linker_seq": "EAAAK",
+      "construct_type": "merge",
+      "refused": false,
+      "sequence": "EALEALQALQALQALQALQALEAAAKEALQALQALQALQALQALQALEAAAKLQQLLQQLLQQLLQQLLQQLLQQL",
+      "stability": {
+        "id": "MRG-SAMESIGN",
+        "sequence": "EALEALQALQALQALQALQALEAAAKEALQALQALQALQALQALQALEAAAKLQQLLQQLLQQLLQQLLQQLLQQL",
+        "length": 76,
+        "mw_da": 8230.6,
+        "pI": 4.33,
+        "charge_pH7_4": -3.33,
+        "gravy": 0.382,
+        "instability_index": 96.9,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 96.9 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.697,
+        "helix_propensity_cost": 0.223,
+        "intra_helix": [
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          },
+          {
+            "net_charge": -1,
+            "n_charged": 1,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.048
+          },
+          {
+            "net_charge": 0,
+            "n_charged": 0,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.0
+          }
+        ],
+        "intra_helix_total": 0.523,
+        "inter_module": [
+          {
+            "pair": "MD1-GROOVE|MD2-R774",
+            "charge_a": -2,
+            "charge_b": -1,
+            "separation": 17.5,
+            "energy": 0.165,
+            "same_sign": true,
+            "collapse_risk": false
+          },
+          {
+            "pair": "MD1-GROOVE|MD4-ANCHOR",
+            "charge_a": -2,
+            "charge_b": 0,
+            "separation": 17.5,
+            "energy": -0.0,
+            "same_sign": false,
+            "collapse_risk": false
+          },
+          {
+            "pair": "MD2-R774|MD4-ANCHOR",
+            "charge_a": -1,
+            "charge_b": 0,
+            "separation": 17.5,
+            "energy": -0.0,
+            "same_sign": false,
+            "collapse_risk": false
+          }
+        ],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.605,
+          "face_concentration": 0.149,
+          "face_separation_deg": 176.8,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": true,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      },
+      "module_integrity": [
+        {
+          "id": "MD1-GROOVE",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        },
+        {
+          "id": "MD2-R774",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        },
+        {
+          "id": "MD4-ANCHOR",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        }
+      ],
+      "all_modules_intact": true,
+      "merges_an_unsolvable_site": false
+    },
+    {
+      "id": "MRG-REPAIR",
+      "goal": "repair a K78E/R132E allele and anchor it",
+      "modules": [
+        {
+          "id": "MD5-REPAIR",
+          "site": "S1_K78_R132",
+          "intent": "agonise: supply in trans the charge that K78E/R132E lost",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "Same site and same geometry as MD1, opposite intent. It cannot be merged with MD1 - both want the same groove."
+        },
+        {
+          "id": "MD4-ANCHOR",
+          "site": "S4_TEN_LOOP",
+          "intent": "anchor: sit on the hydrophobic TEN wall without touching either groove",
+          "display_residue": null,
+          "display_offsets": [],
+          "helix": "LQQLLQQLLQQLLQQLLQQLLQQL",
+          "note": "A hydrophobic patch at i, i+3, i+4 and i+7 - one face greasy, the other polar. No charged display residue at all. This module exists to add affinity and nothing else, which is only safe if it touches no other site."
+        }
+      ],
+      "linker_type": "rigid",
+      "linker_seq": "EAAAK",
+      "construct_type": "merge",
+      "refused": false,
+      "sequence": "EALEALQALQALQALQALQALEAAAKLQQLLQQLLQQLLQQLLQQLLQQL",
+      "stability": {
+        "id": "MRG-REPAIR",
+        "sequence": "EALEALQALQALQALQALQALEAAAKLQQLLQQLLQQLLQQLLQQLLQQL",
+        "length": 50,
+        "mw_da": 5572.5,
+        "pI": 4.25,
+        "charge_pH7_4": -2.33,
+        "gravy": 0.326,
+        "instability_index": 102.9,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 102.9 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.66,
+        "helix_propensity_cost": 0.242,
+        "intra_helix": [
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          },
+          {
+            "net_charge": 0,
+            "n_charged": 0,
+            "n_pairs": 0,
+            "energy": 0.0,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.0
+          }
+        ],
+        "intra_helix_total": 0.523,
+        "inter_module": [
+          {
+            "pair": "MD5-REPAIR|MD4-ANCHOR",
+            "charge_a": -2,
+            "charge_b": 0,
+            "separation": 17.5,
+            "energy": -0.0,
+            "same_sign": false,
+            "collapse_risk": false
+          }
+        ],
+        "n_opposite_sign_pairs": 0,
+        "n_collapse_pairs": 0,
+        "aggregation": {
+          "hydrophobic_fraction": 0.58,
+          "face_concentration": 0.218,
+          "face_separation_deg": 177.3,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": true,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "STABLE",
+        "reasons": [
+          "no electrostatic or face-mixing failure detected"
+        ]
+      },
+      "module_integrity": [
+        {
+          "id": "MD5-REPAIR",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        },
+        {
+          "id": "MD4-ANCHOR",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        }
+      ],
+      "all_modules_intact": true,
+      "merges_an_unsolvable_site": false
+    },
+    {
+      "id": "MRG-FLEX",
+      "goal": "the same pair as MRG-MIN but with a flexible linker",
+      "modules": [
+        {
+          "id": "MD3-PATCH",
+          "site": "S3_TEL_TRIAD",
+          "intent": "antagonise: read the patch triad so TERT cannot",
+          "display_residue": "K",
+          "display_offsets": [
+            0,
+            4,
+            7
+          ],
+          "helix": "KALAKAQKALAQLAQALQALAQLA",
+          "note": "K at i, i+4, i+7 -> 6.43 and 10.75 A, matching the measured E168-E169 6.58 A and E168-E171 10.22 A. Opposite sign to MD1/MD2."
+        },
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        }
+      ],
+      "linker_type": "flexible",
+      "linker_seq": "GSGSG",
+      "construct_type": "merge",
+      "refused": false,
+      "sequence": "KALAKAQKALAQLAQALQALAQLAGSGSGEALEALQALQALQALQALQAL",
+      "stability": {
+        "id": "MRG-FLEX",
+        "sequence": "KALAKAQKALAQLAQALQALAQLAGSGSGEALEALQALQALQALQALQAL",
+        "length": 50,
+        "mw_da": 4966.7,
+        "pI": 8.5,
+        "charge_pH7_4": 0.55,
+        "gravy": 0.47,
+        "instability_index": 47.4,
+        "instability_verdict": "predicted unstable",
+        "advisory": [
+          "instability index 47.4 > 40 ('predicted unstable') - advisory only: the index is calibrated on globular proteins and flags designed amphipathic helices systematically; it is not evidence against this construct"
+        ],
+        "helix_fraction": 0.7,
+        "helix_propensity_cost": 0.244,
+        "intra_helix": [
+          {
+            "net_charge": 3,
+            "n_charged": 3,
+            "n_pairs": 3,
+            "energy": 1.34,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.125
+          },
+          {
+            "net_charge": -2,
+            "n_charged": 2,
+            "n_pairs": 1,
+            "energy": 0.523,
+            "worst_pair": null,
+            "worst_energy": 0.0,
+            "charge_density": 0.095
+          }
+        ],
+        "intra_helix_total": 1.863,
+        "inter_module": [
+          {
+            "pair": "MD3-PATCH|MD1-GROOVE",
+            "charge_a": 3,
+            "charge_b": -2,
+            "separation": 5.0,
+            "energy": -6.041,
+            "same_sign": false,
+            "collapse_risk": true
+          }
+        ],
+        "n_opposite_sign_pairs": 1,
+        "n_collapse_pairs": 1,
+        "aggregation": {
+          "hydrophobic_fraction": 0.6,
+          "face_concentration": 0.217,
+          "face_separation_deg": 177.8,
+          "patch_risk": false,
+          "all_greasy_risk": false,
+          "aggregation_risk": false,
+          "amphipathic": true,
+          "rule": "risk if (frac >= 0.45 and R >= 0.35) or frac >= 0.85"
+        },
+        "verdict": "COLLAPSE-RISK",
+        "reasons": [
+          "1 module pair(s) attract intramolecularly: MD3-PATCH|MD1-GROOVE at -6.041 kcal/mol"
+        ]
+      },
+      "module_integrity": [
+        {
+          "id": "MD3-PATCH",
+          "verdict": "SITE-UNSOLVABLE",
+          "covers": "2/3",
+          "cross": 1
+        },
+        {
+          "id": "MD1-GROOVE",
+          "verdict": "ONE-SITE-FULL",
+          "covers": "1/1",
+          "cross": 0
+        }
+      ],
+      "all_modules_intact": false,
+      "merges_an_unsolvable_site": true
+    },
+    {
+      "id": "MRG-ILLEGAL",
+      "goal": "deliberately invalid: two modules competing for one groove",
+      "modules": [
+        {
+          "id": "MD1-GROOVE",
+          "site": "S1_K78_R132",
+          "intent": "antagonise: occupy the K78/R132 groove and block TPP1 engagement",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "E at i and i+3 -> 5.05 A, matching the measured K78-R132 separation of 4.35 A. One module, one groove, both basic residues."
+        },
+        {
+          "id": "MD5-REPAIR",
+          "site": "S1_K78_R132",
+          "intent": "agonise: supply in trans the charge that K78E/R132E lost",
+          "display_residue": "E",
+          "display_offsets": [
+            0,
+            3
+          ],
+          "helix": "EALEALQALQALQALQALQAL",
+          "note": "Same site and same geometry as MD1, opposite intent. It cannot be merged with MD1 - both want the same groove."
+        }
+      ],
+      "linker_type": "rigid",
+      "linker_seq": "EAAAK",
+      "construct_type": "merge",
+      "refused": true,
+      "refusal_reason": "MD1-GROOVE and MD5-REPAIR both target K78/R132 groove (the E215 contact, recruitment hot spot) with opposite intent; one groove cannot be both blocked and repaired",
+      "sequence": null,
+      "stability": null
+    }
+  ],
+  "summary": {
+    "n_modules": 5,
+    "n_one_site_full": 4,
+    "n_merges": 6,
+    "n_merges_refused": 1,
+    "n_merges_built": 5,
+    "n_merges_stable": 4,
+    "stable_merges": [
+      "MRG-MIN",
+      "MRG-BLOCK",
+      "MRG-SAMESIGN",
+      "MRG-REPAIR"
+    ],
+    "unstable_merges": [
+      "MRG-FLEX"
+    ],
+    "best_module": "MD1-GROOVE",
+    "threshold_sensitivity": {
+      "sweep": [
+        {
+          "R_threshold": 0.3,
+          "frac_threshold": 0.45,
+          "flagged": [
+            "MD3-PATCH",
+            "MD4-ANCHOR"
+          ],
+          "n_flagged": 2
+        },
+        {
+          "R_threshold": 0.3,
+          "frac_threshold": 0.5,
+          "flagged": [
+            "MD3-PATCH",
+            "MD4-ANCHOR"
+          ],
+          "n_flagged": 2
+        },
+        {
+          "R_threshold": 0.3,
+          "frac_threshold": 0.55,
+          "flagged": [
+            "MD3-PATCH"
+          ],
+          "n_flagged": 1
+        },
+        {
+          "R_threshold": 0.35,
+          "frac_threshold": 0.45,
+          "flagged": [
+            "MD4-ANCHOR"
+          ],
+          "n_flagged": 1
+        },
+        {
+          "R_threshold": 0.35,
+          "frac_threshold": 0.5,
+          "flagged": [
+            "MD4-ANCHOR"
+          ],
+          "n_flagged": 1
+        },
+        {
+          "R_threshold": 0.35,
+          "frac_threshold": 0.55,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.4,
+          "frac_threshold": 0.45,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.4,
+          "frac_threshold": 0.5,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.4,
+          "frac_threshold": 0.55,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.45,
+          "frac_threshold": 0.45,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.45,
+          "frac_threshold": 0.5,
+          "flagged": [],
+          "n_flagged": 0
+        },
+        {
+          "R_threshold": 0.45,
+          "frac_threshold": 0.55,
+          "flagged": [],
+          "n_flagged": 0
+        }
+      ],
+      "always_flagged": [],
+      "never_flagged": [
+        "MD1-GROOVE",
+        "MD2-R774",
+        "MD5-REPAIR",
+        "MRG-BLOCK",
+        "MRG-FLEX",
+        "MRG-MIN",
+        "MRG-REPAIR",
+        "MRG-SAMESIGN"
+      ],
+      "threshold_sensitive": [
+        "MD3-PATCH",
+        "MD4-ANCHOR"
+      ]
+    },
+    "verdicts_decided_by_a_constant": [
+      "MD3-PATCH",
+      "MD4-ANCHOR"
+    ]
+  }
+}

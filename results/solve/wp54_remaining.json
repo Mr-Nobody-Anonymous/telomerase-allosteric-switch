@@ -1,0 +1,166 @@
+{
+  "P15": {
+    "question": "Is there a drug for the TERT-TPP1 interface?",
+    "potency_requirement": {
+      "baseline_fold": 2.7,
+      "target_reduction": 0.3,
+      "tpp1_kd_nm": 100.0,
+      "ligand_concentration_nm": 1000.0,
+      "required_kl_nm": 1166.7,
+      "required_kl_um": 1.167,
+      "required_dg_kcal": -8.14,
+      "assumptions": [
+        "stimulation is proportional to TPP1 occupancy (the R1 branch)",
+        "the ligand is competitive with TPP1 for the same site",
+        "1 uM free ligand is achievable in a cell"
+      ]
+    },
+    "site": {
+      "patch_atoms": 125,
+      "tert_atoms_within_8A_mean_per_patch_atom": 13.7,
+      "tert_atoms_in_3_to_9A_shell": 15,
+      "note": "a groove occupied by a peptide presents a surface, not a cavity; the count is reported so the claim can be checked"
+    },
+    "contact_energy_kcal": 5.41,
+    "ordering_cost_kcal": 3.378,
+    "ordering_cost_source": "WP51 measured, PAPAP lower bound at the +-1 A window; supersedes WP48's typed 6.36",
+    "ordering_cost_glycine_kcal": 1.404,
+    "net_binding_kcal": -2.03,
+    "net_binding_with_glycine_kcal": -4.01,
+    "binds": true,
+    "gap_kcal": 6.11,
+    "answer": "No - but not for the reason expected. The potency requirement is modest: 1.167 uM, i.e. 8.14 kcal/mol of binding free energy, which is an ordinary small-molecule number. The design fails because its ordering cost (3.378 kcal/mol) EXCEEDS its contact energy (5.41 kcal/mol): net -2.03 kcal/mol, i.e. it does not bind at all, and it misses the requirement by 6.11 kcal/mol. The ordering cost is now MEASURED rather than typed (WP51): 3.378 kcal/mol as a lower bound for the PAPAP linker WP48 specified, and only 1.404 kcal/mol for WP45's GGGGG - which would give -4.01 kcal/mol, still positive. Paying the ordering cost in full is necessary and still not sufficient: the contact energy itself is below the 8.14 kcal/mol requirement.",
+    "what_would_change_it": [
+      "a covalent or irreversible warhead aimed at K78/R132 (changes the energetics from Kd to kinact/Ki, which this calculation does not cover)",
+      "a molecular glue that recruits a third protein rather than competing",
+      "a pocket this deposition does not resolve at 3.5 A"
+    ],
+    "status": "SOLVED as a negative: no small molecule, with the arithmetic"
+  },
+  "P14": {
+    "question": "Is n measured?",
+    "identification": {
+      "rows": [
+        {
+          "n": 1,
+          "r_n": 1.7,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        },
+        {
+          "n": 2,
+          "r_n": 0.643168,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        },
+        {
+          "n": 3,
+          "r_n": 0.392477,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        },
+        {
+          "n": 6,
+          "r_n": 0.180032,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        },
+        {
+          "n": 12,
+          "r_n": 0.086293,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        },
+        {
+          "n": 24,
+          "r_n": 0.042254,
+          "fold": 2.7,
+          "m": 3.19491,
+          "c": 2.20509,
+          "m_over_c": 1.448879638,
+          "tau_recovered": 0.1833,
+          "kappa_recovered": 2.7
+        }
+      ],
+      "m_over_c_identical_for_all_n": true,
+      "tau_recovered_at_every_n": true,
+      "kappa_recovered_at_every_n": true,
+      "per_round_rate_spread": 40.2,
+      "per_round_rate_n1": 1.7,
+      "per_round_rate_n24": 0.042254,
+      "why": "the two-chase quantities (m, c) depend only on the fold and on tau. Every n reproduces them exactly, with a per-round rate r_n that differs by the spread reported above - a 24-fold to 100-fold difference in the molecular interpretation, and zero difference in the observable. The experiment cannot identify n because n carries no independent information: it is the step size of a discretisation, not a parameter of the system."
+    },
+    "what_n_is": {
+      "nt_per_telomeric_repeat": 6,
+      "escape_opportunities_if_one_per_nt": 6,
+      "statement": "n is the number of escape opportunities per repeat. Read as one per nucleotide it is exactly the 6 nt of a repeat - a count, not a fit. It is measurable on an existing gel by counting the incomplete products between bands, which no new construct is needed for.",
+      "existing_gel_count": "Lingner & Cech style direct assays show bands at 6-nt spacing plus intermediate products; the number of resolvable intermediates between adjacent repeats IS n",
+      "testable_prediction": "if n = 6, every intermediate position 1..5 within a repeat should be populated; a null at a fixed position refutes one-per-nucleotide"
+    },
+    "answer": "The question was mis-posed, and that is the closure. n is not a parameter of the model that needs measuring: the model's own statistic (delta* = n * R_eff, WP36) is exactly n-independent when stated exponent-free as 6 * R1/2 (WP29), and the two-chase inversion that was designed to recover n recovers kappa and tau identically at every n. What n really is, is the number of escape opportunities per repeat - one per nucleotide gives 6, which is a count of the nucleotides in a repeat and is readable from an existing gel.",
+    "status": "SOLVED as a reframing: n is a discretisation, not a free parameter; the legible version (nt per round) is measured by counting bands",
+    "still_open": "the stall share tau is a real free parameter and DOES need the two-chase; nothing here measures tau"
+  },
+  "P11": {
+    "question": "What is the experimental success rate?",
+    "factors": {
+      "f1_structurally_compatible": 1.0,
+      "f2_stable_enough_to_make": 0.0,
+      "f3_literature_peptide_hit_rate": [
+        0.01,
+        0.1
+      ],
+      "f4_assay_detects_it": 0.8
+    },
+    "entities": 3,
+    "trials_per_entity": 3,
+    "independent_screens": 9,
+    "p_per_design": [
+      0.0,
+      0.0
+    ],
+    "p_at_least_one": [
+      0.0,
+      0.0
+    ],
+    "p_per_design_if_ordering_paid": [
+      0.008,
+      0.08
+    ],
+    "p_at_least_one_if_ordering_paid": [
+      0.0697,
+      0.5278
+    ],
+    "answer": "Zero, and for a reason that is not about luck: f2 is 0. The design carries 6.36 kcal/mol of unpaid ordering cost (WP48), which means it is not yet a molecule anyone can make and test. Until f2 > 0 the success rate is undefined, not small. What CAN be stated is the rate once ordering is paid: with 9 screens at 1%-10% per design, the probability of at least one micromolar binder is 7%-53% - a range dominated by the literature factor, which is why it is given as a range. With f2 = 0.0 the rate for the designs as they stand is exactly 0%.",
+    "status": "PARTIAL: the rate is decomposed into computable factors, one of which is exactly zero for a stated reason; the residual uncertainty is a cited literature range, not a guess",
+    "what_moves_it": [
+      "pay the ordering cost (the scaffold search) -> f2 becomes non-zero",
+      "a measured hit rate for peptides at this interface -> narrows f3"
+    ]
+  },
+  "summary": {
+    "P15": "negative with arithmetic",
+    "P14": "reframed; not a free parameter",
+    "P11": "decomposed; one factor is exactly zero for a stated reason"
+  }
+}

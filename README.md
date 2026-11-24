@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-667%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-772%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,145 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## Start here
+
+Four generated documents answer everything, in this order:
+
+| document | what it is |
+|---|---|
+| [`results/solve/MASTER_RECORD.md`](results/solve/MASTER_RECORD.md) | the whole programme: interface, designs, grafts, retractions, ledger |
+| [`results/solve/METHODS.md`](results/solve/METHODS.md) | how every number was produced, command by command |
+| [`results/solve/NEXT_STEPS.md`](results/solve/NEXT_STEPS.md) | peptides to order, assays, the pre-declared decision rule |
+| [`results/solve/ARTEFACT_INDEX.md`](results/solve/ARTEFACT_INDEX.md) | every file and whether it is generated |
+
+All four are assembled from the artefacts by
+`python scripts/solve/wp49_master_record.py`. They contain no hand-typed numbers,
+because hand-typed numbers in this repository have drifted three times.
+
+To rebuild the environment (the venv is outside the repo and does not persist):
+`bash scripts/setup_environment.sh`.
+
+**Note on the OpenMM badge above.** OpenMM **8.6.1 is installed and has now
+been run** (WP51), on the CPU platform with 2 threads. That changes what is
+"unmeasurable": the ordering cost was measured from a real all-atom end-to-end
+distribution instead of typed in, and the peptide-TERT interface was tested for
+collisions against the deposited TERT atoms instead of being declared
+unscorable. What is still out of reach is stated per item: a folding run
+(17.6 h/ns measured here), a staple template (needs files.rcsb.org), and any
+affinity (needs an experiment, not a simulation).
+
+
+## WP51–WP54 — the remaining six, each by a different instrument
+
+The last items did not fail for one reason, so they were not attacked with one
+method. **The ledger now reads 12 SOLVED / 4 PARTIAL / 0 NOT SOLVED /
+0 UNMEASURABLE**, and 0 of the 12 are closed as evidence — nothing here has been
+made or measured in a tube.
+
+- **WP51 — the ordering cost, measured, and it overturned WP48.** Five packages
+  had *typed* it (12–20, 0.6/torsion, the same number subtracted from itself, a
+  4 kcal/mol constant). WP51 failed **twice** before working: first by replacing
+  the linker with a **hand-set harmonic spring** (reading the input back out as
+  output), then by writing a "flat-bottom" restraint whose walls were **inverted**
+  — `max(r_off − r, 0)` is non-zero for every r below `r_off`, making it a 14 Å
+  harmonic well. Nine independent builds of three different linkers all returned
+  14.00 ± 0.12 Å: it was measuring the restraint. With both faults fixed the
+  measurement is real, and it **changes the answer**: GGGGG costs **1.40**
+  kcal/mol to order, PAPAP **≥3.38** — so WP48's −2.84 kcal/mol "saving" from
+  swapping in a rigid linker **reverses sign** once measured.
+- **WP52 — P12 → PARTIAL.** "A score would be fabricated" expired: 7TRE carries
+  hTERT at all-atom resolution. With its 14 native residues pinned to the crystal
+  to **0.00 Å**, the designed linker clears every TERT atom by **8.22 Å**. The
+  epitope is not a pocket — it is net **−4** charge over three consecutive
+  glutamates plus E215.
+- **WP53 — P13 → PARTIAL, answered in the negative.** 7TRD is hTERT without TPP1
+  and 7TRE is the same enzyme with it, so the structural half of P13 is a
+  superposition. The apo-vs-bound difference is **0.356 Å**, *smaller* than the
+  **0.585 Å** between two copies of one protein in a single crystal. **TPP1 does
+  not detectably remodel hTERT**, and only 9 of 934 residues beat the noise floor
+  (chance would give ~5 %).
+- **WP54 — P14 → SOLVED, P15 → SOLVED, P11 → PARTIAL.** `n` is not a measurable
+  parameter: across n = 1…24 the two-chase observable is identical and only the
+  per-round rate changes **48-fold**. A drug needs **1.17 µM** (8.14 kcal/mol),
+  which is modest. With WP51's **measured** ordering cost the net binding energy
+  is **−2.03 kcal/mol** (−4.01 with the glycine linker): the peptide would bind
+  weakly and still miss the requirement by **6.11 kcal/mol**. The success rate is
+  decomposed into four factors, and the obstacle is no longer makeability alone.
+
+## WP50 — the three PARTIAL items, by other means
+
+Four packages had attacked these the same way: add a constraint, add a filter
+term, add a protocol. WP50 tried subtraction, a different ring, a different
+payer, a different criterion and a different metric.
+
+- **P6** — three routes, one helps. **Ring closure is now closed off for good**
+  (C215→N166 = 20.42 Å against a ~7 Å peptide-bond reach, so ~3× — no variant
+  works). Trimming non-functional flank gives a **15-mer** with every function
+  kept. A **covalent tether to an engineered TERT cysteine** is the only route
+  that changes *who pays* the ordering cost, taking the shortfall from 6.36 to
+  **2.36 kcal/mol**. Still PARTIAL.
+- **P7 → SOLVED, but worse for WP44 than expected.** Scored on carboxylate
+  **spacing**, the triad module's pairs are 6.43/5.08/10.75 Å against a measured
+  triangle of 6.58/10.22/7.31. It misses S3 entirely and its 5.08 Å pair matches
+  the K78–R132 separation — **MD3 was aimed at S1**. The graft reaches S3 and
+  nothing else.
+- **P10b → SOLVED by changing the metric, not the threshold.** As triage,
+  `reactivity only` rejects 6/6 reactive compounds and accepts 5/5 approved
+  drugs — **unbounded enrichment**. A Lipinski violation stops being a rejection.
+
+## WP48 — new designs for each failure, under isolated agents
+
+Each remaining failure got a new entity, tested against the gates that killed the
+old one. Four agents, no agent importing another, plus a critic allowed to fail
+them.
+
+- **F1 → a new construct.** WP45 built its linker from `GGGGG` — glycine has no Cβ
+  and therefore the largest backbone state space, so **WP45 chose the most
+  expensive 5-mer available and then reported its cost as unpayable**.
+  `PAPAP` is 2.84 kcal/mol cheaper on the same accounting, with a second staple
+  attempt. Still **6.36 kcal/mol unpaid** — a scaffold is still required.
+- **F2 → a new filter layer (SOLVED).** WP47 read alert *names*; WP48 reads
+  electrophilic *substructure*. On a panel used by neither earlier WP:
+  **sensitivity 1.0, specificity 1.0**. The one miss is **Lipinski rejecting
+  atorvastatin at MW 559** — attributed to the gate, not the layer. A `MW ≥ 60`
+  floor was added to paper over missing SMARTS, then **deleted** once it stopped
+  changing any decision.
+- **F3 → protocols only.** P11/P12 stay unmeasurable; they gain a positive control
+  and a mutant specificity panel.
+- **F4 → a new finding.** Both deposits are **coarse models** (TERT: 8.0 atoms per
+  residue, 78 % of residues with a side chain), so WP47's clash filter was
+  **under-conservative** and its clearances were upper bounds. Re-checked with
+  truncation-aware padding.
+
+## WP47 — the open items, attacked
+
+**P6** (no covalent constraint) is **half-closed**. WP45 concluded "no covalent
+route exists" after screening **disulfides only** — the same defect class as its
+own helix error. Over six chemistries spanning 3.5–12.5 Å, **W167–L211 is feasible
+at 6.34 Å** (hydrocarbon i,i+4; side-chain cosines 0.98/0.09; clears TERT by
+3.75 Å; no payload consumed) and the native indole–Leu contact there is already
+**3.50 Å**. But one staple buys 2.8 kcal/mol against 12–20 kcal/mol of ordering
+cost: **9.2 kcal/mol remains unpaid**.
+
+**P10** is now **proven unfixable as framed**. All 10/10 controls clear every hard
+gate, so alert count is the only separating feature, and the panel is
+non-monotone (metformin passes with 2 alerts; nitrogen mustard fails with 1).
+Every `n_alerts ≤ k` rule caps at **0.70** balanced accuracy. Changing the rule to
+*mechanism* scores 10/10 on its authoring panel but **6/8 on a hold-out** — the two
+misses are the alert library misnaming the reactive group. **P10 stays PARTIAL.**
+
+**P11/P12** are converted from unmeasurable to executable: a powered protocol
+(93 replicates per arm at a 20 % effect) and an MST/SPR + ITC design with a
+K78E/E215K mutant specificity panel.
+
+## Have we solved all of it? No.
+
+A single generated answer to that question, derived from the artefacts rather than
+from memory: [`results/solve/CLOSURE.md`](results/solve/CLOSURE.md) — **7 of 15
+sub-problems solved, and all 7 solved as *calculations*; 0 solved as *evidence*.**
+4 not solved, 2 partial, 2 unmeasurable without wet lab. The largest open item is
+the presenting scaffold that the grafted triad needs.
 
 ## Where the open questions stand
 
@@ -48,6 +187,73 @@ Newly closed: the **TPP1-free matched series**. 7TRD is apo and matches 7TRE at
 934/934 residues; the largest domain displacement on TPP1 binding is **0.53 Å**,
 i.e. at the coordinate uncertainty — a *measured null*, not an untested
 assumption. See [`WP23`](results/solve/WP23_TPP1_FREE_SERIES.md).
+
+## New molecules and new proteins (WP42)
+
+The TEL patch has been named a drug target since 2012 and nothing has ever been
+designed against it. [`WP42`](results/solve/WP42_DESIGNS.md) does that, and the
+first result is that **the small-molecule route fails for a measured reason.**
+
+The patch is **bipartite**: E215 grips the K78/R132 pair, E168 grips R774, and
+those two TERT surfaces are **20.26 Å apart**. A straight ligand cannot cross —
+the TEN 129–132 loop lies across the line — and the shortest unobstructed route
+is **25.54 Å at a 119° bend**. Measured on a homologous series, span costs
++2.67 Å, +76 Da and +1.49 logP per phenyl, so a spanning monomer needs ~7.8
+phenyls: **MW ~683, logP ~11**. Four of the five ligands designed here are
+reported as failures.
+
+The proteins work, because the patch's own spacings are helical: ideal-helix
+i+4, i+7 and i+14 give 6.43, 10.75 and 21.13 Å against measured 6.58, 10.22 and
+20.18 Å, and **i+17 gives 25.60 Å against the 25.54 Å bent path**. Five de novo
+proteins, none containing a TPP1 fragment, from a 28-residue SPPS reagent
+(**TELM-2**) to a groove-repair helix for the K78E/R132E recruitment alleles
+(**TENB-2**) — the inverse of blocking the patch, and the one proposal in the set
+that nobody has made before.
+
+All ten designs were then run through a computed test battery
+([`WP43`](results/solve/WP43_BATTERY.md)). **6/10 clear every gate = 60 % — and
+that is a filter pass rate, not a success rate.** No design has been synthesised,
+so the experimental rate is *not measurable*, and the honest number with the
+control set in the denominator is **6/15 = 40 %**. The battery had to be fixed
+twice before it could be trusted: imatinib scores QED 0.389, so QED cannot be a
+gate, and the two alert catalogs disagree on aspirin. Every ligand is drug-like;
+the four failures fail **only** on geometry.
+
+**Quarantined: unchanged.** Nothing here has been synthesised or measured.
+
+## Modular design: one module per problem (WP44)
+
+[`WP44`](results/solve/WP44_MODULAR.md) splits the interface into the four sites
+that were actually measured and builds **one module per site**, each machine-checked
+to solve its own site fully and no other. Then it merges them and tests the fusion.
+
+Four of five modules pass. The three things that did not are the result:
+
+- **One site cannot be solved by a helix at all.** TPP1's E168/E169/E171 triad has
+  spacings of 6.58, 10.22 and **7.31 Å**; a helix matches the first two and the
+  third falls between registers at any length. Two of three is the geometric maximum.
+- **Solving one site can force you onto another.** MD3's i+3 spacing (5.05 Å) also
+  fits the K78/R132 groove (4.35 Å) — flagged as a risk, not a pass.
+- **The linker decides the merge.** The same two modules are STABLE with a rigid
+  `EAAAK` linker and **COLLAPSE-RISK at −6.04 kcal/mol** with a flexible `GSGSG`
+  one. A merge asking one groove to be simultaneously blocked and repaired is
+  **refused**. Threshold-sensitive verdicts are swept over 12 settings and named.
+
+## Correcting my own error, and solving the site (WP45)
+
+WP44 reported the TEL triad "not helix-solvable". The conclusion was right and the
+premise was wrong: ψ(E169) is **+24.4°** and CA168–CA171 is **7.68 Å** in 7TRE and
+**7.70 Å** in 2I46, against 5.05 Å for an α-helix. The segment is a **kinked
+turn**, not a helix, so an ideal helix was being fitted to something that is not
+one. See [`WP45`](results/solve/WP45_GRAFT.md).
+
+The fix is the literature's method — backbone grafting of a discontinuous motif
+(Azoitei 2011). Keep the native segments verbatim, solve what connects them:
+`DWEEKEF-GGGGG-FSLLPTE`, **3 of 3 contacts**, E215 at 4.10 Å from K78, 21 %
+payload. But the graft is a **granter, not a molecule**: no disulfide fits
+(closest Cβ–Cβ 6.21 Å), head-to-tail closure is 14.28 Å, and an unconstrained
+linker costs 12–20 kcal/mol against 5.4 kcal/mol of contact energy. **A
+presenting scaffold is required and cannot be built offline here.**
 
 ## Manuscript
 
@@ -354,6 +560,25 @@ Canonical sequence audit against **NCBI `NM_198253.3`** and **UniProt `O14746`**
 - Full cloning and sequencing specifications: [`CONSTRUCT_DESIGN_WT_K757A_K757R.md`](results/experimental_validation/CONSTRUCT_DESIGN_WT_K757A_K757R.md).
 
 ---
+
+## 4b. No-lab audit (2026-11-21) — read before the earlier sections
+
+Four analyses that need no laboratory, GPU or network, in
+[`results/audit/AUDIT.md`](results/audit/AUDIT.md), regenerated by
+[`results/audit/audit.py`](results/audit/audit.py) and guarded by
+`tests/test_audit_nolab.py`:
+
+1. **Lys757 does not contact the Tyr176–Gln794 pair.** 9.9–11.9 Å in the deposited
+   7TRE/7TRD/7TRF models; nearest atom is a backbone carbonyl at 4.1–4.4 Å. The
+   "allosteric lever" premise is not supported by the coordinates.
+2. **The 2.34 Å Tyr176–Gln794 contact in 7TRE is below hydrogen-bond distance** at
+   3.5 Å resolution. The reported "compaction" is the relaxation of a randomised
+   starting geometry, not a TPP1-induced change (errata items 16–17).
+3. **The deposited IFD-TRAP panel supports one strongly reduced processivity mutant
+   after correction** (K760E) and no demonstrable activity effect at n = 3 (errata item 18).
+4. **The experiment was never powered for its own question:** n = 3 detects only a
+   ≥2.75-fold processivity change, and an equivalence claim on activity needs 8–93
+   independent preparations depending on the margin.
 
 ## 5. Pre-Registered Breakthrough Evidence Criteria
 

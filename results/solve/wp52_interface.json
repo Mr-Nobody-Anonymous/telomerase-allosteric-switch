@@ -1,0 +1,301 @@
+{
+  "junction": {
+    "c172_n209": 16.31,
+    "ca172_ca209": 16.66,
+    "native_linker_residues_replaced": 36,
+    "design_linker_residues": 5,
+    "note": "the graft replaces 36 native residues with 5; it must span C(172)-N(209) while clearing TERT"
+  },
+  "epitope": [
+    {
+      "resSeq": 166,
+      "resName": "ASP",
+      "n_atoms_within_cutoff": 1,
+      "nearest_angstrom": 4.41,
+      "atoms": [
+        "O"
+      ],
+      "charged": true,
+      "charge": -1
+    },
+    {
+      "resSeq": 167,
+      "resName": "TRP",
+      "n_atoms_within_cutoff": 0,
+      "nearest_angstrom": 4.84,
+      "atoms": [],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 168,
+      "resName": "GLU",
+      "n_atoms_within_cutoff": 4,
+      "nearest_angstrom": 2.32,
+      "atoms": [
+        "O",
+        "CD",
+        "OE1",
+        "OE2"
+      ],
+      "charged": true,
+      "charge": -1
+    },
+    {
+      "resSeq": 169,
+      "resName": "GLU",
+      "n_atoms_within_cutoff": 3,
+      "nearest_angstrom": 3.35,
+      "atoms": [
+        "CD",
+        "OE1",
+        "OE2"
+      ],
+      "charged": true,
+      "charge": -1
+    },
+    {
+      "resSeq": 170,
+      "resName": "LYS",
+      "n_atoms_within_cutoff": 0,
+      "nearest_angstrom": 6.66,
+      "atoms": [],
+      "charged": true,
+      "charge": 1
+    },
+    {
+      "resSeq": 171,
+      "resName": "GLU",
+      "n_atoms_within_cutoff": 3,
+      "nearest_angstrom": 3.45,
+      "atoms": [
+        "CD",
+        "OE1",
+        "OE2"
+      ],
+      "charged": true,
+      "charge": -1
+    },
+    {
+      "resSeq": 172,
+      "resName": "PHE",
+      "n_atoms_within_cutoff": 0,
+      "nearest_angstrom": 5.24,
+      "atoms": [],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 209,
+      "resName": "PHE",
+      "n_atoms_within_cutoff": 0,
+      "nearest_angstrom": 8.85,
+      "atoms": [],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 210,
+      "resName": "SER",
+      "n_atoms_within_cutoff": 0,
+      "nearest_angstrom": 5.31,
+      "atoms": [],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 211,
+      "resName": "LEU",
+      "n_atoms_within_cutoff": 5,
+      "nearest_angstrom": 3.36,
+      "atoms": [
+        "C",
+        "O",
+        "CG",
+        "CD1",
+        "CD2"
+      ],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 212,
+      "resName": "LEU",
+      "n_atoms_within_cutoff": 2,
+      "nearest_angstrom": 3.52,
+      "atoms": [
+        "CD1",
+        "CD2"
+      ],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 213,
+      "resName": "PRO",
+      "n_atoms_within_cutoff": 6,
+      "nearest_angstrom": 3.55,
+      "atoms": [
+        "N",
+        "C",
+        "O",
+        "CB",
+        "CG",
+        "CD"
+      ],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 214,
+      "resName": "THR",
+      "n_atoms_within_cutoff": 4,
+      "nearest_angstrom": 4.07,
+      "atoms": [
+        "N",
+        "CA",
+        "CB",
+        "OG1"
+      ],
+      "charged": false,
+      "charge": 0
+    },
+    {
+      "resSeq": 215,
+      "resName": "GLU",
+      "n_atoms_within_cutoff": 3,
+      "nearest_angstrom": 3.58,
+      "atoms": [
+        "CD",
+        "OE1",
+        "OE2"
+      ],
+      "charged": true,
+      "charge": -1
+    }
+  ],
+  "epitope_net_charge": -4,
+  "surface_charge": {
+    "5A": {
+      "cutoff_angstrom": 5.0,
+      "n_tert_residues": 17,
+      "net_charge": 1,
+      "basic": [
+        "78LYS",
+        "132ARG",
+        "774ARG"
+      ],
+      "acidic": [
+        "43ASP",
+        "129ASP"
+      ]
+    },
+    "6A": {
+      "cutoff_angstrom": 6.0,
+      "n_tert_residues": 22,
+      "net_charge": 1,
+      "basic": [
+        "78LYS",
+        "132ARG",
+        "774ARG"
+      ],
+      "acidic": [
+        "43ASP",
+        "129ASP"
+      ]
+    },
+    "8A": {
+      "cutoff_angstrom": 8.0,
+      "n_tert_residues": 38,
+      "net_charge": 4,
+      "basic": [
+        "41ARG",
+        "48ARG",
+        "78LYS",
+        "132ARG",
+        "742ARG",
+        "774ARG"
+      ],
+      "acidic": [
+        "43ASP",
+        "129ASP"
+      ]
+    }
+  },
+  "grafts": {
+    "GGGGG": {
+      "n_atoms": 146,
+      "n_anchors": 125,
+      "anchor_max_deviation": 0.0
+    },
+    "PAPAP": {
+      "n_atoms": 157,
+      "n_anchors": 125,
+      "anchor_max_deviation": 0.0
+    },
+    "AAAAA": {
+      "n_atoms": 151,
+      "n_anchors": 125,
+      "anchor_max_deviation": 0.0
+    }
+  },
+  "collision": {
+    "GGGGG": {
+      "linker": "GGGGG",
+      "linker_atoms": 20,
+      "linker_min_clearance": 8.38,
+      "linker_mean_clearance": 10.49,
+      "linker_atoms_under_2.5A": 0,
+      "whole_graft_min_clearance": 2.32,
+      "clears": true
+    },
+    "PAPAP": {
+      "linker": "PAPAP",
+      "linker_atoms": 31,
+      "linker_min_clearance": 8.22,
+      "linker_mean_clearance": 11.31,
+      "linker_atoms_under_2.5A": 0,
+      "whole_graft_min_clearance": 2.32,
+      "clears": true
+    },
+    "AAAAA": {
+      "linker": "AAAAA",
+      "linker_atoms": 25,
+      "linker_min_clearance": 8.51,
+      "linker_mean_clearance": 11.37,
+      "linker_atoms_under_2.5A": 0,
+      "whole_graft_min_clearance": 2.32,
+      "clears": true
+    }
+  },
+  "straight_path": {
+    "length_angstrom": 16.31,
+    "min_clearance": 7.96,
+    "frac_under_3A": 0.0,
+    "note": "a straight path is the most favourable replacement geometry"
+  },
+  "findings": [
+    "The designed linker clears the TERT surface: minimum PAPAP heavy-atom clearance 8.22 A, 0 atoms below 2.5 A. So the graft is sterically compatible with binding 7TRE's TERT, and P12's 'a score would be fabricated' is wrong for the geometric part: the geometry is measurable and it passes.",
+    "The epitope is charge-dominated, not shape-dominated. Of the 14 native residues, 6 are charged and they carry net -4. E168, E169, E171 and E215 contribute their carboxylates directly; E170 is the only positive residue in the patch and it does not touch TERT (6.66 A).",
+    "The TERT surface the graft faces is net +1 within 5 A and changes sign with cutoff (+4 at 8 A): it is a mosaic of 6 basic and 2 acidic residues over a short range, which a rigidly negative peptide cannot match by charge alone. The negative graft is complementary to K78 and R132 specifically, not to the surface in aggregate.",
+    "A straight C(172)-N(209) path (16.31 A) clears TERT by 7.96 A with 0.0% of its length below 3 A. Only 2 of the 36 deleted residues were at the interface, so the linker is not replacing a binding element - it is replacing a tether."
+  ],
+  "design_linker": "PAPAP",
+  "verdict": {
+    "sterically_compatible": true,
+    "affinity_measured": false,
+    "what_is_refuted": null,
+    "what_is_established": "geometric compatibility with the deposited TERT surface",
+    "what_remains": "any affinity, any on-rate, any competition - an experiment"
+  },
+  "caveats": [
+    "Rigid body. TERT and the 14 native residues are held where the crystal put them; only the 5-residue linker moved. Real binding needs both sides to adjust.",
+    "7TRE is 8.0 atoms/residue, so TERT is represented to CB for many residues. Every clearance is against modelled atoms and is an UPPER bound on the true clearance.",
+    "No staple. The WP48 design is stapled at W167-L211; the staple cannot be built offline (needs files.rcsb.org), so the construct measured here is the unstapled peptide.",
+    "No solvent, no entropy, no electrostatics. This is a collision test plus a composition count, not a score."
+  ],
+  "summary": {
+    "status": "MEASURED",
+    "changes_status": "P12: UNMEASURABLE -> PARTIAL (geometry closed, affinity still experimental)"
+  }
+}
