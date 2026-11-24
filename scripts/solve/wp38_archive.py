@@ -192,6 +192,72 @@ REGISTER = [
         must_contain="SUPERSEDED IN PART BY WP22",
     ),
     dict(
+        id="R15", wp="46", state="SUPERSEDED",
+        claim="P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714",
+        actual="M5 was refuted outright (WP45, R12), so lifting its probability is "
+               "no longer a live objective; and the target was the wrong quantity "
+               "anyway (R14)",
+        predicate="the mechanism being optimised turns out not to exist",
+        replaced_by="P(any of M1-M6) with a labelled premise, tracked per option",
+        file="results/solve/WP40_DESIGN_TO_FIFTY.md",
+        must_contain="withdrawn",
+    ),
+    dict(
+        id="R14", wp="46", state="RETRACTED",
+        claim="P(M5) = 0.35 is the probability that a switch is achievable",
+        actual="P(M5) is one mechanism out of six; the outcome quantity is "
+               "P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the "
+               "routes are wrongly treated as independent",
+        predicate="refuting one of six routes leaves the outcome probability "
+                  "substantially unchanged",
+        replaced_by="P(any) with a labelled premise, plus a VOI ranking",
+        file="results/solve/THE_PLAN.md",
+        must_contain="wrong quantity",
+    ),
+    dict(
+        id="R12", wp="45", state="RETRACTED",
+        claim="M5 is a live candidate mechanism with P ~ 0.35",
+        actual="with tau fixed by L&C's own two published numbers (0.6506), M5 "
+               "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
+               "under-prediction",
+        predicate="the held-out prediction fails by more than a factor of 2",
+        replaced_by="M5 refuted; the surviving question is whether s_true = phi",
+        file="results/solve/STATUS_LEDGER.md",
+        must_contain="M5 REFUTED",
+    ),
+    dict(
+        id="R13", wp="45", state="RETRACTED",
+        claim="delta* = 48 bp/PD at the +PT anchor distinguishes open from closed",
+        actual="the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed "
+               "to vanish, while tau(-PT) is simultaneously large enough to move the "
+               "fold; the two are inconsistent under one coupling rule",
+        predicate="the true and stored readings differ by 6x for the same data",
+        replaced_by="tau must be applied consistently; on the true reading delta* "
+                    "is 7.9 bp/PD",
+        file="results/solve/WP45_CREATIVE.md",
+        must_contain="C7 again, one level up",
+    ),
+    dict(
+        id="R10", wp="44", state="RETRACTED",
+        claim="the two-chase inversion measures tau exactly, with no model assumption",
+        actual="m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, "
+               "so m/c returns tau by construction; the 1e-17 round trip is algebra",
+        predicate="any kappa at all gives the same tau from the same ratio",
+        replaced_by="an independent count of the stalled population is required",
+        file="results/solve/WP37_MISSING.md",
+        must_contain="SUPERSEDED BY WP44",
+    ),
+    dict(
+        id="R11", wp="44", state="RETRACTED",
+        claim="the programme is blocked because n has never been measured",
+        actual="n enters only through the identity C1 already retracted; R1/2 and the "
+               "gate are n-free and move 7% across n = 1..64",
+        predicate="recomputing R1/2 from measured s0 through n barely changes it",
+        replaced_by="drop n from the ledger - it was never load-bearing",
+        file="results/solve/STATUS_LEDGER.md",
+        must_contain="not load-bearing",
+    ),
+    dict(
         id="R9", wp="40", state="CORRECTED",
         claim="the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16)",
         actual="section 18 of the same document corrects it, but section 16 kept the "
