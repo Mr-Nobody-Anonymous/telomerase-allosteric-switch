@@ -1,0 +1,49 @@
+{
+  "linker": "GGGGG",
+  "runs": [
+    {
+      "seed": 11,
+      "start": "ETKDG",
+      "r_start": 9.57,
+      "r_mean": 11.25,
+      "r_sd": 3.06,
+      "r_min": 3.46,
+      "r_max": 16.27,
+      "ns": 0.5,
+      "n_frames": 250
+    },
+    {
+      "seed": 12,
+      "start": "ETKDG",
+      "r_start": 12.68,
+      "r_mean": 10.86,
+      "r_sd": 3.3,
+      "r_min": 3.46,
+      "r_max": 16.93,
+      "ns": 0.5,
+      "n_frames": 250
+    },
+    {
+      "seed": 13,
+      "start": "extended",
+      "r_start": 13.89,
+      "r_mean": 10.67,
+      "r_sd": 3.56,
+      "r_min": 3.3,
+      "r_max": 16.86,
+      "ns": 0.5,
+      "n_frames": 250
+    }
+  ],
+  "between_start_spread": 0.58,
+  "mean_within_run_sd": 3.31,
+  "start_decides_the_answer": false,
+  "verdict": "The starting conformer does not decide the answer, so stage 1 is not an artefact of trapping. The null result is a property of the linkers.",
+  "what_this_says_about_wp51": "The stage-1 numbers (r = 13.9-14.0 A, sd 0.11 A) are a SINGLE TRAPPED BASIN per replica. The ordering costs derived from them (3.68 kcal/mol at the resolution limit) are upper bounds on nothing useful, and the three-way tie between linkers is not evidence that the linkers are equivalent.",
+  "what_would_fix_it": [
+    "replica exchange (REMD) instead of independent Langevin replicas",
+    "hundreds of ns per replica, which is 17.6 h/ns here for the complex and ~5-7 ns/h for a free pentapeptide",
+    "an analytical worm-like-chain estimate instead of sampling, which is what a 5-mer really needs - the MD was the wrong tool for the size of the question"
+  ],
+  "caveat_on_this_test": "three starts cannot prove convergence; this test can only REFUTE it, and it does"
+}

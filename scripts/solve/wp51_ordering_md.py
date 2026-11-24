@@ -246,7 +246,7 @@ def template_pdb(out_path: Path) -> Path:
 # stage 1: the free linker
 # --------------------------------------------------------------------------
 
-def build_linker(linker: str):
+def build_linker(linker: str, build_seed: int = 20240):
     """Real atoms for the linker peptide, from RDKit through PDBFixer to OpenMM."""
     from rdkit import Chem
     from rdkit.Chem import AllChem
@@ -256,8 +256,15 @@ def build_linker(linker: str):
 
     mol = Chem.MolFromSequence(linker, flavor=1)
     assert mol is not None, f"RDKit could not build {linker}"
+    # THE BUILD SEED MATTERS, and the first production run got this wrong: every
+    # linker was built from the same ETKDG seed and WITHOUT useRandomCoords, so
+    # all three started from a similar compact conformer and never left it. The
+    # measured spread came out 0.11 A for a flexible pentapeptide, which is not a
+    # distribution - it was one trapped basin. WP51b showed that with independent
+    # builds the same linker gives 10.7-11.3 +/- 3.3 A over 3.3-16.9 A.
     emb = AllChem.ETKDGv3()
-    emb.randomSeed = 20240
+    emb.randomSeed = build_seed
+    emb.useRandomCoords = True
     assert AllChem.EmbedMolecule(mol, emb) == 0, f"embedding failed for {linker}"
     tmp = Path(f"/tmp/wp51_lk_{linker}.pdb")
     Chem.MolToPDBFile(mol, str(tmp))
@@ -290,12 +297,13 @@ def _linker_ends(topology) -> tuple:
     return n_idx, c_idx
 
 
-def sample_linker(linker: str, ns: float, seed: int, report_every: int = 2000) -> dict:
+def sample_linker(linker: str, ns: float, seed: int, report_every: int = 2000,
+                  build_seed: int = 20240) -> dict:
     """Run one replica of the free linker and record its end-to-end distance."""
     from openmm import (LangevinMiddleIntegrator, Platform, CustomBondForce, unit)
     from openmm.app import Simulation
 
-    mod, system = build_linker(linker)
+    mod, system = build_linker(linker, build_seed=build_seed)
     i, j = _linker_ends(mod.topology)
 
     # flat-bottom, NON-PERTURBING: exactly zero force between r_on and r_off.
@@ -334,6 +342,7 @@ def sample_linker(linker: str, ns: float, seed: int, report_every: int = 2000) -
     return {
         "linker": linker,
         "seed": seed,
+        "build_seed": build_seed,
         "ns": round(n_steps * 0.002 / 1000, 3),
         "n_frames": len(r),
         "wall_seconds": round(elapsed, 1),
@@ -536,17 +545,24 @@ def build(quick: bool | None = None) -> dict:
     if quick:
         ns_linker, seeds = 0.004, 1
         ns_construct, c_seeds = 0.004, 1
+        build_seeds = (20240,)
     else:
-        ns_linker, seeds = 1.0, 2
+        # 3 INDEPENDENT BUILDS per linker, not 3 seeds on one build. Independent
+        # build seeds are what make the replicas independent; the first
+        # production run varied only the Langevin seed and measured the same
+        # trapped basin three times.
+        ns_linker, seeds = 0.40, 3
         # Length set by the measured cost of this system (17.58 h per ns on 2
         # threads), not by what the question deserves. Three constructs at
         # 0.01 ns is ~16 min; at 0.05 it is 1.3 h; the question wants microseconds.
         ns_construct, c_seeds = 0.01, 1
 
+    build_seeds = (20240, 777, 31337)
     reps = []
     for name, linker in LINKERS.items():
-        for s in range(seeds):
-            r = sample_linker(linker, ns_linker, seed=4100 + 10 * s + len(linker))
+        for s, bs in enumerate(build_seeds):
+            r = sample_linker(linker, ns_linker, seed=4100 + 10 * s + len(linker),
+                              build_seed=bs)
             r["design"] = name
             reps.append(r)
 
