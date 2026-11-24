@@ -13,10 +13,10 @@
       {
         "linker": "GGGGG",
         "n_frames": 300,
-        "r_mean": 14.0,
-        "r_sd": 0.13,
-        "r_p05": 13.77,
-        "r_p95": 14.22,
+        "r_mean": 10.91,
+        "r_sd": 3.61,
+        "r_p05": 4.16,
+        "r_p95": 16.02,
         "frac_at_boundary": 0.0,
         "replicates": [
           {
@@ -25,11 +25,11 @@
             "build_seed": 20240,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 207.9,
-            "r_mean": 14.0,
-            "r_sd": 0.12,
-            "r_min": 13.66,
-            "r_max": 14.29,
+            "wall_seconds": 100.5,
+            "r_mean": 9.43,
+            "r_sd": 3.63,
+            "r_min": 3.56,
+            "r_max": 16.85,
             "frac_at_boundary": 0.0,
             "design": "GRAFT (WP45, GGGGG)"
           },
@@ -39,11 +39,11 @@
             "build_seed": 777,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 206.5,
-            "r_mean": 14.0,
-            "r_sd": 0.15,
-            "r_min": 13.66,
-            "r_max": 14.32,
+            "wall_seconds": 150.9,
+            "r_mean": 11.55,
+            "r_sd": 3.49,
+            "r_min": 4.13,
+            "r_max": 16.39,
             "frac_at_boundary": 0.0,
             "design": "GRAFT (WP45, GGGGG)"
           },
@@ -53,32 +53,32 @@
             "build_seed": 31337,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 205.9,
-            "r_mean": 13.99,
-            "r_sd": 0.13,
-            "r_min": 13.65,
-            "r_max": 14.26,
+            "wall_seconds": 202.8,
+            "r_mean": 11.73,
+            "r_sd": 3.23,
+            "r_min": 4.01,
+            "r_max": 17.07,
             "frac_at_boundary": 0.0,
             "design": "GRAFT (WP45, GGGGG)"
           }
         ],
         "windows": {
           "0.5A": {
-            "p": 0.0,
-            "sigma_p": 0.0,
-            "dg_kcal": 3.378,
-            "p_is_upper_bound": true
+            "p": 0.06,
+            "sigma_p": 0.0137,
+            "dg_kcal": 1.666,
+            "p_is_upper_bound": false
           },
           "1.0A": {
-            "p": 0.0,
-            "sigma_p": 0.0,
-            "dg_kcal": 3.378,
-            "p_is_upper_bound": true
+            "p": 0.0933,
+            "sigma_p": 0.0168,
+            "dg_kcal": 1.404,
+            "p_is_upper_bound": false
           },
           "2.0A": {
-            "p": 0.0033,
-            "sigma_p": 0.0033,
-            "dg_kcal": 3.378,
+            "p": 0.19,
+            "sigma_p": 0.0226,
+            "dg_kcal": 0.983,
             "p_is_upper_bound": false
           }
         },
@@ -87,10 +87,10 @@
       {
         "linker": "PAPAP",
         "n_frames": 300,
-        "r_mean": 13.95,
-        "r_sd": 0.13,
-        "r_p05": 13.75,
-        "r_p95": 14.17,
+        "r_mean": 10.11,
+        "r_sd": 2.26,
+        "r_p05": 6.17,
+        "r_p95": 13.26,
         "frac_at_boundary": 0.0,
         "replicates": [
           {
@@ -99,11 +99,11 @@
             "build_seed": 20240,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 303.5,
-            "r_mean": 13.9,
-            "r_sd": 0.11,
-            "r_min": 13.67,
-            "r_max": 14.19,
+            "wall_seconds": 312.5,
+            "r_mean": 8.25,
+            "r_sd": 1.37,
+            "r_min": 5.24,
+            "r_max": 12.28,
             "frac_at_boundary": 0.0,
             "design": "WP48 (PAPAP)"
           },
@@ -113,11 +113,11 @@
             "build_seed": 777,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 310.6,
-            "r_mean": 13.99,
-            "r_sd": 0.14,
-            "r_min": 13.61,
-            "r_max": 14.35,
+            "wall_seconds": 313.0,
+            "r_mean": 9.91,
+            "r_sd": 2.14,
+            "r_min": 3.9,
+            "r_max": 13.83,
             "frac_at_boundary": 0.0,
             "design": "WP48 (PAPAP)"
           },
@@ -127,11 +127,11 @@
             "build_seed": 31337,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 311.5,
-            "r_mean": 13.97,
-            "r_sd": 0.13,
-            "r_min": 13.6,
-            "r_max": 14.29,
+            "wall_seconds": 309.3,
+            "r_mean": 12.17,
+            "r_sd": 1.03,
+            "r_min": 9.45,
+            "r_max": 14.39,
             "frac_at_boundary": 0.0,
             "design": "WP48 (PAPAP)"
           }
@@ -156,15 +156,15 @@
             "p_is_upper_bound": false
           }
         },
-        "dg_vs_cheapest_kcal": 0.0
+        "dg_vs_cheapest_kcal": 1.974
       },
       {
         "linker": "AAAAA",
         "n_frames": 300,
-        "r_mean": 13.98,
-        "r_sd": 0.12,
-        "r_p05": 13.79,
-        "r_p95": 14.18,
+        "r_mean": 9.3,
+        "r_sd": 2.16,
+        "r_p05": 5.59,
+        "r_p95": 12.36,
         "frac_at_boundary": 0.0,
         "replicates": [
           {
@@ -173,11 +173,11 @@
             "build_seed": 20240,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 259.4,
-            "r_mean": 13.97,
-            "r_sd": 0.12,
-            "r_min": 13.67,
-            "r_max": 14.27,
+            "wall_seconds": 258.0,
+            "r_mean": 9.91,
+            "r_sd": 2.34,
+            "r_min": 3.71,
+            "r_max": 13.32,
             "frac_at_boundary": 0.0,
             "design": "RIGID (AAAAA reference)"
           },
@@ -187,11 +187,11 @@
             "build_seed": 777,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 266.4,
-            "r_mean": 13.98,
-            "r_sd": 0.12,
-            "r_min": 13.67,
-            "r_max": 14.34,
+            "wall_seconds": 260.1,
+            "r_mean": 8.64,
+            "r_sd": 1.58,
+            "r_min": 3.62,
+            "r_max": 12.55,
             "frac_at_boundary": 0.0,
             "design": "RIGID (AAAAA reference)"
           },
@@ -201,11 +201,11 @@
             "build_seed": 31337,
             "ns": 0.4,
             "n_frames": 100,
-            "wall_seconds": 268.8,
-            "r_mean": 13.98,
-            "r_sd": 0.12,
-            "r_min": 13.55,
-            "r_max": 14.25,
+            "wall_seconds": 260.9,
+            "r_mean": 9.35,
+            "r_sd": 2.28,
+            "r_min": 4.21,
+            "r_max": 13.82,
             "frac_at_boundary": 0.0,
             "design": "RIGID (AAAAA reference)"
           }
@@ -224,13 +224,13 @@
             "p_is_upper_bound": true
           },
           "2.0A": {
-            "p": 0.0033,
-            "sigma_p": 0.0033,
+            "p": 0.0,
+            "sigma_p": 0.0,
             "dg_kcal": 3.378,
-            "p_is_upper_bound": false
+            "p_is_upper_bound": true
           }
         },
-        "dg_vs_cheapest_kcal": 0.0
+        "dg_vs_cheapest_kcal": 1.974
       }
     ],
     "reference_linker": "GGGGG",
@@ -238,56 +238,56 @@
   },
   "stage2": [
     {
-      "k_bind": 35.0414,
+      "k_bind": 0.0454,
       "seed": 9200,
       "ns": 0.01,
-      "wall_seconds": 39.8,
-      "mean_d_168_215": 19.43,
-      "sd_d_168_215": 0.76,
-      "mean_d_171_210": 13.56,
-      "sd_d_171_210": 0.28,
-      "allatom_rmsd_from_start": 3.55,
+      "wall_seconds": 39.1,
+      "mean_d_168_215": 19.14,
+      "sd_d_168_215": 0.57,
+      "mean_d_171_210": 13.71,
+      "sd_d_171_210": 1.01,
+      "allatom_rmsd_from_start": 3.75,
       "linker": "GGGGG",
-      "derived_from_r_sd": 0.13
+      "derived_from_r_sd": 3.61
     },
     {
-      "k_bind": 35.0414,
+      "k_bind": 0.1159,
       "seed": 9200,
       "ns": 0.01,
-      "wall_seconds": 37.8,
-      "mean_d_168_215": 18.65,
-      "sd_d_168_215": 0.75,
+      "wall_seconds": 40.7,
+      "mean_d_168_215": 17.96,
+      "sd_d_168_215": 0.98,
       "mean_d_171_210": 14.33,
-      "sd_d_171_210": 0.68,
-      "allatom_rmsd_from_start": 3.57,
+      "sd_d_171_210": 0.98,
+      "allatom_rmsd_from_start": 3.56,
       "linker": "PAPAP",
-      "derived_from_r_sd": 0.13
+      "derived_from_r_sd": 2.26
     },
     {
-      "k_bind": 41.125,
+      "k_bind": 0.1269,
       "seed": 9200,
       "ns": 0.01,
-      "wall_seconds": 37.8,
-      "mean_d_168_215": 19.06,
-      "sd_d_168_215": 0.91,
-      "mean_d_171_210": 13.88,
-      "sd_d_171_210": 0.34,
-      "allatom_rmsd_from_start": 3.4,
+      "wall_seconds": 40.0,
+      "mean_d_168_215": 18.27,
+      "sd_d_168_215": 0.89,
+      "mean_d_171_210": 14.28,
+      "sd_d_171_210": 0.9,
+      "allatom_rmsd_from_start": 3.83,
       "linker": "AAAAA",
-      "derived_from_r_sd": 0.12
+      "derived_from_r_sd": 2.16
     }
   ],
   "closure": {
     "H1_pharmacophore_retained": {
       "tested": true,
-      "max_sd_168_215": 0.91,
-      "max_sd_171_210": 0.68,
+      "max_sd_168_215": 0.98,
+      "max_sd_171_210": 1.01,
       "threshold_sd_angstrom": 3.0,
       "retained": true
     },
     "H2_allatom_rmsd_under_3A": {
       "tested": true,
-      "max_mean_rmsd_angstrom": 3.57,
+      "max_mean_rmsd_angstrom": 3.83,
       "under_3A": false
     }
   },
@@ -316,12 +316,12 @@
     "what_is_measured": "the end-to-end distance distribution of each linker, all atoms, in implicit solvent at 300 K",
     "what_it_replaces": "five packages of hand-typed ordering prices",
     "ordering_cost_kcal": {
-      "GGGGG": 3.378,
+      "GGGGG": 1.404,
       "PAPAP": 3.378,
       "AAAAA": 3.378
     },
     "ordering_cost_is_lower_bound": {
-      "GGGGG": true,
+      "GGGGG": false,
       "PAPAP": true,
       "AAAAA": true
     },

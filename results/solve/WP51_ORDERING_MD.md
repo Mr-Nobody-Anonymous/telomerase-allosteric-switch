@@ -29,6 +29,26 @@ the value that had been typed in. The ranking was installed, not measured.
 
 That is exactly the failure mode this package exists to end — reading the input back out as if it were output — so it is recorded here rather than quietly deleted. What follows does not assign a stiffness. It measures a distribution.
 
+## The restraint was INVERTED, and that produced the first 'result'
+
+The sampler uses a flat-bottom restraint so the free peptide cannot unfold
+out of the box. The first version read:
+
+    0.5*k*max(r - r_on, 0)^2  +  0.5*k*max(r_off - r, 0)^2
+
+The second term is non-zero for **every** r below `r_off`. That is not a
+flat bottom: it is a harmonic well centred at (r_on + r_off)/2 = 14 A.
+
+The consequence was unmistakable in hindsight: **nine independent builds of
+three chemically different linkers all returned r = 14.00 ± 0.12 A**, with a
+spread of 0.11 A for a flexible pentapeptide — which is not a
+conformational distribution at all. The run was measuring its own restraint.
+
+The correct form is `max(r - r_off, 0)^2 + max(r_on - r, 0)^2`, which is
+exactly zero inside the window and walls only outside it. It is now
+unit-checked at 5, 14 and 20 A in `--self-test` rather than read for
+correctness.
+
 ## The quantity that needs pricing
 
 The linker occupies the junction between TPP1 residues 166–172 and
@@ -64,17 +84,17 @@ restraint is perturbing the measurement.
 
 | linker | mean r | **σ** | 5–95 % | frames at boundary |
 |---|---|---|---|---|
-| GGGGG | 14.0 Å | **0.13 Å** | 13.77–14.22 Å | 0.000 |
-| PAPAP | 13.95 Å | **0.13 Å** | 13.75–14.17 Å | 0.000 |
-| AAAAA | 13.98 Å | **0.12 Å** | 13.79–14.18 Å | 0.000 |
+| GGGGG | 10.91 Å | **3.61 Å** | 4.16–16.02 Å | 0.000 |
+| PAPAP | 10.11 Å | **2.26 Å** | 6.17–13.26 Å | 0.000 |
+| AAAAA | 9.3 Å | **2.16 Å** | 5.59–12.36 Å | 0.000 |
 
 ### The ordering cost
 
 | linker | p(±0.5 Å) | p(±1.0 Å) | p(±2.0 Å) | **ΔG_order (±1.0 Å)** |
 |---|---|---|---|---|
-| GGGGG | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
+| GGGGG | 0.060 | 0.093 | 0.190 | **1.404 kcal/mol** |
 | PAPAP | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
-| AAAAA | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
+| AAAAA | 0.000 | 0.000 | 0.000 | **3.378 kcal/mol** (lower bound) |
 
 Cheapest: **GGGGG**.
 
@@ -88,14 +108,14 @@ together at all* once a realistic tether is in place.
 
 | linker | k (kcal/mol/Å²) | mean d(168–215) | **σ** | mean d(171–210) | **σ** | RMSD |
 |---|---|---|---|---|---|---|
-| GGGGG | 35.0414 | 19.43 Å | **0.76** | 13.56 Å | **0.28** | 3.55 Å |
-| PAPAP | 35.0414 | 18.65 Å | **0.75** | 14.33 Å | **0.68** | 3.57 Å |
-| AAAAA | 41.125 | 19.06 Å | **0.91** | 13.88 Å | **0.34** | 3.4 Å |
+| GGGGG | 0.0454 | 19.14 Å | **0.57** | 13.71 Å | **1.01** | 3.75 Å |
+| PAPAP | 0.1159 | 17.96 Å | **0.98** | 14.33 Å | **0.98** | 3.56 Å |
+| AAAAA | 0.1269 | 18.27 Å | **0.89** | 14.28 Å | **0.9** | 3.83 Å |
 
-**H1 (pharmacophore retained).** Worst σ over all constructs: 0.91 Å and 0.68 Å against a 3.0 Å threshold → **retained**.
+**H1 (pharmacophore retained).** Worst σ over all constructs: 0.98 Å and 1.01 Å against a 3.0 Å threshold → **retained**.
 
 **H2 (the native fold does not melt).** Worst mean all-atom RMSD from
-the crystal start: 3.57 Å → **drifts**.
+the crystal start: 3.83 Å → **drifts**.
 
 ## What this can and cannot say
 
@@ -116,11 +136,22 @@ decoration:
 
 ## The honest verdict
 
-The measured ordering costs span **3.378–3.378 kcal/mol** at the ±1 Å
-window. Read that against what was being typed before: WP47's 0.6
-kcal/mol per torsion, six torsions per staple, would have charged 3.6
-kcal/mol for a construct it never measured. The measurement does not
-confirm that price; it replaces the argument with a distribution.
+The measured ordering costs span **1.404–3.378 kcal/mol** at the ±1 Å
+window, and the spread between linkers is real rather than a tie.
+
+**GGGGG is the cheapest construct measured** (p = 0.093 inside ±1 Å of the 16.31 Å junction, 1.404 kcal/mol), while PAPAP never came within ±1 Å in 300 frames, so its cost is a lower bound at 3.378 kcal/mol.
+
+That ordering is **the opposite of what WP48 assumed.** WP48 replaced
+WP45's flexible GGGGG linker with PAPAP and credited the change with
+−2.84 kcal/mol on the grounds that proline is more rigid. Measured, the
+rigid linker is *worse* at reaching the 16.31 Å junction: a stiffer chain
+cannot span far, and PAPAP's population sits at 10.11 Å. The
+WP48 saving was subtracted from itself rather than measured, and when
+measured it changes sign.
+
+The same applies to WP47's 0.6 kcal/mol per torsion, six torsions per
+staple: 3.6 kcal/mol for a construct nobody measured. The measurement
+does not confirm that price.
 
 Because only the radial part of the confinement is counted, every value
 here is a **lower bound**. It is the right quantity to compare linkers

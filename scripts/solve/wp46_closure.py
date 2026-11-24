@@ -175,10 +175,11 @@ ITEMS = [
         status="PARTIAL",
         answer=("Decomposed into four factors, and only one of them is unknown. "
                 "WP52 measured the structural factor at 1.0 (the graft clears the "
-                "TERT surface). WP48 measured the makeability factor at exactly "
-                "ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for "
-                "the designs as they stand is 0, not small, and that is a statement "
-                "about makeability rather than luck. With ordering paid, 9 "
+                "TERT surface). WP51 MEASURED the ordering cost (1.40 kcal/mol for "
+                "the glycine linker, >=3.38 for PAPAP) in place of WP48's typed "
+                "6.36. The makeability factor is still zero, but for a better "
+                "stated reason: the scaffold needed to pay even the measured cost "
+                "does not exist yet. With it, 9 "
                 "independent screens at a cited 1-10 % peptide hit rate give "
                 "8-61 % probability of at least one micromolar binder. The "
                 "residual uncertainty is the literature hit rate, given as a "
@@ -241,13 +242,15 @@ ITEMS = [
         status="SOLVED",
         answer=("No - and now by arithmetic rather than by assertion. The potency "
                 "requirement is modest (K_L <= 1.17 uM, i.e. 8.14 kcal/mol), so "
-                "the obstacle was never pocket size. The design fails because its "
-                "ordering cost (6.36 kcal/mol) EXCEEDS its contact energy (5.41): "
-                "net +0.95 kcal/mol, a positive binding free energy. The graft "
-                "does not bind at all, and a drug derived from it cannot until the "
-                "ordering cost is paid. The protein route is the only one with the "
-                "contact energy, and it is not a drug."),
-        decided_by="wp54", evidence="P15.net_binding_kcal > 0 and gap_kcal",
+                "the obstacle was never pocket size. WP48's typed ordering cost "
+                "(6.36) made the net positive, which would have meant no binding "
+                "at all; WP51 MEASURED it instead (>=3.38 for PAPAP, 1.40 for "
+                "GGGGG) and the net becomes weakly negative: -2.03 kcal/mol for "
+                "the design as specified, -4.01 with the glycine linker. So the "
+                "peptide WOULD bind weakly and STILL MISSES the requirement by "
+                "6.11 kcal/mol. Measured, the obstacle is not makeability alone - "
+                "the contact energy is the shortfall."),
+        decided_by="wp54", evidence="P15.gap_kcal > 0 on WP51's measured ordering cost",
         kind="computed",
         blocker="a covalent or glue mechanism is outside this calculation; the "
                 "negative holds for competitive orthosteric ligands",
@@ -307,7 +310,7 @@ def closure() -> dict:
         check("P10", wp48["agents"]["B"]["filter"]["validated"] is True,
               "validated on a panel neither earlier WP used")
         check("P6", wp48["agents"]["A"]["price"]["accounting"]["paid"] is False,
-              "P6 must NOT become solved: the residual is 6.36 kcal/mol")
+              "P6 must NOT become solved: WP48's typed residual was 6.36")
         check("P6", wp48["agents"]["A"]["constructs"]["WP48-NEW"]["n_payload_X"] == 0,
               "no payload residue crosslinked")
     if wp47:
@@ -345,8 +348,11 @@ def closure() -> dict:
         check("P14", wp54["P14"]["identification"]["per_round_rate_spread"] > 5,
               "only the per-round rate changes with n, by "
               f"{wp54['P14']['identification']['per_round_rate_spread']}x")
-        check("P15", wp54["P15"]["net_binding_kcal"] > 0,
-              "the graft does not bind: ordering exceeds contact")
+        check("P15", wp54["P15"]["gap_kcal"] > 0,
+              "the graft still misses the drug requirement on the measured "
+              "ordering cost")
+        check("P15", wp54["P15"]["ordering_cost_kcal"] != 6.36,
+              "WP48's typed 6.36 must be replaced by WP51's measurement")
         check("P15", wp54["P15"]["gap_kcal"] > 0,
               f"{wp54['P15']['gap_kcal']} kcal/mol short of the drug requirement")
         check("P11", wp54["P11"]["factors"]["f2_stable_enough_to_make"] == 0.0,
@@ -391,7 +397,10 @@ def closure() -> dict:
                 f"constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, "
                 f"but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering "
                 f"cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) "
-                f"and still has 6.36 kcal/mol unpaid. A scaffold is still required."),
+                f"and still has an ordering cost unpaid. WP51 then measured it: "
+                f"1.40 kcal/mol for the glycine linker and >=3.38 for WP48's PAPAP "
+                f"- the linker swap made ordering WORSE, not better. A scaffold is "
+                f"still required."),
             "what_would_change_it": [
                 "P6: a scaffold search (needs PDB screening + loop modelling, not available here)",
                 "P10: an alert configuration that is sensitive AND specific on the controls",

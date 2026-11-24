@@ -44,15 +44,19 @@
 | `wp41_status_ledger` | STATUS_LEDGER.md, status_ledger.json/.csv | yes |
 | `wp42_designs` | wp42_designs.json/.csv, WP42_DESIGNS.md | yes |
 | `wp43_test_battery` | wp43_test_battery.json/.csv, WP43_BATTERY.md | yes |
+| `wp44_attempt_all` | — | yes |
 | `wp44_modular_designs` | wp44_modular_designs.json/.csv, WP44_MODULAR.md | yes |
+| `wp45_creative` | — | yes |
 | `wp45_graft` | wp45_graft.json/.csv, WP45_GRAFT.md | yes |
 | `wp46_closure` | wp46_closure.json/.csv, CLOSURE.md | yes |
+| `wp46_the_plan` | — | yes |
 | `wp47_close_open` | wp47_close_open.json/.csv, WP47_CLOSE_OPEN.md | yes |
 | `wp48_new_designs` | wp48_new_designs.json/.csv, WP48_NEW_DESIGNS.md | yes |
 | `wp49_master_record` | MASTER_RECORD.md, METHODS.md, ARTEFACT_INDEX.md, NEXT_STEPS.md | yes |
 | `wp4_coupling_paths` | — | no |
 | `wp50_partials` | wp50_partials.json/.csv, WP50_PARTIALS.md | yes |
 | `wp51_ordering_md` | wp51_ordering_md.json/.csv, WP51_ORDERING_MD.md | yes |
+| `wp51_sampling_check` | — | yes |
 | `wp52_interface` | wp52_interface.json/.csv, WP52_INTERFACE.md | yes |
 | `wp53_conformational_change` | wp53_conformational_change.json/.csv, WP53_CONFORMATIONAL_CHANGE.md | yes |
 | `wp54_remaining` | wp54_remaining.json/.csv, WP54_REMAINING.md | yes |
@@ -94,14 +98,18 @@
 | `wp40_design_to_fifty.json` | machine-readable output of its generator |
 | `wp42_designs.json` | machine-readable output of its generator |
 | `wp43_test_battery.json` | machine-readable output of its generator |
+| `wp44_attempt_all.json` | machine-readable output of its generator |
 | `wp44_modular_designs.json` | machine-readable output of its generator |
 | `wp45_graft.json` | machine-readable output of its generator |
 | `wp46_closure.json` | machine-readable output of its generator |
+| `wp46_plan.json` | machine-readable output of its generator |
 | `wp47_close_open.json` | machine-readable output of its generator |
 | `wp48_new_designs.json` | machine-readable output of its generator |
 | `wp49_master_record.json` | machine-readable output of its generator |
 | `wp50_partials.json` | machine-readable output of its generator |
 | `wp51_ordering_md.json` | machine-readable output of its generator |
+| `wp51_ordering_md.quick.json` | machine-readable output of its generator |
+| `wp51_sampling_check.json` | machine-readable output of its generator |
 | `wp52_interface.json` | machine-readable output of its generator |
 | `wp53_conformational_change.json` | machine-readable output of its generator |
 | `wp54_remaining.json` | machine-readable output of its generator |

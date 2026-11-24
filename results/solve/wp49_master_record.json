@@ -69,7 +69,7 @@
     {
       "script": "wp38_archive",
       "passed": true,
-      "result": "WP38 self-test: 63 passed, 0 failed",
+      "result": "WP38 self-test: 85 passed, 0 failed",
       "exit": 0
     },
     {
@@ -87,7 +87,7 @@
     {
       "script": "wp41_status_ledger",
       "passed": true,
-      "result": "WP41 self-test: 42 passed, 0 failed",
+      "result": "WP41 self-test: 46 passed, 0 failed",
       "exit": 0
     },
     {
@@ -103,9 +103,21 @@
       "exit": 0
     },
     {
+      "script": "wp44_attempt_all",
+      "passed": true,
+      "result": "WP44 self-test: 31 passed, 0 failed",
+      "exit": 0
+    },
+    {
       "script": "wp44_modular_designs",
       "passed": true,
       "result": "WP44 self-test: 39 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp45_creative",
+      "passed": true,
+      "result": "WP45 self-test: 24 passed, 0 failed",
       "exit": 0
     },
     {
@@ -118,6 +130,12 @@
       "script": "wp46_closure",
       "passed": true,
       "result": "WP46 self-test: 35 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp46_the_plan",
+      "passed": true,
+      "result": "WP46 self-test: 37 passed, 0 failed",
       "exit": 0
     },
     {
@@ -140,9 +158,15 @@
     },
     {
       "script": "wp51_ordering_md",
-      "passed": false,
-      "result": "FAIL  no hand-set linker stiffness table remains  ()",
-      "exit": 1
+      "passed": true,
+      "result": "WP51 self-test: 32 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp51_sampling_check",
+      "passed": true,
+      "result": "WP51b self-test: 6 checks, 0 failed",
+      "exit": 0
     },
     {
       "script": "wp52_interface",
@@ -159,13 +183,48 @@
     {
       "script": "wp54_remaining",
       "passed": true,
-      "result": "WP54 self-test: 22 checks, 0 failed",
+      "result": "WP54 self-test: 24 checks, 0 failed",
       "exit": 0
     }
   ],
-  "n_self_tests": 26,
-  "n_self_tests_passing": 25,
+  "n_self_tests": 30,
+  "n_self_tests_passing": 30,
   "git_log": [
+    [
+      "d2942ae",
+      "2026-11-24",
+      "WP51: the flat-bottom restraint had inverted walls - a 14 A harmonic well, not a flat bottom"
+    ],
+    [
+      "d15595d",
+      "2026-11-24",
+      "WP51: drop the superseded stage-1 JSON (single-build artefact) before the corrected run lands"
+    ],
+    [
+      "b4524fe",
+      "2026-11-24",
+      "WP51b: the verdict must match its own numbers (between-start spread vs within-run)"
+    ],
+    [
+      "8662df0",
+      "2026-11-24",
+      "WP51b: the sampler is not trapped - WP51 stage 1 was, because every linker was built from one seed"
+    ],
+    [
+      "2c89f81",
+      "2026-11-24",
+      "WP51: the quick-run guard read a key the checkpoint never set"
+    ],
+    [
+      "306874d",
+      "2026-11-24",
+      "WP51: fix the marker the retraction register checks for, and keep toy runs out of quotable artefacts"
+    ],
+    [
+      "4368439",
+      "2026-11-24",
+      "WP52-WP54: the interface, the mechanism, and the last three"
+    ],
     [
       "5b63101",
       "2026-11-24",
@@ -258,12 +317,12 @@
     "NOT SOLVED": 0,
     "UNMEASURABLE": 0
   },
-  "n_retractions": 21,
+  "n_retractions": 32,
   "summary": {
     "n_documents": 4,
-    "n_scripts_with_self_test": 26,
-    "all_self_tests_pass": false,
-    "n_retractions": 21,
+    "n_scripts_with_self_test": 30,
+    "all_self_tests_pass": true,
+    "n_retractions": 32,
     "nothing_synthesised": true
   }
 }

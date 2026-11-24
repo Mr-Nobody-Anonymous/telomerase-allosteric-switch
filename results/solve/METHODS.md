@@ -177,27 +177,38 @@ test a document it is still writing. Its check lives in `tests/`.
 | `wp35_p2_identifiability` | **pass** — WP35 self-test: 54 passed, 0 failed |
 | `wp36_circularity` | **pass** — WP36 self-test: 34 passed, 0 failed |
 | `wp37_missing` | **pass** — WP37 self-test: 28 passed, 0 failed |
-| `wp38_archive` | **pass** — WP38 self-test: 63 passed, 0 failed |
+| `wp38_archive` | **pass** — WP38 self-test: 85 passed, 0 failed |
 | `wp39_executable` | **pass** — WP39 self-test: 39 passed, 0 failed |
 | `wp40_design_to_fifty` | **pass** — WP40 self-test: 45 passed, 0 failed |
-| `wp41_status_ledger` | **pass** — WP41 self-test: 42 passed, 0 failed |
+| `wp41_status_ledger` | **pass** — WP41 self-test: 46 passed, 0 failed |
 | `wp42_designs` | **pass** — WP42 self-test: 48 checks, 0 failed |
 | `wp43_test_battery` | **pass** — WP43 self-test: 48 checks, 0 failed |
+| `wp44_attempt_all` | **pass** — WP44 self-test: 31 passed, 0 failed |
 | `wp44_modular_designs` | **pass** — WP44 self-test: 39 checks, 0 failed |
+| `wp45_creative` | **pass** — WP45 self-test: 24 passed, 0 failed |
 | `wp45_graft` | **pass** — WP45 self-test: 30 checks, 0 failed |
 | `wp46_closure` | **pass** — WP46 self-test: 35 checks, 0 failed |
+| `wp46_the_plan` | **pass** — WP46 self-test: 37 passed, 0 failed |
 | `wp47_close_open` | **pass** — WP47 self-test: 33 checks, 0 failed |
 | `wp48_new_designs` | **pass** — WP48 self-test: 25 checks, 0 failed |
 | `wp50_partials` | **pass** — WP50 self-test: 31 checks, 0 failed |
-| `wp51_ordering_md` | **FAIL** — FAIL  no hand-set linker stiffness table remains  () |
+| `wp51_ordering_md` | **pass** — WP51 self-test: 32 checks, 0 failed |
+| `wp51_sampling_check` | **pass** — WP51b self-test: 6 checks, 0 failed |
 | `wp52_interface` | **pass** — WP52 self-test: 19 checks, 0 failed |
 | `wp53_conformational_change` | **pass** — WP53 self-test: 22 checks, 0 failed |
-| `wp54_remaining` | **pass** — WP54 self-test: 22 checks, 0 failed |
+| `wp54_remaining` | **pass** — WP54 self-test: 24 checks, 0 failed |
 
 ## 10. Commit history of this branch
 
 | commit | date | subject |
 |---|---|---|
+| `d2942ae` | 2026-11-24 | WP51: the flat-bottom restraint had inverted walls - a 14 A harmonic well, not a flat bottom |
+| `d15595d` | 2026-11-24 | WP51: drop the superseded stage-1 JSON (single-build artefact) before the corrected run lands |
+| `b4524fe` | 2026-11-24 | WP51b: the verdict must match its own numbers (between-start spread vs within-run) |
+| `8662df0` | 2026-11-24 | WP51b: the sampler is not trapped - WP51 stage 1 was, because every linker was built from one seed |
+| `2c89f81` | 2026-11-24 | WP51: the quick-run guard read a key the checkpoint never set |
+| `306874d` | 2026-11-24 | WP51: fix the marker the retraction register checks for, and keep toy runs out of quotable artefacts |
+| `4368439` | 2026-11-24 | WP52-WP54: the interface, the mechanism, and the last three |
 | `5b63101` | 2026-11-24 | probe: does GitHub Actions run for this repo |
 | `728737a` | 2026-11-24 | WP50: the three PARTIAL items, attacked by other means |
 | `5b4166c` | 2026-11-24 | WP49: write it all down - four generated master documents |

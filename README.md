@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-752%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-772%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -45,12 +45,17 @@ method. **The ledger now reads 12 SOLVED / 4 PARTIAL / 0 NOT SOLVED /
 0 UNMEASURABLE**, and 0 of the 12 are closed as evidence — nothing here has been
 made or measured in a tube.
 
-- **WP51 — the ordering cost, measured.** Five packages had *typed* it (12–20,
-  0.6/torsion, then the same number subtracted from itself, then a 4 kcal/mol
-  constant). The first version of WP51 replaced the linker with a **hand-set
-  harmonic spring** and "measured" that AAAAA was stiffest — reading the input
-  back out as output. That is recorded, not deleted. The real version builds the
-  linker as atoms and samples its free end-to-end distribution.
+- **WP51 — the ordering cost, measured, and it overturned WP48.** Five packages
+  had *typed* it (12–20, 0.6/torsion, the same number subtracted from itself, a
+  4 kcal/mol constant). WP51 failed **twice** before working: first by replacing
+  the linker with a **hand-set harmonic spring** (reading the input back out as
+  output), then by writing a "flat-bottom" restraint whose walls were **inverted**
+  — `max(r_off − r, 0)` is non-zero for every r below `r_off`, making it a 14 Å
+  harmonic well. Nine independent builds of three different linkers all returned
+  14.00 ± 0.12 Å: it was measuring the restraint. With both faults fixed the
+  measurement is real, and it **changes the answer**: GGGGG costs **1.40**
+  kcal/mol to order, PAPAP **≥3.38** — so WP48's −2.84 kcal/mol "saving" from
+  swapping in a rigid linker **reverses sign** once measured.
 - **WP52 — P12 → PARTIAL.** "A score would be fabricated" expired: 7TRE carries
   hTERT at all-atom resolution. With its 14 native residues pinned to the crystal
   to **0.00 Å**, the designed linker clears every TERT atom by **8.22 Å**. The
@@ -65,10 +70,10 @@ made or measured in a tube.
 - **WP54 — P14 → SOLVED, P15 → SOLVED, P11 → PARTIAL.** `n` is not a measurable
   parameter: across n = 1…24 the two-chase observable is identical and only the
   per-round rate changes **48-fold**. A drug needs **1.17 µM** (8.14 kcal/mol),
-  which is modest — the design fails because its ordering cost (6.36) exceeds its
-  contact energy (5.41), net **+0.95 kcal/mol**, i.e. it does not bind at all.
-  The success rate is decomposed into four factors and exactly one of them is
-  **zero**, for a stated reason.
+  which is modest. With WP51's **measured** ordering cost the net binding energy
+  is **−2.03 kcal/mol** (−4.01 with the glycine linker): the peptide would bind
+  weakly and still miss the requirement by **6.11 kcal/mol**. The success rate is
+  decomposed into four factors, and the obstacle is no longer makeability alone.
 
 ## WP50 — the three PARTIAL items, by other means
 

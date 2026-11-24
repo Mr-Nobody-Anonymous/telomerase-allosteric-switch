@@ -1,9 +1,9 @@
 {
-  "count": 26,
+  "count": 32,
   "by_state": {
-    "RETRACTED": 7,
+    "RETRACTED": 12,
     "WITHDRAWN": 3,
-    "SUPERSEDED": 4,
+    "SUPERSEDED": 5,
     "CORRECTED": 12
   },
   "register": [
@@ -27,7 +27,7 @@
       "predicate": "it is negative where phi -> 1",
       "replaced_by": "stalling RECONCILES the two readouts at tau_0 = 0.1833 (WP35)",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
+      "sha256": "58de00ec3484b57688bc319863011392d657a81cb1972fe9c723ac0185e95e8d"
     },
     {
       "id": "C3",
@@ -151,6 +151,72 @@
       "sha256": "ad30b8c40185a854a2dc561931ea40310f954fe00a51faa27675feb8a1c020e4"
     },
     {
+      "id": "R15",
+      "wp": "WP46",
+      "state": "SUPERSEDED",
+      "claim": "P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714",
+      "actual": "M5 was refuted outright (WP45, R12), so lifting its probability is no longer a live objective; and the target was the wrong quantity anyway (R14)",
+      "predicate": "the mechanism being optimised turns out not to exist",
+      "replaced_by": "P(any of M1-M6) with a labelled premise, tracked per option",
+      "document": "results/solve/WP40_DESIGN_TO_FIFTY.md",
+      "sha256": "069d448b8076c8566610361c61c8823498a53f4546320a67855892397248c068"
+    },
+    {
+      "id": "R14",
+      "wp": "WP46",
+      "state": "RETRACTED",
+      "claim": "P(M5) = 0.35 is the probability that a switch is achievable",
+      "actual": "P(M5) is one mechanism out of six; the outcome quantity is P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the routes are wrongly treated as independent",
+      "predicate": "refuting one of six routes leaves the outcome probability substantially unchanged",
+      "replaced_by": "P(any) with a labelled premise, plus a VOI ranking",
+      "document": "results/solve/THE_PLAN.md",
+      "sha256": "7c758ed0c50a6d5ceafb3cbba775e18a21ba3f1f05879f0da92334130c1d00a4"
+    },
+    {
+      "id": "R12",
+      "wp": "WP45",
+      "state": "RETRACTED",
+      "claim": "M5 is a live candidate mechanism with P ~ 0.35",
+      "actual": "with tau fixed by L&C's own two published numbers (0.6506), M5 predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x under-prediction",
+      "predicate": "the held-out prediction fails by more than a factor of 2",
+      "replaced_by": "M5 refuted; the surviving question is whether s_true = phi",
+      "document": "results/solve/STATUS_LEDGER.md",
+      "sha256": "425abba37778ca9646afffabd440c242eb1b1643dabeb65f808388fb7a46bd6c"
+    },
+    {
+      "id": "R13",
+      "wp": "WP45",
+      "state": "RETRACTED",
+      "claim": "delta* = 48 bp/PD at the +PT anchor distinguishes open from closed",
+      "actual": "the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed to vanish, while tau(-PT) is simultaneously large enough to move the fold; the two are inconsistent under one coupling rule",
+      "predicate": "the true and stored readings differ by 6x for the same data",
+      "replaced_by": "tau must be applied consistently; on the true reading delta* is 7.9 bp/PD",
+      "document": "results/solve/WP45_CREATIVE.md",
+      "sha256": "eec6e6e409556f0d52c73852641cefd77c2fbf76855b04e0f62db3ae89a3debc"
+    },
+    {
+      "id": "R10",
+      "wp": "WP44",
+      "state": "RETRACTED",
+      "claim": "the two-chase inversion measures tau exactly, with no model assumption",
+      "actual": "m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, so m/c returns tau by construction; the 1e-17 round trip is algebra",
+      "predicate": "any kappa at all gives the same tau from the same ratio",
+      "replaced_by": "an independent count of the stalled population is required",
+      "document": "results/solve/WP37_MISSING.md",
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
+    },
+    {
+      "id": "R11",
+      "wp": "WP44",
+      "state": "RETRACTED",
+      "claim": "the programme is blocked because n has never been measured",
+      "actual": "n enters only through the identity C1 already retracted; R1/2 and the gate are n-free and move 7% across n = 1..64",
+      "predicate": "recomputing R1/2 from measured s0 through n barely changes it",
+      "replaced_by": "drop n from the ledger - it was never load-bearing",
+      "document": "results/solve/STATUS_LEDGER.md",
+      "sha256": "425abba37778ca9646afffabd440c242eb1b1643dabeb65f808388fb7a46bd6c"
+    },
+    {
       "id": "R9",
       "wp": "WP40",
       "state": "CORRECTED",
@@ -159,7 +225,7 @@
       "predicate": "the same file states both CLOSED and OPEN with no marker on one",
       "replaced_by": "section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gate unmarked",
       "document": "results/solve/OPEN_GAPS.md",
-      "sha256": "796224b16c57c8fc61feac05d489d5f0985c9deb6acc4709adea6f0e9d0e3591"
+      "sha256": "58de00ec3484b57688bc319863011392d657a81cb1972fe9c723ac0185e95e8d"
     },
     {
       "id": "R8",
@@ -170,7 +236,7 @@
       "predicate": "substituting the measured anchor changes CLOSED to OPEN",
       "replaced_by": "gate OPEN on the measurement; the closed gate is evidence against M5, not against the target (WP40)",
       "document": "results/solve/WP37_MISSING.md",
-      "sha256": "29bff27a4936ee1b6433b449ee40daef82a414c660aefff94ecbbb6abb29a257"
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
     },
     {
       "id": "R7",
@@ -181,7 +247,7 @@
       "predicate": "running the criterion refutes the proposal it was written for",
       "replaced_by": "gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39)",
       "document": "results/solve/WP37_MISSING.md",
-      "sha256": "29bff27a4936ee1b6433b449ee40daef82a414c660aefff94ecbbb6abb29a257"
+      "sha256": "0c6977c913304ce0bba5b57c3401db11a53df3efd89d7911fe205d79ef6c9fb3"
     },
     {
       "id": "X1",
@@ -247,7 +313,7 @@
       "predicate": "the measured quantity must not be a function of a parameter the author set",
       "replaced_by": "WP51 stage 1: the linker built as atoms (RDKit), free in implicit solvent, and its end-to-end distribution sampled. The stiffness used downstream is DERIVED as k = kT/sigma^2",
       "document": "results/solve/WP51_ORDERING_MD.md",
-      "sha256": "7ec4c465ed7122c24183f32b4ef21c6c8db5bf19e28e8a4e538816f8548df56e"
+      "sha256": "6bfa267569ffd2736ec92be939b226d3ac25bb0c1985833017b4ea78bda6feef"
     },
     {
       "id": "Y1",
@@ -267,9 +333,9 @@
       "claim": "the design is 1.78 kcal/mol short of the potency a drug requires, with 6.36 kcal/mol of contact energy",
       "actual": "6.36 kcal/mol is the ORDERING COST (WP48), not the contact energy (5.41, WP45/WP47). Subtracting one from the other was also done with the wrong sign: a favourable contact is negative and an unpaid ordering cost is positive, so dG_net = -5.41 + 6.36 = +0.95. The design does not bind at all; it is not nearly a drug",
       "predicate": "the two energies must be the two different quantities named, with an explicit sign convention",
-      "replaced_by": "WP54 P15: net binding free energy +0.95 kcal/mol, shortfall 9.09 kcal/mol against the 8.14 kcal/mol requirement",
+      "replaced_by": "WP54 P15 with WP51's MEASURED ordering cost: net binding free energy -2.03 kcal/mol (-4.01 with the glycine linker), shortfall 6.11 kcal/mol against the 8.14 kcal/mol requirement. The conclusion strengthened: it is not a drug",
       "document": "results/solve/WP54_REMAINING.md",
-      "sha256": "7c4f4ae5d907f491b5d110bcc74aec487c5689a89f09f9cec1b3c19fa4929b84"
+      "sha256": "b369519761be31343a122a9eaaf3aa114f7001c034e8a6e3937c4eb93cd935ea"
     },
     {
       "id": "Y3",
@@ -286,12 +352,12 @@
       "id": "Y4",
       "wp": "WP51",
       "state": "CORRECTED",
-      "claim": "a self-test is a safe way to exercise a generator",
-      "actual": "WP51's --self-test calls build(quick=True), and the checkpoint wrote the JSON unconditionally - so running the self-test OVERWROTE a 20-minute production result with 4-picosecond numbers",
-      "predicate": "a toy run must not be able to write to a quotable artefact",
-      "replaced_by": "quick runs write *.quick.json; the checkpoint refuses to fire on a quick run",
+      "claim": "a self-test is a safe way to exercise a generator, and a 'passive' flat-bottom restraint is passive",
+      "actual": "two separate faults, both silent. (1) --self-test calls build(quick=True) and the checkpoint wrote the JSON unconditionally, so running a self-test OVERWROTE a 20-minute production result with 4-picosecond numbers. (2) The restraint was written 0.5*k*max(r-r_on,0)^2 + 0.5*k*max(r_off-r,0)^2, whose second term is non-zero for EVERY r below r_off - so the 'flat bottom' was a harmonic well centred at 14 A and nine independent builds of three different linkers all returned 14.00 +/- 0.12 A. The run measured its own restraint",
+      "predicate": "a restraint intended to be non-perturbing must have ZERO energy at the midpoint of its window, checked numerically, not by reading the expression",
+      "replaced_by": "the checkpoint refuses to fire on a quick run (quick runs write *.quick.json), and the restraint is max(r-r_off,0)^2 + max(r_on-r,0)^2, unit-checked to be zero at 5, 14 and 20 A",
       "document": "results/solve/WP51_ORDERING_MD.md",
-      "sha256": "7ec4c465ed7122c24183f32b4ef21c6c8db5bf19e28e8a4e538816f8548df56e"
+      "sha256": "6bfa267569ffd2736ec92be939b226d3ac25bb0c1985833017b4ea78bda6feef"
     }
   ],
   "marker_files": {
@@ -308,10 +374,10 @@
       "CORRECTED": 0
     },
     "results/solve/MASTER_RECORD.md": {
-      "RETRACTED": 6,
+      "RETRACTED": 12,
       "WITHDRAWN": 3,
-      "SUPERSEDED": 4,
-      "CORRECTED": 9
+      "SUPERSEDED": 5,
+      "CORRECTED": 13
     },
     "results/solve/OPEN_GAPS.md": {
       "RETRACTED": 0,
@@ -320,9 +386,9 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 9,
+      "RETRACTED": 14,
       "WITHDRAWN": 5,
-      "SUPERSEDED": 6,
+      "SUPERSEDED": 7,
       "CORRECTED": 15
     },
     "results/solve/STATUS_LEDGER.md": {
@@ -388,8 +454,14 @@
     "results/solve/WP37_MISSING.md": {
       "RETRACTED": 0,
       "WITHDRAWN": 0,
-      "SUPERSEDED": 0,
+      "SUPERSEDED": 1,
       "CORRECTED": 2
+    },
+    "results/solve/WP40_DESIGN_TO_FIFTY.md": {
+      "RETRACTED": 0,
+      "WITHDRAWN": 0,
+      "SUPERSEDED": 1,
+      "CORRECTED": 0
     },
     "results/solve/WP44_MODULAR.md": {
       "RETRACTED": 0,

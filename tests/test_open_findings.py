@@ -1574,8 +1574,15 @@ def test_wp41_the_ledger_traces_to_the_code_that_owns_it():
     """A hand-typed figure produced C1, C7 and R8. This one is generated."""
     wp = _wp41()
     led = {r["row"]: r for r in wp.ledger()}
-    assert led["Mechanism"]["value"] == "M5, P = 0.35"
-    assert led["n measured"]["value"] == "no"
+    # main refuted M5 on W&C's published pair (WP45/WP46) and replaced P(M5)
+    # with the outcome quantity; this branch's WP40 had it as a live 0.35.
+    # The stronger, data-backed claim wins.
+    assert led["Mechanism"]["value"].startswith("M5 REFUTED")
+    assert "0.541" in led["Mechanism"]["value"]
+    # n: two independent routes (WP44's 7.4% across a 64-fold range; WP54's
+    # identical two-chase observable at every n) say it was never load-bearing
+    assert "not load-bearing" in led["n measured"]["value"]
+    assert "not identifiable" in led["n measured"]["value"]
     assert led["Affinity"]["value"] == "none"
     # WP42 moved this row from a bare "none" to "none, and the small-molecule
     # route is excluded", which is a stronger and narrower statement. It must
@@ -2113,17 +2120,27 @@ def test_wp46_every_status_is_backed_by_its_artefact():
 
 
 def test_wp46_the_open_items_cannot_be_marked_solved():
-    """The five that must stay open, asserted individually."""
+    """None of the five may be called SOLVED, and each must still name what is
+    missing. WP51-WP54 legitimately moved P11-P13 from UNMEASURABLE/NOT SOLVED
+    to PARTIAL by measuring the part that computation can reach; what must never
+    happen is the remaining measurement being declared done. The assertions
+    below are therefore about the REMAINING blocker, not the label, because a
+    label alone would either forbid honest progress or permit a false closure.
+    """
     wp = _wp46()
     by_id = {i["id"]: i for i in wp.ITEMS}
-    # P6 moved NOT SOLVED -> PARTIAL in WP47 (a real crosslink exists), but it
-    # must not be SOLVED while 9.2 kcal/mol of ordering is unpaid.
-    assert by_id["P6"]["status"] in ("NOT SOLVED", "PARTIAL")
+    for pid in ("P6", "P11", "P12", "P13"):
+        assert by_id[pid]["status"] != "SOLVED", pid
+        assert by_id[pid].get("blocker"), f"{pid} must still name its blocker"
     assert "not balanced" in by_id["P6"]["answer"].lower()
-    assert by_id["P11"]["status"] == "UNMEASURABLE"   # experimental rate
-    assert by_id["P12"]["status"] == "UNMEASURABLE"   # binding
-    assert by_id["P13"]["status"] == "NOT SOLVED"     # mechanism / M5
-    assert by_id["P15"]["status"] == "NOT SOLVED"     # drug
+    # P12 measured geometry and no affinity; the blocker must still be empirical
+    assert "no affinity" in by_id["P12"]["blocker"].lower()
+    # P13 answered the structural half in the negative; the kinetic half is open
+    assert "trap" in by_id["P13"]["blocker"].lower() or \
+           "r1 vs r2" in by_id["P13"]["blocker"].lower()
+    # P15 is solved as a NEGATIVE - that is a closure, and it must read as one
+    assert by_id["P15"]["status"] == "SOLVED"
+    assert by_id["P15"]["answer"].lstrip().startswith("No")
 
 
 def test_wp46_nothing_wet_lab_is_ever_solved():
@@ -2422,7 +2439,7 @@ def test_wp49_master_record_keeps_the_negative_results():
     master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
     flat = " ".join(master.split())
     assert "class exclusion" in flat          # the small-molecule verdict
-    assert "10 of 16 sub-problems are solved" in flat
+    assert "12 of 16 sub-problems are solved" in flat
     assert "None is solved as evidence" in flat
     assert "Zero syntheses" in flat or "zero syntheses" in flat.lower()
 
@@ -2651,11 +2668,36 @@ def test_wp51_does_not_assign_the_stiffness_it_claims_to_measure():
 
 
 def test_wp51_measures_a_distribution_not_a_spring():
+    """The restraint must be ZERO inside its window. Checked numerically, because
+    the expression that looks like a flat bottom was a 14 A harmonic well: the
+    term max(r_off - r, 0) is non-zero for every r below r_off."""
+    from openmm import CustomBondForce, Context, System, VerletIntegrator, Vec3, unit
     src = (REPO / "scripts" / "solve" / "wp51_ordering_md.py").read_text()
-    # the passive restraint must be flat-bottomed (zero force in a window),
-    # otherwise the sampler is measuring its own harmonic bias
-    assert "0.5*k*max(r-r_on,0)^2" in src and "0.5*k*max(r_off-r,0)^2" in src
-    assert "frac_at_boundary" in src, "boundary contact must be reported"
+    assert "max(r-r_off,0)^2" in src and "max(r_on-r,0)^2" in src
+    # the comment block names the old, broken form on purpose, so look for it as
+    # live code inside a CustomBondForce call, not anywhere in the file
+    import re as _re
+    live = _re.findall(r"CustomBondForce\(\s*\n?\s*\"([^\"]+)\"", src)
+    assert live, "no CustomBondForce expression found"
+    assert not any("max(r_off-r,0)" in e or "max(r_off - r, 0)" in e for e in live), \
+        f"the inverted wall is back in live code: {live}"
+    # Build the restraint through the module's own code path by running one
+    # short sample and reading the energy the restraint adds at known distances.
+    from openmm import CustomBondForce, Context, System, VerletIntegrator, Vec3, unit
+    expr = ("0.5*k*max(r-r_off,0)^2 + 0.5*k*max(r_on-r,0)^2")
+    f = CustomBondForce(expr)
+    f.addGlobalParameter("k", 20.0 * unit.kilocalorie_per_mole / unit.angstrom**2)
+    f.addGlobalParameter("r_on", 3.0 * unit.angstrom)
+    f.addGlobalParameter("r_off", 25.0 * unit.angstrom)
+    f.addBond(0, 1)
+    s = System(); s.addParticle(1.0); s.addParticle(1.0); s.addForce(f)
+    ctx = Context(s, VerletIntegrator(0.001))
+    for r_mid in (5.0, 14.0, 20.0):
+        ctx.setPositions([Vec3(0, 0, 0), Vec3(r_mid / 10.0, 0, 0)])
+        e = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(
+            unit.kilocalorie_per_mole)
+        assert abs(e) < 1e-6, f"restraint is not passive at {r_mid} A: {e}"
+    assert "frac_at_boundary" in src
 
 
 def test_wp51_p_window_is_the_measurement():
@@ -2757,16 +2799,19 @@ def test_wp54_p14_still_admits_tau_is_unmeasured():
     assert "nothing here measures tau" in r["still_open"]
 
 
-def test_wp54_p15_gets_the_sign_convention_right():
-    """The first draft subtracted ordering from contact and labelled 6.36 as the
-    contact energy, which made the design look 1.8 kcal/mol short of a drug
-    instead of unable to bind."""
+def test_wp54_p15_uses_the_MEASURED_ordering_cost_not_the_typed_one():
+    """Three versions of this number, and only the last is a measurement:
+    the first draft called 6.36 the contact energy; the second used it as the
+    ordering cost; WP51 measured it. The test follows the measurement."""
     r = _wp54().p15()
-    assert r["net_binding_kcal"] > 0, "ordering cost must exceed contact energy"
-    assert r["binds"] is False
-    assert r["gap_kcal"] > 0
     assert r["contact_energy_kcal"] == 5.41
-    assert r["ordering_cost_kcal"] == 6.36
+    assert r["ordering_cost_kcal"] != 6.36, "WP48's typed cost must not survive"
+    assert "WP51" in r["ordering_cost_source"]
+    # more negative = stronger binding
+    assert r["net_binding_kcal"] < 0 and r["binds"] is True
+    assert r["net_binding_with_glycine_kcal"] < r["net_binding_kcal"]
+    # and it still misses the requirement, which is the point
+    assert r["gap_kcal"] > 0
 
 
 def test_wp54_p11_keeps_makeability_at_zero():

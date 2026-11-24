@@ -781,6 +781,27 @@ def write_md(res: dict) -> None:
     A("")
 
     j = res["junction"]
+    A("## The restraint was INVERTED, and that produced the first 'result'")
+    A("")
+    A("The sampler uses a flat-bottom restraint so the free peptide cannot unfold")
+    A("out of the box. The first version read:")
+    A("")
+    A("    0.5*k*max(r - r_on, 0)^2  +  0.5*k*max(r_off - r, 0)^2")
+    A("")
+    A("The second term is non-zero for **every** r below `r_off`. That is not a")
+    A("flat bottom: it is a harmonic well centred at (r_on + r_off)/2 = 14 A.")
+    A("")
+    A("The consequence was unmistakable in hindsight: **nine independent builds of")
+    A("three chemically different linkers all returned r = 14.00 ± 0.12 A**, with a")
+    A("spread of 0.11 A for a flexible pentapeptide — which is not a")
+    A("conformational distribution at all. The run was measuring its own restraint.")
+    A("")
+    A("The correct form is `max(r - r_off, 0)^2 + max(r_on - r, 0)^2`, which is")
+    A("exactly zero inside the window and walls only outside it. It is now")
+    A("unit-checked at 5, 14 and 20 A in `--self-test` rather than read for")
+    A("correctness.")
+    A("")
+
     A("## The quantity that needs pricing")
     A("")
     A("The linker occupies the junction between TPP1 residues 166–172 and")
@@ -886,10 +907,31 @@ def write_md(res: dict) -> None:
     lo = min(v for v in dgs.values() if v is not None)
     hi = max(v for v in dgs.values() if v is not None)
     A(f"The measured ordering costs span **{lo}–{hi} kcal/mol** at the ±1 Å")
-    A("window. Read that against what was being typed before: WP47's 0.6")
-    A("kcal/mol per torsion, six torsions per staple, would have charged 3.6")
-    A("kcal/mol for a construct it never measured. The measurement does not")
-    A("confirm that price; it replaces the argument with a distribution.")
+    A("window, and the spread between linkers is real rather than a tie.")
+    A("")
+    rows = res["stage1"]["constructs"]
+    best = min(rows, key=lambda r: r["windows"]["1.0A"]["dg_kcal"])
+    worst = max(rows, key=lambda r: r["windows"]["1.0A"]["dg_kcal"])
+    A(f"**{best['linker']} is the cheapest construct measured** "
+      f"(p = {best['windows']['1.0A']['p']:.3f} inside ±1 Å of the "
+      f"{res['junction']['c172_n209']} Å junction, "
+      f"{best['windows']['1.0A']['dg_kcal']} kcal/mol), while "
+      f"{worst['linker']} never came within ±1 Å in "
+      f"{worst['n_frames']} frames, so its cost is a lower bound at "
+      f"{worst['windows']['1.0A']['dg_kcal']} kcal/mol.")
+    A("")
+    A("That ordering is **the opposite of what WP48 assumed.** WP48 replaced")
+    A("WP45's flexible GGGGG linker with PAPAP and credited the change with")
+    A("−2.84 kcal/mol on the grounds that proline is more rigid. Measured, the")
+    A("rigid linker is *worse* at reaching the 16.31 Å junction: a stiffer chain")
+    A("cannot span far, and PAPAP's population sits at "
+      f"{next(r['r_mean'] for r in rows if r['linker'] == 'PAPAP')} Å. The")
+    A("WP48 saving was subtracted from itself rather than measured, and when")
+    A("measured it changes sign.")
+    A("")
+    A("The same applies to WP47's 0.6 kcal/mol per torsion, six torsions per")
+    A("staple: 3.6 kcal/mol for a construct nobody measured. The measurement")
+    A("does not confirm that price.")
     A("")
     A("Because only the radial part of the confinement is counted, every value")
     A("here is a **lower bound**. It is the right quantity to compare linkers")

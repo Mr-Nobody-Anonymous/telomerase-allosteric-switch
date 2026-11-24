@@ -143,9 +143,21 @@ def ledger() -> list[dict]:
     thr = w40.tau_gate_threshold()
 
     return [
-        dict(row="Mechanism", value=f"M5, P = {p_m5:.2f}",
-             basis=f"0.70 x 0.50; {w40.bayes_factor_needed(p_m5):.2f}x odds needed for 0.50",
-             source="wp40", verdict="falsifiable, untested"),
+        # main (WP45/WP46) refuted M5 on data the programme already had, and
+        # replaced P(M5) with the outcome quantity P(any of M1-M6). That is
+        # stronger than this branch's "falsifiable, untested", and it is derived
+        # from W&C's published pair, so it is adopted here rather than overwritten.
+        dict(row="Mechanism", value="M5 REFUTED; P(any) = 0.541",
+             basis=("M5: tau = 0.6506 from L&C's published pair (s_obs, phi); M5 "
+                    "predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x "
+                    "under-prediction (WP45). The OUTCOME quantity is P(any of "
+                    "M1-M6) = 0.541 at premise 0.60, not the old P(M5) = 0.35: "
+                    "refuting one of six routes does not remove the outcome "
+                    "(WP46). This branch's WP54 adds the algebraic reason n could "
+                    "never have rescued it: the two-chase observable is identical "
+                    "at every n."),
+             source="wp45, wp46, wp54",
+             verdict="refuted on data the programme already had, twice over"),
         dict(row="Evidence",
              value="1 fit datum; 1 model-free check passed; 1 usable panel not yet testable",
              basis=("Lenasi & Cech 2010 = the fit target. Zhao 2011 in vivo ~60 nt: "
@@ -174,14 +186,18 @@ def ledger() -> list[dict]:
                     "20.26 A apart) and showed no drug-like monomer spans it: 7.8 phenyls, "
                     "MW ~683, logP ~11. The reachable site is the K78/R132 groove alone"),
              source="wp37, wp39, wp42", verdict="design moved to proteins, not ligands"),
-        dict(row="n measured", value="not a measurable parameter",
-             basis=("wp54 swept n = 1,2,3,6,12,24 through the model's own "
-                    "equations: m/c and the recovered tau and kappa are identical "
+        dict(row="n measured", value="not load-bearing, and not identifiable",
+             basis=("TWO independent routes reach this. (1) WP44 recomputed R1/2 "
+                    "through the exponent: 7.530, 7.903, 8.000, 8.050, 8.074 and "
+                    "8.090 at n = 1, 3, 6, 12, 24 and 64 - 7.4% across a 64-fold "
+                    "range, so the exponent cancels to first order and the gate is "
+                    "n-free. (2) WP54 swept the same n values through the "
+                    "two-chase: m/c and the recovered tau and kappa are IDENTICAL "
                     "at every n, and only the per-round rate moves (2.70 -> 0.056, "
-                    "48x). n is the step size of a discretisation; its legible "
-                    "form is 6 escape opportunities per 6-nt repeat, a count"),
-             source="wp54, wp37",
-             verdict="reframed; tau remains the real free parameter and is unrun"),
+                    "48x). n is the step size of a discretisation, not a parameter "
+                    "an experiment can recover"),
+             source="wp44, wp54, wp37",
+             verdict="not a gap; tau remains the real free parameter and is unrun"),
         dict(row="Gate (50 bp/PD)", value=f"OPEN above tau = {thr:.3f}",
              basis=("48.0 at M5's own predicted anchor; 70.1 on L&C's measured "
                     ">=4x; the gate is a function of the unmeasured stall share"),
@@ -415,8 +431,12 @@ def _self_test() -> int:
         chk(f"ledger has row {row!r}", row in led)
 
     p_m5 = w40.posterior(0.70, 0.50)
-    chk("P(M5) matches wp40", f"{p_m5:.2f}" in led["Mechanism"]["value"])
-    chk("P(M5) is 0.35", abs(p_m5 - 0.35) < 1e-9)
+    chk("the mechanism row carries WP45/WP46's refutation",
+        led["Mechanism"]["value"].startswith("M5 REFUTED"))
+    chk("the outcome quantity is P(any), not P(M5)",
+        "0.541" in led["Mechanism"]["value"])
+    chk("the refutation is kept alongside this branch's reason for it",
+        "every n" in led["Mechanism"]["basis"])
     chk("the gate threshold matches wp40",
         f"{w40.tau_gate_threshold():.3f}" in led["Gate (50 bp/PD)"]["value"])
     chk("retraction count matches wp38",
@@ -438,8 +458,11 @@ def _self_test() -> int:
     # --- the corrections the old summary got wrong
     # WP54 reframed this row: n is not a parameter an experiment can recover, so
     # "no" (meaning "still unmeasured") is no longer the honest value.
-    chk("'n measured' reports the reframing, not a stale 'no'",
-        "not a measurable parameter" in led["n measured"]["value"])
+    chk("'n measured' reports both independent routes, not a stale 'no'",
+        "not load-bearing" in led["n measured"]["value"] and
+        "not identifiable" in led["n measured"]["value"])
+    chk("the n row keeps WP44's 7.4% number",
+        "7.4%" in led["n measured"]["basis"])
     chk("the reframing keeps tau named as still unrun",
         "tau" in led["n measured"]["verdict"].lower() or
         "τ" in led["n measured"]["verdict"])

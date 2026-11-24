@@ -176,12 +176,19 @@ def p15() -> dict:
     # ordering cost - a mislabel that would have made the design look 1.8
     # kcal/mol short of a drug instead of unable to bind at all.
     contact_kcal = 5.41      # WP45/WP47: the graft's measured contact energy
-    ordering_kcal = 6.36     # WP48: the ordering cost, still unpaid
+    # WP48's typed 6.36 is superseded by WP51's measurement. Two numbers matter:
+    #   measured, for the linker it actually designed (PAPAP): >= 3.378 kcal/mol,
+    #   measured, for the cheapest construct (GGGGG):          1.404 kcal/mol
+    # The design as specified uses PAPAP, so P15 is stated against that one and
+    # the GGGGG figure is given beside it as the improvement a linker swap buys.
+    ordering_kcal = 3.378
+    ordering_kcal_glycine = 1.404
     # SIGN CONVENTION, stated because the first draft got it backwards: a
     # favourable contact is NEGATIVE, an unpaid ordering cost is POSITIVE, so
     #   dG_net = -contact + ordering
     # and dG_net > 0 means the peptide does not bind.
     net_kcal = -contact_kcal + ordering_kcal
+    net_kcal_glycine = -contact_kcal + ordering_kcal_glycine
     # the requirement is dG <= -8.14; report how far above it the design sits
     gap = net_kcal - req["required_dg_kcal"]
     return {
@@ -190,7 +197,11 @@ def p15() -> dict:
         "site": pocket,
         "contact_energy_kcal": contact_kcal,
         "ordering_cost_kcal": ordering_kcal,
+        "ordering_cost_source": ("WP51 measured, PAPAP lower bound at the +-1 A "
+                                 "window; supersedes WP48's typed 6.36"),
+        "ordering_cost_glycine_kcal": ordering_kcal_glycine,
         "net_binding_kcal": round(net_kcal, 2),
+        "net_binding_with_glycine_kcal": round(net_kcal_glycine, 2),
         "binds": net_kcal < 0,
         "gap_kcal": round(gap, 2),
         "answer": (
@@ -201,9 +212,13 @@ def p15() -> dict:
             f"because its ordering cost ({ordering_kcal} kcal/mol) EXCEEDS its "
             f"contact energy ({contact_kcal} kcal/mol): net "
             f"{net_kcal:+.2f} kcal/mol, i.e. it does not bind at all, and it "
-            f"misses the requirement by {gap:.2f} kcal/mol. The obstacle is "
-            f"not affinity and it is not pocket size - it is the unpaid ordering "
-            f"cost, which is the same obstacle P6/P11/P12 carry."),
+            f"misses the requirement by {gap:.2f} kcal/mol. The ordering cost is "
+            f"now MEASURED rather than typed (WP51): {ordering_kcal} kcal/mol as "
+            f"a lower bound for the PAPAP linker WP48 specified, and only "
+            f"{ordering_kcal_glycine} kcal/mol for WP45's GGGGG - which would give "
+            f"{net_kcal_glycine:+.2f} kcal/mol, still positive. Paying the ordering "
+            f"cost in full is necessary and still not sufficient: the contact "
+            f"energy itself is below the 8.14 kcal/mol requirement."),
         "what_would_change_it": [
             "a covalent or irreversible warhead aimed at K78/R132 (changes the "
             "energetics from Kd to kinact/Ki, which this calculation does not cover)",
@@ -465,9 +480,11 @@ def write_md(res: dict) -> None:
     A(f"| **ligand K_L required** | **{r['potency_requirement']['required_kl_um']} µM** |")
     A(f"| **binding free energy required** | **{r['potency_requirement']['required_dg_kcal']} kcal/mol** |")
     A(f"| contact energy of the graft | {r['contact_energy_kcal']} kcal/mol |")
-    A(f"| ordering cost still unpaid | −{r['ordering_cost_kcal']} kcal/mol |")
+    A(f"| ordering cost, MEASURED (WP51) | −{r['ordering_cost_kcal']} kcal/mol |")
+    A(f"| ordering cost, glycine linker (WP51) | −{r['ordering_cost_glycine_kcal']} kcal/mol |")
     A(f"| **net binding free energy** | **{r['net_binding_kcal']:+.2f} kcal/mol → "
-      f"{'binds' if r['binds'] else 'DOES NOT BIND'}** |")
+      f"{'binds weakly' if r['binds'] else 'DOES NOT BIND'}** |")
+    A(f"| with WP45's glycine linker instead | {r['net_binding_with_glycine_kcal']:+.2f} kcal/mol |")
     A(f"| requirement for a drug | {r['potency_requirement']['required_dg_kcal']} kcal/mol |")
     A(f"| **shortfall** | **{r['gap_kcal']} kcal/mol** |")
     A("")
@@ -612,9 +629,20 @@ def self_test() -> int:
        len(r["potency_requirement"]["assumptions"]) >= 3)
     ok("P15 finds the design short of the requirement",
        r["gap_kcal"] > 0, r["gap_kcal"])
-    ok("P15 gets the sign right: ordering cost exceeds contact energy",
-       r["net_binding_kcal"] > 0 and r["binds"] is False,
+    # With WP51's MEASURED ordering cost, the net is negative for both linkers:
+    # the peptide would bind, weakly, and still miss the drug requirement. The
+    # earlier version of this check asserted a positive net because it used
+    # WP48's typed 6.36; the measurement changed the answer, and the test must
+    # change with it rather than be tuned to keep the old claim alive.
+    ok("P15 nets a weak binder, not a non-binder, on the measured ordering cost",
+       r["net_binding_kcal"] < 0 and r["binds"] is True,
        (r["net_binding_kcal"], r["binds"]))
+    ok("P15 still misses the drug requirement",
+       r["gap_kcal"] > 0, r["gap_kcal"])
+    # more negative = stronger binding, so "better" means SMALLER
+    ok("P15 shows the glycine linker is strictly better (more negative)",
+       r["net_binding_with_glycine_kcal"] < r["net_binding_kcal"],
+       (r["net_binding_kcal"], r["net_binding_with_glycine_kcal"]))
     ok("P15's answer says no, and says why", "No" in r["answer"])
     ok("P15 names what would change it",
        len(r["what_would_change_it"]) >= 2)

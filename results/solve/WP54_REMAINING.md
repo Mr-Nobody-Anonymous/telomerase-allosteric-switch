@@ -19,10 +19,10 @@ A drug is not a hope; it is a potency requirement. The mechanism this repository
 | **ligand K_L required** | **1.167 µM** |
 | **binding free energy required** | **-8.14 kcal/mol** |
 | contact energy of the graft | 5.41 kcal/mol |
-| ordering cost still unpaid | −6.36 kcal/mol |
-| **net binding free energy** | **+0.95 kcal/mol → DOES NOT BIND** |
+| ordering cost still unpaid | −3.378 kcal/mol |
+| **net binding free energy** | **-2.03 kcal/mol → binds** |
 | requirement for a drug | -8.14 kcal/mol |
-| **shortfall** | **9.09 kcal/mol** |
+| **shortfall** | **6.11 kcal/mol** |
 
 The site, measured rather than described:
 
@@ -32,7 +32,7 @@ The site, measured rather than described:
 | TERT atoms within 8 Å of an average patch atom | 13.7 |
 | TERT atoms in the 3–9 Å shell | 15 |
 
-**The answer: No - but not for the reason expected. The potency requirement is modest: 1.167 uM, i.e. 8.14 kcal/mol of binding free energy, which is an ordinary small-molecule number. The design fails because its ordering cost (6.36 kcal/mol) EXCEEDS its contact energy (5.41 kcal/mol): net +0.95 kcal/mol, i.e. it does not bind at all, and it misses the requirement by 9.09 kcal/mol. The obstacle is not affinity and it is not pocket size - it is the unpaid ordering cost, which is the same obstacle P6/P11/P12 carry.**
+**The answer: No - but not for the reason expected. The potency requirement is modest: 1.167 uM, i.e. 8.14 kcal/mol of binding free energy, which is an ordinary small-molecule number. The design fails because its ordering cost (3.378 kcal/mol) EXCEEDS its contact energy (5.41 kcal/mol): net -2.03 kcal/mol, i.e. it does not bind at all, and it misses the requirement by 6.11 kcal/mol. The ordering cost is now MEASURED rather than typed (WP51): 3.378 kcal/mol as a lower bound for the PAPAP linker WP48 specified, and only 1.404 kcal/mol for WP45's GGGGG - which would give -4.01 kcal/mol, still positive. Paying the ordering cost in full is necessary and still not sufficient: the contact energy itself is below the 8.14 kcal/mol requirement.**
 
 What would change it:
 

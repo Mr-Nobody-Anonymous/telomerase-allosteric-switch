@@ -11,7 +11,7 @@ drifted three times (C1, C7, R8), so this document does not contain any.
 
 ## 0. The answer, first
 
-**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
+**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has an ordering cost unpaid. WP51 then measured it: 1.40 kcal/mol for the glycine linker and >=3.38 for WP48's PAPAP - the linker swap made ordering WORSE, not better. A scaffold is still required.**
 
 | status | count |
 |---|---|
@@ -371,9 +371,9 @@ This removes 'TPP1 remodels TERT' from the candidate mechanisms. It does not cho
 | term | value |
 |---|---|
 | contact energy (WP45/WP47) | 5.41 kcal/mol |
-| ordering cost, unpaid (WP48) | -6.36 kcal/mol |
-| **net binding free energy** | **+0.95 kcal/mol** |
-| shortfall against the drug requirement | 9.09 kcal/mol |
+| ordering cost, unpaid (WP48) | -3.378 kcal/mol |
+| **net binding free energy** | **-2.03 kcal/mol** |
+| shortfall against the drug requirement | 6.11 kcal/mol |
 
 **P14 — is n measured?** It is not a measurable parameter. Across n = 1 to 24 the two-chase observable m/c is 1.448879638 every time, and tau and kappa come back unchanged, while only the per-round rate moves (1.7 at n=1 to 0.042254 at n=24, a 40.2-fold spread that no observable sees).
 
@@ -419,7 +419,7 @@ This removes 'TPP1 remodels TERT' from the candidate mechanisms. It does not cho
   - A covalent constraint EXISTS, and WP45 missed it by screening disulfides only. Over six chemistries spanning 3.5-12.5 A, W167-L211 passes reach, direction, clash and payload tests at 6.34 A with cos 0.98/0.09 - and the native indole/Leu contact there is already 3.50 A. WP48 added a structured linker and WP50 a covalent tether to TERT, taking the shortfall from 9.2 to 2.36 kcal/mol. Still not balanced.
   - *blocker:* the remaining 2.36 kcal/mol after the WP50 covalent tether. Ring closure is now closed off permanently (20.42 A vs ~7 A reach) and trimming only buys 4 residues, so the residue is a presenting scaffold or the TERT Cys tether, both of which need to be made
 - **P11 (PARTIAL)** — What is the experimental success rate?
-  - Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP48 measured the makeability factor at exactly ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for the designs as they stand is 0, not small, and that is a statement about makeability rather than luck. With ordering paid, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
+  - Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP51 MEASURED the ordering cost (1.40 kcal/mol for the glycine linker, >=3.38 for PAPAP) in place of WP48's typed 6.36. The makeability factor is still zero, but for a better stated reason: the scaffold needed to pay even the measured cost does not exist yet. With it, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
   - *blocker:* f2 = 0 until the ordering cost is paid; f3 is a literature range, not a measurement at this interface
 - **P12 (PARTIAL)** — Do any of these designs bind telomerase?
   - The geometric half is measured and it PASSES: with its 14 native residues pinned to the 7TRE coordinates to 0.00 A, the designed linker clears every TERT heavy atom by 8.22 A (PAPAP) - 0 atoms inside 2.5 A. The design is sterically compatible with the deposited TERT surface, so 'a score would be fabricated' was false for the geometric part. What is NOT measured is any affinity, and the remaining blocker is an experiment.
@@ -432,7 +432,7 @@ This removes 'TPP1 remodels TERT' from the candidate mechanisms. It does not cho
 
 ## 8. Every retraction
 
-**21 registered.** The register is enforced: a marker removed from a
+**32 registered.** The register is enforced: a marker removed from a
 source document, or a refuted claim added without registering it, fails the
 test suite.
 
@@ -451,6 +451,12 @@ test suite.
 | **R4** | SUPERSEDED | P2 is a re-analysis of existing gels: days, no reagent | no per-band data exists here (WP24); it needs chase +/- a DNA trap | a TWO-chase design, 3-12 replicates per arm (WP37) |
 | **R5** | SUPERSEDED | the maintenance gate is OPEN at 57.3 bp/PD | 57.3 is the n=6 branch of a quantity that need not depend on n | gate CLOSED at 48 bp/PD, exponent-free (WP37) |
 | **R6** | SUPERSEDED | the feasibility sweep's s-ratio ceiling is the binding constraint | the ceiling assumed a factorisation that WP22 itself falsified | M5 drops phi from the product entirely |
+| **R15** | SUPERSEDED | P(M5) > 50 % is 'reachable' by lifting the P2 term to 0.714 | M5 was refuted outright (WP45, R12), so lifting its probability is no longer a live objective; and the target was the wrong quanti | P(any of M1-M6) with a labelled premise, tracked per option |
+| **R14** | RETRACTED | P(M5) = 0.35 is the probability that a switch is achievable | P(M5) is one mechanism out of six; the outcome quantity is P(any of M1-M6) = 0.541 with the shared premise, 0.702 if the routes ar | P(any) with a labelled premise, plus a VOI ranking |
+| **R12** | RETRACTED | M5 is a live candidate mechanism with P ~ 0.35 | with tau fixed by L&C's own two published numbers (0.6506), M5 predicts a +PT fold of 2.73x against 6.65x implied - a 2.4x under-p | M5 refuted; the surviving question is whether s_true = phi |
+| **R13** | RETRACTED | delta* = 48 bp/PD at the +PT anchor distinguishes open from closed | the stored R1/2 = 8.0 is recovered only if the +PT stall is assumed to vanish, while tau(-PT) is simultaneously large enough to mo | tau must be applied consistently; on the true reading delta* is 7.9 bp/PD |
+| **R10** | RETRACTED | the two-chase inversion measures tau exactly, with no model assumption | m = kappa(1+tau) and c = kappa(1-tau) are one relation written twice, so m/c returns tau by construction; the 1e-17 round trip is  | an independent count of the stalled population is required |
+| **R11** | RETRACTED | the programme is blocked because n has never been measured | n enters only through the identity C1 already retracted; R1/2 and the gate are n-free and move 7% across n = 1..64 | drop n from the ledger - it was never load-bearing |
 | **R9** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD (stated in OPEN_GAPS section 16) | section 18 of the same document corrects it, but section 16 kept the unsuperseded conclusion and was the row the ledger summarised | section 16 marked CORRECTED BY WP40; WP34 and WP36 given the same banner so no document asserts the closed gat |
 | **R8** | CORRECTED | the maintenance gate is CLOSED at 48 bp/PD | 48 is M5's own PREDICTION (8.0/2.963 = 2.70x) fed back in as if it were L&C's measurement; on the measured >=4x it is 70.1 bp/PD,  | gate OPEN on the measurement; the closed gate is evidence against M5, not against the target (WP40) |
 | **R7** | CORRECTED | two of the six gaps listed in WP37 section 5 cannot be closed here | both were misclassified before the literature and the code on disk were checked: c is measured (H1299 = 1.00) and the docking crit | gap 5 CLOSED (gate closes harder, 48 < 50); gap 4 RUN and the neutral-amide charge hypothesis REFUTED (WP39) |
@@ -459,6 +465,11 @@ test suite.
 | **X3** | CORRECTED | no covalent route exists to constrain the grafted TEL segments (WP45, route b) | WP45 screened disulfides only, 3.5-5.0 A Cbeta-Cbeta. Over six chemistries spanning 3.5-12.5 A, W167-L211 satisfies reach, directi | the W167-L211 hydrocarbon staple (WP47); the ENTROPY conclusion that the construct cannot pay for its own orde |
 | **X4** | CORRECTED | the graft's ordering cost (12-20 kcal/mol) is a property of the construct that no redesign can reduce | WP45 built the linker from GGGGG. Glycine has no Cbeta and therefore the largest backbone state space of any residue, so WP45 chos | the PAPAP-linked construct DXEEKEFPAPAPFSXLPTE (WP48); the conclusion that the construct still cannot pay IN F |
 | **X5** | CORRECTED | the MD3 triad module presents the E168/E169/E171 triad and fails it only on the third contact (WP44: SITE-UNSO | scored on carboxylate spacing, MD3's three display glutamates sit at 6.43, 5.08 and 10.75 A. The measured triad triangle is 6.58,  | the grafted construct, whose spacings ARE the measured triangle (WP45/WP50). The conclusion that a helix canno |
+| **X6** | RETRACTED | the ordering cost can be MEASURED by replacing the linker with a harmonic restraint and reporting the spread o | the restraint's stiffness was ASSIGNED per linker (5 / 40 / 200 kcal/mol/A^2 for GGGGG / PAPAP / AAAAA). The reported ranking - AA | WP51 stage 1: the linker built as atoms (RDKit), free in implicit solvent, and its end-to-end distribution sam |
+| **Y1** | CORRECTED | 7TRF is a second TPP1-BOUND telomerase structure, and therefore the perfect crystal-form control for an apo-vs | by chain identity, 7TRF contains two histones (chains E and F) and NO TPP1. Its hTERT CA coordinates are identical to 7TRD's to 0. | the noise floor is taken from a true duplication instead: 7TRC chains E and I are two copies of the identical  |
+| **Y2** | CORRECTED | the design is 1.78 kcal/mol short of the potency a drug requires, with 6.36 kcal/mol of contact energy | 6.36 kcal/mol is the ORDERING COST (WP48), not the contact energy (5.41, WP45/WP47). Subtracting one from the other was also done  | WP54 P15 with WP51's MEASURED ordering cost: net binding free energy -2.03 kcal/mol (-4.01 with the glycine li |
+| **Y3** | CORRECTED | RDKit's coordinate map pins the modelled peptide onto the crystal coordinates of its native residues | with the default embedder the map was silently IGNORED: the anchors came out 265 A from their crystal positions while the call ret | WP52 asserts anchor_max_deviation < 0.01 A before any clearance is computed |
+| **Y4** | CORRECTED | a self-test is a safe way to exercise a generator, and a 'passive' flat-bottom restraint is passive | two separate faults, both silent. (1) --self-test calls build(quick=True) and the checkpoint wrote the JSON unconditionally, so ru | the checkpoint refuses to fire on a quick run (quick runs write *.quick.json), and the restraint is max(r-r_of |
 
 ---
 

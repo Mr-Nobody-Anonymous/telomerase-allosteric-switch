@@ -1,0 +1,130 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1",
+      "name": "POT1-TPP1 interface disruptor",
+      "p": 0.22,
+      "status": "untested",
+      "note": "block processivity stimulation at the TPP1-TEN contact"
+    },
+    {
+      "id": "M2",
+      "name": "TEN anchor-site allostery",
+      "p": 0.15,
+      "status": "untested",
+      "note": "WP31/WP32: epitope partially mapped, no ligand"
+    },
+    {
+      "id": "M3",
+      "name": "IFD / active-site conformational lock",
+      "p": 0.18,
+      "status": "untested",
+      "note": "Tesmer panel is non-kinetic; cannot confirm or deny"
+    },
+    {
+      "id": "M4",
+      "name": "TERC pseudoknot / template occlusion",
+      "p": 0.2,
+      "status": "untested",
+      "note": "least explored arm of the programme"
+    },
+    {
+      "id": "M5",
+      "name": "k_off slowing (allosteric processivity)",
+      "p": 0.02,
+      "status": "REFUTED",
+      "note": "WP45: under-predicts the +PT fold by 2.4x"
+    },
+    {
+      "id": "M6",
+      "name": "non-allosteric catalytic inhibition",
+      "p": 0.3,
+      "status": "out of scope",
+      "note": "known chemistry (e.g. nucleoside analogues); not a switch, but it delivers the same maintenance outcome"
+    }
+  ],
+  "premise": 0.6,
+  "p_m5_alone": 0.35,
+  "p_naive_independent": 0.701639392,
+  "p_any": 0.5409836352,
+  "gaps": [
+    {
+      "cls": "G1",
+      "kind": "reference-standard",
+      "missing": "a positive control: any compound in this repo shown to bind its target, or any assay with a known-answer ligand",
+      "fixes": "nothing downstream is interpretable without it",
+      "can_simulate_here": false
+    },
+    {
+      "cls": "G2",
+      "kind": "measurement",
+      "missing": "the A1 test (s_true = phi) and the A2 test (memoryless retry)",
+      "fixes": "decides whether the WP45 refutation stands",
+      "can_simulate_here": false
+    },
+    {
+      "cls": "G3",
+      "kind": "formal",
+      "missing": "the probability was the wrong quantity: P(M5) was tracked as if it were P(a switch is achievable)",
+      "fixes": "re-express as P(any of M1-M6); this script, which also shows the scoped-out M6 route is the largest single lever",
+      "can_simulate_here": true
+    },
+    {
+      "cls": "G4",
+      "kind": "material",
+      "missing": "a compound series with SAR; one quarantined proposal is not a series",
+      "fixes": "no medicinal-chemistry iteration is possible",
+      "can_simulate_here": false
+    },
+    {
+      "cls": "G5",
+      "kind": "process",
+      "missing": "preregistration against a real assay with a stopping rule and an independent replication slot",
+      "fixes": "prevents the circular-inference class (9 of 21 retractions)",
+      "can_simulate_here": true
+    }
+  ],
+  "voi": [
+    {
+      "id": "A1",
+      "name": "test s_true = phi (translocation vs extension)",
+      "eig_bits": 0.45471472911971156,
+      "flip_rate": 0.49415,
+      "cost": "1 experiment",
+      "resolves": "the WP45 refutation"
+    },
+    {
+      "id": "B1",
+      "name": "any binding datum for TLN-amide",
+      "eig_bits": 0.3390763878544849,
+      "flip_rate": 0.54395,
+      "cost": "1 SPR run",
+      "resolves": "the whole drug branch"
+    },
+    {
+      "id": "A2",
+      "name": "memoryless-retry test (stall lesion chase)",
+      "eig_bits": 0.3295142805649034,
+      "flip_rate": 0.49615,
+      "cost": "1 experiment",
+      "resolves": "the stall renewal itself"
+    },
+    {
+      "id": "B2",
+      "name": "k_off on a second enzyme pair",
+      "eig_bits": 0.18934537157861864,
+      "flip_rate": 0.52955,
+      "cost": "1 stopped-flow series",
+      "resolves": "M5/M3 separation"
+    },
+    {
+      "id": "C1",
+      "name": "M1-M4 prior elicitation from 3 domain experts",
+      "eig_bits": 0.06609873200813743,
+      "flip_rate": 0.5379,
+      "cost": "3 interviews",
+      "resolves": "the largest uncertainty"
+    }
+  ],
+  "sim_n": 20000
+}

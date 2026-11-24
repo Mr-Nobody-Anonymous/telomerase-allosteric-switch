@@ -9,7 +9,7 @@ against the JSON of the work package that produced the number.
 
 ## The answer
 
-**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has 6.36 kcal/mol unpaid. A scaffold is still required.**
+**No. 12 of 16 sub-problems are solved, and all 12 are solved as CALCULATIONS. Zero are solved as evidence, because nothing has been made or measured. 0 are not solved, 4 are partial, and 0 cannot be answered by any computation here. The largest open item is still P6: WP47 found a real covalent constraint (W167-L211, 6.34 A) where WP45 had concluded none existed, but one staple buys 2.8 kcal/mol against a 12-20 kcal/mol ordering cost. WP48 then improved the construct (PAPAP linker, -2.84 kcal/mol) and still has an ordering cost unpaid. WP51 then measured it: 1.40 kcal/mol for the glycine linker and >=3.38 for WP48's PAPAP - the linker swap made ordering WORSE, not better. A scaffold is still required.**
 
 | status | count |
 |---|---|
@@ -89,7 +89,7 @@ The objection dissolves when the metric is corrected, and no threshold moves. A 
 
 **P11 — What is the experimental success rate?** — *PARTIAL*
 
-Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP48 measured the makeability factor at exactly ZERO - 6.36 kcal/mol of ordering cost is unpaid - so the rate for the designs as they stand is 0, not small, and that is a statement about makeability rather than luck. With ordering paid, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
+Decomposed into four factors, and only one of them is unknown. WP52 measured the structural factor at 1.0 (the graft clears the TERT surface). WP51 MEASURED the ordering cost (1.40 kcal/mol for the glycine linker, >=3.38 for PAPAP) in place of WP48's typed 6.36. The makeability factor is still zero, but for a better stated reason: the scaffold needed to pay even the measured cost does not exist yet. With it, 9 independent screens at a cited 1-10 % peptide hit rate give 8-61 % probability of at least one micromolar binder. The residual uncertainty is the literature hit rate, given as a range.
 
 Blocker: f2 = 0 until the ordering cost is paid; f3 is a literature range, not a measurement at this interface.
 
@@ -113,7 +113,7 @@ Blocker: tau, the stall share, is a real free parameter and is still unmeasured 
 
 **P15 — Is there a drug?** — *SOLVED*
 
-No - and now by arithmetic rather than by assertion. The potency requirement is modest (K_L <= 1.17 uM, i.e. 8.14 kcal/mol), so the obstacle was never pocket size. The design fails because its ordering cost (6.36 kcal/mol) EXCEEDS its contact energy (5.41): net +0.95 kcal/mol, a positive binding free energy. The graft does not bind at all, and a drug derived from it cannot until the ordering cost is paid. The protein route is the only one with the contact energy, and it is not a drug.
+No - and now by arithmetic rather than by assertion. The potency requirement is modest (K_L <= 1.17 uM, i.e. 8.14 kcal/mol), so the obstacle was never pocket size. WP48's typed ordering cost (6.36) made the net positive, which would have meant no binding at all; WP51 MEASURED it instead (>=3.38 for PAPAP, 1.40 for GGGGG) and the net becomes weakly negative: -2.03 kcal/mol for the design as specified, -4.01 with the glycine linker. So the peptide WOULD bind weakly and STILL MISSES the requirement by 6.11 kcal/mol. Measured, the obstacle is not makeability alone - the contact energy is the shortfall.
 
 Blocker: a covalent or glue mechanism is outside this calculation; the negative holds for competitive orthosteric ligands.
 
