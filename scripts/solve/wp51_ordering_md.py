@@ -306,9 +306,20 @@ def sample_linker(linker: str, ns: float, seed: int, report_every: int = 2000,
     mod, system = build_linker(linker, build_seed=build_seed)
     i, j = _linker_ends(mod.topology)
 
-    # flat-bottom, NON-PERTURBING: exactly zero force between r_on and r_off.
+    # Flat-bottom, NON-PERTURBING: exactly zero force between r_on and r_off.
+    #
+    # THE FIRST VERSION HAD THE WALLS INVERTED. It read
+    #     max(r-r_on,0)^2 + max(r_off-r,0)^2
+    # and the second term is non-zero for EVERY r below r_off - that is, always.
+    # The "flat bottom" was therefore a harmonic well centred at
+    # (r_on + r_off)/2 = 14 A, and every replica was pinned there: r = 14.00 +/-
+    # 0.12 A for nine independent builds of three different linkers, all
+    # identical. The measurement was of the restraint, not of the linker.
+    #
+    # The correct flat bottom is a wall that only acts OUTSIDE [r_on, r_off]:
+    #     max(r - r_off, 0)^2  +  max(r_on - r, 0)^2
     passive = CustomBondForce(
-        "0.5*k*max(r-r_on,0)^2 + 0.5*k*max(r_off-r,0)^2")
+        "0.5*k*max(r-r_off,0)^2 + 0.5*k*max(r_on-r,0)^2")
     passive.addGlobalParameter("k", 20.0 * unit.kilocalorie_per_mole / unit.angstrom**2)
     passive.addGlobalParameter("r_on", 3.0 * unit.angstrom)
     passive.addGlobalParameter("r_off", 25.0 * unit.angstrom)
@@ -963,6 +974,26 @@ def self_test() -> int:
        "max(r-r_on,0)" in src and "max(r_off-r,0)" in src)
     ok("the boundary contact fraction is reported",
        "frac_at_boundary" in src)
+    # The check that would have caught the inverted walls: the restraint must
+    # contribute ZERO energy anywhere inside the window, including at the middle.
+    from openmm import CustomBondForce, unit, Context, System
+    f = CustomBondForce("0.5*k*max(r-r_off,0)^2 + 0.5*k*max(r_on-r,0)^2")
+    f.addGlobalParameter("k", 20.0 * unit.kilocalorie_per_mole / unit.angstrom**2)
+    f.addGlobalParameter("r_on", 3.0 * unit.angstrom)
+    f.addGlobalParameter("r_off", 25.0 * unit.angstrom)
+    f.addBond(0, 1)
+    sysx = System()
+    sysx.addParticle(1.0); sysx.addParticle(1.0)
+    sysx.addForce(f)
+    ctx = Context(sysx, __import__("openmm").VerletIntegrator(0.001))
+    energies = {}
+    for r_mid in (5.0, 14.0, 20.0, 24.0):
+        ctx.setPositions([__import__("openmm").Vec3(0, 0, 0),
+                          __import__("openmm").Vec3(r_mid / 10.0, 0, 0)])
+        energies[r_mid] = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(
+            unit.kilocalorie_per_mole)
+    ok("the flat-bottom restraint is ZERO inside its window (14 A included)",
+       all(abs(e) < 1e-6 for e in energies.values()), energies)
 
     res = build(quick=True)
     ok("the build produced results", res.get("available") is True)

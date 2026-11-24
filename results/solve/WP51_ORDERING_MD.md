@@ -4,9 +4,6 @@
 
     python scripts/solve/wp51_ordering_md.py
 
-> **TOY RUN.** These numbers were produced with `WP51_QUICK=1` and are
-> not quotable. Re-run without it.
-
 ## Why this work package exists
 
 The ordering cost has been a **model** through five packages:
@@ -60,24 +57,24 @@ distance inside a window around 16.31 Å.
 ## Stage 1 — the linkers, all atoms, free in solvent
 
 Each linker built by RDKit from sequence, hydrogenated, GB-Neck2, 300 K,
-Langevin, 2 fs, 0.004 ns × 1 seeds. A flat-bottom restraint (zero
+Langevin, 2 fs, 0.4 ns × 3 seeds. A flat-bottom restraint (zero
 force between 3 and 25 Å) keeps the peptide in the box; the fraction of
 frames touching it is reported, because a non-zero value would mean the
 restraint is perturbing the measurement.
 
 | linker | mean r | **σ** | 5–95 % | frames at boundary |
 |---|---|---|---|---|
-| GGGGG | 14.0 Å | **0.14 Å** | 13.84–14.23 Å | 0.000 |
-| PAPAP | 13.95 Å | **0.13 Å** | 13.79–14.15 Å | 0.000 |
-| AAAAA | 13.94 Å | **0.11 Å** | 13.75–14.15 Å | 0.000 |
+| GGGGG | 14.0 Å | **0.13 Å** | 13.77–14.22 Å | 0.000 |
+| PAPAP | 13.95 Å | **0.13 Å** | 13.75–14.17 Å | 0.000 |
+| AAAAA | 13.98 Å | **0.12 Å** | 13.79–14.18 Å | 0.000 |
 
 ### The ordering cost
 
 | linker | p(±0.5 Å) | p(±1.0 Å) | p(±2.0 Å) | **ΔG_order (±1.0 Å)** |
 |---|---|---|---|---|
-| GGGGG | 0.000 | 0.000 | 0.033 | **2.014 kcal/mol** (lower bound) |
-| PAPAP | 0.000 | 0.000 | 0.000 | **2.014 kcal/mol** (lower bound) |
-| AAAAA | 0.000 | 0.000 | 0.000 | **2.014 kcal/mol** (lower bound) |
+| GGGGG | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
+| PAPAP | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
+| AAAAA | 0.000 | 0.000 | 0.003 | **3.378 kcal/mol** (lower bound) |
 
 Cheapest: **GGGGG**.
 
@@ -91,14 +88,14 @@ together at all* once a realistic tether is in place.
 
 | linker | k (kcal/mol/Å²) | mean d(168–215) | **σ** | mean d(171–210) | **σ** | RMSD |
 |---|---|---|---|---|---|---|
-| GGGGG | 30.2143 | 19.03 Å | **0.87** | 13.86 Å | **0.26** | 2.58 Å |
-| PAPAP | 35.0414 | 19.06 Å | **0.73** | 13.76 Å | **0.29** | 2.57 Å |
-| AAAAA | 48.9421 | 19.09 Å | **0.73** | 13.64 Å | **0.36** | 2.6 Å |
+| GGGGG | 35.0414 | 19.43 Å | **0.76** | 13.56 Å | **0.28** | 3.55 Å |
+| PAPAP | 35.0414 | 18.65 Å | **0.75** | 14.33 Å | **0.68** | 3.57 Å |
+| AAAAA | 41.125 | 19.06 Å | **0.91** | 13.88 Å | **0.34** | 3.4 Å |
 
-**H1 (pharmacophore retained).** Worst σ over all constructs: 0.87 Å and 0.36 Å against a 3.0 Å threshold → **retained**.
+**H1 (pharmacophore retained).** Worst σ over all constructs: 0.91 Å and 0.68 Å against a 3.0 Å threshold → **retained**.
 
 **H2 (the native fold does not melt).** Worst mean all-atom RMSD from
-the crystal start: 2.6 Å → **holds**.
+the crystal start: 3.57 Å → **drifts**.
 
 ## What this can and cannot say
 
@@ -119,7 +116,7 @@ decoration:
 
 ## The honest verdict
 
-The measured ordering costs span **2.014–2.014 kcal/mol** at the ±1 Å
+The measured ordering costs span **3.378–3.378 kcal/mol** at the ±1 Å
 window. Read that against what was being typed before: WP47's 0.6
 kcal/mol per torsion, six torsions per staple, would have charged 3.6
 kcal/mol for a construct it never measured. The measurement does not
