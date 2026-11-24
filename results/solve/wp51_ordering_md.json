@@ -1,0 +1,155 @@
+{
+  "available": true,
+  "stage": 1,
+  "junction": {
+    "c172_n209": 16.31,
+    "ca172_ca209": 16.66,
+    "n166_n209": 7.35,
+    "n_residues_deleted": 36,
+    "note": "the linker replaces residues 173-208; it spans C(172)-N(209)"
+  },
+  "stage1": {
+    "constructs": [
+      {
+        "linker": "GGGGG",
+        "n_frames": 10,
+        "r_mean": 13.95,
+        "r_sd": 0.14,
+        "r_p05": 13.71,
+        "r_p95": 14.13,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "GGGGG",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 0.7,
+            "r_mean": 13.95,
+            "r_sd": 0.14,
+            "r_min": 13.65,
+            "r_max": 14.14,
+            "frac_at_boundary": 0.0,
+            "design": "GRAFT (WP45, GGGGG)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": null
+      },
+      {
+        "linker": "PAPAP",
+        "n_frames": 10,
+        "r_mean": 13.98,
+        "r_sd": 0.14,
+        "r_p05": 13.77,
+        "r_p95": 14.13,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "PAPAP",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 1.6,
+            "r_mean": 13.98,
+            "r_sd": 0.14,
+            "r_min": 13.72,
+            "r_max": 14.13,
+            "frac_at_boundary": 0.0,
+            "design": "WP48 (PAPAP)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": 0.0
+      },
+      {
+        "linker": "AAAAA",
+        "n_frames": 10,
+        "r_mean": 13.99,
+        "r_sd": 0.12,
+        "r_p05": 13.82,
+        "r_p95": 14.14,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "AAAAA",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 1.1,
+            "r_mean": 13.99,
+            "r_sd": 0.12,
+            "r_min": 13.78,
+            "r_max": 14.15,
+            "frac_at_boundary": 0.0,
+            "design": "RIGID (AAAAA reference)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": 0.0
+      }
+    ],
+    "reference_linker": "GGGGG",
+    "target_distance": 16.31
+  },
+  "summary": {
+    "status": "stage 1 only"
+  }
+}

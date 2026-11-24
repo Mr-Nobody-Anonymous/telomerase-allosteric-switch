@@ -1,10 +1,10 @@
 {
-  "count": 21,
+  "count": 26,
   "by_state": {
-    "RETRACTED": 6,
+    "RETRACTED": 7,
     "WITHDRAWN": 3,
     "SUPERSEDED": 4,
-    "CORRECTED": 8
+    "CORRECTED": 12
   },
   "register": [
     {
@@ -236,7 +236,62 @@
       "predicate": "the module's own display spacings reproduce the measured triad triangle within tolerance",
       "replaced_by": "the grafted construct, whose spacings ARE the measured triangle (WP45/WP50). The conclusion that a helix cannot present the triad stands and is now over-determined: it fails on spacing, not only on the third contact",
       "document": "results/solve/WP50_PARTIALS.md",
-      "sha256": "201ff264e5629069293df9b471296ed8d9cd298d2e429ad3b6330f20e2694b67"
+      "sha256": "1c6d442d4d8f103d4fd5dd357e8971a9ab333697590c159f6744ff4ab7ebadf8"
+    },
+    {
+      "id": "X6",
+      "wp": "WP51",
+      "state": "RETRACTED",
+      "claim": "the ordering cost can be MEASURED by replacing the linker with a harmonic restraint and reporting the spread of the pharmacophore distances",
+      "actual": "the restraint's stiffness was ASSIGNED per linker (5 / 40 / 200 kcal/mol/A^2 for GGGGG / PAPAP / AAAAA). The reported ranking - AAAAA stiffest - is the input handed back as output. A restraint whose stiffness you chose cannot measure the stiffness of anything",
+      "predicate": "the measured quantity must not be a function of a parameter the author set",
+      "replaced_by": "WP51 stage 1: the linker built as atoms (RDKit), free in implicit solvent, and its end-to-end distribution sampled. The stiffness used downstream is DERIVED as k = kT/sigma^2",
+      "document": "results/solve/WP51_ORDERING_MD.md",
+      "sha256": "7ec4c465ed7122c24183f32b4ef21c6c8db5bf19e28e8a4e538816f8548df56e"
+    },
+    {
+      "id": "Y1",
+      "wp": "WP53",
+      "state": "CORRECTED",
+      "claim": "7TRF is a second TPP1-BOUND telomerase structure, and therefore the perfect crystal-form control for an apo-vs-bound comparison",
+      "actual": "by chain identity, 7TRF contains two histones (chains E and F) and NO TPP1. Its hTERT CA coordinates are identical to 7TRD's to 0.000 A over 934 residues, so the apo-vs-apo comparison is degenerate and measures nothing. The deposit TITLE was trusted and the chains were not checked",
+      "predicate": "a control must differ in exactly the variable under test, and must be verified by chain identity/sequence rather than by label",
+      "replaced_by": "the noise floor is taken from a true duplication instead: 7TRC chains E and I are two copies of the identical 129-residue protein in one crystal (0.585 A)",
+      "document": "results/solve/WP53_CONFORMATIONAL_CHANGE.md",
+      "sha256": "48cf761dae0e2ce463b0aa8ab3f06c1964a443aad4789bd787c809663740cad0"
+    },
+    {
+      "id": "Y2",
+      "wp": "WP54",
+      "state": "CORRECTED",
+      "claim": "the design is 1.78 kcal/mol short of the potency a drug requires, with 6.36 kcal/mol of contact energy",
+      "actual": "6.36 kcal/mol is the ORDERING COST (WP48), not the contact energy (5.41, WP45/WP47). Subtracting one from the other was also done with the wrong sign: a favourable contact is negative and an unpaid ordering cost is positive, so dG_net = -5.41 + 6.36 = +0.95. The design does not bind at all; it is not nearly a drug",
+      "predicate": "the two energies must be the two different quantities named, with an explicit sign convention",
+      "replaced_by": "WP54 P15: net binding free energy +0.95 kcal/mol, shortfall 9.09 kcal/mol against the 8.14 kcal/mol requirement",
+      "document": "results/solve/WP54_REMAINING.md",
+      "sha256": "7c4f4ae5d907f491b5d110bcc74aec487c5689a89f09f9cec1b3c19fa4929b84"
+    },
+    {
+      "id": "Y3",
+      "wp": "WP52",
+      "state": "CORRECTED",
+      "claim": "RDKit's coordinate map pins the modelled peptide onto the crystal coordinates of its native residues",
+      "actual": "with the default embedder the map was silently IGNORED: the anchors came out 265 A from their crystal positions while the call returned success (rc=0). Only useRandomCoords=True honours the map (0.00 A)",
+      "predicate": "an anchoring claim must report the measured residual of the anchors, not the return code",
+      "replaced_by": "WP52 asserts anchor_max_deviation < 0.01 A before any clearance is computed",
+      "document": "results/solve/WP52_INTERFACE.md",
+      "sha256": "0c158bd1ab1d716a7dea284f9b08d5d14b7e5e1ced96fd9716874c9dc95e83af"
+    },
+    {
+      "id": "Y4",
+      "wp": "WP51",
+      "state": "CORRECTED",
+      "claim": "a self-test is a safe way to exercise a generator",
+      "actual": "WP51's --self-test calls build(quick=True), and the checkpoint wrote the JSON unconditionally - so running the self-test OVERWROTE a 20-minute production result with 4-picosecond numbers",
+      "predicate": "a toy run must not be able to write to a quotable artefact",
+      "replaced_by": "quick runs write *.quick.json; the checkpoint refuses to fire on a quick run",
+      "document": "results/solve/WP51_ORDERING_MD.md",
+      "sha256": "7ec4c465ed7122c24183f32b4ef21c6c8db5bf19e28e8a4e538816f8548df56e"
     }
   ],
   "marker_files": {
@@ -256,7 +311,7 @@
       "RETRACTED": 6,
       "WITHDRAWN": 3,
       "SUPERSEDED": 4,
-      "CORRECTED": 8
+      "CORRECTED": 9
     },
     "results/solve/OPEN_GAPS.md": {
       "RETRACTED": 0,
@@ -265,10 +320,10 @@
       "CORRECTED": 1
     },
     "results/solve/RETRACTIONS.md": {
-      "RETRACTED": 8,
+      "RETRACTED": 9,
       "WITHDRAWN": 5,
       "SUPERSEDED": 6,
-      "CORRECTED": 11
+      "CORRECTED": 15
     },
     "results/solve/STATUS_LEDGER.md": {
       "RETRACTED": 1,

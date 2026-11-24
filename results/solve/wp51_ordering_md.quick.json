@@ -1,0 +1,245 @@
+{
+  "available": true,
+  "quick": true,
+  "junction": {
+    "c172_n209": 16.31,
+    "ca172_ca209": 16.66,
+    "n166_n209": 7.35,
+    "n_residues_deleted": 36,
+    "note": "the linker replaces residues 173-208; it spans C(172)-N(209)"
+  },
+  "stage1": {
+    "constructs": [
+      {
+        "linker": "GGGGG",
+        "n_frames": 10,
+        "r_mean": 13.95,
+        "r_sd": 0.14,
+        "r_p05": 13.71,
+        "r_p95": 14.13,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "GGGGG",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 0.7,
+            "r_mean": 13.95,
+            "r_sd": 0.14,
+            "r_min": 13.65,
+            "r_max": 14.14,
+            "frac_at_boundary": 0.0,
+            "design": "GRAFT (WP45, GGGGG)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": null
+      },
+      {
+        "linker": "PAPAP",
+        "n_frames": 10,
+        "r_mean": 13.98,
+        "r_sd": 0.14,
+        "r_p05": 13.77,
+        "r_p95": 14.13,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "PAPAP",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 1.6,
+            "r_mean": 13.98,
+            "r_sd": 0.14,
+            "r_min": 13.72,
+            "r_max": 14.13,
+            "frac_at_boundary": 0.0,
+            "design": "WP48 (PAPAP)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": 0.0
+      },
+      {
+        "linker": "AAAAA",
+        "n_frames": 10,
+        "r_mean": 13.99,
+        "r_sd": 0.12,
+        "r_p05": 13.82,
+        "r_p95": 14.14,
+        "frac_at_boundary": 0.0,
+        "replicates": [
+          {
+            "linker": "AAAAA",
+            "seed": 4105,
+            "ns": 0.004,
+            "n_frames": 10,
+            "wall_seconds": 1.1,
+            "r_mean": 13.99,
+            "r_sd": 0.12,
+            "r_min": 13.78,
+            "r_max": 14.15,
+            "frac_at_boundary": 0.0,
+            "design": "RIGID (AAAAA reference)"
+          }
+        ],
+        "windows": {
+          "0.5A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "1.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          },
+          "2.0A": {
+            "p": 0.0,
+            "sigma_p": 0.0,
+            "dg_kcal": 1.364,
+            "p_is_upper_bound": true
+          }
+        },
+        "dg_vs_cheapest_kcal": 0.0
+      }
+    ],
+    "reference_linker": "GGGGG",
+    "target_distance": 16.31
+  },
+  "stage2": [
+    {
+      "k_bind": 30.2143,
+      "seed": 9200,
+      "ns": 0.004,
+      "wall_seconds": 13.9,
+      "mean_d_168_215": 19.15,
+      "sd_d_168_215": 0.65,
+      "mean_d_171_210": 13.8,
+      "sd_d_171_210": 0.42,
+      "allatom_rmsd_from_start": 2.65,
+      "linker": "GGGGG",
+      "derived_from_r_sd": 0.14
+    },
+    {
+      "k_bind": 30.2143,
+      "seed": 9200,
+      "ns": 0.004,
+      "wall_seconds": 13.7,
+      "mean_d_168_215": 19.01,
+      "sd_d_168_215": 0.78,
+      "mean_d_171_210": 13.79,
+      "sd_d_171_210": 0.24,
+      "allatom_rmsd_from_start": 2.61,
+      "linker": "PAPAP",
+      "derived_from_r_sd": 0.14
+    },
+    {
+      "k_bind": 41.125,
+      "seed": 9200,
+      "ns": 0.004,
+      "wall_seconds": 13.5,
+      "mean_d_168_215": 19.22,
+      "sd_d_168_215": 0.64,
+      "mean_d_171_210": 14.0,
+      "sd_d_171_210": 0.32,
+      "allatom_rmsd_from_start": 2.61,
+      "linker": "AAAAA",
+      "derived_from_r_sd": 0.12
+    }
+  ],
+  "closure": {
+    "H1_pharmacophore_retained": {
+      "tested": true,
+      "max_sd_168_215": 0.78,
+      "max_sd_171_210": 0.42,
+      "threshold_sd_angstrom": 3.0,
+      "retained": true
+    },
+    "H2_allatom_rmsd_under_3A": {
+      "tested": true,
+      "max_mean_rmsd_angstrom": 2.65,
+      "under_3A": true
+    }
+  },
+  "protocol": {
+    "engine": "OpenMM 8.6.1, platform CPU, 2 threads",
+    "forcefield": "amber14-all.xml + implicit/gbn2.xml",
+    "temperature_K": 300,
+    "timestep_fs": 2,
+    "stage1_ns_per_replica": 0.004,
+    "stage1_seeds": 1,
+    "stage2_ns_per_replica": 0.004,
+    "stage2_seeds": 1,
+    "stage1_passive_restraint": "flat-bottom CustomBondForce, zero force between 3 and 25 A; the fraction of frames touching the boundary is reported",
+    "stage2_stiffness": "k = kT / sigma^2 from the measured stage-1 sigma"
+  },
+  "model_caveats": [
+    "The stapled construct cannot be built: the non-natural residue template needs files.rcsb.org, which is unreachable. Staples are absent from every run; this compares peptide linkers only.",
+    "No folding is sampled. The linker runs are 1 ns per replica on 2 CPU threads; the constructs sit near their crystal start.",
+    "Stage 2 is 0.01 ns per replica. That was set by the measured cost of the 1547-atom construct (63.3 ms/step, 17.6 h per ns on 2 threads), not by what the question deserves. It is long enough to see whether the tether holds the two segments together and far too short to say anything about relaxation.",
+    "dG_order = -kT ln p_window counts only the radial confinement. The angular part is omitted, so every value is a LOWER BOUND.",
+    "Proline cis/trans isomerism is not sampled; PAPAP's repertoire is whatever RDKit's embedder chose.",
+    "Stage 2 replaces the linker with ONE harmonic term. Its stiffness comes from the stage-1 measurement, but its functional form is an assumption."
+  ],
+  "summary": {
+    "status": "TOY RUN - not quotable",
+    "what_is_measured": "the end-to-end distance distribution of each linker, all atoms, in implicit solvent at 300 K",
+    "what_it_replaces": "five packages of hand-typed ordering prices",
+    "ordering_cost_kcal": {
+      "GGGGG": 1.364,
+      "PAPAP": 1.364,
+      "AAAAA": 1.364
+    },
+    "ordering_cost_is_lower_bound": {
+      "GGGGG": true,
+      "PAPAP": true,
+      "AAAAA": true
+    },
+    "cheapest_linker": "GGGGG",
+    "still_cannot_fold": true,
+    "still_cannot_build_staple": true
+  }
+}

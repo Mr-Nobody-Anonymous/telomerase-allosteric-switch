@@ -30,9 +30,7 @@ GGGGG / PAPAP / AAAAA) and then reported the standard deviation of the
 pharmacophore distances. It announced that AAAAA was stiffest — which was
 the value that had been typed in. The ranking was installed, not measured.
 
-That is exactly the failure mode this package exists to end, so it is
-recorded here rather than quietly deleted. What follows does not assign a
-stiffness. It measures a distribution.
+That is exactly the failure mode this package exists to end — reading the input back out as if it were output — so it is recorded here rather than quietly deleted. What follows does not assign a stiffness. It measures a distribution.
 
 ## The quantity that needs pricing
 
@@ -69,9 +67,9 @@ restraint is perturbing the measurement.
 
 | linker | mean r | **σ** | 5–95 % | frames at boundary |
 |---|---|---|---|---|
-| GGGGG | 13.99 Å | **0.1 Å** | 13.89–14.17 Å | 0.000 |
-| PAPAP | 13.96 Å | **0.05 Å** | 13.91–14.04 Å | 0.000 |
-| AAAAA | 14.0 Å | **0.13 Å** | 13.81–14.15 Å | 0.000 |
+| GGGGG | 13.95 Å | **0.14 Å** | 13.71–14.13 Å | 0.000 |
+| PAPAP | 13.98 Å | **0.14 Å** | 13.77–14.13 Å | 0.000 |
+| AAAAA | 13.99 Å | **0.12 Å** | 13.82–14.14 Å | 0.000 |
 
 ### The ordering cost
 
@@ -93,14 +91,14 @@ together at all* once a realistic tether is in place.
 
 | linker | k (kcal/mol/Å²) | mean d(168–215) | **σ** | mean d(171–210) | **σ** | RMSD |
 |---|---|---|---|---|---|---|
-| GGGGG | 59.22 | 19.19 Å | **0.71** | 14.1 Å | **0.29** | 2.63 Å |
-| PAPAP | 236.88 | 18.97 Å | **0.87** | 13.77 Å | **0.35** | 2.67 Å |
-| AAAAA | 35.0414 | 19.18 Å | **0.63** | 13.88 Å | **0.23** | 2.59 Å |
+| GGGGG | 30.2143 | 19.15 Å | **0.65** | 13.8 Å | **0.42** | 2.65 Å |
+| PAPAP | 30.2143 | 19.01 Å | **0.78** | 13.79 Å | **0.24** | 2.61 Å |
+| AAAAA | 41.125 | 19.22 Å | **0.64** | 14.0 Å | **0.32** | 2.61 Å |
 
-**H1 (pharmacophore retained).** Worst σ over all constructs: 0.87 Å and 0.35 Å against a 3.0 Å threshold → **retained**.
+**H1 (pharmacophore retained).** Worst σ over all constructs: 0.78 Å and 0.42 Å against a 3.0 Å threshold → **retained**.
 
 **H2 (the native fold does not melt).** Worst mean all-atom RMSD from
-the crystal start: 2.67 Å → **holds**.
+the crystal start: 2.65 Å → **holds**.
 
 ## What this can and cannot say
 
@@ -114,6 +112,7 @@ decoration:
 
 - The stapled construct cannot be built: the non-natural residue template needs files.rcsb.org, which is unreachable. Staples are absent from every run; this compares peptide linkers only.
 - No folding is sampled. The linker runs are 1 ns per replica on 2 CPU threads; the constructs sit near their crystal start.
+- Stage 2 is 0.01 ns per replica. That was set by the measured cost of the 1547-atom construct (63.3 ms/step, 17.6 h per ns on 2 threads), not by what the question deserves. It is long enough to see whether the tether holds the two segments together and far too short to say anything about relaxation.
 - dG_order = -kT ln p_window counts only the radial confinement. The angular part is omitted, so every value is a LOWER BOUND.
 - Proline cis/trans isomerism is not sampled; PAPAP's repertoire is whatever RDKit's embedder chose.
 - Stage 2 replaces the linker with ONE harmonic term. Its stiffness comes from the stage-1 measurement, but its functional form is an assumption.

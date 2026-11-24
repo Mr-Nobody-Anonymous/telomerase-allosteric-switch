@@ -747,10 +747,7 @@ def write_md(res: dict) -> None:
     A("pharmacophore distances. It announced that AAAAA was stiffest — which was")
     A("the value that had been typed in. The ranking was installed, not measured.")
     A("")
-    A("That is exactly the failure mode this package exists to end — reading the")
-    A("input back out as if it were output — so it is recorded here rather than")
-    A("quietly deleted. What follows does not assign a stiffness. It measures a")
-    A("distribution.")
+    A("That is exactly the failure mode this package exists to end — reading the input back out as if it were output — so it is recorded here rather than quietly deleted. What follows does not assign a stiffness. It measures a distribution.")
     A("")
 
     j = res["junction"]
