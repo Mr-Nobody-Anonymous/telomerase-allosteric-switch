@@ -62,9 +62,17 @@ STATES = ("RETRACTED", "WITHDRAWN", "SUPERSEDED", "CORRECTED")
 #: Generated summary documents. They quote the marker vocabulary as data, so they
 #: must be excluded from the completeness sweep - but only if they really are
 #: generated, which `check_generated_banner()` enforces.
+# Documents the marker sweep must skip because they RE-PUBLISH the register
+# rather than make claims of their own. Membership is not taken on trust: each
+# file must exist and carry the "generated, do not edit by hand" banner, and a
+# missing banner fails the suite. WP46/49 are assembled from the artefacts.
 GENERATED_DOCS = {
     "results/solve/RETRACTIONS.md",
     "results/solve/STATUS_LEDGER.md",
+    "results/solve/MASTER_RECORD.md",
+    "results/solve/ARTEFACT_INDEX.md",
+    "results/solve/METHODS.md",
+    "results/solve/NEXT_STEPS.md",
 }
 
 #: Every marker the tree is allowed to contain. Anything else fails the test, so

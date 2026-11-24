@@ -56,11 +56,11 @@ Staple 1 is fixed at `TRP167-LEU211` (hydrocarbon, 6.34 Å) from WP47.
 
 ### A3 — the new construct
 
-| construct | sequence | len | crosslinks | charge | GRAVY |
+| construct | sequence | len | staples | charge | GRAVY |
 |---|---|---|---|---|---|
 | WP45-GRAFT | `DWEEKEFGGGGGFSLLPTE` | 19 | 0 | -4.44 | -0.747 |
-| WP47-STAPLED | `DXEEKEFGGGGGFSXLPTE` | 19 | 2 | -4.44 | -0.711 |
-| WP48-NEW | `DXEEKEFPAPAPFSXLPTE` | 19 | 2 | -4.44 | -0.668 |
+| WP47-STAPLED | `DXEEKEFGGGGGFSXLPTE` | 19 | 1 | -4.44 | -0.711 |
+| WP48-NEW | `DXEEKEFPAPAPFSXLPTE` | 19 | 1 | -4.44 | -0.668 |
 
 | term | kcal/mol |
 |---|---|

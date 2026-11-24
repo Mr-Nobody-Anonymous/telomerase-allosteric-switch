@@ -1,7 +1,7 @@
 # Telomerase Allosteric Switch (`telomerase-allosteric-switch`)
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Test Suite](https://img.shields.io/badge/pytest-727%20passed-success.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/pytest-738%20passed-success.svg)](tests/)
 [![Code Hygiene](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Simulation Engine](https://img.shields.io/badge/OpenMM-8.6.1-orange.svg)](https://openmm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -9,6 +9,31 @@
 [![Status](https://img.shields.io/badge/Status-Mechanism%20not%20proven-model%20M5-yellow.svg)](results/solve/WP22_RAP_MODEL_V2.md)
 
 **A structural and experimental-evidence audit of how TPP1 stimulates human telomerase repeat-addition processivity — including the record of which claims in this repository failed and why.**
+
+## Start here
+
+Four generated documents answer everything, in this order:
+
+| document | what it is |
+|---|---|
+| [`results/solve/MASTER_RECORD.md`](results/solve/MASTER_RECORD.md) | the whole programme: interface, designs, grafts, retractions, ledger |
+| [`results/solve/METHODS.md`](results/solve/METHODS.md) | how every number was produced, command by command |
+| [`results/solve/NEXT_STEPS.md`](results/solve/NEXT_STEPS.md) | peptides to order, assays, the pre-declared decision rule |
+| [`results/solve/ARTEFACT_INDEX.md`](results/solve/ARTEFACT_INDEX.md) | every file and whether it is generated |
+
+All four are assembled from the artefacts by
+`python scripts/solve/wp49_master_record.py`. They contain no hand-typed numbers,
+because hand-typed numbers in this repository have drifted three times.
+
+To rebuild the environment (the venv is outside the repo and does not persist):
+`bash scripts/setup_environment.sh`.
+
+**Note on the OpenMM badge above.** OpenMM is *not* installed in this
+environment, and `import openmm` fails. Every question that needs MD, docking or
+FEP is therefore reported as unmeasurable rather than estimated — that is why
+P11, P12 and most of the mechanism items are still open. The badge records what
+the project intends to use, not what it has run.
+
 
 ## WP48 — new designs for each failure, under isolated agents
 

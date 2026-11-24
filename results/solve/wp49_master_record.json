@@ -1,0 +1,224 @@
+{
+  "documents": [
+    "MASTER_RECORD.md",
+    "METHODS.md",
+    "ARTEFACT_INDEX.md",
+    "NEXT_STEPS.md"
+  ],
+  "self_tests": [
+    {
+      "script": "wp28_operating_point",
+      "passed": true,
+      "result": "8 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp29_maintenance",
+      "passed": true,
+      "result": "11 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp30_ligand_completion",
+      "passed": true,
+      "result": "25 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp31_epitope",
+      "passed": true,
+      "result": "22 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp32_physics_scoring",
+      "passed": true,
+      "result": "26 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp33_valid_scoring",
+      "passed": true,
+      "result": "36 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp34_status",
+      "passed": true,
+      "result": "18 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp35_p2_identifiability",
+      "passed": true,
+      "result": "WP35 self-test: 54 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp36_circularity",
+      "passed": true,
+      "result": "WP36 self-test: 34 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp37_missing",
+      "passed": true,
+      "result": "WP37 self-test: 28 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp38_archive",
+      "passed": true,
+      "result": "WP38 self-test: 61 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp39_executable",
+      "passed": true,
+      "result": "WP39 self-test: 39 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp40_design_to_fifty",
+      "passed": true,
+      "result": "WP40 self-test: 45 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp41_status_ledger",
+      "passed": true,
+      "result": "WP41 self-test: 42 passed, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp42_designs",
+      "passed": true,
+      "result": "WP42 self-test: 48 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp43_test_battery",
+      "passed": true,
+      "result": "WP43 self-test: 48 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp44_modular_designs",
+      "passed": true,
+      "result": "WP44 self-test: 39 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp45_graft",
+      "passed": true,
+      "result": "WP45 self-test: 30 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp46_closure",
+      "passed": true,
+      "result": "WP46 self-test: 26 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp47_close_open",
+      "passed": true,
+      "result": "WP47 self-test: 33 checks, 0 failed",
+      "exit": 0
+    },
+    {
+      "script": "wp48_new_designs",
+      "passed": true,
+      "result": "WP48 self-test: 25 checks, 0 failed",
+      "exit": 0
+    }
+  ],
+  "n_self_tests": 21,
+  "n_self_tests_passing": 21,
+  "git_log": [
+    [
+      "c63548d",
+      "2026-11-24",
+      "WP48: a new design per failure, four isolated agents, and a critic"
+    ],
+    [
+      "9916cb2",
+      "2026-11-23",
+      "WP47: P6 gets a real crosslink, P10 is proven unfixable as framed"
+    ],
+    [
+      "7e4af73",
+      "2026-11-23",
+      "WP46: closure ledger - no, and here is exactly what is left"
+    ],
+    [
+      "6cd6832",
+      "2026-11-23",
+      "WP45: solve that site, and correct the premise that made it look unsolvable"
+    ],
+    [
+      "79c3a88",
+      "2026-11-23",
+      "WP44: one module per site, merged, and the merge stress-tested"
+    ],
+    [
+      "7651ca7",
+      "2026-11-23",
+      "WP43: test all ten designs, and separate the three success rates"
+    ],
+    [
+      "55e4078",
+      "2026-11-23",
+      "WP42: design new molecules and new proteins for the TEL patch"
+    ],
+    [
+      "9fdab63",
+      "2026-11-23",
+      "Merge remote-tracking branch 'origin/arena/7b6ab982-telomerase-allosteric-switch' into arena/7b6ab982-telomerase-allosteric-switch"
+    ],
+    [
+      "1f976b6",
+      "2026-11-23",
+      "Resolve the contradicting test and the uncertain claims"
+    ],
+    [
+      "ae92678",
+      "2026-11-21",
+      "Ledger: add CLM-025 to CLM-029 from the no-lab audit"
+    ],
+    [
+      "61c2432",
+      "2026-11-21",
+      "Merge remote-tracking branch 'origin/arena/7b6ab982-telomerase-allosteric-switch' into arena/7b6ab982-telomerase-allosteric-switch Co-authored-by: arena-agent <297053741+arena-agent@users.noreply.github.com>"
+    ],
+    [
+      "0483471",
+      "2026-11-21",
+      "Ledger: add CLM-025 to CLM-029 from the no-lab audit"
+    ],
+    [
+      "1440d2e",
+      "2026-11-21",
+      "No-lab audit: K757 geometry, panel re-analysis, power, mixture recovery"
+    ],
+    [
+      "29c3d79",
+      "2026-11-19",
+      "Merge pull request #12 from Mr-Nobody-Anonymous/arena/86583e69-telomerase-allosteric-switch"
+    ]
+  ],
+  "ledger_tally": {
+    "SOLVED": 8,
+    "PARTIAL": 3,
+    "NOT SOLVED": 3,
+    "UNMEASURABLE": 2
+  },
+  "n_retractions": 20,
+  "summary": {
+    "n_documents": 4,
+    "n_scripts_with_self_test": 21,
+    "all_self_tests_pass": true,
+    "n_retractions": 20,
+    "nothing_synthesised": true
+  }
+}

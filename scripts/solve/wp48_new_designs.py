@@ -422,7 +422,10 @@ def a3_build_and_price() -> dict:
             "sequence": s,
             "length": len(s),
             "linker": s[len(seg_a):len(seg_a) + len(linker)],
-            "n_crosslinks": s.count("X"),
+            # a staple JOINS TWO residues, so counting X characters counts it
+            # twice. Report both, and the staple count is the meaningful one.
+            "n_crosslinked_residues": s.count("X"),
+            "n_staples": s.count("X") // 2,
             "gravy": round(a.gravy(), 3),
             "charge_pH7_4": round(a.charge_at_pH(7.4), 2),
             "instability_index": round(a.instability_index(), 1),
@@ -938,11 +941,13 @@ def write_outputs(res: dict) -> None:
     a = res["agents"]["A"]
     with OUT_CSV.open("w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["construct", "sequence", "length", "linker", "n_crosslinks",
-                    "charge_pH7_4", "gravy", "instability_index"])
+        w.writerow(["construct", "sequence", "length", "linker", "n_staples",
+                    "n_crosslinked_residues", "charge_pH7_4", "gravy",
+                    "instability_index"])
         for k, v in a["constructs"].items():
             w.writerow([k, v["sequence"], v["length"], v["linker"],
-                        v["n_crosslinks"], v["charge_pH7_4"], v["gravy"],
+                        v["n_staples"], v["n_crosslinked_residues"],
+                        v["charge_pH7_4"], v["gravy"],
                         v["instability_index"]])
     _write_md(res)
 
@@ -1020,10 +1025,10 @@ def _write_md(res: dict) -> None:
     A("")
     A("### A3 — the new construct")
     A("")
-    A("| construct | sequence | len | crosslinks | charge | GRAVY |")
+    A("| construct | sequence | len | staples | charge | GRAVY |")
     A("|---|---|---|---|---|---|")
     for k, v in a["constructs"].items():
-        A(f"| {k} | `{v['sequence']}` | {v['length']} | {v['n_crosslinks']} | "
+        A(f"| {k} | `{v['sequence']}` | {v['length']} | {v['n_staples']} | "
           f"{v['charge_pH7_4']} | {v['gravy']} |")
     A("")
     acc = a["price"]["accounting"]

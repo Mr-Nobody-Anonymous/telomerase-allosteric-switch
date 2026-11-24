@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import importlib.util
 import inspect
+import json
 import math
 import pathlib
 import subprocess
@@ -2380,3 +2381,96 @@ def test_wp48_ledger_splits_the_filter_question_correctly():
 def test_wp48_self_test_passes():
     subprocess.run([sys.executable, "scripts/solve/wp48_new_designs.py", "--self-test"],
                    cwd=REPO, check=True, capture_output=True, text=True)
+
+
+# --------------------------------------------------------------- WP49
+def test_wp49_the_four_master_documents_exist_and_have_substance():
+    for name in ("MASTER_RECORD.md", "METHODS.md", "ARTEFACT_INDEX.md", "NEXT_STEPS.md"):
+        p = REPO / "results" / "solve" / name
+        assert p.exists(), name
+        assert len(p.read_text(encoding="utf-8")) > 2000, name
+
+
+def test_wp49_every_generated_document_carries_its_banner():
+    """Membership in the register's exemption list is not taken on trust."""
+    for name in ("MASTER_RECORD.md", "METHODS.md", "ARTEFACT_INDEX.md",
+                 "NEXT_STEPS.md"):
+        head = " ".join((REPO / "results" / "solve" / name)
+                        .read_text(encoding="utf-8").split()[:20])
+        assert "generated, do not edit by hand" in head, name
+
+
+def test_wp49_master_record_numbers_come_from_the_artefacts():
+    """The master must agree with the JSON that owns each number."""
+    master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
+    wp48 = json.loads((REPO / "results" / "solve" / "wp48_new_designs.json").read_text())
+    a = wp48["agents"]["A"]
+    assert a["price"]["linker_used"] in master
+    assert str(a["price"]["accounting"]["residual_kcal"]) in master
+    assert a["constructs"]["WP48-NEW"]["sequence"] in master
+    wp47 = json.loads((REPO / "results" / "solve" / "wp47_close_open.json").read_text())
+    assert wp47["best_crosslink"]["pair"] in master
+
+
+def test_wp49_master_record_keeps_the_negative_results():
+    master = (REPO / "results" / "solve" / "MASTER_RECORD.md").read_text(encoding="utf-8")
+    flat = " ".join(master.split())
+    assert "class exclusion" in flat          # the small-molecule verdict
+    assert "8 of 16 sub-problems are solved" in flat
+    assert "None is solved as evidence" in flat
+    assert "Zero syntheses" in flat or "zero syntheses" in flat.lower()
+
+
+def test_wp49_methods_cites_the_primary_method_literature():
+    methods = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    assert "Azoitei" in methods
+    assert "Multigraft" in methods
+    assert "kinked" in methods or "positive ψ" in methods or "+24.4" in methods
+
+
+def test_wp49_methods_records_all_three_structure_rules():
+    """Chain by sequence, TERT by residue type, and completeness stated."""
+    methods = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    flat = " ".join(methods.split())
+    assert "identify chains by sequence" in flat.lower()
+    assert "residue TYPE" in flat
+    assert "coarse models" in flat
+
+
+def test_wp49_next_steps_is_actionable():
+    nxt = (REPO / "results" / "solve" / "NEXT_STEPS.md").read_text(encoding="utf-8")
+    flat = " ".join(nxt.split())
+    assert "GRAFT-LINEAR" in flat and "WP48-NEW" in flat
+    assert "positive control" in flat
+    assert "decision rule" in flat.lower()
+    assert "Multigraft" in flat or "scaffold" in flat
+
+
+def test_wp49_next_steps_labels_staples_not_crosslinked_residues():
+    """One staple joins two residues; reporting X-count as 'crosslinks' doubles it."""
+    nxt = (REPO / "results" / "solve" / "NEXT_STEPS.md").read_text(encoding="utf-8")
+    assert "| staples |" in nxt
+    wp48 = json.loads((REPO / "results" / "solve" / "wp48_new_designs.json").read_text())
+    st = wp48["agents"]["A"]["constructs"]["WP47-STAPLED"]
+    assert st["n_staples"] == 1 and st["n_crosslinked_residues"] == 2
+
+
+def test_wp49_artefact_index_covers_the_generators():
+    idx = (REPO / "results" / "solve" / "ARTEFACT_INDEX.md").read_text(encoding="utf-8")
+    for s in ("wp45_graft", "wp46_closure", "wp47_close_open", "wp48_new_designs",
+              "wp49_master_record", "wp38_archive"):
+        assert s in idx, s
+
+
+def test_wp49_self_test_passes():
+    subprocess.run([sys.executable, "scripts/solve/wp49_master_record.py", "--self-test"],
+                   cwd=REPO, check=True, capture_output=True, text=True)
+
+
+def test_wp49_setup_script_exists_and_is_referenced():
+    p = REPO / "scripts" / "setup_environment.sh"
+    assert p.exists()
+    body = p.read_text(encoding="utf-8")
+    assert "rdkit" in body and "sympy" in body
+    docs = (REPO / "results" / "solve" / "METHODS.md").read_text(encoding="utf-8")
+    assert "setup_environment.sh" in docs
